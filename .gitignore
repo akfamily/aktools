@@ -1,0 +1,33 @@
+*.bak
+
+*.pyc
+
+*.xml
+
+*.tar.gz
+
+*.iml
+
+*.zip
+
+*.icls
+
+/_windows/
+
+/codestyles/
+
+# Temp
+build/
+dist/
+setup.py
+*.egg-info/
+colors
+
+
+# IDE
+.idea/
+
+# jupyter
+.ipynb_checkpoints
+#docs/source/_static/
+#docs/source/_templates/
