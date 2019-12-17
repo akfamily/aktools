@@ -12,7 +12,7 @@
 [![Build Status](https://travis-ci.com/jindaxiang/akshare.svg?branch=master)](https://travis-ci.com/jindaxiang/akshare)
 [![MIT Licence](https://camo.githubusercontent.com/14a9abb7e83098f2949f26d2190e04fb1bd52c06/68747470733a2f2f626c61636b2e72656164746865646f63732e696f2f656e2f737461626c652f5f7374617469632f6c6963656e73652e737667)](https://github.com/jindaxiang/akshare/blob/master/LICENSE)
 
-# ![](https://github.com/jindaxiang/aktools/blob/master/example/images/AkTools.png)
+# ![](https://github.com/jindaxiang/aktools/blob/master/example/images/AkTools_demo.png)
 
 ## Overview
 
