@@ -24,7 +24,7 @@
 
 -   Documentation: [中文文档](https://akshare.readthedocs.io/zh_CN/latest/)
 
-# ![](https://github.com/jindaxiang/aktools/example/images/AkTools.png)
+# ![](https://github.com/jindaxiang/akshare/blob/master/example/images/AkShare.png)
 
 ## Features
 
