@@ -1,1 +1,4 @@
 site_name: AkTools's Documentation
+nav:
+    - Home: index.md
+    - About: aktools.md
