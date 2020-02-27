@@ -42,7 +42,7 @@ library(jsonlite)
 url <- "http://127.0.0.1:8000/stock_js_weibo_report_df"
 temp_df <- getURI(url, .encoding = "utf-8")
 inner_df <- fromJSON(temp_df)
-df = t(rbind(inner_df$name, inner_df$rate))
+df <- t(rbind(inner_df$name, inner_df$rate))
 colnames(df) <- c("name", "rate")
 print(df)
 ```
