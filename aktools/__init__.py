@@ -10,7 +10,10 @@ FastAPI test
 
 0.0.3
 FastAPI deployment test
+
+0.0.4
+add docs
 """
 
-__version__ = "0.0.3"
+__version__ = "0.0.4"
 __author__ = "Albert King"
