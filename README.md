@@ -4,6 +4,10 @@ AkTools is a package for local HTTP server for AkShare!
 
 It depends on AkShare and FastAPI.
 
+```cmd
+pip install aktools
+```
+
 ## AkShare
 
 [...]
