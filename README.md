@@ -1,4 +1,4 @@
-![AkTools](https://github.com/jindaxiang/aktools/blob/master/example/images/AkTools_demo.png)
+![](https://github.com/jindaxiang/aktools/blob/master/example/images/AkTools_demo.png)
 
 # AkTools
 

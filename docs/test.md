@@ -1,4 +1,4 @@
-![AkTools](https://jfds-1252952517.cos.ap-chengdu.myqcloud.com/aktools/readme/pic/AkTools.png)
+![](https://jfds-1252952517.cos.ap-chengdu.myqcloud.com/aktools/readme/pic/AkTools.png)
 
 # AkTools
 
