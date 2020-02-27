@@ -22,7 +22,7 @@ async def root():
 
 @app.get("/stock_js_weibo_report_df")
 async def root():
-    stock_js_weibo_report_df = ak.stock_js_weibo_report_df()
+    stock_js_weibo_report_df = ak.stock_js_weibo_report()
     return json.loads(stock_js_weibo_report_df.to_json())
 
 
