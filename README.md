@@ -20,14 +20,14 @@ pip install aktools
 
 # Demo
 
-1. Installation[windows]
+## Installation[windows]
 
 ```cmd
 pip install akshare
 pip install fastapi[all]
 ```
 
-2. Run CMD command[windows]
+## Run CMD command[windows]
 
     1. cd into the path of aktools: e.g., aktools/news/
     2. then type the cmd command ```uvicorn news_api:app --reload```, just as ```C:\Anaconda3\envs\ak_test\Lib\site-packages\aktools\news>uvicorn news_api:app --reload```
