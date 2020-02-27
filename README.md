@@ -18,6 +18,8 @@ colnames(df) <- c("name", "rate")
 print(df)
 ```
 
+结果输出
+
 ```
    name       rate    
 0  "北玻股份" "-10.06"
