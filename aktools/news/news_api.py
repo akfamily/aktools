@@ -8,8 +8,8 @@ desc:
 """
 import json
 
-from fastapi import FastAPI
 import akshare as ak
+from fastapi import FastAPI
 
 app = FastAPI()
 
