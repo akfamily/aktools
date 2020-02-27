@@ -16,17 +16,70 @@ app = FastAPI()
 
 @app.get("/charity_china_trust")
 async def root():
-    charity_china_trust_df = ak.charity_china_trust()
-    return json.loads(charity_china_trust_df.to_json())
+    """
+    for charity_china_trust test
+    :return: 慈善中国数据
+    :rtype: json
+    """
+    return json.loads(ak.charity_china_trust().to_json())
 
 
-@app.get("/stock_js_weibo_report_df")
+@app.get("/stock_js_weibo_report")
 async def root():
-    stock_js_weibo_report_df = ak.stock_js_weibo_report()
-    return json.loads(stock_js_weibo_report_df.to_json())
+    """
+    for charity_china_trust test
+    :return: 慈善中国数据
+    :rtype: json
+    """
+    return json.loads(ak.stock_js_weibo_report().to_json())
 
 
 @app.get("/stock_em_account")
 async def root():
-    stock_em_account_df = ak.stock_em_account()
-    return json.loads(stock_em_account_df.to_json())
+    """
+    for charity_china_trust test
+    :return: 慈善中国数据
+    :rtype: json
+    """
+    return json.loads(ak.stock_em_account().to_json())
+
+
+@app.get("/amac_manager_xxgs_hmd")
+async def root():
+    """
+    for charity_china_trust test
+    :return: 慈善中国数据
+    :rtype: json
+    """
+    return json.loads(ak.amac_manager_xxgs_hmd().to_json())
+
+
+@app.get("/amac_person_org_list")
+async def root():
+    """
+    for charity_china_trust test
+    :return: 中国基金协会数据-人
+    :rtype: json
+    """
+    return json.loads(ak.amac_person_org_list().to_json())
+
+
+@app.get("/amac_manager_xxgs_cxdj")
+async def root():
+    """
+    for charity_china_trust test
+    :return: 中国基金协会数据-人
+    :rtype: json
+    """
+    return json.loads(ak.amac_manager_xxgs_cxdj().to_json())
+
+
+@app.get("/amac_fund_abs")
+async def root():
+    """
+    for charity_china_trust test
+    :return: 中国基金协会数据-人
+    :rtype: json
+    """
+    return json.loads(ak.amac_fund_abs().to_json())
+

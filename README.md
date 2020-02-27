@@ -1,8 +1,33 @@
-# Do Github editor here
+# AkTools
+
+AkTools is a package for local HTTP server for AkShare!
+
+It depends on AkShare and FastAPI.
+
+## AkShare
+
+[...]
 
 ## FastAPI
 
-## AkShare
+[...]
+
+# Demo
+
+1. Installation[windows]
+
+```cmd
+pip install akshare
+pip install fastapi[all]
+```
+
+2. Run CMD command[windows]
+
+    1. cd into the path of aktools: e.g., aktools/news/
+    2. then type the cmd command ```uvicorn news_api:app --reload```
+    3. type ```http://127.0.0.1:8000/amac_fund_abs``` in your chrome for test
+
+# Test-R
 
 R 语言调用代码
 
