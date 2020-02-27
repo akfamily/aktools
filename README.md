@@ -1,5 +1,7 @@
 # AkTools
 
+![AkTools](https://github.com/jindaxiang/aktools/blob/master/example/images/AkTools_demo.png)
+
 AkTools is a package for local HTTP server for AkShare!
 
 It depends on AkShare and FastAPI.
