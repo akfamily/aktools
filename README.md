@@ -24,12 +24,12 @@ pip install fastapi[all]
 2. Run CMD command[windows]
 
     1. cd into the path of aktools: e.g., aktools/news/
-    2. then type the cmd command ```uvicorn news_api:app --reload```
+    2. then type the cmd command ```uvicorn news_api:app --reload```, just as ```C:\Anaconda3\envs\ak_test\Lib\site-packages\aktools\news>uvicorn news_api:app --reload```
     3. type ```http://127.0.0.1:8000/amac_fund_abs``` in your chrome for test
 
 # Test-R
 
-R 语言调用代码
+R-Program
 
 ```
 library(RCurl)
@@ -43,7 +43,7 @@ colnames(df) <- c("name", "rate")
 print(df)
 ```
 
-结果输出
+Result
 
 ```
    name       rate    
