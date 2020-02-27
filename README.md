@@ -35,7 +35,7 @@ pip install fastapi[all]
 
 R-Program
 
-```
+```r
 library(RCurl)
 library(jsonlite)
 
