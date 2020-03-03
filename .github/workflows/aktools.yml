@@ -1,4 +1,4 @@
-name: aktools_test
+name: aktools
 
 on: [push]
 
