@@ -2,7 +2,7 @@
 
 [![](https://github.com/jindaxiang/aktools/workflows/build/badge.svg)](https://github.com/jindaxiang/aktools/actions)
 
-# AkTools
+# AkTools-DEV
 
 AkTools is a package for local HTTP server for AkShare!
 
