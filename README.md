@@ -1,5 +1,7 @@
 ![](https://github.com/jindaxiang/aktools/blob/master/example/images/AkTools_demo.png)
 
+![Build Status](https://github.com/jindaxiang/aktools/workflows/aktools-test/badge.svg)
+
 # AkTools
 
 AkTools is a package for local HTTP server for AkShare!
