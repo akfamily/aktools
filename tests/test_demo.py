@@ -6,6 +6,7 @@ date: 2020/3/3 20:46
 contact: jindaxiang@163.com
 desc: Just for test file
 """
+import akshare as ak
 
 
 def test_demo():
@@ -14,7 +15,8 @@ def test_demo():
     :return: Error
     :rtype: assert result
     """
-    assert 1 == 1
+    cost_living_df = ak.cost_living()
+    assert cost_living_df.shape[0] != 0
 
 
 if __name__ == '__main__':
