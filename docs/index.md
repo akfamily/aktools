@@ -15,3 +15,7 @@ For full documentation visit [mkdocs.org](https://www.mkdocs.org).
     docs/
         index.md  # The documentation homepage.
         test.md   # Other markdown pages, images and other files.
+
+## Project Test
+
+Just test GitHub Action
