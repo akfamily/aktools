@@ -1,4 +1,4 @@
-name: AkTools Package
+name: aktools_test
 
 on: [push]
 
