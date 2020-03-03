@@ -1,6 +1,6 @@
 ![](https://github.com/jindaxiang/aktools/blob/master/example/images/AkTools_demo.png)
 
-![Build Status](https://github.com/jindaxiang/aktools/workflows/aktools/badge.svg)
+[![Actions Status](https://github.com/jindaxiang/aktools/workflows/aktools/badge.svg)](https://github.com/jindaxiang/aktools/workflows/aktools/actions)
 
 # AkTools
 
