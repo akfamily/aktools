@@ -22,7 +22,9 @@ Changelog
 0.0.9:add automate success
 
 0.0.10:fix: rename workflows
+
+0.0.11:fix: README.md
 """
 
-__version__ = "0.0.10"
+__version__ = "0.0.11"
 __author__ = "Albert King"
