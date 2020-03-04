@@ -18,7 +18,9 @@ Changelog
 0.0.7:add automate release test
 
 0.0.8:add automate release test again
+
+0.0.9:add automate success
 """
 
-__version__ = "0.0.8"
+__version__ = "0.0.9"
 __author__ = "Albert King"
