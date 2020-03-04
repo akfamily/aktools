@@ -1,8 +1,9 @@
 name: deploy package
 
 on:
-  release:
-    types: [published]
+  push:
+    tags:
+      - 'v*.*.*'
 
 jobs:
   deploy:
