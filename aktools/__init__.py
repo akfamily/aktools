@@ -14,7 +14,9 @@ Changelog
 0.0.5:add automate package management
 
 0.0.6:add automate package management success
+
+0.0.7:add automate release test
 """
 
-__version__ = "0.0.6"
+__version__ = "0.0.7"
 __author__ = "Albert King"
