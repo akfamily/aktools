@@ -20,7 +20,9 @@ Changelog
 0.0.8:add automate release test again
 
 0.0.9:add automate success
+
+0.0.10:fix: rename workflows
 """
 
-__version__ = "0.0.9"
+__version__ = "0.0.10"
 __author__ = "Albert King"
