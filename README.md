@@ -1,3 +1,5 @@
+git tag
+
 ![](https://github.com/jindaxiang/aktools/blob/master/example/images/AkTools_demo.png)
 
 [![](https://github.com/jindaxiang/aktools/workflows/build/badge.svg)](https://github.com/jindaxiang/aktools/actions)
