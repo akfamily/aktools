@@ -1,9 +1,8 @@
-name: Upload Python Package
+name: deploy package
 
 on:
   release:
-    types: [created]
-    
+    types: [published]
 
 jobs:
   deploy:
