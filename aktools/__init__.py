@@ -2,18 +2,17 @@
 
 """
 Changelog
-0.0.1
-for test
 
-0.0.2
-FastAPI test
+0.0.1:for test
 
-0.0.3
-FastAPI deployment test
+0.0.2:FastAPI test
 
-0.0.4
-add docs
+0.0.3:FastAPI deployment test
+
+0.0.4:add docs
+
+0.0.5:add automate package management
 """
 
-__version__ = "0.0.4"
+__version__ = "0.0.5"
 __author__ = "Albert King"
