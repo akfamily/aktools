@@ -12,7 +12,9 @@ Changelog
 0.0.4:add docs
 
 0.0.5:add automate package management
+
+0.0.6:add automate package management success
 """
 
-__version__ = "0.0.5"
+__version__ = "0.0.6"
 __author__ = "Albert King"
