@@ -24,7 +24,9 @@ Changelog
 0.0.10:fix: rename workflows
 
 0.0.11:fix: README.md
+
+0.0.12:fix: README.md
 """
 
-__version__ = "0.0.11"
+__version__ = "0.0.12"
 __author__ = "Albert King"
