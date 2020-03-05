@@ -1,7 +1,9 @@
 name: release and deploy
 
 on:
-  push:
+  pull_request:
+    branches:
+      - master
     tags:
       - 'v*.*.*'
 
