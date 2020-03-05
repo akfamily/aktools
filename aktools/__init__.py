@@ -28,7 +28,9 @@ Changelog
 0.0.12:fix: README.md
 
 0.0.13:fix: test pull_request
+
+0.0.14:fix: test master push tag
 """
 
-__version__ = "0.0.13"
+__version__ = "0.0.14"
 __author__ = "Albert King"
