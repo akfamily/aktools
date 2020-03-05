@@ -13,3 +13,4 @@ url = "http://127.0.0.1:8000/stock_em_account"
 r = requests.get(url)
 temp_df = pd.DataFrame.from_dict(r.json())
 print(temp_df)
+print(temp_df)  # for test aim
