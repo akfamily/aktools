@@ -7,6 +7,7 @@ contact: jindaxiang@163.com
 desc: 
 """
 import json
+from functools import partial
 
 import akshare as ak
 from fastapi import FastAPI
@@ -14,14 +15,14 @@ from fastapi import FastAPI
 app = FastAPI()
 
 
-@app.get("/charity_china_trust")
-async def root():
+@app.get("/{item_id}")
+async def root(item_id):
     """
     for charity_china_trust test
     :return: 慈善中国数据
     :rtype: json
     """
-    return json.loads(ak.charity_china_trust().to_json())
+    return json.loads(eval("ak." + item_id + "()").to_json())
 
 
 @app.get("/stock_js_weibo_report")
