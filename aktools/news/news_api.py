@@ -3,11 +3,9 @@
 """
 Author: Albert King
 date: 2020/2/27 16:19
-contact: jindaxiang@163.com
 desc: 
 """
 import json
-from functools import partial
 
 import akshare as ak
 from fastapi import FastAPI

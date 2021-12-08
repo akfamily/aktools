@@ -1,4 +1,4 @@
-"""AkTools 是 AkShare的 HTTP server 工具, 主要用于把 AkShare 的数据接口部署到本地从而通过 HTTP 访问"""
+"""AKTools 是 AkShare的 HTTP server 工具, 主要用于把 AkShare 的数据接口部署到本地从而通过 HTTP 访问"""
 
 """
 Changelog
