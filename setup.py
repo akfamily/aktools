@@ -1,10 +1,8 @@
 # -*- coding:utf-8 -*-
 # /usr/bin/env python
 """
-Author: Albert King
 date: 2019/10/16 13:58
-contact: jindaxiang@163.com
-desc: AkShare 的 pypi 基本信息文件
+desc: AKTools 的 pypi 基本信息文件
 """
 import re
 import ast
@@ -36,7 +34,7 @@ setuptools.setup(
     description="A tool for local http server!",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/jindaxiang/aktools",
+    url="https://github.com/akfamily/aktools",
     packages=setuptools.find_packages(),
     install_requires=[
         "akshare>=0.4.15",
@@ -63,8 +61,10 @@ setuptools.setup(
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    python_requires=">=3.6",
+    python_requires=">=3.7",
 )
