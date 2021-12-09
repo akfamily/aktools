@@ -19,7 +19,8 @@ Changelog
 0.0.14:fix: test master push tag
 0.0.15:fix: update PYPI info
 0.0.16:fix: update PYPI info
+0.0.17:fix: update PYPI info
 """
 
-__version__ = "0.0.16"
+__version__ = "0.0.17"
 __author__ = "Albert King"
