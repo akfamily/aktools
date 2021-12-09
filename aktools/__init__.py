@@ -25,7 +25,8 @@ Changelog
 0.0.20:fix: rename api name
 0.0.21:fix: rename api name
 0.0.22:fix: fix core module
+0.0.23:fix: fix core module
 """
 
-__version__ = "0.0.22"
+__version__ = "0.0.23"
 __author__ = "Albert King"

@@ -5,14 +5,14 @@ Date: 2021/12/9 19:05
 Desc: HTTP 模式主文件
 """
 import json
-import akshare as ak
 
+import akshare as ak
 from fastapi import FastAPI, Request
 
 app = FastAPI()
 
 
-@app.get("/{item_id}")
+@app.get("/api/{item_id}")
 async def root(request: Request, item_id: str):
     """
     接收接口名称及其参数并返回 JSON 数据
@@ -28,6 +28,14 @@ async def root(request: Request, item_id: str):
         return {'error': '没有该接口'}
     eval_str = str(request.query_params).replace("&", '", ').replace("=", '="') + '"'
     if not bool(request.query_params):
-        return json.loads(eval("ak." + item_id + f"()").to_json())
+        try:
+            temp_df = eval("ak." + item_id + f"()").to_json(orient='records')
+        except KeyError as e:
+            return {'error': '参数错误'}
+        return json.loads(temp_df)
     else:
-        return json.loads(eval("ak." + item_id + f"({eval_str})").to_json())
+        try:
+            temp_df = eval("ak." + item_id + f"({eval_str})").to_json(orient='records')
+        except KeyError as e:
+            return {'error': f'请输入正确的参数错误 {e} '}
+        return json.loads(temp_df)
