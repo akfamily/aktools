@@ -18,7 +18,8 @@ Changelog
 0.0.13:fix: test pull_request
 0.0.14:fix: test master push tag
 0.0.15:fix: update PYPI info
+0.0.16:fix: update PYPI info
 """
 
-__version__ = "0.0.15"
+__version__ = "0.0.16"
 __author__ = "Albert King"
