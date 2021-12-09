@@ -12,11 +12,11 @@ pip install aktools
 
 ## AKShare
 
-[...]
+[Please visit AKShare's Documentation](https://akshare.xyz/)
 
 ## FastAPI
 
-[...]
+[Please visit FastAPI's Documentation](https://fastapi.tiangolo.com/)
 
 # Demo
 
