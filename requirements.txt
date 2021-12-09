@@ -1,2 +1,3 @@
 akshare>=1.2.60
 fastapi>=0.70.0
+uvicorn[standard]

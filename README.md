@@ -22,7 +22,7 @@ pip install aktools
 
 ## Installation[windows]
 
-```cmd
+```shell
 pip install akshare
 pip install fastapi[all]
 ```
