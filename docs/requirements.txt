@@ -1,0 +1,2 @@
+akshare>=0.4.15
+fastapi>=0.49.0
