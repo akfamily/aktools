@@ -39,8 +39,8 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     install_requires=[
         "akshare>=1.2.55",
-        "fastapi[all]>=0.70.0",
-        "uvicorn[standard]"
+        "fastapi>=0.70.0",
+        "uvicorn>=0.16.0"
     ],
     package_data={"": ["*.py", "*.json", "*.pk", "*.woff"]},
     keywords=[
