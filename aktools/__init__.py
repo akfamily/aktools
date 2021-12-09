@@ -21,7 +21,8 @@ Changelog
 0.0.16:fix: update PYPI info
 0.0.17:fix: update PYPI info
 0.0.18:add: add params to interface
+0.0.19:fix: rename file name
 """
 
-__version__ = "0.0.18"
+__version__ = "0.0.19"
 __author__ = "Albert King"
