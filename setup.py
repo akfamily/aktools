@@ -1,13 +1,14 @@
 # -*- coding:utf-8 -*-
 # /usr/bin/env python
 """
-date: 2019/10/16 13:58
-desc: AKTools 的 pypi 基本信息文件
+Date: 2021/12/9 17:20
+Desc: AKTools 的 PYPI 基本信息文件
 """
 import re
 import ast
 
 import setuptools
+
 
 with open("README.md", "r", encoding="utf-8") as f:
     long_description = f.read()
@@ -37,8 +38,8 @@ setuptools.setup(
     url="https://github.com/akfamily/aktools",
     packages=setuptools.find_packages(),
     install_requires=[
-        "akshare>=0.4.15",
-        "fastapi>=0.49.0",
+        "akshare>=1.2.55",
+        "fastapi>=0.70.0",
     ],
     package_data={"": ["*.py", "*.json", "*.pk", "*.woff"]},
     keywords=[

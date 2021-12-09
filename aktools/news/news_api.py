@@ -1,9 +1,8 @@
 # -*- coding:utf-8 -*-
 # /usr/bin/env python
 """
-Author: Albert King
-date: 2020/2/27 16:19
-desc: 
+Date: 2020/2/27 16:19
+Desc:
 """
 import json
 
