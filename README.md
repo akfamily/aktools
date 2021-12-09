@@ -23,17 +23,15 @@ pip install aktools
 ## Installation[windows]
 
 ```shell
-pip install akshare
-pip install fastapi[all]
-pip install uvicorn[standard]
+pip install akshare, fastapi, uvicorn
 ```
 
 ## Run CMD command[windows]
 
-    1. cd into the path of aktools: e.g., aktools/news/
-    2. then type the cmd command `uvicorn news_api:app --reload`, 
-    just as `C:\Anaconda3\envs\ak_test\Lib\site-packages\aktools\news>uvicorn news_api:app --reload`
-    3. type `http://127.0.0.1:8000/amac_fund_abs` in your chrome for test
+1. cd into the path of aktools: e.g., aktools/core/
+2. then type the cmd command `uvicorn api:app --port 8080 --reload`, 
+just as `C:\Anaconda3\envs\aktools_test\Lib\site-packages\aktools\news>uvicorn api:app --port 8080 --reload`
+3. type `http://127.0.0.1:8080/amac_fund_abs` in your chrome for test
 
 # Test-R
 

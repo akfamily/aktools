@@ -10,7 +10,7 @@ import pandas as pd
 
 url = "http://127.0.0.1:8080/spot_hist_sge"
 params = {
-    'query': 'symbol="Au99.99"'
+    "symbol": "Au99.99"
 }
 r = requests.get(url, params=params)
 temp_df = pd.DataFrame.from_dict(r.json())
