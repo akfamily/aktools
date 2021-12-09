@@ -1,2 +1,2 @@
-akshare>=0.4.15
+akshare>=1.2.50
 fastapi>=0.49.0
