@@ -1,5 +1,3 @@
-![](https://jfds-1252952517.cos.ap-chengdu.myqcloud.com/aktools/readme/pic/AkTools.png)
-
 # AKTools
 
 AKTools is a package for local HTTP server for AkShare!
