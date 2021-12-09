@@ -25,6 +25,7 @@ pip install aktools
 ```shell
 pip install akshare
 pip install fastapi[all]
+pip install uvicorn[standard]
 ```
 
 ## Run CMD command[windows]
