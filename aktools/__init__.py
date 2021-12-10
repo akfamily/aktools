@@ -26,7 +26,8 @@ Changelog
 0.0.21:fix: rename api name
 0.0.22:fix: fix core module
 0.0.23:fix: fix core module
+0.0.24:fix: fix chinese character params in api
 """
 
-__version__ = "0.0.23"
+__version__ = "0.0.24"
 __author__ = "Albert King"

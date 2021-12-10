@@ -20,7 +20,7 @@ pip install aktools
 
 # Demo
 
-## Installation[windows]
+## Installation
 
 ```shell
 pip install akshare, fastapi, uvicorn

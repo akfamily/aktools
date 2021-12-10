@@ -5,6 +5,7 @@ Date: 2021/12/9 19:05
 Desc: HTTP 模式主文件
 """
 import json
+import urllib.parse
 
 import akshare as ak
 from fastapi import FastAPI, Request
@@ -24,9 +25,10 @@ async def root(request: Request, item_id: str):
     :rtype: json
     """
     interface_list = dir(ak)
+    decode_params = urllib.parse.unquote(str(request.query_params))
     if item_id not in interface_list:
         return {'error': '没有该接口'}
-    eval_str = str(request.query_params).replace("&", '", ').replace("=", '="') + '"'
+    eval_str = decode_params.replace("&", '", ').replace("=", '="') + '"'
     if not bool(request.query_params):
         try:
             temp_df = eval("ak." + item_id + f"()").to_json(orient='records')
