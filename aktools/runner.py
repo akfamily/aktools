@@ -30,9 +30,9 @@ def get_parser():
 
 
 def main():
-    import platform
-    sys_str = platform.system()
-    order_str = "cd /usr/local/lib/python3.8/site-packages/aktools/core && uvicorn api:app --host 0.0.0.0 --port 8080 --reload"
+    file_addr = os.path.join(os.path.dirname(os.path.abspath('__file__')), 'core')
+    print(file_addr)
+    order_str = f"uvicorn api:app --host 0.0.0.0 --port 8080 --app-dir {file_addr}"
     os.system(order_str)
 
 

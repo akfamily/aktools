@@ -30,8 +30,9 @@ Changelog
 0.0.25:test: test
 0.0.26:test: test
 0.0.27:test: test
+0.0.28:test: test
 """
 
 __title__ = "AKTools"
-__version__ = "0.0.27"
+__version__ = "0.0.28"
 __author__ = "Albert King"
