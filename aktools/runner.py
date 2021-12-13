@@ -32,7 +32,7 @@ def get_parser():
 def main():
     import platform
     sys_str = platform.system()
-    order_str = "cd /usr/local/lib/python3.8/site-packages/aktools/core && uvicorn api:app --port 8080 --reload"
+    order_str = "cd /usr/local/lib/python3.8/site-packages/aktools/core && uvicorn api:app --host 0.0.0.0 --port 8080 --reload"
     os.system(order_str)
 
 
