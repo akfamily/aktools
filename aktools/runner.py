@@ -63,7 +63,9 @@ def main():
     )
     print(file_address)
     order_str = f"uvicorn api:app --host {options.host} --port {options.port} --app-dir {file_address}"
-    os.system(order_str)
+    # os.system(order_str)
+    from subprocess import run
+    run(order_str, shell=True)
 
 
 if __name__ == "__main__":
