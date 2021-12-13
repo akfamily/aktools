@@ -34,8 +34,9 @@ Changelog
 0.0.29:test: test
 0.0.30:add: add cmd arg parser
 0.0.31:add: add cmd arg parser -d
+0.0.32:fix: fix docs
 """
 
 __title__ = "AKTools"
-__version__ = "0.0.31"
+__version__ = "0.0.32"
 __author__ = "Albert King"

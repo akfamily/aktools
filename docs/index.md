@@ -1,6 +1,6 @@
-# Welcome to MkDocs
+# Welcome to AKTools
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+For full documentation visit [AKTools Documentation](https://aktools.readthedocs.io/).
 
 ## Commands
 

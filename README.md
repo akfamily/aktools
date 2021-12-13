@@ -2,12 +2,22 @@
 
 # AKTools
 
-AKTools is a package for local HTTP server for AKShare!
+AKTools is a package for HTTP Server for AKShare! It depends on AKShare and FastAPI.
 
-It depends on AKShare and FastAPI.
+[AKTools](https://github.com/akfamily/aktools) 是一款用于快速搭建 HTTP API 的工具，通过 [AKTools](https://github.com/akfamily/aktools)
+可以通过一行代码来启动 HTTP 服务，从而让原本专属服务于 Python 用户的开源财经数据接口库 [AKShare](https://github.com/akfamily/akshare) 的使用
+突破编程语言的限制。无论您使用的是 C/C++、Java、Go、Ruby、PHP、JavaScript 等编程语言都可以快速、轻松获取财经数据，助力您更好地展开研究工作。
+
+## Installation
 
 ```shell
-pip install aktools
+pip install aktools  # AKTools's version should grete than 0.0.31
+```
+
+or
+
+```shell
+pip install akshare --upgrade -i https://pypi.org/simple  # AKTools's version should grete than 0.0.31
 ```
 
 ## AKShare
@@ -18,25 +28,18 @@ pip install aktools
 
 [Please visit FastAPI's Documentation](https://fastapi.tiangolo.com/)
 
-# Demo
+## Fast Run
 
-## Installation
+1. just type the cmd command: ```python -m aktools```, 
+2. then type ```http://127.0.0.1:8080/stock_zh_a_hist``` in your Chrome and you can get data!
 
-```shell
-pip install akshare, fastapi, uvicorn
-```
+## Demo
 
-## Run CMD command[windows]
-
-1. cd into the path of aktools: `cd aktools/core/`,
-2. then type the cmd command: `uvicorn api:app --port 8080 --reload`, 
-3. type `http://127.0.0.1:8080/stock_zh_a_hist` in your Chrome for test
-
-# Test-Postman
+### Test-Postman
 
 ![](https://dss-1252952517.cos.ap-chengdu.myqcloud.com/image-20211209235248006.png)
 
-# Test-R
+### Test-R
 
 R-Program
 
@@ -88,7 +91,7 @@ Result
 23 2021-12-09 3173.98 3208.11 3266.62 3154.48 1455887 2726663440 3.54   1.18  37.38   0.75
 ```
 
-# Test-MATLAB
+### Test-MATLAB
 
 MATLAB-Program
 
@@ -126,5 +129,4 @@ Result
 '2021-12-07'	3143.10000000000	3169.11000000000	3203.24000000000	3118.72000000000	1616444	2979968976.00000	2.72000000000000	1.88000000000000	58.5100000000000	0.830000000000000
 '2021-12-08'	3167.48000000000	3170.73000000000	3183.73000000000	3120.35000000000	980281	1798691056.00000	2	0.0500000000000000	1.62000000000000	0.510000000000000
 '2021-12-09'	3173.98000000000	3208.11000000000	3266.62000000000	3154.48000000000	1455887	2726663440.00000	3.54000000000000	1.18000000000000	37.3800000000000	0.750000000000000
-
 ```
