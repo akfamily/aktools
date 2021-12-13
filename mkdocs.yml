@@ -1,4 +1,3 @@
 site_name: AKTools's Documentation
 nav:
-    - Demo: index.md
     - Home: aktools.md

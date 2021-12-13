@@ -14,7 +14,7 @@ For full documentation visit [AKTools Documentation](https://aktools.readthedocs
     mkdocs.yml    # The configuration file.
     docs/
         index.md  # The documentation homepage.
-        test.md   # Other markdown pages, images and other files.
+        aktools.md   # Other markdown pages, images and other files.
 
 ## Project Test
 
