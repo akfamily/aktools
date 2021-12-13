@@ -31,13 +31,13 @@ async def root(request: Request, item_id: str):
     eval_str = decode_params.replace("&", '", ').replace("=", '="') + '"'
     if not bool(request.query_params):
         try:
-            temp_df = eval("ak." + item_id + f"()").to_json(orient='records')
+            temp_df = eval("ak." + item_id + f"()").to_json(orient='records', date_format='iso')
         except KeyError as e:
             return {'error': '参数错误'}
         return json.loads(temp_df)
     else:
         try:
-            temp_df = eval("ak." + item_id + f"({eval_str})").to_json(orient='records')
+            temp_df = eval("ak." + item_id + f"({eval_str})").to_json(orient='records', date_format='iso')
         except KeyError as e:
             return {'error': f'请输入正确的参数错误 {e} '}
         return json.loads(temp_df)

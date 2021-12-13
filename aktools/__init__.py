@@ -27,7 +27,9 @@ Changelog
 0.0.22:fix: fix core module
 0.0.23:fix: fix core module
 0.0.24:fix: fix chinese character params in api
+0.0.25:test: test
 """
 
-__version__ = "0.0.24"
+__title__ = "AKTools"
+__version__ = "0.0.25"
 __author__ = "Albert King"

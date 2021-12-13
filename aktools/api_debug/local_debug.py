@@ -8,9 +8,10 @@ import requests
 import pandas as pd
 
 
-url = "http://127.0.0.1:8080/api/air_quality_hebei"
+url = "http://127.0.0.1:8080/api/stock_financial_hk_analysis_indicator_em"
 params = {
-    "symbol": "定州市"
+    "stock": "00700",
+    "indicator": "年度"
 }
 r = requests.get(url, params=params)
 temp_df = pd.DataFrame.from_dict(r.json())
