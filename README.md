@@ -1,4 +1,15 @@
-[![](https://github.com/jindaxiang/aktools/workflows/build/badge.svg)](https://github.com/jindaxiang/aktools/actions)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/akshare.svg)](https://pypi.org/project/akshare/)
+[![PyPI](https://img.shields.io/pypi/v/aktools.svg)](https://pypi.org/project/aktools/)
+[![Downloads](https://pepy.tech/badge/aktools)](https://pepy.tech/project/aktools)
+[![Documentation Status](https://readthedocs.org/projects/aktools/badge/?version=latest)](https://aktools.readthedocs.io/zh_CN/latest/?badge=latest)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![akshare](https://img.shields.io/badge/Data%20Science-AKShare-green)](https://github.com/akfamily/aktools)
+[![Actions Status](https://github.com/akfamily/aktools/workflows/build/badge.svg)](https://github.com/akfamily/aktools/actions)
+[![MIT Licence](https://camo.githubusercontent.com/14a9abb7e83098f2949f26d2190e04fb1bd52c06/68747470733a2f2f626c61636b2e72656164746865646f63732e696f2f656e2f737461626c652f5f7374617469632f6c6963656e73652e737667)](https://github.com/akfamily/aktools/blob/master/LICENSE)
+[![](https://img.shields.io/github/forks/jindaxiang/aktools)](https://github.com/akfamily/aktools)
+[![](https://img.shields.io/github/stars/jindaxiang/aktools)](https://github.com/akfamily/aktools)
+[![](https://img.shields.io/github/issues/jindaxiang/aktools)](https://github.com/akfamily/aktools)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
 # AKTools
 
