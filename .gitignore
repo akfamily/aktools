@@ -22,7 +22,6 @@ dist/
 *.egg-info/
 colors
 
-
 # IDE
 .idea/
 
