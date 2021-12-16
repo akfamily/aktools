@@ -2,9 +2,4 @@ site_name: AKTools's Documentation
 nav:
     - Home: index.md
     - Documentation: aktools.md
-theme:
-    name: "material"
-    palette:
-        primary: "red"
-markdown_extensions:
-    - codehilite
+theme: readthedocs
