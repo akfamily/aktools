@@ -17,7 +17,7 @@ pip install aktools  # AKTools's version should great than 0.0.31
 or
 
 ```shell
-pip install akshare --upgrade -i https://pypi.org/simple  # AKTools's version should grate than 0.0.31
+pip install akshare --upgrade -i https://pypi.org/simple  # AKTools's version should great than 0.0.31
 ```
 
 ## AKShare
