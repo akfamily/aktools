@@ -3,7 +3,7 @@ nav:
     - AKTools 介绍: index.md
     - AKTools 安装: aktools.md
 theme:
-    name: readthedocs
+    name: mkdocs
     highlightjs: true
     hljs_languages:
         - yaml
