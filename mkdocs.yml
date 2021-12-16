@@ -1,7 +1,7 @@
 site_name: AKTools's Documentation
 nav:
     - AKTools 介绍: index.md
-    - AKTools 安装: aktools.md
+    - AKTools 文档: aktools.md
 theme:
     name: mkdocs
     highlightjs: true
