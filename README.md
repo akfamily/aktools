@@ -24,13 +24,13 @@ AKTools is a package for HTTP Server for AKShare! It depends on AKShare and Fast
 ## Installation
 
 ```shell
-pip install aktools  # AKTools's version should grete than 0.0.31
+pip install aktools  # AKTools's version should grate than 0.0.31
 ```
 
 or
 
 ```shell
-pip install akshare --upgrade -i https://pypi.org/simple  # AKTools's version should grete than 0.0.31
+pip install akshare --upgrade -i https://pypi.org/simple  # AKTools's version should grate than 0.0.31
 ```
 
 ## AKShare
