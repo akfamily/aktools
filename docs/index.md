@@ -1,21 +1,19 @@
 # Welcome to AKTools
 
-For full documentation visit [AKTools Documentation](https://aktools.readthedocs.io/).
+欢迎访问 AKTools 官方文档
 
-## Commands
+## 依赖库
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
+* `pip install akshare` - AKShare.
+* `pip install fastapi` - FastAPI.
+* `pip install uvicorn` - Uvicorn.
 
-## Project layout
+## 安装
 
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        aktools.md   # Other markdown pages, images and other files.
+`pip install aktools`
 
-## Project Test
+## 启动
 
-Just test GitHub Action
+```shell
+python -m aktools
+```

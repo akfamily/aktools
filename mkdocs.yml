@@ -1,4 +1,10 @@
 site_name: AKTools's Documentation
 nav:
-    - Home: aktools.md
-    - Demo: index.md
+    - Home: index.md
+    - Documentation: aktools.md
+theme:
+    name: "material"
+    palette:
+        primary: "red"
+markdown_extensions:
+    - codehilite
