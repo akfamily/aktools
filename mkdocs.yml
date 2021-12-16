@@ -2,4 +2,10 @@ site_name: AKTools's Documentation
 nav:
     - Home: index.md
     - Documentation: aktools.md
-theme: readthedocs
+theme:
+    name: readthedocs
+    highlightjs: true
+    hljs_languages:
+        - yaml
+        - python
+    locale: zh_CN
