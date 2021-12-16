@@ -1,7 +1,7 @@
 site_name: AKTools's Documentation
 nav:
-    - Home: index.md
-    - Documentation: aktools.md
+    - AKTools 介绍: index.md
+    - AKTools 安装: aktools.md
 theme:
     name: readthedocs
     highlightjs: true
