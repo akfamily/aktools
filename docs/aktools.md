@@ -1,5 +1,3 @@
-# [AKTools](https://github.com/akfamily/aktools)
-
 ## [AKTools](https://github.com/akfamily/aktools) 的介绍
 
 [AKTools](https://github.com/akfamily/aktools) 是一款用于快速搭建基于 AKShare 开源财经数据接口库的 HTTP API 的工具，通过 [AKTools](https://github.com/akfamily/aktools)

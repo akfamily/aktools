@@ -1,5 +1,3 @@
-# 欢迎访问 AKTools 官方文档
-
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/akshare.svg)](https://pypi.org/project/akshare/)
 [![PyPI](https://img.shields.io/pypi/v/aktools.svg)](https://pypi.org/project/aktools/)
 [![Downloads](https://pepy.tech/badge/aktools)](https://pepy.tech/project/aktools)
@@ -13,7 +11,7 @@
 [![](https://img.shields.io/github/issues/jindaxiang/aktools)](https://github.com/akfamily/aktools)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
-# AKTools
+## AKTools
 
 AKTools is a package for HTTP Server for AKShare! It depends on AKShare and FastAPI.
 
