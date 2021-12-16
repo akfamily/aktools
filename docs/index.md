@@ -43,7 +43,7 @@ pip install akshare --upgrade -i https://pypi.org/simple  # AKTools's version sh
 
 R-Program
 
-```shell
+```
 library(RCurl)  # 需要先安装该包
 library(jsonlite)  # 需要先安装该包
 options (warn = -1)  # 该行有助于在无参数请求时去掉 warning 信息
