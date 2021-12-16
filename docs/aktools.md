@@ -8,7 +8,7 @@
 
 **[AKTools 中文文档](https://aktools.readthedocs.io/)**
 
-## [AKTools](https://github.com/akfamily/aktools) 的介绍
+## [AKShare](https://github.com/akfamily/akshare) 的介绍
 
 [AKShare](https://github.com/akfamily/akshare) 是目前在开源财经数据接口库里面使用较广的 Python 库，目前已经累计下载量达到 20,000,000 + 次，从
 发布至今一直由广大数据科学爱好者积极维护中，其提供的内容详实且丰富的 [AKShare 文档](https://www.akshare.xyz/) 大大提高了数据查找和使用的效率。
