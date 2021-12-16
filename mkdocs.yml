@@ -1,6 +1,6 @@
 site_name: AKTools 官方文档
 nav:
-    - AKTools 介绍: index.md
+    - AKTools 概览: index.md
     - AKTools 文档: aktools.md
 theme:
     name: mkdocs
