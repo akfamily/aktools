@@ -43,8 +43,8 @@ pip install akshare --upgrade -i https://pypi.org/simple  # AKTools's version sh
 
 ## Fast Run
 
-1. just type the cmd command: ```python -m aktools```, 
-2. then type ```http://127.0.0.1:8080/stock_zh_a_hist``` in your Chrome and you can get data!
+1. just type the cmd command: ```python -m aktools```
+2. then type ```http://127.0.0.1:8080/stock_zh_a_hist``` in your Chrome and you can get data
 
 ## Demo
 
