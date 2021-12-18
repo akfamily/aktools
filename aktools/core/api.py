@@ -9,6 +9,7 @@ import urllib.parse
 
 import akshare as ak
 from fastapi import FastAPI, Request
+import pandas as pd
 
 app = FastAPI()
 
@@ -31,15 +32,19 @@ async def root(request: Request, item_id: str):
     eval_str = decode_params.replace("&", '", ').replace("=", '="') + '"'
     if not bool(request.query_params):
         try:
-            temp_df = eval("ak." + item_id + f"()").to_json(orient='records', date_format='iso')
+            received_df = eval("ak." + item_id + f"()")
+            if received_df is None:
+                return {'error': '没有获取到数据'}
+            temp_df = received_df.to_json(orient='records', date_format='iso')
         except KeyError as e:
             return {'error': '参数错误'}
         return json.loads(temp_df)
     else:
         try:
-            temp_df = eval("ak." + item_id + f"({eval_str})").to_json(orient='records', date_format='iso')
-            if temp_df is None:
+            received_df = eval("ak." + item_id + f"({eval_str})")
+            if received_df is None:
                 return {'error': '没有获取到数据'}
+            temp_df = received_df.to_json(orient='records', date_format='iso')
         except KeyError as e:
             return {'error': f'请输入正确的参数错误 {e} '}
         return json.loads(temp_df)
