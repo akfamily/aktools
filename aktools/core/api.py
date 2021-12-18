@@ -38,6 +38,8 @@ async def root(request: Request, item_id: str):
     else:
         try:
             temp_df = eval("ak." + item_id + f"({eval_str})").to_json(orient='records', date_format='iso')
+            if temp_df is None:
+                return {'error': '没有获取到数据'}
         except KeyError as e:
             return {'error': f'请输入正确的参数错误 {e} '}
         return json.loads(temp_df)
