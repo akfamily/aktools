@@ -171,7 +171,7 @@ data % 由于 MATLAB 无法显示中文字段名，请自行修改为英文字�
 ### 下载镜像
 
 ```shell
-docker pull registry.cn-beijing.aliyuncs.com/ms-jupyter/ak_tools:v0.0.1
+docker pull registry.cn-beijing.aliyuncs.com/ms-jupyter/ak_tools:v1.0.5
 ```
 
 ### 启动镜像
@@ -179,13 +179,13 @@ docker pull registry.cn-beijing.aliyuncs.com/ms-jupyter/ak_tools:v0.0.1
 常规方式运行：
 
 ```shell
-docker run -p 8080:8080 registry.cn-beijing.aliyuncs.com/ms-jupyter/ak_tools:v0.0.1 python -m aktools --host 0.0.0.0 --port 8080
+docker run -p 8080:8080 registry.cn-beijing.aliyuncs.com/ms-jupyter/ak_tools:v1.0.5 python -m aktools --host 0.0.0.0 --port 8080
 ```
 
 后台运行：
 
 ```shell
-docker run -di -p 8080:8080 registry.cn-beijing.aliyuncs.com/ms-jupyter/ak_tools:v0.0.1 python -m aktools --host 0.0.0.0 --port 8080
+docker run -di -p 8080:8080 registry.cn-beijing.aliyuncs.com/ms-jupyter/ak_tools:v1.0.5 python -m aktools --host 0.0.0.0 --port 8080
 ```
 
 ### 本次访问
@@ -196,10 +196,10 @@ http://127.0.0.1:8080/api/stock_zh_a_hist
 
 ### 升级镜像
 
-1. 重新打镜像标签：`docker tag registry.cn-beijing.aliyuncs.com/ms-jupyter/ak_tools:v0.0.1 ak_tools:v0.0.1` 
-2. 启动镜像并进入命令行模型：`docker run -it ak_tools:v0.0.1 bash` 
+1. 重新打镜像标签：`docker tag registry.cn-beijing.aliyuncs.com/ms-jupyter/ak_tools:v1.0.5 ak_tools:v1.0.5` 
+2. 启动镜像并进入命令行模型：`docker run -it ak_tools:v1.0.5 bash` 
 3. 升级 [AKShare](https://github.com/akfamily/akshare) 到最新版：`pip install akshare --upgrade -i https://pypi.org/simple`
 4. 退出镜像：`exit`
 5. 找到容器 ID：`docker ps -a`
-6. 提交修改：`docker commit -m "update akshare to latest" a07c8632637f ak_tools:v1.0.1` 其中 `a07c8632637f` 为第 5 步骤中的容器 ID，`ak_tools:v1.0.1` 为新镜像的名字和版本
-7. 利用构建好的新镜像启动新容器：`docker run -p 8080:8080 ak_tools:v1.0.1 python -m aktools --host 0.0.0.0 --port 8080`
+6. 提交修改：`docker commit -m "update akshare to latest" a07c8632637f ak_tools:v1.0.6` 其中 `a07c8632637f` 为第 5 步骤中的容器 ID，`ak_tools:v1.0.6` 为新镜像的名字和版本
+7. 利用构建好的新镜像启动新容器：`docker run -p 8080:8080 ak_tools:v1.0.6 python -m aktools --host 0.0.0.0 --port 8080`
