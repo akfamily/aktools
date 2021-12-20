@@ -37,8 +37,9 @@ Changelog
 0.0.32:fix: fix docs
 0.0.33:fix: fix return result
 0.0.34:fix: fix return None
+0.0.35:add: add multiple threads support for multiple requests
 """
 
 __title__ = "AKTools"
-__version__ = "0.0.34"
+__version__ = "0.0.35"
 __author__ = "Albert King"
