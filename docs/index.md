@@ -50,7 +50,7 @@ options (warn = -1)  # 该行有助于在无参数请求时去掉 warning 信息
 
 temp_df <-
   getForm(
-    uri = 'http://127.0.0.1:8080/api/stock_zh_a_hist',
+    uri = 'http://127.0.0.1:8080/api/stock_zh_b_daily',  # 此处的 http://127.0.0.1:8080 需要替换为您定义的地址和端口
     symbol = '000001',
     period = 'daily',
     start_date = '20211109',

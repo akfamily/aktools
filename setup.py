@@ -14,10 +14,11 @@ with open("README.md", "r", encoding="utf-8") as f:
     long_description = f.read()
 
 
-def get_version_string():
+def get_version_string() -> str:
     """
     Get the aktools version number
-    :return: str version number
+    :return: version number
+    :rtype: str
     """
     with open("aktools/__init__.py", "rb") as f:
         version_line = re.search(

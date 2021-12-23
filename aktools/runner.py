@@ -7,11 +7,17 @@ Desc: 命令行运行主文件
 import os
 import sys
 from argparse import ArgumentParser
+from subprocess import run
 
 import aktools
 
 
 def get_parser():
+    """
+    增加 解析属性
+    :return:
+    :rtype:
+    """
     parser = ArgumentParser(description="AKShare's HTTP API Server")
     parser.add_argument(
         "-V",
@@ -54,6 +60,11 @@ def get_parser():
 
 
 def main():
+    """
+    主程序
+    :return:
+    :rtype:
+    """
     args = sys.argv[1:]
     parser = get_parser()
     options = parser.parse_args(args)
@@ -63,9 +74,6 @@ def main():
     )
     print(file_address)
     order_str = f"uvicorn api:app --host {options.host} --port {options.port} --app-dir {file_address}"
-    # os.system(order_str)
-    from subprocess import run
-
     run(order_str, shell=True)
 
 
