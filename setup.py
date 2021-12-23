@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 # /usr/bin/env python
 """
-Date: 2021/12/9 17:20
+Date: 2021/12/23 16:20
 Desc: AKTools 的 PYPI 基本信息文件
 """
 import re
@@ -29,10 +29,10 @@ def get_version_string():
 setuptools.setup(
     name="aktools",
     version=get_version_string(),
-    author="Albert King",
-    author_email="jindaxiang@163.com",
+    author="AKFamily",
+    author_email="aktools@akfamily.email.cn",
     license="MIT",
-    description="A tool for local http server!",
+    description="AKTools is a tool for AKShare HTTP Server!",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/akfamily/aktools",

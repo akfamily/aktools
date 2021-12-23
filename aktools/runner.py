@@ -12,7 +12,7 @@ import aktools
 
 
 def get_parser():
-    parser = ArgumentParser(description="AKShare's HTTP Server")
+    parser = ArgumentParser(description="AKShare's HTTP API Server")
     parser.add_argument(
         "-V",
         "--version",
@@ -65,6 +65,7 @@ def main():
     order_str = f"uvicorn api:app --host {options.host} --port {options.port} --app-dir {file_address}"
     # os.system(order_str)
     from subprocess import run
+
     run(order_str, shell=True)
 
 
