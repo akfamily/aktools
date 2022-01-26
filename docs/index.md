@@ -1,6 +1,6 @@
 ## AKTools
 
-AKTools is a package for HTTP Server for AKShare! It depends on AKShare and FastAPI.
+AKTools is a package of HTTP Server for AKShare! It depends on AKShare and FastAPI.
 
 [AKTools](https://github.com/akfamily/aktools) 是一款用于快速搭建 HTTP API 的工具，通过 [AKTools](https://github.com/akfamily/aktools)
 可以通过一行命令来启动 HTTP 服务，从而让原本专属服务于 Python 用户的开源财经数据接口库 [AKShare](https://github.com/akfamily/akshare) 的使用
