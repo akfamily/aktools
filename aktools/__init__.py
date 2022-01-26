@@ -39,8 +39,9 @@ Changelog
 0.0.34: fix: fix return None
 0.0.35: add: add multiple threads support for multiple requests
 0.0.36: fix: update PYPI info
+0.0.37: fix: update workflow info
 """
 
 __title__ = "AKTools"
-__version__ = "0.0.36"
+__version__ = "0.0.37"
 __author__ = "Albert King"
