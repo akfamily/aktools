@@ -1,4 +1,4 @@
-"""AKTools 是 AKShare 的 HTTP Server 工具, 主要目的是使 AKShare 的数据接口部署到本地从而通过 HTTP API 访问来获取数据"""
+"""AKTools 是 AKShare 的 HTTP API 工具, 主要目的是使 AKShare 的数据接口部署到本地从而通过 HTTP 访问来获取所需要的数据"""
 
 """
 Changelog
@@ -44,4 +44,4 @@ Changelog
 
 __title__ = "AKTools"
 __version__ = "0.0.37"
-__author__ = "Albert King"
+__author__ = "AKFamily"

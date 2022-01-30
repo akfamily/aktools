@@ -33,7 +33,7 @@ setuptools.setup(
     author="AKFamily",
     author_email="aktools@akfamily.email.cn",
     license="MIT",
-    description="AKTools is a tool for AKShare HTTP Server!",
+    description="AKTools is a tool for AKShare HTTP API!",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/akfamily/aktools",
