@@ -59,7 +59,7 @@ def get_parser():
     return parser
 
 
-def main():
+def main() -> None:
     """
     主程序
     :return:
