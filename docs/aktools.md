@@ -197,7 +197,7 @@ http://127.0.0.1:8080/api/stock_zh_a_hist
 
 ### 升级镜像
 
-**目前通过 `docker pull registry.cn-shanghai.aliyuncs.com/akfamily/aktools:[AKShare 的版本号]` 拉取的镜像已经默认安装 AKShare 的 [AKShare 的版本号] 版本**，以下步骤仅供参考
+**目前通过 `docker pull registry.cn-shanghai.aliyuncs.com/akfamily/aktools:[AKShare 的版本号]` 拉取的镜像已经默认安装最新的 AKShare [AKShare 的版本号] 版本**，以下步骤仅供参考
 
 1. 重新打镜像标签：`docker tag registry.cn-shanghai.aliyuncs.com/akfamily/aktools:1.3.93 ak_tools:1.3.93`
 2. 启动镜像并进入命令行模型：`docker run -it ak_tools:1.3.93 bash` 
