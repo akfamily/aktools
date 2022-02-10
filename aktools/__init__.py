@@ -41,8 +41,9 @@ Changelog
 0.0.36: fix: update PYPI info
 0.0.37: fix: update workflow info
 0.0.38: fix: fix docs
+0.0.39: fix: fix docs
 """
 
 __title__ = "AKTools"
-__version__ = "0.0.38"
+__version__ = "0.0.39"
 __author__ = "AKFamily"
