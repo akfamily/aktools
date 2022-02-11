@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 # /usr/bin/env python
 """
-Date: 2021/12/23 16:20
+Date: 2022/2/11 14:20
 Desc: AKTools 的 PYPI 基本信息文件
 """
 import re
