@@ -43,8 +43,9 @@ Changelog
 0.0.38: fix: fix docs
 0.0.39: fix: fix docs
 0.0.40: fix: fix docs
+0.0.41: fix: fix docs
 """
 
 __title__ = "AKTools"
-__version__ = "0.0.40"
+__version__ = "0.0.41"
 __author__ = "AKFamily"
