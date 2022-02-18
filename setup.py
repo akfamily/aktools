@@ -31,7 +31,7 @@ setuptools.setup(
     name="aktools",
     version=get_version_string(),
     author="AKFamily",
-    author_email="aktools@akfamily.email.cn",
+    author_email="akfamily.aktools@gmail.com",
     license="MIT",
     description="AKTools is a tool for AKShare HTTP API!",
     long_description=long_description,
