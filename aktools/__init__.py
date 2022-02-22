@@ -45,8 +45,9 @@ Changelog
 0.0.40: fix: fix docs
 0.0.41: fix: fix docs
 0.0.42: fix: fix email
+0.0.43: add: add support response status code
 """
 
 __title__ = "AKTools"
-__version__ = "0.0.42"
+__version__ = "0.0.43"
 __author__ = "AKFamily"
