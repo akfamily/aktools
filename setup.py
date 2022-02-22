@@ -42,6 +42,7 @@ setuptools.setup(
         "akshare>=1.2.55",
         "fastapi>=0.70.0",
         "uvicorn>=0.16.0"
+        "python-multipart>=0.0.5"
     ],
     package_data={"": ["*.py", "*.json", "*.pk", "*.woff"]},
     keywords=[
