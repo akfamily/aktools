@@ -26,13 +26,13 @@
 ### 一键安装
 
 ```shell
-pip install aktools  # 安装的版本需大于 0.0.31
+pip install aktools  # 安装的版本需大于 0.0.45
 ```
 
 如上述方法不能升级到最新版，请参照如下方法升级：
 
 ```shell
-pip install akshare --upgrade -i https://pypi.org/simple  # 安装的版本需大于 0.0.31
+pip install akshare --upgrade -i https://pypi.org/simple  # 安装的版本需大于 1.4.43
 ```
 
 ### 查看版本
@@ -55,7 +55,7 @@ print(at.__version__)
 
 ![](https://dss-1252952517.cos.ap-chengdu.myqcloud.com/image-20211213200528306.png)
 
-在您的控制台显示如上图信息时，您可以打开您的游览器，以 Chrome 游览器为例，您只需要在地址栏输入：```http://127.0.0.1:8080/api/stock_zh_a_hist```
+在您的控制台显示如上图信息时，您可以打开您的游览器，以 Chrome 游览器为例，您只需要在地址栏输入：```http://127.0.0.1:8080/api/public/stock_zh_a_hist```
 即可快速获取数据。
 
 ![](https://dss-1252952517.cos.ap-chengdu.myqcloud.com/image-20211213200841258.png)
@@ -67,7 +67,7 @@ print(at.__version__)
 
 ![](https://dss-1252952517.cos.ap-chengdu.myqcloud.com/image-20211213200608910.png)
 
-在您的控制台显示如上图信息时，您可以打开 Postman 为例，您只需要在请求栏输入：```http://0.0.0.0:8888/api/stock_zh_a_daily```
+在您的控制台显示如上图信息时，您可以打开 Postman 为例，您只需要在请求栏输入：```http://0.0.0.0:8888/api/public/stock_zh_a_daily```
 即可快速获取数据。
 
 ![](https://dss-1252952517.cos.ap-chengdu.myqcloud.com/image-20211213201556322.png)
@@ -85,7 +85,7 @@ options (warn = -1)  # 该行有助于在无参数请求时去掉 warning 信息
 
 temp_df <-
   getForm(
-    uri = 'http://127.0.0.1:8080/api/stock_zh_a_hist',
+    uri = 'http://127.0.0.1:8080/api/public/stock_zh_a_hist',
     symbol = '000001',
     period = 'daily',
     start_date = '20211109',
@@ -131,7 +131,7 @@ inner_df
 #### 代码
 
 ```
-api = 'http://127.0.0.1:8080/api/';
+api = 'http://127.0.0.1:8080/api/public/';
 url = [api 'stock_zh_a_hist'];
 options = weboptions('ContentType','json', 'CharacterEncoding', 'utf-8');
 data = webread(url, options, symbol = '000001', period = 'daily', start_date = '20211109', end_date = '20211209', adjust = 'hfq');
@@ -192,7 +192,7 @@ docker run -di -p 8080:8080 registry.cn-shanghai.aliyuncs.com/akfamily/aktools:1
 ### 本次访问
 
 ```shell
-http://127.0.0.1:8080/api/stock_zh_a_hist
+http://127.0.0.1:8080/api/public/stock_zh_a_hist
 ```
 
 ### 升级镜像

@@ -10,6 +10,15 @@
 
 ### 开发进度
 
+0.0.47: add: add tips
+    
+    1. 移除路径输出
+    2. 在终端窗口输出：`http://127.0.0.1:8080/docs` 类似的链接，用户可以一键直达接口文档
+
+0.0.46: fix: fix setup.py
+
+    1. 在 setup.py 中增加 `python-multipart` 的依赖
+
 0.0.45: add: add module format support
     
     1. 把核心 API 模块和登录模块拆分开

@@ -50,8 +50,9 @@ Changelog
 0.0.45: add: add module format support
 0.0.46: fix: fix setup.py
 0.0.47: add: add tips
+0.0.48: fix: fix docs
 """
 
 __title__ = "AKTools"
-__version__ = "0.0.47"
+__version__ = "0.0.48"
 __author__ = "AKFamily"
