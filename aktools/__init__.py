@@ -49,8 +49,9 @@ Changelog
 0.0.44: add: add login support
 0.0.45: add: add module format support
 0.0.46: fix: fix setup.py
+0.0.47: add: add tips
 """
 
 __title__ = "AKTools"
-__version__ = "0.0.46"
+__version__ = "0.0.47"
 __author__ = "AKFamily"

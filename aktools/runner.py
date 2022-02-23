@@ -69,10 +69,11 @@ def main() -> None:
     args = sys.argv[1:]
     parser = get_parser()
     options = parser.parse_args(args)
-    print(options.host, options.port)
+    # print(options.host, options.port)
     file_address = os.path.dirname(os.path.abspath(aktools.__file__))
-    print(file_address)
+    # print(file_address)
     order_str = f"uvicorn run:app --host {options.host} --port {options.port} --app-dir {file_address}"
+    print(f"点击打开接口导览：http://{options.host}:{options.port}/docs")
     run(order_str, shell=True)
 
 
