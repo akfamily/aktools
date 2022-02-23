@@ -8,7 +8,13 @@
 4. 增加接口用户认证
 5. 增加用户自定义数据接口功能
 
-### 开发进展
+### 开发进度
+
+0.0.45: add: add module format support
+    
+    1. 把核心 API 模块和登录模块拆分开
+    2. 把项目结构化，有利于后续开发
+    3. 增加 run.py 文件作为项目的主入口
 
 0.0.44: add: add support response status code
 
