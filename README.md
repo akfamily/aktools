@@ -44,7 +44,7 @@ pip install akshare --upgrade -i https://pypi.org/simple  # AKTools's version sh
 ## Fast Run
 
 1. just type the cmd/bash command: ```python -m aktools```
-2. then type ```http://127.0.0.1:8080/api/stock_zh_a_hist``` in your Chrome and you can get your data
+2. then type ```http://127.0.0.1:8080/api/public/stock_zh_a_hist``` in your Chrome and you can get your data
 
 ## Demo
 
@@ -63,7 +63,7 @@ options (warn = -1)  # 该行有助于在无参数请求时去掉 warning 信息
 
 temp_df <-
   getForm(
-    uri = 'http://127.0.0.1:8080/api/stock_zh_a_hist',  # 此处的 http://127.0.0.1:8080 需要替换为您定义的地址和端口
+    uri = 'http://127.0.0.1:8080/api/public/stock_zh_a_hist',  # 此处的 http://127.0.0.1:8080 需要替换为您定义的地址和端口
     symbol = '000001',
     period = 'daily',
     start_date = '20211109',
@@ -109,7 +109,7 @@ Result
 MATLAB-Program
 
 ```
-api = 'http://127.0.0.1:8080/api/';
+api = 'http://127.0.0.1:8080/api/public/';
 url = [api 'stock_zh_a_hist'];
 options = weboptions('ContentType','json', 'CharacterEncoding', 'utf-8');
 data = webread(url, options, symbol = '000001', period = 'daily', start_date = '20211109', end_date = '20211209', adjust = 'hfq');
