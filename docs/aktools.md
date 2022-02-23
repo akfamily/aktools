@@ -32,7 +32,7 @@ pip install aktools  # 安装的版本需大于 0.0.45
 如上述方法不能升级到最新版，请参照如下方法升级：
 
 ```shell
-pip install akshare --upgrade -i https://pypi.org/simple  # 安装的版本需大于 1.4.43
+pip install aktools --upgrade -i https://pypi.org/simple  # 安装的版本需大于 0.0.45
 ```
 
 ### 查看版本
