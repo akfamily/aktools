@@ -6,96 +6,24 @@ Desc: HTTP 模式主文件
 """
 import json
 import urllib.parse
-from typing import Optional
 
 import akshare as ak
-from fastapi import Depends, FastAPI, HTTPException, status
+from fastapi import APIRouter
+from fastapi import Depends, status
 from fastapi import Request
 from fastapi.responses import JSONResponse
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from pydantic import BaseModel
 
-app = FastAPI()
+from aktools.login.user_login import User, get_current_active_user
 
-fake_users_db = {
-    "akshare": {
-        "username": "akshare",
-        "full_name": "AKShare AKFamily",
-        "email": "akfamily.akshare@gmail.com",
-        "hashed_password": "fakehashedakfamily",
-        "disabled": False,
-    },
-}
+app_core = APIRouter()
 
 
-def fake_hash_password(password: str):
-    return "fakehashed" + password
-
-
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
-
-
-class User(BaseModel):
-    username: str
-    email: Optional[str] = None
-    full_name: Optional[str] = None
-    disabled: Optional[bool] = None
-
-
-class UserInDB(User):
-    hashed_password: str
-
-
-def get_user(db, username: str):
-    if username in db:
-        user_dict = db[username]
-        return UserInDB(**user_dict)
-
-
-def fake_decode_token(token):
-    # This doesn't provide any security at all
-    # Check the next version
-    user = get_user(fake_users_db, token)
-    return user
-
-
-async def get_current_user(token: str = Depends(oauth2_scheme)):
-    user = fake_decode_token(token)
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid authentication credentials",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-    return user
-
-
-async def get_current_active_user(current_user: User = Depends(get_current_user)):
-    if current_user.disabled:
-        raise HTTPException(status_code=400, detail="Inactive user")
-    return current_user
-
-
-@app.post("/token")
-async def login(form_data: OAuth2PasswordRequestForm = Depends()):
-    user_dict = fake_users_db.get(form_data.username)
-    if not user_dict:
-        raise HTTPException(status_code=400, detail="Incorrect username or password")
-    user = UserInDB(**user_dict)
-    hashed_password = fake_hash_password(form_data.password)
-    if not hashed_password == user.hashed_password:
-        raise HTTPException(status_code=400, detail="Incorrect username or password")
-
-    return {"access_token": user.username, "token_type": "bearer"}
-
-
-@app.get("/users/me")
-async def read_users_me(current_user: User = Depends(get_current_active_user)):
-    return current_user
-
-
-@app.get("/api_token/{item_id}")
-def root(request: Request, item_id: str, current_user: User = Depends(get_current_active_user)):
+@app_core.get("/private/{item_id}")
+def root(
+    request: Request,
+    item_id: str,
+    current_user: User = Depends(get_current_active_user),
+):
     """
     接收请求参数及接口名称并返回 JSON 数据
     此处由于 AKShare 的请求中是同步模式，所以这边在定义 root 函数中没有使用 asyncio 来定义，这样可以开启多线程访问
@@ -152,10 +80,12 @@ def root(request: Request, item_id: str, current_user: User = Depends(get_curren
                     "error": f"请输入正确的参数错误 {e}，请升级 AKShare 到最新版本并在文档中确认该接口的使用方式：https://www.akshare.xyz"
                 },
             )
-        return JSONResponse(status_code=status.HTTP_200_OK, content=json.loads(temp_df))@app.get("/api/{item_id}")
+        return JSONResponse(
+            status_code=status.HTTP_200_OK, content=json.loads(temp_df)
+        ) @ app.get("/api/{item_id}")
 
 
-@app.get("/api/{item_id}")
+@app_core.get("/public/{item_id}")
 def root(request: Request, item_id: str):
     """
     接收请求参数及接口名称并返回 JSON 数据
@@ -212,8 +142,3 @@ def root(request: Request, item_id: str):
                 },
             )
         return JSONResponse(status_code=status.HTTP_200_OK, content=json.loads(temp_df))
-
-
-@app.get("/api/test-data/")
-async def test_data():
-    return JSONResponse(status_code=status.HTTP_200_OK, content={'result': 'get it', 'good': 'not'})

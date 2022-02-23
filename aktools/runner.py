@@ -70,11 +70,9 @@ def main() -> None:
     parser = get_parser()
     options = parser.parse_args(args)
     print(options.host, options.port)
-    file_address = os.path.join(
-        os.path.dirname(os.path.abspath(aktools.__file__)), "core"
-    )
+    file_address = os.path.dirname(os.path.abspath(aktools.__file__))
     print(file_address)
-    order_str = f"uvicorn api:app --host {options.host} --port {options.port} --app-dir {file_address}"
+    order_str = f"uvicorn run:app --host {options.host} --port {options.port} --app-dir {file_address}"
     run(order_str, shell=True)
 
 
