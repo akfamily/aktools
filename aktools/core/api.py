@@ -80,9 +80,7 @@ def root(
                     "error": f"请输入正确的参数错误 {e}，请升级 AKShare 到最新版本并在文档中确认该接口的使用方式：https://www.akshare.xyz"
                 },
             )
-        return JSONResponse(
-            status_code=status.HTTP_200_OK, content=json.loads(temp_df)
-        ) @ app.get("/api/{item_id}")
+        return JSONResponse(status_code=status.HTTP_200_OK, content=json.loads(temp_df))
 
 
 @app_core.get("/public/{item_id}")
