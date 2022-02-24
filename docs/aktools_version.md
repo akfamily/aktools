@@ -10,6 +10,16 @@
 
 ### 开发进度
 
+0.0.49: add: add FastAPI docs introduction
+
+    1. 提供文档的标题、描述及版本
+    2. 文档的版本与 AKShare 的版本对应，方便查询相关接口
+
+0.0.48: fix: fix docs
+
+    1. 修正 URL 连接
+    2. 修正部分表述错误
+
 0.0.47: add: add tips
     
     1. 移除路径输出
