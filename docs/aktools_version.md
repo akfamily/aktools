@@ -10,6 +10,11 @@
 
 ### 开发进度
 
+0.0.50: add: add interface docs
+
+    1. 给接口增加描述和简要说明
+    2. 修正部分函数的签名
+
 0.0.49: add: add FastAPI docs introduction
 
     1. 提供文档的标题、描述及版本

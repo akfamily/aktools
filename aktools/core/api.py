@@ -18,7 +18,7 @@ from aktools.login.user_login import User, get_current_active_user
 app_core = APIRouter()
 
 
-@app_core.get("/private/{item_id}")
+@app_core.get("/private/{item_id}", description='私人接口', summary="该接口主要提供私密访问来获取数据")
 def root(
     request: Request,
     item_id: str,
@@ -29,9 +29,9 @@ def root(
     此处由于 AKShare 的请求中是同步模式，所以这边在定义 root 函数中没有使用 asyncio 来定义，这样可以开启多线程访问
     :param request: 请求信息
     :type request: Request
-    :param item_id: 必选参数; 默认接口名 stock_zh_a_hist
+    :param item_id: 必选参数; 测试接口名 stock_dxsyl_em 来获取 打新收益率 数据
     :type item_id: str
-    :param current_user: 必选参数; 默认接口名 stock_zh_a_hist
+    :param current_user: 依赖注入，为了进行用户的登录验证
     :type current_user: str
     :return: 指定 接口名称 和 参数 的数据
     :rtype: json
@@ -83,14 +83,14 @@ def root(
         return JSONResponse(status_code=status.HTTP_200_OK, content=json.loads(temp_df))
 
 
-@app_core.get("/public/{item_id}")
+@app_core.get("/public/{item_id}", description='公开接口', summary="该接口主要提供公开访问来获取数据")
 def root(request: Request, item_id: str):
     """
     接收请求参数及接口名称并返回 JSON 数据
     此处由于 AKShare 的请求中是同步模式，所以这边在定义 root 函数中没有使用 asyncio 来定义，这样可以开启多线程访问
     :param request: 请求信息
     :type request: Request
-    :param item_id: 必选参数; 默认接口名 stock_zh_a_hist
+    :param item_id: 必选参数; 测试接口名 stock_dxsyl_em 来获取 打新收益率 数据
     :type item_id: str
     :return: 指定 接口名称 和 参数 的数据
     :rtype: json
