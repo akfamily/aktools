@@ -52,8 +52,9 @@ Changelog
 0.0.47: add: add tips
 0.0.48: fix: fix docs
 0.0.49: add: add FastAPI docs introduction
+0.0.50: add: add interface docs
 """
 
 __title__ = "AKTools"
-__version__ = "0.0.49"
+__version__ = "0.0.50"
 __author__ = "AKFamily"

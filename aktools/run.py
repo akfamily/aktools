@@ -4,12 +4,12 @@
 Date: 2022/2/23 20:05
 Desc: 主程序入口
 """
+import akshare
 import uvicorn
 from fastapi import FastAPI
 
 from core import app_core
 from login import app_user_login
-import akshare
 
 app = FastAPI(
     title="欢迎来到为 AKShare 打造的 HTTP API 文档",
