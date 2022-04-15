@@ -53,8 +53,9 @@ Changelog
 0.0.48: fix: fix docs
 0.0.49: add: add FastAPI docs introduction
 0.0.50: add: add interface docs
+0.0.51: add: add CORS support
 """
 
 __title__ = "AKTools"
-__version__ = "0.0.50"
+__version__ = "0.0.51"
 __author__ = "AKFamily"
