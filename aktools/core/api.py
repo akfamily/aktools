@@ -6,9 +6,6 @@ Desc: HTTP 模式主文件
 """
 import json
 import urllib.parse
-from importlib import resources
-import pathlib
-
 
 import akshare as ak
 from fastapi import APIRouter
@@ -17,6 +14,7 @@ from fastapi import Request
 from fastapi.responses import JSONResponse, HTMLResponse
 
 from aktools.login.user_login import User, get_current_active_user
+from aktools.datasets import get_pyscript_html
 
 app_core = APIRouter()
 
@@ -143,14 +141,6 @@ def root(request: Request, item_id: str):
                 },
             )
         return JSONResponse(status_code=status.HTTP_200_OK, content=json.loads(temp_df))
-
-
-def get_pyscript_html(file: str = "akscript.html") -> pathlib.Path:
-    """Get path to data "ths.js" text file.
-    """
-    with resources.path("aktools.assets.html", file) as f:
-        data_file_path = f
-        return data_file_path
 
 
 def generate_html_response():
