@@ -10,6 +10,10 @@
 
 ## 开发进度
 
+0.0.53: fix: fix PyScript demo url
+
+    1. 修复 PyScript demo url 
+
 0.0.52: add: add pyscript support
     
     1. 新增 PyScript Demo 演示
