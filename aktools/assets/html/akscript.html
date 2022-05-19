@@ -21,12 +21,12 @@ import json
 
 from pyodide.http import open_url
 
-url = "http://127.0.0.1:8080/api/public/energy_oil_hist"  # 本地 AKTools 搭建
+url = "http://116.63.170.98:8080/api/public/energy_oil_hist"  # 本地 AKTools 搭建
 
 temp_df = pd.read_json(open_url(url))
 temp_df = temp_df.iloc[-200:, ]
 
-x = pd.to_datetime(temp_df['日期']).dt.date
+x = pd.to_datetime(temp_df['调整日期']).dt.date
 y = temp_df['汽油价格']
 
 fig, ax = plt.subplots(figsize=(10, 8), dpi=500)
