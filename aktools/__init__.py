@@ -54,8 +54,9 @@ Changelog
 0.0.49: add: add FastAPI docs introduction
 0.0.50: add: add interface docs
 0.0.51: add: add CORS support
+0.0.52: add: add PyScript demo
 """
 
 __title__ = "AKTools"
-__version__ = "0.0.51"
+__version__ = "0.0.52"
 __author__ = "AKFamily"

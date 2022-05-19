@@ -10,6 +10,14 @@
 
 ## 开发进度
 
+0.0.52: add: add pyscript support
+    
+    1. 新增 PyScript Demo 演示
+
+0.0.51: add: add CORS support
+
+    1. 新增跨域的支持
+
 0.0.50: add: add interface docs
 
     1. 给接口增加描述和简要说明
