@@ -152,13 +152,11 @@ def generate_html_response():
 
 
 short_path = get_template_path()
-print(short_path)
 templates = Jinja2Templates(directory=short_path)
 
 
-@app_core.get("/show_temp", response_class=HTMLResponse, description='展示 PyScript', summary="该接口主要展示 PyScript 游览器运行 Python 代码")
-def akscript_temp(request: Request, response: Response, ip: str):
-    print(ip)
+@app_core.get("/show-temp", response_class=HTMLResponse, description='展示 PyScript', summary="该接口主要展示 PyScript 游览器运行 Python 代码")
+def akscript_temp(request: Request):
     return templates.TemplateResponse("akscript.html", context={"request": request, 'ip': request.headers['host']})
 
 

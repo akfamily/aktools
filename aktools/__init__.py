@@ -61,8 +61,9 @@ Changelog
 0.0.56: add: add init.py
 0.0.57: fix: fix setup.py
 0.0.58: add: add jinja2 to setup.py
+0.0.59: add: add templates
 """
 
 __title__ = "AKTools"
-__version__ = "0.0.58"
+__version__ = "0.0.59"
 __author__ = "AKFamily"
