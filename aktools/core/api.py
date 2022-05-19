@@ -10,11 +10,12 @@ import urllib.parse
 import akshare as ak
 from fastapi import APIRouter
 from fastapi import Depends, status
-from fastapi import Request
+from fastapi import Request, Response
 from fastapi.responses import JSONResponse, HTMLResponse
 
 from aktools.login.user_login import User, get_current_active_user
-from aktools.datasets import get_pyscript_html
+from aktools.datasets import get_pyscript_html, get_template_path
+from fastapi.templating import Jinja2Templates
 
 app_core = APIRouter()
 
@@ -148,6 +149,17 @@ def generate_html_response():
     with open(file_path, encoding="utf8") as f:
         html_content = f.read()
     return HTMLResponse(content=html_content, status_code=200)
+
+
+short_path = get_template_path()
+print(short_path)
+templates = Jinja2Templates(directory=short_path)
+
+
+@app_core.get("/show_temp", response_class=HTMLResponse, description='展示 PyScript', summary="该接口主要展示 PyScript 游览器运行 Python 代码")
+def akscript_temp(request: Request, response: Response, ip: str):
+    print(ip)
+    return templates.TemplateResponse("akscript.html", context={"request": request, 'ip': request.headers['host']})
 
 
 @app_core.get("/show", response_class=HTMLResponse, description='展示 PyScript', summary="该接口主要展示 PyScript 游览器运行 Python 代码")

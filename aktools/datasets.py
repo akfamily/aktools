@@ -16,6 +16,12 @@ def get_pyscript_html(file: str = "akscript.html") -> pathlib.Path:
         return data_file_path
 
 
+def get_template_path():
+    with resources.path("aktools.assets", "html") as f:
+        data_file_path = f
+        return data_file_path
+
+
 if __name__ == "__main__":
     get_pyscript_html_path = get_pyscript_html(file="akscript.html")
     print(get_pyscript_html_path)

@@ -43,6 +43,7 @@ setuptools.setup(
         "fastapi>=0.70.0",
         "uvicorn>=0.16.0",
         "python-multipart>=0.0.5",
+        "jinja2>=3.1.2",
     ],
     package_data={"": ["*.py", "*.json", "*.pk", "*.woff", "*.html"]},
     keywords=[
