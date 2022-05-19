@@ -6,12 +6,15 @@ Desc: HTTP 模式主文件
 """
 import json
 import urllib.parse
+from importlib import resources
+import pathlib
+
 
 import akshare as ak
 from fastapi import APIRouter
 from fastapi import Depends, status
 from fastapi import Request
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, HTMLResponse
 
 from aktools.login.user_login import User, get_current_active_user
 
@@ -140,3 +143,23 @@ def root(request: Request, item_id: str):
                 },
             )
         return JSONResponse(status_code=status.HTTP_200_OK, content=json.loads(temp_df))
+
+
+def get_pyscript_html(file: str = "akscript.html") -> pathlib.Path:
+    """Get path to data "ths.js" text file.
+    """
+    with resources.path("aktools.assets.html", file) as f:
+        data_file_path = f
+        return data_file_path
+
+
+def generate_html_response():
+    file_path = get_pyscript_html(file="akscript.html")
+    with open(file_path, encoding="utf8") as f:
+        html_content = f.read()
+    return HTMLResponse(content=html_content, status_code=200)
+
+
+@app_core.get("/show", response_class=HTMLResponse, description='展示 PyScript', summary="该接口主要展示 PyScript 游览器运行 Python 代码")
+def akscript():
+    return generate_html_response()
