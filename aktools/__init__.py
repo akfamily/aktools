@@ -57,8 +57,9 @@ Changelog
 0.0.52: add: add PyScript demo
 0.0.53: fix: fix PyScript demo url
 0.0.54: fix: fix PyScript demo url
+0.0.55: add: add datasets.py
 """
 
 __title__ = "AKTools"
-__version__ = "0.0.54"
+__version__ = "0.0.55"
 __author__ = "AKFamily"
