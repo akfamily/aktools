@@ -1,6 +1,6 @@
 <html>
     <head>
-      <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+      <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css"/>
       <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
       <py-env>
         - numpy
@@ -21,7 +21,7 @@ import json
 
 from pyodide.http import open_url
 
-url = "http://116.63.170.98:8080/api/public/energy_oil_hist"  # 本地 AKTools 搭建
+url = "http://{{ ip }}/api/public/energy_oil_hist"  # 本地 AKTools 搭建
 
 temp_df = pd.read_json(open_url(url))
 temp_df = temp_df.iloc[-200:, ]
