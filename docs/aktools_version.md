@@ -10,6 +10,20 @@
 
 ## 开发进度
 
+0.0.60: add: add css and html to akscript.py
+
+0.0.59: add: add templates
+
+0.0.58: add: add jinja2 to setup.py
+
+0.0.57: fix: fix setup.py
+
+0.0.56: add: add init.py
+
+0.0.55: add: add datasets.py
+
+0.0.54: fix: fix PyScript demo url
+
 0.0.53: fix: fix PyScript demo url
 
     1. 修复 PyScript demo url 
