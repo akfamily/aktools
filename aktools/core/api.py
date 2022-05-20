@@ -20,7 +20,7 @@ from fastapi.templating import Jinja2Templates
 app_core = APIRouter()
 
 
-@app_core.get("/private/{item_id}", description='私人接口', summary="该接口主要提供私密访问来获取数据")
+@app_core.get("/private/{item_id}", description="私人接口", summary="该接口主要提供私密访问来获取数据")
 def root(
     request: Request,
     item_id: str,
@@ -85,7 +85,7 @@ def root(
         return JSONResponse(status_code=status.HTTP_200_OK, content=json.loads(temp_df))
 
 
-@app_core.get("/public/{item_id}", description='公开接口', summary="该接口主要提供公开访问来获取数据")
+@app_core.get("/public/{item_id}", description="公开接口", summary="该接口主要提供公开访问来获取数据")
 def root(request: Request, item_id: str):
     """
     接收请求参数及接口名称并返回 JSON 数据
@@ -155,11 +155,28 @@ short_path = get_template_path()
 templates = Jinja2Templates(directory=short_path)
 
 
-@app_core.get("/show-temp", response_class=HTMLResponse, description='展示 PyScript', summary="该接口主要展示 PyScript 游览器运行 Python 代码")
-def akscript_temp(request: Request):
-    return templates.TemplateResponse("akscript.html", context={"request": request, 'ip': request.headers['host']})
+@app_core.get(
+    "/show-temp/{interface}",
+    response_class=HTMLResponse,
+    description="展示 PyScript",
+    summary="该接口主要展示 PyScript 游览器运行 Python 代码",
+)
+def akscript_temp(request: Request, interface: str):
+    return templates.TemplateResponse(
+        "akscript.html",
+        context={
+            "request": request,
+            "ip": request.headers["host"],
+            "interface": interface,
+        },
+    )
 
 
-@app_core.get("/show", response_class=HTMLResponse, description='展示 PyScript', summary="该接口主要展示 PyScript 游览器运行 Python 代码")
+@app_core.get(
+    "/show",
+    response_class=HTMLResponse,
+    description="展示 PyScript",
+    summary="该接口主要展示 PyScript 游览器运行 Python 代码",
+)
 def akscript():
     return generate_html_response()
