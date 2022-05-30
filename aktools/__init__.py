@@ -64,8 +64,9 @@ Changelog
 0.0.59: add: add templates
 0.0.60: add: add css and html to akscript.html
 0.0.61: fix: fix remove dependency from akscript.html
+0.0.62: add: add favicon.ico
 """
 
 __title__ = "AKTools"
-__version__ = "0.0.61"
+__version__ = "0.0.62"
 __author__ = "AKFamily"

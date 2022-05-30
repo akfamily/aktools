@@ -10,6 +10,8 @@
 
 ## 开发进度
 
+0.0.62: add: add favicon.ico
+
 0.0.61: fix: fix remove dependency from akscript.html
 
     1. 从 akscript.html 中移除 numpy 和 matplotlib 依赖
