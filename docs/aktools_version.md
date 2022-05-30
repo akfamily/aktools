@@ -10,6 +10,10 @@
 
 ## 开发进度
 
+0.0.61: fix: fix remove dependency from akscript.html
+
+    1. 从 akscript.html 中移除 numpy 和 matplotlib 依赖
+
 0.0.60: add: add css and html to akscript.py
 
 0.0.59: add: add templates

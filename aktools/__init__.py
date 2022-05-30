@@ -62,9 +62,10 @@ Changelog
 0.0.57: fix: fix setup.py
 0.0.58: add: add jinja2 to setup.py
 0.0.59: add: add templates
-0.0.60: add: add css and html to akscript.py
+0.0.60: add: add css and html to akscript.html
+0.0.61: fix: fix remove dependency from akscript.html
 """
 
 __title__ = "AKTools"
-__version__ = "0.0.60"
+__version__ = "0.0.61"
 __author__ = "AKFamily"
