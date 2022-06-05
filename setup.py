@@ -45,7 +45,7 @@ setuptools.setup(
         "python-multipart>=0.0.5",
         "jinja2>=3.1.2",
     ],
-    package_data={"": ["*.py", "*.json", "*.pk", "*.woff", "*.html"]},
+    package_data={"": ["*.py", "*.json", "*.pk", "*.woff", "*.html", "*.ico"]},
     keywords=[
         "stock",
         "option",

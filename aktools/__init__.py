@@ -68,8 +68,9 @@ Changelog
 0.0.63: fix: fix favicon.ico path
 0.0.64: fix: fix favicon.ico path
 0.0.65: fix: fix favicon.ico path
+0.0.66: fix: fix setup.py
 """
 
 __title__ = "AKTools"
-__version__ = "0.0.65"
+__version__ = "0.0.66"
 __author__ = "AKFamily"
