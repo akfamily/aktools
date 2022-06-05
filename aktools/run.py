@@ -14,7 +14,9 @@ from login import app_user_login
 
 from starlette.responses import FileResponse
 
-favicon_path = 'favicon.ico'
+from datasets import get_favicon_path
+
+favicon_path = get_favicon_path(file="favicon.ico")
 
 app = FastAPI(
     title="欢迎来到为 AKShare 打造的 HTTP API 文档",
