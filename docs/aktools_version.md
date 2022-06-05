@@ -10,6 +10,8 @@
 
 ## 开发进度
 
+0.0.64: fix: fix favicon.ico path
+
 0.0.63: fix: fix favicon.ico path
 
 0.0.62: add: add favicon.ico

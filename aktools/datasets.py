@@ -22,6 +22,12 @@ def get_template_path():
         return data_file_path
 
 
+def get_favicon_path():
+    with resources.path("aktools.assets", "images") as f:
+        data_file_path = f
+        return data_file_path
+
+
 if __name__ == "__main__":
     get_pyscript_html_path = get_pyscript_html(file="akscript.html")
     print(get_pyscript_html_path)
