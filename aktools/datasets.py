@@ -22,8 +22,8 @@ def get_template_path():
         return data_file_path
 
 
-def get_favicon_path():
-    with resources.path("aktools.assets", "images") as f:
+def get_favicon_path(file: str = "favicon.ico"):
+    with resources.path("aktools.assets.images", file) as f:
         data_file_path = f
         return data_file_path
 
