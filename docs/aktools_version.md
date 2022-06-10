@@ -10,6 +10,8 @@
 
 ## 开发进度
 
+0.0.67: fix: fix parameter with blank character
+
 0.0.66: fix: fix setup.py
 
 0.0.65: fix: fix favicon.ico path

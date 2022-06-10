@@ -69,8 +69,9 @@ Changelog
 0.0.64: fix: fix favicon.ico path
 0.0.65: fix: fix favicon.ico path
 0.0.66: fix: fix setup.py
+0.0.67: fix: fix parameter with blank character
 """
 
 __title__ = "AKTools"
-__version__ = "0.0.66"
+__version__ = "0.0.67"
 __author__ = "AKFamily"
