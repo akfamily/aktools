@@ -108,6 +108,7 @@ def root(request: Request, item_id: str):
             },
         )
     eval_str = decode_params.replace("&", '", ').replace("=", '="') + '"'
+    eval_str = eval_str.replace("+", " ")  # 处理传递的参数中带空格的情况
     if not bool(request.query_params):
         try:
             received_df = eval("ak." + item_id + f"()")
