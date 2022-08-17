@@ -107,8 +107,12 @@ def root(request: Request, item_id: str):
                 "error": "未找到该接口，请升级 AKShare 到最新版本并在文档中确认该接口的使用方式：https://www.akshare.xyz"
             },
         )
-    eval_str = decode_params.replace("&", '", ').replace("=", '="') + '"'
-    eval_str = eval_str.replace("+", " ")  # 处理传递的参数中带空格的情况
+    if "cookie" in decode_params:
+        eval_str = decode_params.split("=", maxsplit=1)[0] + "='" + decode_params.split("=", maxsplit=1)[1] + "'"
+        eval_str = eval_str.replace("+", " ")
+    else:
+        eval_str = decode_params.replace("&", '", ').replace("=", '="') + '"'
+        eval_str = eval_str.replace("+", " ")  # 处理传递的参数中带空格的情况
     if not bool(request.query_params):
         try:
             received_df = eval("ak." + item_id + f"()")

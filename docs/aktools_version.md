@@ -10,6 +10,8 @@
 
 ## 开发进度
 
+0.0.68: fix: fix cookie in parameter
+
 0.0.67: fix: fix parameter with blank character
 
 0.0.66: fix: fix setup.py
