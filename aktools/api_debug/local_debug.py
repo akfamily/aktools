@@ -7,9 +7,9 @@ Desc: HTTP 测试
 import requests
 import pandas as pd
 
-url = "http://127.0.0.1:8080/api/public/public/fund_em_lcx_rank"
+url = "http://127.0.0.1:8080/api/public/stock_zh_a_hist"
 params = {
-    "symbol": "850335.SI",
+    "symbol": "000001",
 }
 r = requests.get(url, params=params)
 temp_df = pd.DataFrame.from_dict(r.json())

@@ -32,7 +32,7 @@ async def favicon():
 origins = ["*"]
 
 app.add_middleware(
-    CORSMiddleware,
+    CORSMiddleware,  # 解决跨域问题
     allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
