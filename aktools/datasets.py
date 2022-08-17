@@ -9,23 +9,22 @@ import pathlib
 
 
 def get_pyscript_html(file: str = "akscript.html") -> pathlib.Path:
-    """Get path to data "ths.js" text file.
-    """
+    """Get path to data "ths.js" text file."""
     with resources.path("aktools.assets.html", file) as f:
         data_file_path = f
-        return data_file_path
+    return data_file_path
 
 
 def get_template_path():
-    with resources.path("aktools.assets", "html") as f:
+    with resources.path("aktools.assets.html", "akscript.html") as f:
         data_file_path = f
-        return data_file_path
+    return data_file_path.parent
 
 
 def get_favicon_path(file: str = "favicon.ico"):
     with resources.path("aktools.assets.images", file) as f:
         data_file_path = f
-        return data_file_path
+    return data_file_path
 
 
 if __name__ == "__main__":
