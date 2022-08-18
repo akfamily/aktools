@@ -17,20 +17,20 @@ AKTools is a package of HTTP API for AKShare! It depends on AKShare and FastAPI.
 
 [AKTools](https://github.com/akfamily/aktools) 是一款用于快速搭建 HTTP API 的工具，利用 [AKTools](https://github.com/akfamily/aktools)
 您可以用一行命令来启动 HTTP 服务，从而让原本专属服务于 Python 用户的开源财经数据接口库 [AKShare](https://github.com/akfamily/akshare) 的使用
-突破编程语言的限制。无论您使用的是 C/C++、Java、Go、Ruby、PHP、JavaScript、R、Matlab、Stata 等编程语言、软件都可以快速、轻松获取财经数据，助力您更好地开展研究工作。
+突破编程语言的限制。无论您使用的是 C/C++、Java、Go、Ruby、PHP、JavaScript、R、Matlab、Stata 等编程语言或软件都可以快速、轻松获取财经数据，助力您更好地开展研究工作。
 
 **[AKTools 中文文档](https://aktools.readthedocs.io/)**
 
 ## Installation
 
 ```shell
-pip install aktools  # AKTools's version should great than 0.0.45
+pip install aktools  # AKTools's version should great than 0.0.68
 ```
 
 or
 
 ```shell
-pip install aktools --upgrade -i https://pypi.org/simple  # AKTools's version should great than 0.0.45
+pip install aktools --upgrade -i https://pypi.org/simple  # AKTools's version should great than 0.0.68
 ```
 
 ## AKShare
