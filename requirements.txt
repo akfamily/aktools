@@ -1,5 +1,5 @@
-akshare>=1.2.60
-fastapi>=0.70.0
+akshare>=1.7.23
+fastapi>=0.85.0
 uvicorn>=0.16.0
 python-multipart>=0.0.5
 jinja2>=3.1.2

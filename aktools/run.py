@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 # !/usr/bin/env python
 """
-Date: 2022/2/23 20:05
+Date: 2022/9/16 20:05
 Desc: 主程序入口
 """
 import akshare
@@ -12,7 +12,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from core import app_core
 from login import app_user_login
 
-from starlette.responses import FileResponse
+from fastapi.responses import FileResponse
 
 from datasets import get_favicon_path
 
@@ -20,7 +20,7 @@ favicon_path = get_favicon_path(file="favicon.ico")
 
 app = FastAPI(
     title="欢迎来到为 AKShare 打造的 HTTP API 文档",
-    description="AKTools 是 AKShare 的 HTTP API 工具, 主要目的是使 AKShare 的数据接口部署到本地从而通过 HTTP 访问来获取所需要的数据",
+    description="AKTools 是 AKShare 的 HTTP API 工具, 主要目的是使 AKShare 的数据接口部署到服务器从而通过 HTTP 访问来获取所需要的数据",
     version=akshare.__version__,
 )
 
