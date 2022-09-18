@@ -27,12 +27,12 @@ app = FastAPI(
 )
 
 
-@app.get("/favicon.ico")
+@app.get("/favicon.ico", include_in_schema=False)
 async def favicon() -> FileResponse:
     return FileResponse(favicon_path)
 
 
-@app.get("/")
+@app.get("/", tags=["主页"])
 async def get_homepage(request: Request):
     return templates.TemplateResponse(
         "homepage.html",
