@@ -10,6 +10,10 @@
 
 ## 开发进度
 
+0.0.70: add: add homepage
+
+    1. 增加首页，提供更多帮助信息
+
 0.0.69: fix: fix file path in datasets.py
 
 0.0.68: fix: fix cookie in parameter

@@ -21,6 +21,13 @@ def get_template_path():
     return data_file_path.parent
 
 
+def get_homepage_html(file: str = "homepage.html") -> pathlib.Path:
+    """Get path to data "ths.js" text file."""
+    with resources.path("aktools.assets.html", file) as f:
+        data_file_path = f
+    return data_file_path
+
+
 def get_favicon_path(file: str = "favicon.ico"):
     with resources.path("aktools.assets.images", file) as f:
         data_file_path = f

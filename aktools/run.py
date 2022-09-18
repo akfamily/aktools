@@ -6,17 +6,19 @@ Desc: 主程序入口
 """
 import akshare
 import uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-
-from core import app_core
-from login import app_user_login
-
 from fastapi.responses import FileResponse
 
-from datasets import get_favicon_path
+from core import app_core
+from datasets import get_favicon_path, get_homepage_html
+from login import app_user_login
+from core.api import templates
+
 
 favicon_path = get_favicon_path(file="favicon.ico")
+html_path = get_homepage_html(file="homepage.html")
+
 
 app = FastAPI(
     title="欢迎来到为 AKShare 打造的 HTTP API 文档",
@@ -25,14 +27,26 @@ app = FastAPI(
 )
 
 
-@app.get('/favicon.ico')
-async def favicon():
+@app.get("/favicon.ico")
+async def favicon() -> FileResponse:
     return FileResponse(favicon_path)
 
-origins = ["*"]
+
+@app.get("/")
+async def get_homepage(request: Request):
+    return templates.TemplateResponse(
+        "homepage.html",
+        context={
+            "request": request,
+            "ip_address": request.headers["host"],
+        },
+    )
+
+
+origins = ["*"]  # 此处设置可以访问的协议，IP和端口信息
 
 app.add_middleware(
-    CORSMiddleware,  # 解决跨域问题
+    CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
