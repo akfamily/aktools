@@ -46,6 +46,12 @@ pip install aktools --upgrade -i https://pypi.org/simple  # AKTools's version sh
 1. just type the cmd/bash command: ```python -m aktools```
 2. then type ```http://127.0.0.1:8080/api/public/stock_zh_a_hist``` in your Chrome and you can get your data
 
+## Homepage
+
+AKTools set a simple homepage for user to provide simple reference information. When you set up your
+environment and deploy your local application, then you can type `http:127.0.0.1:8080` in your browser.
+We are developing more functions now, please pay more attention!
+
 ## Demo
 
 ### Test-Postman
