@@ -8,7 +8,7 @@
 
 ## [AKShare](https://github.com/akfamily/akshare) 的介绍
 
-[AKShare](https://github.com/akfamily/akshare) 是目前在开源财经数据接口库里面使用较广的 Python 库，目前已经累计下载量达到 20,000,000 + 次，从
+[AKShare](https://github.com/akfamily/akshare) 是目前在开源财经数据接口库里面使用较广的 Python 库，目前已经累计下载量达到 4,000,000 + 次，从
 发布至今一直由广大数据科学爱好者积极维护中，其提供的内容详实且丰富的 [AKShare 文档](https://www.akshare.xyz/) 大大提高了数据查找和使用的效率。
 
 ## [FastAPI](https://github.com/tiangolo/fastapi) 的介绍
@@ -26,13 +26,13 @@
 ### 一键安装
 
 ```shell
-pip install aktools  # 安装的版本需大于 0.0.45
+pip install aktools  # 安装的版本需大于 0.0.70
 ```
 
 如上述方法不能升级到最新版，请参照如下方法升级：
 
 ```shell
-pip install aktools --upgrade -i https://pypi.org/simple  # 安装的版本需大于 0.0.45
+pip install aktools --upgrade -i https://pypi.org/simple  # 安装的版本需大于 0.0.70
 ```
 
 ### 查看版本
@@ -50,19 +50,19 @@ print(at.__version__)
 
 ### 通过命令行启动
 
-在已经安装并测试成功的 Python 环境中打开命令行工具，如果 Windows 的 `cmd` 命令行工具，您只需要输入: ```python -m aktools```
+在已经安装并测试成功的 Python 环境中打开命令行工具，如果 Windows 的 `cmd` 命令行工具，您只需要输入: `python -m aktools`
 即可快速启动一个本地的 HTTP Server。
 
 ![](https://dss-1252952517.cos.ap-chengdu.myqcloud.com/image-20211213200528306.png)
 
-在您的控制台显示如上图信息时，您可以打开您的游览器，以 Chrome 游览器为例，您只需要在地址栏输入：```http://127.0.0.1:8080/api/public/stock_zh_a_hist```
+在您的控制台显示如上图信息时，您可以打开您的游览器，以 Chrome 游览器为例，您只需要在地址栏输入：`http://127.0.0.1:8080/api/public/stock_zh_a_hist`
 即可快速获取数据。
 
 ![](https://dss-1252952517.cos.ap-chengdu.myqcloud.com/image-20211213200841258.png)
 
 ### 指定参数设置
 
-您可以指定 HTTP Server 的主机和端口号：```python -m aktools --host 0.0.0.0 --port 8888```
+您可以指定 HTTP Server 的主机和端口号：`python -m aktools --host 0.0.0.0 --port 8888`
 即可通过 `--host` 和 `--port` 设置主机和端口。
 
 ![](https://dss-1252952517.cos.ap-chengdu.myqcloud.com/image-20211213200608910.png)
@@ -71,6 +71,19 @@ print(at.__version__)
 即可快速获取数据。
 
 ![](https://dss-1252952517.cos.ap-chengdu.myqcloud.com/image-20211213201556322.png)
+
+## 使用案例
+
+### 无参数接口
+
+对于不带参数的接口，比如 `ak.stock_comment_em()` 来获取 `东方财富网-数据中心-特色数据-千股千评` 的数据，则只需要访问：
+`http://127.0.0.1:8080/api/public/stock_comment_em` 地址即可访问到数据
+
+### 带参数接口
+
+对于带参数的接口，此处分为两种情况。此处以 `ak.stock_zh_a_hist()` 接口为例，如果直接访问：`http://127.0.0.1:8080/api/public/stock_zh_a_hist`
+则可以获取带默认参数的数据，如果需要为该接口指定参数，比如获取 `symbol="600000"` 的股票，则只需要访问：`http://127.0.0.1:8080/api/public/stock_zh_a_hist?symbol=600000` 即可。
+注意此处的 `?symbol=600000` 中都不带 `"` 号，如果需要同时指定多个参数，则只需要访问：`http://127.0.0.1:8080/api/public/stock_zh_a_hist?symbol=600000&period=weekly` 即可。
 
 ## 语言调用案例
 

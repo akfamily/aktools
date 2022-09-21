@@ -24,13 +24,13 @@ AKTools is a package of HTTP API for AKShare! It depends on AKShare and FastAPI.
 ## Installation
 
 ```shell
-pip install aktools  # AKTools's version should great than 0.0.68
+pip install aktools  # AKTools's version should great than 0.0.70
 ```
 
 or
 
 ```shell
-pip install aktools --upgrade -i https://pypi.org/simple  # AKTools's version should great than 0.0.68
+pip install aktools --upgrade -i https://pypi.org/simple  # AKTools's version should great than 0.0.70
 ```
 
 ## AKShare
@@ -43,8 +43,9 @@ pip install aktools --upgrade -i https://pypi.org/simple  # AKTools's version sh
 
 ## Fast Run
 
-1. just type the cmd/bash command: ```python -m aktools```
-2. then type ```http://127.0.0.1:8080/api/public/stock_zh_a_hist``` in your Chrome and you can get your data
+1. just type the cmd/bash command: `python -m aktools`
+2. then type `http://127.0.0.1:8080/api/public/stock_zh_a_hist` in your Chrome and you can fetch your data
+3. if you want to set parameter for API, then you just type like `http://127.0.0.1:8080/api/public/stock_zh_a_hist?symbol=600000`
 
 ## Homepage
 

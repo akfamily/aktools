@@ -73,8 +73,9 @@ Changelog
 0.0.68: fix: fix cookie in parameter
 0.0.69: fix: fix file path in datasets.py
 0.0.70: add: add homepage
+0.0.71: add: add more info to homepage
 """
 
 __title__ = "AKTools"
-__version__ = "0.0.70"
+__version__ = "0.0.71"
 __author__ = "AKFamily"
