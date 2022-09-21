@@ -77,7 +77,7 @@ print(at.__version__)
 ### 无参数接口
 
 对于不带参数的接口，比如 `ak.stock_comment_em()` 来获取 `东方财富网-数据中心-特色数据-千股千评` 的数据，则只需要访问：
-`http://127.0.0.1:8080/api/public/stock_comment_em` 地址即可访问到数据
+`http://127.0.0.1:8080/api/public/stock_comment_em` 地址即可访问到数据。
 
 ### 带参数接口
 

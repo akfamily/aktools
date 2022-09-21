@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 # /usr/bin/env python
 """
-Date: 2022/3/31 17:04
+Date: 2022/9/21 17:54
 Desc: AKTools 的 PYPI 基本信息文件
 """
 import re
@@ -39,8 +39,8 @@ setuptools.setup(
     url="https://github.com/akfamily/aktools",
     packages=setuptools.find_packages(),
     install_requires=[
-        "akshare>=1.6.95",
-        "fastapi>=0.78.0",
+        "akshare>=1.7.25",
+        "fastapi>=0.80.0",
         "uvicorn>=0.16.0",
         "python-multipart>=0.0.5",
         "jinja2>=3.1.2",
