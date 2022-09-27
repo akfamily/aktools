@@ -20,6 +20,7 @@ from aktools.core.api import app_core, templates
 from aktools.datasets import get_favicon_path, get_homepage_html
 from login import app_user_login
 from aktools.utils import get_latest_version
+from schema.version import VersionBase
 
 favicon_path = get_favicon_path(file="favicon.ico")
 html_path = get_homepage_html(file="homepage.html")
@@ -53,14 +54,20 @@ async def get_homepage(request: Request):
     )
 
 
-@app.get("/version", tags=["版本"], description="获取 AKTools 和 AKShare 的版本", summary="获取开源库版本")
+@app.get(
+    "/version",
+    tags=["版本"],
+    description="获取 AKTools 和 AKShare 的版本",
+    summary="获取开源库版本",
+    response_model=VersionBase,
+)
 async def get_version():
     return {
-            "ak_current_version": akshare.__version__,
-            "at_current_version": aktools.__version__,
-            "ak_latest_version": get_latest_version("akshare"),
-            "at_latest_version": get_latest_version("aktools"),
-        }
+        "ak_current_version": akshare.__version__,
+        "at_current_version": aktools.__version__,
+        "ak_latest_version": get_latest_version("akshare"),
+        "at_latest_version": get_latest_version("aktools"),
+    }
 
 
 origins = ["*"]  # 此处设置可以访问的协议，IP和端口信息
