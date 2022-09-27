@@ -7,8 +7,11 @@
 3. 增加接口状态码支持
 4. 增加接口用户认证
 5. 增加用户自定义数据接口功能
+6. 增加主页及增强命令行支持
 
 ## 开发进度
+
+0.0.75: add: add version interface
 
 0.0.74: add: add typer for CLI
 

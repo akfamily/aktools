@@ -77,8 +77,9 @@ Changelog
 0.0.72: add: add type hint for CLI
 0.0.73: fix: fix tips
 0.0.74: add: add typer for CLI
+0.0.75: add: add version interface
 """
 
 __title__ = "AKTools"
-__version__ = "0.0.74"
+__version__ = "0.0.75"
 __author__ = "AKFamily"

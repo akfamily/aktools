@@ -45,12 +45,22 @@ async def get_homepage(request: Request):
         context={
             "request": request,
             "ip_address": request.headers["host"],
-            "ak_version": akshare.__version__,
-            "at_version": aktools.__version__,
-            "ak_version_latest": get_latest_version("akshare"),
-            "at_version_latest": get_latest_version("aktools"),
+            "ak_current_version": akshare.__version__,
+            "at_current_version": aktools.__version__,
+            "ak_latest_version": get_latest_version("akshare"),
+            "at_latest_version": get_latest_version("aktools"),
         },
     )
+
+
+@app.get("/version", tags=["版本"], description="获取 AKTools 和 AKShare 的版本", summary="获取开源库版本")
+async def get_version():
+    return {
+            "ak_current_version": akshare.__version__,
+            "at_current_version": aktools.__version__,
+            "ak_latest_version": get_latest_version("akshare"),
+            "at_latest_version": get_latest_version("aktools"),
+        }
 
 
 origins = ["*"]  # 此处设置可以访问的协议，IP和端口信息
