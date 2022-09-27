@@ -10,12 +10,12 @@ import urllib.parse
 import akshare as ak
 from fastapi import APIRouter
 from fastapi import Depends, status
-from fastapi import Request, Response
+from fastapi import Request
 from fastapi.responses import JSONResponse, HTMLResponse
-
-from aktools.login.user_login import User, get_current_active_user
-from aktools.datasets import get_pyscript_html, get_template_path
 from fastapi.templating import Jinja2Templates
+
+from aktools.datasets import get_pyscript_html, get_template_path
+from aktools.login.user_login import User, get_current_active_user
 
 app_core = APIRouter()
 
@@ -108,7 +108,12 @@ def root(request: Request, item_id: str):
             },
         )
     if "cookie" in decode_params:
-        eval_str = decode_params.split("=", maxsplit=1)[0] + "='" + decode_params.split("=", maxsplit=1)[1] + "'"
+        eval_str = (
+            decode_params.split("=", maxsplit=1)[0]
+            + "='"
+            + decode_params.split("=", maxsplit=1)[1]
+            + "'"
+        )
         eval_str = eval_str.replace("+", " ")
     else:
         eval_str = decode_params.replace("&", '", ').replace("=", '="') + '"'

@@ -74,8 +74,9 @@ Changelog
 0.0.69: fix: fix file path in datasets.py
 0.0.70: add: add homepage
 0.0.71: add: add more info to homepage
+0.0.72: add: add type hint for cli
 """
 
 __title__ = "AKTools"
-__version__ = "0.0.71"
+__version__ = "0.0.72"
 __author__ = "AKFamily"
