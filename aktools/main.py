@@ -4,17 +4,22 @@
 Date: 2022/9/16 20:05
 Desc: 主程序入口
 """
+import os
+import sys
+
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
+
 import akshare
+import aktools
 import uvicorn
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 
-from core import app_core
-from datasets import get_favicon_path, get_homepage_html
+from aktools.core.api import app_core, templates
+from aktools.datasets import get_favicon_path, get_homepage_html
 from login import app_user_login
-from core.api import templates
-
+from aktools.utils import get_latest_version
 
 favicon_path = get_favicon_path(file="favicon.ico")
 html_path = get_homepage_html(file="homepage.html")
@@ -40,6 +45,10 @@ async def get_homepage(request: Request):
         context={
             "request": request,
             "ip_address": request.headers["host"],
+            "ak_version": akshare.__version__,
+            "at_version": aktools.__version__,
+            "ak_version_latest": get_latest_version("akshare"),
+            "at_version_latest": get_latest_version("aktools"),
         },
     )
 
@@ -58,4 +67,4 @@ app.include_router(app_core, prefix="/api", tags=["数据接口"])
 app.include_router(app_user_login, prefix="/auth", tags=["登录接口"])
 
 if __name__ == "__main__":
-    uvicorn.run("run:app", host="127.0.0.1", port=8080, reload=True, debug=True)
+    uvicorn.run("main:app", host="127.0.0.1", port=8080, reload=True, debug=True)

@@ -10,6 +10,14 @@
 
 ## 开发进度
 
+0.0.74: add: add typer for CLI
+
+0.0.73: fix: fix tips
+
+0.0.72: add: add type hint for cli
+
+0.0.71: add: add more info to homepage
+
 0.0.70: add: add homepage
 
     1. 增加首页，提供更多帮助信息
