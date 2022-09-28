@@ -11,6 +11,8 @@
 
 ## 开发进度
 
+0.0.76: fix: fix rename master to main
+
 0.0.75: add: add version interface
 
 0.0.74: add: add typer for CLI

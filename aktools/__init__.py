@@ -78,8 +78,9 @@ Changelog
 0.0.73: fix: fix tips
 0.0.74: add: add typer for CLI
 0.0.75: add: add version interface
+0.0.76: fix: fix rename master to main
 """
 
 __title__ = "AKTools"
-__version__ = "0.0.75"
+__version__ = "0.0.76"
 __author__ = "AKFamily"
