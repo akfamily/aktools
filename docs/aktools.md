@@ -25,13 +25,13 @@
 
 ### 一键安装
 
-```shell
+```sh
 pip install aktools  # 安装的版本需大于 0.0.70
 ```
 
 如上述方法不能升级到最新版，请参照如下方法升级：
 
-```shell
+```sh
 pip install aktools --upgrade -i https://pypi.org/simple  # 安装的版本需大于 0.0.70
 ```
 
@@ -91,7 +91,7 @@ print(at.__version__)
 
 #### 代码
 
-```shell
+```sh
 library(RCurl)  # 需要先安装该包
 library(jsonlite)  # 需要先安装该包
 options (warn = -1)  # 该行有助于在无参数请求时去掉 warning 信息
@@ -183,7 +183,7 @@ data % 由于 MATLAB 无法显示中文字段名，请自行修改为英文字�
 
 ### 下载镜像
 
-```shell
+```sh
 # docker pull registry.cn-shanghai.aliyuncs.com/akfamily/aktools:[AKShare 的版本号]
 docker pull registry.cn-shanghai.aliyuncs.com/akfamily/aktools:1.3.93
 ```
@@ -192,19 +192,19 @@ docker pull registry.cn-shanghai.aliyuncs.com/akfamily/aktools:1.3.93
 
 常规方式运行：
 
-```shell
+```sh
 docker run -p 8080:8080 registry.cn-shanghai.aliyuncs.com/akfamily/aktools:1.3.93 python -m aktools --host 0.0.0.0 --port 8080
 ```
 
 后台运行：
 
-```shell
+```sh
 docker run -di -p 8080:8080 registry.cn-shanghai.aliyuncs.com/akfamily/aktools:1.3.93 python -m aktools --host 0.0.0.0 --port 8080
 ```
 
 ### 本次访问
 
-```shell
+```sh
 http://127.0.0.1:8080/api/public/stock_zh_a_hist
 ```
 
