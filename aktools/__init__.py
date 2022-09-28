@@ -79,8 +79,9 @@ Changelog
 0.0.74: add: add typer for CLI
 0.0.75: add: add version interface
 0.0.76: fix: fix rename master to main
+0.0.77: add: add cli.py file
 """
 
 __title__ = "AKTools"
-__version__ = "0.0.76"
+__version__ = "0.0.77"
 __author__ = "AKFamily"
