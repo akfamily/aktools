@@ -45,9 +45,10 @@ def main(
 ) -> None:
     app_dir = Path(__file__).parent
     order_str = f"uvicorn main:app --host {host} --port {port} --app-dir {app_dir}"
+    print(f"请访问：http://{host}:{port}/version 来获取最新的库版本信息，确保使用最新版本的 AKShare 和 AKTools")
+    print(f"当前的 AKTools 版本为：{aktools.__version__}，AKShare 版本为：{ak.__version__}")
     print(f"点击打开 HTTP API 主页：http://{host}:{port}/")
     print(f"点击打开接口导览：http://{host}:{port}/docs")
-    print(f"当前的 AKTools 版本为：{aktools.__version__}，AKShare 版本为：{ak.__version__}")
     if auto:
         typer.launch(f"http://{host}:{port}/")
     run(order_str, shell=True)
