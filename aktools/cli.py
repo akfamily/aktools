@@ -12,17 +12,13 @@ import akshare as ak
 import typer
 
 import aktools
-from aktools.utils import get_latest_version
 
 app = typer.Typer()
 
 
 def version_callback(value: bool):
     if value:
-        print(
-            f"当前的 AKTools 版本为：{aktools.__version__}，AKShare 版本为：{ak.__version__} \n"
-            f"最新的 AKTools 版本为：{get_latest_version(package='aktools')}，AKShare 版本为：{get_latest_version(package='akshare')}"
-        )
+        typer.echo(f"{aktools.__title__} v{aktools.__version__}")
         raise typer.Exit()
 
 
@@ -44,10 +40,10 @@ def main(
 ) -> None:
     app_dir = Path(__file__).parent
     order_str = f"uvicorn main:app --host {host} --port {port} --app-dir {app_dir}"
-    print(f"请访问：http://{host}:{port}/version 来获取最新的库版本信息，确保使用最新版本的 AKShare 和 AKTools")
-    print(f"当前的 AKTools 版本为：{aktools.__version__}，AKShare 版本为：{ak.__version__}")
-    print(f"点击打开 HTTP API 主页：http://{host}:{port}/")
-    print(f"点击打开接口导览：http://{host}:{port}/docs")
+    typer.echo(f"请访问：http://{host}:{port}/version 来获取最新的库版本信息，确保使用最新版本的 AKShare 和 AKTools")
+    typer.echo(f"当前的 AKTools 版本为：{aktools.__version__}，AKShare 版本为：{ak.__version__}")
+    typer.echo(f"点击打开 HTTP API 主页：http://{host}:{port}/")
+    typer.echo(f"点击打开接口导览：http://{host}:{port}/docs")
     if auto:
         typer.launch(f"http://{host}:{port}/")
     run(order_str, shell=True)

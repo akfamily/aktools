@@ -80,8 +80,9 @@ Changelog
 0.0.75: add: add version interface
 0.0.76: fix: fix rename master to main
 0.0.77: add: add cli.py file
+0.0.78: add: add test_cli.py
 """
 
 __title__ = "AKTools"
-__version__ = "0.0.77"
+__version__ = "0.0.78"
 __author__ = "AKFamily"
