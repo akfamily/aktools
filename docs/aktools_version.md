@@ -12,6 +12,10 @@
 
 ## 开发进度
 
+0.0.78: add: add test_cli.py
+
+    1. 增加测试文件，增加项目的稳健型
+
 0.0.77: add: add cli.py file
 
 0.0.76: fix: fix rename master to main
