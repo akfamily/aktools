@@ -31,7 +31,7 @@ def root(
     此处由于 AKShare 的请求中是同步模式，所以这边在定义 root 函数中没有使用 asyncio 来定义，这样可以开启多线程访问
     :param request: 请求信息
     :type request: Request
-    :param item_id: 必选参数; 测试接口名 stock_dxsyl_em 来获取 打新收益率 数据
+    :param item_id: 必选参数; 测试接口名 ak.stock_dxsyl_em() 来获取 打新收益率 数据
     :type item_id: str
     :param current_user: 依赖注入，为了进行用户的登录验证
     :type current_user: str
