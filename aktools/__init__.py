@@ -81,8 +81,9 @@ Changelog
 0.0.76: fix: fix rename master to main
 0.0.77: add: add cli.py file
 0.0.78: add: add test_cli.py
+0.0.79: fix: fix typos in homepage.html
 """
 
 __title__ = "AKTools"
-__version__ = "0.0.78"
+__version__ = "0.0.79"
 __author__ = "AKFamily"

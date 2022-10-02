@@ -12,6 +12,8 @@
 
 ## 开发进度
 
+0.0.79: fix: fix typos in homepage.html
+
 0.0.78: add: add test_cli.py
 
     1. 增加测试文件，增加项目的稳健型
