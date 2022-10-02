@@ -26,5 +26,9 @@ def get_latest_version(package: str = "akshare") -> str:
     except requests.exceptions.ProxyError:
         return "0.0.0"
     soup = BeautifulSoup(r.text, "lxml")
-    version = soup.find("h1", attrs={"class": "package-header__name"}).text.strip().split(" ")[1]
+    version = (
+        soup.find("h1", attrs={"class": "package-header__name"})
+        .text.strip()
+        .split(" ")[1]
+    )
     return version
