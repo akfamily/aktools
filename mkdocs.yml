@@ -1,12 +1,40 @@
 site_name: AKTools 官方文档
-nav:
-    - AKTools 概览: index.md
-    - AKTools 文档: aktools.md
-    - AKTools 版本说明: aktools_version.md
+site_description: AKTools framework, high performance, easy to learn, fast to code, ready for production
+site_url: https://aktools.readthedocs.io/
 theme:
-    name: mkdocs
-    highlightjs: true
-    hljs_languages:
-        - yaml
-        - python
-    locale: zh_CN
+  name: material
+  logo: https://fastapi.tiangolo.com/img/icon-white.svg
+  favicon: https://fastapi.tiangolo.com/img/favicon.png
+  language: zh
+  features:
+    - content.code.annotate
+  palette:
+
+    # Palette toggle for light mode
+    - scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+repo_name: akfamily/aktools
+repo_url: https://github.com/akfamily/aktools
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+
+extra_css:
+  - 'css/termynal.css'
+  - 'css/custom.css'
+
+extra_javascript:
+  - 'js/termynal.js'
+  - 'js/custom.js'
