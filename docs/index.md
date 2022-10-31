@@ -10,15 +10,27 @@ AKTools is a package of HTTP API for AKShare! It depends on AKShare, FastAPI and
 
 ## Installation
 
-```shell
-pip install aktools  # AKTools's version should great than 0.0.45
+<div class="termy">
+
+```console
+$ pip install aktools  # AKTools's version should great than 0.0.80
+---> 100%
+Successfully started msscore
 ```
+
+</div>
 
 ## Upgrade
 
-```shell
-pip install aktools --upgrade -i https://pypi.org/simple  # AKTools's version should great than 0.0.45
+<div class="termy">
+
+```console
+$ pip install aktools --upgrade -i https://pypi.org/simple  # AKTools's version should great than 0.0.80
+---> 100%
+Successfully started msscore
 ```
+
+</div>
 
 ## AKShare
 
