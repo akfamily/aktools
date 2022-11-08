@@ -8,3 +8,6 @@ pytest
 pre-commit
 commitizen
 black
+alembic
+SQLAlchemy
+python-dotenv

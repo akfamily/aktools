@@ -13,6 +13,10 @@
 
 ## 开发进度
 
+0.0.81: add: add support for Python 3.11
+
+0.0.80: fix: fix uvicorn run command
+
 0.0.79: fix: fix typos in homepage.html
 
 0.0.78: add: add test_cli.py
