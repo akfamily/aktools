@@ -7,7 +7,7 @@ Desc: 数据库配置
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from msscore.config import get_local_settings
+from aktools.config import get_local_settings
 
 local_settings = get_local_settings()
 

@@ -84,8 +84,9 @@ Changelog
 0.0.79: fix: fix typos in homepage.html
 0.0.80: fix: fix uvicorn run command
 0.0.81: add: add support for Python 3.11
+0.0.82: fix: fix connection.py
 """
 
 __title__ = "AKTools"
-__version__ = "0.0.81"
+__version__ = "0.0.82"
 __author__ = "AKFamily"
