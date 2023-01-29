@@ -13,6 +13,8 @@
 
 ## 开发进度
 
+0.0.82: fix: fix connection.py
+
 0.0.81: add: add support for Python 3.11
 
 0.0.80: fix: fix uvicorn run command
