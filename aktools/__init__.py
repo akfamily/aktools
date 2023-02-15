@@ -85,8 +85,9 @@ Changelog
 0.0.80: fix: fix uvicorn run command
 0.0.81: add: add support for Python 3.11
 0.0.82: fix: fix connection.py
+0.0.83: fix: fix Dockerfile
 """
 
 __title__ = "AKTools"
-__version__ = "0.0.82"
+__version__ = "0.0.83"
 __author__ = "AKFamily"
