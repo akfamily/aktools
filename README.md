@@ -8,9 +8,9 @@
 [![aktools](https://img.shields.io/badge/Data%20Science-AKShare-green)](https://github.com/akfamily/aktools)
 [![Actions Status](https://github.com/akfamily/aktools/workflows/build/badge.svg)](https://github.com/akfamily/aktools/actions)
 [![MIT Licence](https://camo.githubusercontent.com/14a9abb7e83098f2949f26d2190e04fb1bd52c06/68747470733a2f2f626c61636b2e72656164746865646f63732e696f2f656e2f737461626c652f5f7374617469632f6c6963656e73652e737667)](https://github.com/akfamily/aktools/blob/master/LICENSE)
-[![](https://img.shields.io/github/forks/jindaxiang/aktools)](https://github.com/akfamily/aktools)
-[![](https://img.shields.io/github/stars/jindaxiang/aktools)](https://github.com/akfamily/aktools)
-[![](https://img.shields.io/github/issues/jindaxiang/aktools)](https://github.com/akfamily/aktools)
+[![](https://img.shields.io/github/forks/akfamily/aktools)](https://github.com/akfamily/aktools)
+[![](https://img.shields.io/github/stars/akfamily/aktools)](https://github.com/akfamily/aktools)
+[![](https://img.shields.io/github/issues/akfamily/aktools)](https://github.com/akfamily/aktools)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
 # AKTools
