@@ -26,13 +26,13 @@
 ### 一键安装
 
 ```sh
-pip install aktools  # 安装的版本需大于 0.0.70
+pip install aktools  # 安装的版本需大于 0.0.81
 ```
 
 如上述方法不能升级到最新版，请参照如下方法升级：
 
 ```sh
-pip install aktools --upgrade -i https://pypi.org/simple  # 安装的版本需大于 0.0.70
+pip install aktools --upgrade -i https://pypi.org/simple  # 安装的版本需大于 0.0.81
 ```
 
 ### 查看版本
@@ -185,7 +185,7 @@ data % 由于 MATLAB 无法显示中文字段名，请自行修改为英文字�
 
 ```sh
 # docker pull registry.cn-shanghai.aliyuncs.com/akfamily/aktools:[AKShare 的版本号]
-docker pull registry.cn-shanghai.aliyuncs.com/akfamily/aktools:1.3.93
+docker pull registry.cn-shanghai.aliyuncs.com/akfamily/aktools:1.8.95
 ```
 
 ### 启动镜像
@@ -197,13 +197,13 @@ docker pull registry.cn-shanghai.aliyuncs.com/akfamily/aktools:1.3.93
 常规方式运行：
 
 ```sh
-docker run -p 8080:8080 registry.cn-shanghai.aliyuncs.com/akfamily/aktools:1.3.93
+docker run -p 8080:8080 registry.cn-shanghai.aliyuncs.com/akfamily/aktools:1.8.95
 ```
 
 后台运行：
 
 ```sh
-docker run -d -p 8080:8080 registry.cn-shanghai.aliyuncs.com/akfamily/aktools:1.3.93
+docker run -d -p 8080:8080 registry.cn-shanghai.aliyuncs.com/akfamily/aktools:1.8.95
 ```
 
 #### 普通模式
@@ -211,13 +211,13 @@ docker run -d -p 8080:8080 registry.cn-shanghai.aliyuncs.com/akfamily/aktools:1.
 常规方式运行：
 
 ```sh
-docker run -p 8080:8080 registry.cn-shanghai.aliyuncs.com/akfamily/aktools:1.3.93 python -m aktools --host 0.0.0.0 --port 8080
+docker run -p 8080:8080 registry.cn-shanghai.aliyuncs.com/akfamily/aktools:1.8.95 python -m aktools --host 0.0.0.0 --port 8080
 ```
 
 后台运行：
 
 ```sh
-docker run -d -p 8080:8080 registry.cn-shanghai.aliyuncs.com/akfamily/aktools:1.3.93 python -m aktools --host 0.0.0.0 --port 8080
+docker run -d -p 8080:8080 registry.cn-shanghai.aliyuncs.com/akfamily/aktools:1.8.95 python -m aktools --host 0.0.0.0 --port 8080
 ```
 
 ### 本次访问
@@ -230,13 +230,13 @@ http://127.0.0.1:8080/api/public/stock_zh_a_hist
 
 **目前通过 `docker pull registry.cn-shanghai.aliyuncs.com/akfamily/aktools:[AKShare 的版本号]` 拉取的镜像已经默认安装最新的 AKShare [AKShare 的版本号] 版本**，以下步骤仅供参考：
 
-1. 重新打镜像标签：`docker tag registry.cn-shanghai.aliyuncs.com/akfamily/aktools:1.3.93 ak_tools:1.3.93`
-2. 启动镜像并进入命令行模型：`docker run -it ak_tools:1.3.93 /bin/bash` 
+1. 重新打镜像标签：`docker tag registry.cn-shanghai.aliyuncs.com/akfamily/aktools:1.8.95 ak_tools:1.8.95`
+2. 启动镜像并进入命令行模型：`docker run -it ak_tools:1.8.95 /bin/bash` 
 3. 升级 [AKShare](https://github.com/akfamily/akshare) 到最新版：`pip install akshare --upgrade -i https://pypi.org/simple`
 4. 退出镜像：`exit`
 5. 找到容器 ID：`docker ps -a`
-6. 提交修改：`docker commit -m "update akshare to latest" a07c8632637f ak_tools:1.3.94` 其中 `a07c8632637f` 为第 5 步骤中的容器 ID，`ak_tools:1.3.94` 为新镜像的名字和版本
-7. 利用构建好的新镜像启动新容器：`docker run -p 8080:8080 ak_tools:1.3.94`
+6. 提交修改：`docker commit -m "update akshare to latest" a07c8632637f ak_tools:1.8.96` 其中 `a07c8632637f` 为第 5 步骤中的容器 ID，`ak_tools:1.8.96` 为新镜像的名字和版本
+7. 利用构建好的新镜像启动新容器：`docker run -p 8080:8080 ak_tools:1.3.96`
 
 ### 本地构造镜像及使用
 
