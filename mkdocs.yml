@@ -1,6 +1,6 @@
 site_name: AKTools 官方文档
 site_description: AKTools framework, high performance, easy to learn, fast to code, ready for production
-site_url: https://aktools.readthedocs.io/
+site_url: https://aktools.akfamily.xyz/
 theme:
   name: material
   logo: https://fastapi.tiangolo.com/img/icon-white.svg
@@ -9,13 +9,11 @@ theme:
   features:
     - content.code.annotate
   palette:
-
     # Palette toggle for light mode
     - scheme: default
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
-
     # Palette toggle for dark mode
     - scheme: slate
       toggle:
