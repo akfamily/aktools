@@ -34,7 +34,7 @@ Successfully upgraded aktools
 
 ## AKShare
 
-[Please visit AKShare's Documentation](https://akshare.xyz/)
+[Please visit AKShare's Documentation](https://akshare.akfamily.xyz/)
 
 ## FastAPI
 

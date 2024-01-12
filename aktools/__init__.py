@@ -86,8 +86,9 @@ Changelog
 0.0.81: add: add support for Python 3.11
 0.0.82: fix: fix connection.py
 0.0.83: fix: fix Dockerfile
+0.0.84: fix: fix homepage url
 """
 
 __title__ = "AKTools"
-__version__ = "0.0.83"
+__version__ = "0.0.84"
 __author__ = "AKFamily"
