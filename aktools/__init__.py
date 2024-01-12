@@ -87,8 +87,9 @@ Changelog
 0.0.82: fix: fix connection.py
 0.0.83: fix: fix Dockerfile
 0.0.84: fix: fix homepage url
+0.0.85: fix: update python version
 """
 
 __title__ = "AKTools"
-__version__ = "0.0.84"
+__version__ = "0.0.85"
 __author__ = "AKFamily"

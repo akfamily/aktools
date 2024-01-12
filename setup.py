@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 # /usr/bin/env python
 """
-Date: 2022/9/28 17:20
+Date: 2024/1/13 23:20
 Desc: AKTools 的 PYPI 基本信息文件
 """
 import re
@@ -31,7 +31,7 @@ setuptools.setup(
     name="aktools",
     version=get_version_string(),
     author="AKFamily",
-    author_email="akfamily.aktools@gmail.com",
+    author_email="albertandking@gmail.com",
     license="MIT",
     description="AKTools is a tool for AKShare HTTP API!",
     long_description=long_description,
@@ -64,13 +64,13 @@ setuptools.setup(
         "algotrading",
     ],
     classifiers=[
-        "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    python_requires=">=3.7",
+    python_requires=">=3.8",
 )
