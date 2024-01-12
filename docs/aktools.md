@@ -9,7 +9,7 @@
 ## [AKShare](https://github.com/akfamily/akshare) 的介绍
 
 [AKShare](https://github.com/akfamily/akshare) 是目前在开源财经数据接口库里面使用较广的 Python 库，目前已经累计下载量达到 4,000,000 + 次，从
-发布至今一直由广大数据科学爱好者积极维护中，其提供的内容详实且丰富的 [AKShare 文档](https://www.akshare.xyz/) 大大提高了数据查找和使用的效率。
+发布至今一直由广大数据科学爱好者积极维护中，其提供的内容详实且丰富的 [AKShare 文档](https://akshare.akfamily.xyz/) 大大提高了数据查找和使用的效率。
 
 ## [FastAPI](https://github.com/tiangolo/fastapi) 的介绍
 
@@ -21,7 +21,7 @@
 ### 安装要求
 
 由于 AKTools 是基于 [AKShare](https://github.com/akfamily/akshare) 和 [FastAPI](https://github.com/tiangolo/fastapi) 的，所以 [AKTools](https://github.com/akfamily/aktools)
-要求您的 Python 版本高于 Python 3.7(64 位) 且您的操作系统必须是 64 位的操作系统，详细要求以 [AKShare 安装指导](https://www.akshare.xyz/installation.html) 的安装要求为准。
+要求您的 Python 版本高于 Python 3.7(64 位) 且您的操作系统必须是 64 位的操作系统，详细要求以 [AKShare 安装指导](https://akshare.akfamily.xyz/installation.html) 的安装要求为准。
 
 ### 一键安装
 

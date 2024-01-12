@@ -37,7 +37,7 @@ pip install aktools --upgrade -i https://pypi.org/simple  # AKTools's version sh
 
 ## AKShare
 
-[Please visit AKShare's Documentation](https://akshare.xyz/)
+[Please visit AKShare's Documentation](https://akshare.akfamily.xyz/)
 
 ## FastAPI
 

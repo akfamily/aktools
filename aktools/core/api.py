@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 # /usr/bin/env python
 """
-Date: 2022/2/22 16:05
+Date: 2024/1/12 22:05
 Desc: HTTP 模式主文件
 """
 import json
@@ -22,9 +22,9 @@ app_core = APIRouter()
 
 @app_core.get("/private/{item_id}", description="私人接口", summary="该接口主要提供私密访问来获取数据")
 def root(
-    request: Request,
-    item_id: str,
-    current_user: User = Depends(get_current_active_user),
+        request: Request,
+        item_id: str,
+        current_user: User = Depends(get_current_active_user),
 ):
     """
     接收请求参数及接口名称并返回 JSON 数据
@@ -45,7 +45,7 @@ def root(
         return JSONResponse(
             status_code=status.HTTP_404_NOT_FOUND,
             content={
-                "error": "未找到该接口，请升级 AKShare 到最新版本并在文档中确认该接口的使用方式：https://www.akshare.xyz"
+                "error": "未找到该接口，请升级 AKShare 到最新版本并在文档中确认该接口的使用方式：https://akshare.akfamily.xyz"
             },
         )
     eval_str = decode_params.replace("&", '", ').replace("=", '="') + '"'
@@ -55,14 +55,14 @@ def root(
             if received_df is None:
                 return JSONResponse(
                     status_code=status.HTTP_404_NOT_FOUND,
-                    content={"error": "该接口返回数据为空，请确认参数是否正确：https://www.akshare.xyz"},
+                    content={"error": "该接口返回数据为空，请确认参数是否正确：https://akshare.akfamily.xyz"},
                 )
             temp_df = received_df.to_json(orient="records", date_format="iso")
         except KeyError as e:
             return JSONResponse(
                 status_code=status.HTTP_404_NOT_FOUND,
                 content={
-                    "error": f"请输入正确的参数错误 {e}，请升级 AKShare 到最新版本并在文档中确认该接口的使用方式：https://www.akshare.xyz"
+                    "error": f"请输入正确的参数错误 {e}，请升级 AKShare 到最新版本并在文档中确认该接口的使用方式：https://akshare.akfamily.xyz"
                 },
             )
         return JSONResponse(status_code=status.HTTP_200_OK, content=json.loads(temp_df))
@@ -72,14 +72,14 @@ def root(
             if received_df is None:
                 return JSONResponse(
                     status_code=status.HTTP_404_NOT_FOUND,
-                    content={"error": "该接口返回数据为空，请确认参数是否正确：https://www.akshare.xyz"},
+                    content={"error": "该接口返回数据为空，请确认参数是否正确：https://akshare.akfamily.xyz"},
                 )
             temp_df = received_df.to_json(orient="records", date_format="iso")
         except KeyError as e:
             return JSONResponse(
                 status_code=status.HTTP_404_NOT_FOUND,
                 content={
-                    "error": f"请输入正确的参数错误 {e}，请升级 AKShare 到最新版本并在文档中确认该接口的使用方式：https://www.akshare.xyz"
+                    "error": f"请输入正确的参数错误 {e}，请升级 AKShare 到最新版本并在文档中确认该接口的使用方式：https://akshare.akfamily.xyz"
                 },
             )
         return JSONResponse(status_code=status.HTTP_200_OK, content=json.loads(temp_df))
@@ -104,15 +104,15 @@ def root(request: Request, item_id: str):
         return JSONResponse(
             status_code=status.HTTP_404_NOT_FOUND,
             content={
-                "error": "未找到该接口，请升级 AKShare 到最新版本并在文档中确认该接口的使用方式：https://www.akshare.xyz"
+                "error": "未找到该接口，请升级 AKShare 到最新版本并在文档中确认该接口的使用方式：https://akshare.akfamily.xyz"
             },
         )
     if "cookie" in decode_params:
         eval_str = (
-            decode_params.split("=", maxsplit=1)[0]
-            + "='"
-            + decode_params.split("=", maxsplit=1)[1]
-            + "'"
+                decode_params.split("=", maxsplit=1)[0]
+                + "='"
+                + decode_params.split("=", maxsplit=1)[1]
+                + "'"
         )
         eval_str = eval_str.replace("+", " ")
     else:
@@ -124,14 +124,14 @@ def root(request: Request, item_id: str):
             if received_df is None:
                 return JSONResponse(
                     status_code=status.HTTP_404_NOT_FOUND,
-                    content={"error": "该接口返回数据为空，请确认参数是否正确：https://www.akshare.xyz"},
+                    content={"error": "该接口返回数据为空，请确认参数是否正确：https://akshare.akfamily.xyz"},
                 )
             temp_df = received_df.to_json(orient="records", date_format="iso")
         except KeyError as e:
             return JSONResponse(
                 status_code=status.HTTP_404_NOT_FOUND,
                 content={
-                    "error": f"请输入正确的参数错误 {e}，请升级 AKShare 到最新版本并在文档中确认该接口的使用方式：https://www.akshare.xyz"
+                    "error": f"请输入正确的参数错误 {e}，请升级 AKShare 到最新版本并在文档中确认该接口的使用方式：https://akshare.akfamily.xyz"
                 },
             )
         return JSONResponse(status_code=status.HTTP_200_OK, content=json.loads(temp_df))
@@ -141,14 +141,14 @@ def root(request: Request, item_id: str):
             if received_df is None:
                 return JSONResponse(
                     status_code=status.HTTP_404_NOT_FOUND,
-                    content={"error": "该接口返回数据为空，请确认参数是否正确：https://www.akshare.xyz"},
+                    content={"error": "该接口返回数据为空，请确认参数是否正确：https://akshare.akfamily.xyz"},
                 )
             temp_df = received_df.to_json(orient="records", date_format="iso")
         except KeyError as e:
             return JSONResponse(
                 status_code=status.HTTP_404_NOT_FOUND,
                 content={
-                    "error": f"请输入正确的参数错误 {e}，请升级 AKShare 到最新版本并在文档中确认该接口的使用方式：https://www.akshare.xyz"
+                    "error": f"请输入正确的参数错误 {e}，请升级 AKShare 到最新版本并在文档中确认该接口的使用方式：https://akshare.akfamily.xyz"
                 },
             )
         return JSONResponse(status_code=status.HTTP_200_OK, content=json.loads(temp_df))
