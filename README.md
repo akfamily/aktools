@@ -7,7 +7,7 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![aktools](https://img.shields.io/badge/Data%20Science-AKShare-green)](https://github.com/akfamily/aktools)
 [![Actions Status](https://github.com/akfamily/aktools/workflows/build/badge.svg)](https://github.com/akfamily/aktools/actions)
-[![MIT Licence](https://camo.githubusercontent.com/14a9abb7e83098f2949f26d2190e04fb1bd52c06/68747470733a2f2f626c61636b2e72656164746865646f63732e696f2f656e2f737461626c652f5f7374617469632f6c6963656e73652e737667)](https://github.com/akfamily/aktools/blob/master/LICENSE)
+[![MIT Licence](https://img.shields.io/badge/license-MIT-blue)](https://github.com/akfamily/aktools/blob/master/LICENSE)
 [![](https://img.shields.io/github/forks/akfamily/aktools)](https://github.com/akfamily/aktools)
 [![](https://img.shields.io/github/stars/akfamily/aktools)](https://github.com/akfamily/aktools)
 [![](https://img.shields.io/github/issues/akfamily/aktools)](https://github.com/akfamily/aktools)
