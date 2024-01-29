@@ -36,7 +36,7 @@ app = FastAPI(
 
 
 @app.get(
-    "/favicon.ico", include_in_schema=False, description="获取 ico 的路径", summary="ico 的路径"
+    path="/favicon.ico", include_in_schema=False, description="获取 ico 的路径", summary="ico 的路径"
 )
 async def favicon() -> FileResponse:
     """
@@ -48,7 +48,7 @@ async def favicon() -> FileResponse:
     return FileResponse(favicon_path)
 
 
-@app.get("/", tags=["主页"], description="主要展示网站首页", summary="网站首页")
+@app.get(path="/", tags=["主页"], description="主要展示网站首页", summary="网站首页")
 async def get_homepage(request: Request):
     return templates.TemplateResponse(
         "homepage.html",  # 此处的 homepage.html 可以自定义，主要采用 jinja2 模版
@@ -64,7 +64,7 @@ async def get_homepage(request: Request):
 
 
 @app.get(
-    "/version",
+    path="/version",
     tags=["版本"],
     description="获取 AKTools 和 AKShare 的版本",
     summary="获取开源库版本",
@@ -82,7 +82,7 @@ async def get_version():
 origins = ["*"]  # 此处设置可以访问的协议，IP和端口信息
 
 app.add_middleware(
-    CORSMiddleware,
+    middleware_class=CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
@@ -93,4 +93,4 @@ app.include_router(app_core, prefix="/api", tags=["数据接口"])
 app.include_router(app_user_login, prefix="/auth", tags=["登录接口"])
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="127.0.0.1", port=8080, debug=True)
+    uvicorn.run(app="main:app", host="127.0.0.1", port=8080)
