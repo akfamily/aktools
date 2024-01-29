@@ -20,9 +20,9 @@ def get_version_string() -> str:
     :return: version number
     :rtype: str
     """
-    with open("aktools/__init__.py", "rb") as f:
+    with open("aktools/__init__.py", "rb") as file:
         version_line = re.search(
-            r"__version__\s+=\s+(.*)", f.read().decode("utf-8")
+            r"__version__\s+=\s+(.*)", file.read().decode("utf-8")
         ).group(1)
         return str(ast.literal_eval(version_line))
 

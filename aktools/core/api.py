@@ -5,7 +5,9 @@ Date: 2024/1/12 22:05
 Desc: HTTP 模式主文件
 """
 import json
+import logging
 import urllib.parse
+from logging.handlers import TimedRotatingFileHandler
 
 import akshare as ak
 from fastapi import APIRouter
@@ -18,6 +20,21 @@ from aktools.datasets import get_pyscript_html, get_template_path
 from aktools.login.user_login import User, get_current_active_user
 
 app_core = APIRouter()
+
+# 创建一个日志记录器
+logger = logging.getLogger(name='MyLogger')
+logger.setLevel(logging.INFO)
+
+# 创建一个TimedRotatingFileHandler来进行日志轮转
+handler = TimedRotatingFileHandler(
+    filename='aktools_log.log', when='midnight', interval=1, backupCount=7, encoding='utf-8'
+)
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+handler.setFormatter(formatter)
+logger.addHandler(handler)
+
+# 使用日志记录器记录信息
+logger.info('这是一个信息级别的日志消息')
 
 
 @app_core.get("/private/{item_id}", description="私人接口", summary="该接口主要提供私密访问来获取数据")
@@ -85,7 +102,7 @@ def root(
         return JSONResponse(status_code=status.HTTP_200_OK, content=json.loads(temp_df))
 
 
-@app_core.get("/public/{item_id}", description="公开接口", summary="该接口主要提供公开访问来获取数据")
+@app_core.get(path="/public/{item_id}", description="公开接口", summary="该接口主要提供公开访问来获取数据")
 def root(request: Request, item_id: str):
     """
     接收请求参数及接口名称并返回 JSON 数据
@@ -101,6 +118,7 @@ def root(request: Request, item_id: str):
     decode_params = urllib.parse.unquote(str(request.query_params))
     # print(decode_params)
     if item_id not in interface_list:
+        logger.info("未找到该接口，请升级 AKShare 到最新版本并在文档中确认该接口的使用方式：https://akshare.akfamily.xyz")
         return JSONResponse(
             status_code=status.HTTP_404_NOT_FOUND,
             content={
@@ -122,35 +140,43 @@ def root(request: Request, item_id: str):
         try:
             received_df = eval("ak." + item_id + f"()")
             if received_df is None:
+                logger.info("该接口返回数据为空，请确认参数是否正确：https://akshare.akfamily.xyz")
                 return JSONResponse(
                     status_code=status.HTTP_404_NOT_FOUND,
                     content={"error": "该接口返回数据为空，请确认参数是否正确：https://akshare.akfamily.xyz"},
                 )
             temp_df = received_df.to_json(orient="records", date_format="iso")
         except KeyError as e:
+            logger.info(
+                f"请输入正确的参数错误 {e}，请升级 AKShare 到最新版本并在文档中确认该接口的使用方式：https://akshare.akfamily.xyz")
             return JSONResponse(
                 status_code=status.HTTP_404_NOT_FOUND,
                 content={
                     "error": f"请输入正确的参数错误 {e}，请升级 AKShare 到最新版本并在文档中确认该接口的使用方式：https://akshare.akfamily.xyz"
                 },
             )
+        logger.info(f"获取到 {item_id} 的数据")
         return JSONResponse(status_code=status.HTTP_200_OK, content=json.loads(temp_df))
     else:
         try:
             received_df = eval("ak." + item_id + f"({eval_str})")
             if received_df is None:
+                logger.info(f"该接口返回数据为空，请确认参数是否正确：https://akshare.akfamily.xyz")
                 return JSONResponse(
                     status_code=status.HTTP_404_NOT_FOUND,
                     content={"error": "该接口返回数据为空，请确认参数是否正确：https://akshare.akfamily.xyz"},
                 )
             temp_df = received_df.to_json(orient="records", date_format="iso")
         except KeyError as e:
+            logger.info(
+                f"请输入正确的参数错误 {e}，请升级 AKShare 到最新版本并在文档中确认该接口的使用方式：https://akshare.akfamily.xyz")
             return JSONResponse(
                 status_code=status.HTTP_404_NOT_FOUND,
                 content={
                     "error": f"请输入正确的参数错误 {e}，请升级 AKShare 到最新版本并在文档中确认该接口的使用方式：https://akshare.akfamily.xyz"
                 },
             )
+        logger.info(f"获取到 {item_id} 的数据")
         return JSONResponse(status_code=status.HTTP_200_OK, content=json.loads(temp_df))
 
 
@@ -166,7 +192,7 @@ templates = Jinja2Templates(directory=short_path)
 
 
 @app_core.get(
-    "/show-temp/{interface}",
+    path="/show-temp/{interface}",
     response_class=HTMLResponse,
     description="展示 PyScript",
     summary="该接口主要展示 PyScript 游览器运行 Python 代码",
@@ -183,7 +209,7 @@ def akscript_temp(request: Request, interface: str):
 
 
 @app_core.get(
-    "/show",
+    path="/show",
     response_class=HTMLResponse,
     description="展示 PyScript",
     summary="该接口主要展示 PyScript 游览器运行 Python 代码",
