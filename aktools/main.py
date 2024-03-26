@@ -19,9 +19,9 @@ from fastapi.responses import FileResponse
 
 from aktools.core.api import app_core, templates
 from aktools.datasets import get_favicon_path, get_homepage_html
-from login import app_user_login
+from aktools.login import app_user_login
 from aktools.utils import get_latest_version
-from schema.version import VersionBase
+from aktools.schema.version import VersionBase
 
 favicon_path = get_favicon_path(file="favicon.ico")
 html_path = get_homepage_html(file="homepage.html")
