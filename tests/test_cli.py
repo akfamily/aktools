@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 # !/usr/bin/env python
 """
-Date: 2022/9/29 15:05
+Date: 2024/3/26 15:05
 Desc: CLI 测试文件
 运行 `python -m pytest tests/test_cli.py` 进行测试
 """
