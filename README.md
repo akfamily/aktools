@@ -127,7 +127,7 @@ api = 'http://127.0.0.1:8080/api/public/';
 url = [api 'stock_zh_a_hist'];
 options = weboptions('ContentType','json', 'CharacterEncoding', 'utf-8');
 data = webread(url, options, symbol = '000001', period = 'daily', start_date = '20211109', end_date = '20211209', adjust = 'hfq');
-data % 由于 MATLAB 无法显示中文字段名，请自行修改为英文字段，参考链接：http://iso2mesh.sourceforge.net/cgi-bin/index.cgi?jsonlab/Doc/Examples
+data % 由于 MATLAB 无法显示中文字段名，请自行修改为英文字段，参考链接：https://iso2mesh.sourceforge.net/cgi-bin/index.cgi?jsonlab/Doc/Examples
 ```
 
 MATLAB-Result
