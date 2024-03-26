@@ -22,7 +22,7 @@ from aktools.login.user_login import User, get_current_active_user
 app_core = APIRouter()
 
 # 创建一个日志记录器
-logger = logging.getLogger(name='MyLogger')
+logger = logging.getLogger(name='AKToolsLog')
 logger.setLevel(logging.INFO)
 
 # 创建一个TimedRotatingFileHandler来进行日志轮转
@@ -127,9 +127,9 @@ def root(request: Request, item_id: str):
         )
     if "cookie" in decode_params:
         eval_str = (
-                decode_params.split("=", maxsplit=1)[0]
+                decode_params.split(sep="=", maxsplit=1)[0]
                 + "='"
-                + decode_params.split("=", maxsplit=1)[1]
+                + decode_params.split(sep="=", maxsplit=1)[1]
                 + "'"
         )
         eval_str = eval_str.replace("+", " ")
