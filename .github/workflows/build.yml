@@ -6,7 +6,7 @@ on:
       - develop
   pull_request:
     branches:
-      - master
+      - main
       - develop
 
 jobs:
@@ -15,7 +15,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        python-version: ["3.11"]
+        python-version: ["3.12"]
 
     steps:
     - uses: actions/checkout@v2
