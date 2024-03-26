@@ -1,17 +1,10 @@
 *.bak
-
 *.pyc
-
 *.xml
-
 *.tar.gz
-
 *.iml
-
 *.zip
-
 *.icls
-
 /_windows/
 
 /codestyles/
@@ -24,6 +17,7 @@ colors
 
 # IDE
 .idea/
+.env
 
 # jupyter
 .ipynb_checkpoints
