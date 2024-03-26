@@ -13,7 +13,7 @@ AKTools is a package of HTTP API for AKShare! It depends on AKShare, FastAPI and
 <div class="termy">
 
 ```console
-$ pip install aktools  # AKTools's version should great than 0.0.80
+$ pip install aktools  # AKTools's version should great than 0.0.86
 ---> 100%
 Successfully installed aktools
 ```
@@ -25,7 +25,7 @@ Successfully installed aktools
 <div class="termy">
 
 ```console
-$ pip install aktools --upgrade -i https://pypi.org/simple  # AKTools's version should great than 0.0.80
+$ pip install aktools --upgrade -i https://pypi.org/simple  # AKTools's version should great than 0.0.86
 ---> 100%
 Successfully upgraded aktools
 ```
