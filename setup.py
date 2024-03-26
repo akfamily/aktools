@@ -39,10 +39,10 @@ setuptools.setup(
     url="https://github.com/akfamily/aktools",
     packages=setuptools.find_packages(),
     install_requires=[
-        "akshare>=1.7.25",
-        "fastapi>=0.80.0",
+        "akshare>=1.13.7",
+        "fastapi>=0.110.0",
         "uvicorn>=0.16.0",
-        "python-multipart>=0.0.5",
+        "python-multipart>=0.0.9",
         "jinja2>=3.1.2",
         "typer[all]>=0.6.1",
     ],
