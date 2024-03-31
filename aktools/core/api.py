@@ -68,7 +68,7 @@ def root(
     eval_str = decode_params.replace("&", '", ').replace("=", '="') + '"'
     if not bool(request.query_params):
         try:
-            received_df = eval("ak." + item_id + f"()")
+            received_df = eval("ak." + item_id + "()")
             if received_df is None:
                 return JSONResponse(
                     status_code=status.HTTP_404_NOT_FOUND,
@@ -138,7 +138,7 @@ def root(request: Request, item_id: str):
         eval_str = eval_str.replace("+", " ")  # 处理传递的参数中带空格的情况
     if not bool(request.query_params):
         try:
-            received_df = eval("ak." + item_id + f"()")
+            received_df = eval("ak." + item_id + "()")
             if received_df is None:
                 logger.info("该接口返回数据为空，请确认参数是否正确：https://akshare.akfamily.xyz")
                 return JSONResponse(
@@ -161,7 +161,7 @@ def root(request: Request, item_id: str):
         try:
             received_df = eval("ak." + item_id + f"({eval_str})")
             if received_df is None:
-                logger.info(f"该接口返回数据为空，请确认参数是否正确：https://akshare.akfamily.xyz")
+                logger.info("该接口返回数据为空，请确认参数是否正确：https://akshare.akfamily.xyz")
                 return JSONResponse(
                     status_code=status.HTTP_404_NOT_FOUND,
                     content={"error": "该接口返回数据为空，请确认参数是否正确：https://akshare.akfamily.xyz"},
