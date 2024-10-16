@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 # /usr/bin/env python
 """
-Date: 2024/1/13 23:20
+Date: 2024/10/16 23:20
 Desc: AKTools 的 PYPI 基本信息文件
 """
 import re
@@ -22,7 +22,7 @@ def get_version_string() -> str:
     """
     with open("aktools/__init__.py", "rb") as file:
         version_line = re.search(
-            r"__version__\s+=\s+(.*)", file.read().decode("utf-8")
+            pattern=r"__version__\s+=\s+(.*)", string=file.read().decode("utf-8")
         ).group(1)
         return str(ast.literal_eval(version_line))
 
@@ -39,7 +39,7 @@ setuptools.setup(
     url="https://github.com/akfamily/aktools",
     packages=setuptools.find_packages(),
     install_requires=[
-        "akshare>=1.13.7",
+        "akshare>=1.14.96",
         "fastapi>=0.110.0",
         "uvicorn>=0.16.0",
         "python-multipart>=0.0.9",
@@ -69,6 +69,7 @@ setuptools.setup(
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
         "Programming Language :: Python :: 3.12",
+        "Programming Language :: Python :: 3.13",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
