@@ -226,7 +226,7 @@ fn main() {
 }
 ```
 
-MATLAB-Result
+Rust-Result
 
 ```shell
 Array [
