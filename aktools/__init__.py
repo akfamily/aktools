@@ -89,8 +89,9 @@ Changelog
 0.0.84: fix: fix homepage url
 0.0.85: fix: update python version
 0.0.86: add: add log function
+0.0.87: fix: fix update python 3.13
 """
 
 __title__ = "AKTools"
-__version__ = "0.0.86"
+__version__ = "0.0.87"
 __author__ = "AKFamily"
