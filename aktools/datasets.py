@@ -4,8 +4,8 @@
 Date: 2022/5/9 18:08
 Desc: 导入文件工具，可以正确处理路径问题
 """
-from importlib import resources
 import pathlib
+from importlib import resources
 
 
 def get_pyscript_html(file: str = "akscript.html") -> pathlib.Path:
