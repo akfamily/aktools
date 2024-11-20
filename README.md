@@ -1,4 +1,5 @@
-**《AKShare-初阶-使用教学》视频课程已经上线，本课程手把手讲解 AKShare 和 AKTools 的环境配置和安装使用，还包含了众多衍生知识，[详情点击链接](https://zmj.xet.tech/s/wck86)! Tips：加入 AKShare VIP 答疑群可以免费获取该视频课程。**
+**《AKShare-初阶-使用教学》视频课程已经上线，本课程手把手讲解 AKShare 和 AKTools 的环境配置和安装使用，还包含了众多衍生知识，[详情点击链接](https://zmj.xet.tech/s/wck86)!
+Tips：加入 AKShare VIP 答疑群可以免费获取该视频课程。**
 
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/akshare.svg)](https://pypi.org/project/akshare/)
 [![PyPI](https://img.shields.io/pypi/v/aktools.svg)](https://pypi.org/project/aktools/)
