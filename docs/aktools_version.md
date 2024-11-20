@@ -13,6 +13,8 @@
 
 ## 开发进度
 
+0.0.88: fix: fix update typer deps
+
 0.0.87: fix: fix update python 3.13
 
 0.0.86: add: add log function
