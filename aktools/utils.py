@@ -1,13 +1,12 @@
 # -*- coding:utf-8 -*-
 # !/usr/bin/env python
 """
-Date: 2022/9/27 21:58
+Date: 2024/12/12 18:00
 Desc: 工具函数
 """
 from functools import lru_cache
 
 import requests
-from bs4 import BeautifulSoup
 
 
 @lru_cache()
@@ -20,15 +19,15 @@ def get_latest_version(package: str = "akshare") -> str:
     :return: 版本
     :rtype: str
     """
-    url = f"https://pypi.org/project/{package}"
+    url = f"https://pypi.org/pypi/{package}/json"
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
+                      "Chrome/58.0.3029.110 Safari/537.3"
+    }
     try:
-        r = requests.get(url, verify=False)
+        r = requests.get(url, headers=headers)
     except requests.exceptions.ProxyError:
         return "0.0.0"
-    soup = BeautifulSoup(r.text, "lxml")
-    version = (
-        soup.find("h1", attrs={"class": "package-header__name"})
-        .text.strip()
-        .split(" ")[1]
-    )
+    data_json = r.json()
+    version = data_json['info']['version']
     return version
