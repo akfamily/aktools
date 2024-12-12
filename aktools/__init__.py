@@ -91,8 +91,9 @@ Changelog
 0.0.86: add: add log function
 0.0.87: fix: fix update python 3.13
 0.0.88: fix: fix update typer deps
+0.0.89: fix: fix get_latest_version
 """
 
 __title__ = "AKTools"
-__version__ = "0.0.88"
+__version__ = "0.0.89"
 __author__ = "AKFamily"
