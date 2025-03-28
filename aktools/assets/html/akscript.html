@@ -1,0 +1,52 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css"/>
+    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+    <py-env>
+        - pandas
+    </py-env>
+    <style>
+        .mystyle {
+            font-size: 11pt;
+            font-family: Arial;
+            border-collapse: collapse;
+            border: 1px solid silver;
+        }
+
+        .mystyle td, th {
+            padding: 5px;
+        }
+
+        .mystyle tr:nth-child(even) {
+            background: #E0E0E0;
+        }
+
+        .mystyle tr:hover {
+            background: silver;
+            cursor: pointer;
+        }
+        a{color: red;}
+    </style>
+</head>
+
+<body>
+<py-title>利用 PyScript 在游览器运行 AKShare 实现数据展示及下载功能</py-title>
+<div id="download" align="center"><a href="http://{{ ip }}/api/public/{{ interface }}" download="{{interface}}.json">点击下载</a>
+</div>
+<div id="table" align="center"></div>
+<py-script output="table">
+    import pandas as pd
+    import json
+
+    from pyodide.http import open_url
+
+    url = "http://{{ ip }}/api/public/{{ interface }}" # 本地 AKTools 搭建
+
+    temp_df = pd.read_json(open_url(url))
+    # temp_df['调整日期'] = pd.to_datetime(temp_df['调整日期']).dt.date
+    temp_html = temp_df.to_html(classes='mystyle')
+    pyscript.write('table', temp_html)
+
+</py-script>
+</body>
+</html>
