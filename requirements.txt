@@ -1,0 +1,10 @@
+akshare>=1.15.25
+fastapi>=0.115.5
+uvicorn>=0.16.0
+python-multipart>=0.0.9
+jinja2>=3.1.2
+typer[standard]>=0.6.1
+pydantic>=1.10.2
+alembic>=1.8.1
+SQLAlchemy>=1.4.41
+python-dotenv>=0.21.0

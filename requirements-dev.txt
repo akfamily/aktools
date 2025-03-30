@@ -1,0 +1,14 @@
+akshare>=1.15.25
+fastapi>=0.115.5
+uvicorn>=0.16.0
+python-multipart>=0.0.9
+jinja2>=3.1.2
+typer[standard]>=0.6.1
+ruff>=0.3.3
+ruff-lsp>=0.0.53
+pytest
+pre-commit
+commitizen
+alembic
+SQLAlchemy
+python-dotenv
