@@ -4,6 +4,7 @@
 Date: 2022/9/27 19:05
 Desc: CLI 命令文件
 """
+import sys
 from pathlib import Path
 from subprocess import run
 from typing import Optional
@@ -40,7 +41,7 @@ def main(
 ) -> None:
     app_dir = Path(__file__).parent
     order_str = (
-        f"python -m uvicorn main:app --host {host} --port {port} --app-dir {app_dir}"
+        f"{sys.executable} -m uvicorn main:app --host {host} --port {port} --app-dir {app_dir}"
     )
     typer.echo(
         f"请访问：http://{host}:{port}/version 来获取最新的库版本信息，确保使用最新版本的 AKShare 和 AKTools"
