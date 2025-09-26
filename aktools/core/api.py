@@ -6,6 +6,7 @@ Desc: HTTP 模式主文件
 """
 import json
 import logging
+import os
 import urllib.parse
 from logging.handlers import TimedRotatingFileHandler
 
@@ -27,7 +28,8 @@ logger.setLevel(logging.INFO)
 
 # 创建一个TimedRotatingFileHandler来进行日志轮转
 handler = TimedRotatingFileHandler(
-    filename='aktools_log.log', when='midnight', interval=1, backupCount=7, encoding='utf-8'
+    filename='/tmp/aktools_log.log' if os.getenv('VERCEL') == '1' else 'aktools_log.log',
+        when='midnight', interval=1, backupCount=7, encoding='utf-8'
 )
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 handler.setFormatter(formatter)
