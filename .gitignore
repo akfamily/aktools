@@ -26,3 +26,5 @@ colors
 .DS_Store
 .pytest_cache
 ./log/*
+/venv/
+aktools_log.log

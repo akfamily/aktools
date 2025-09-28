@@ -1,0 +1,14 @@
+python3 -m venv venv
+source venv/bin/activate && pip install -r requirements.txt 
+本地运行
+# 1. 激活虚拟环境（如果尚未激活）
+source venv/bin/activate
+# 2. 直接运行main.py文件
+python aktools/main.py
+
+
+打包
+source venv/bin/activate && pip install pyinstaller 
+source venv/bin/activate && pyinstaller --onefile --name aktools-web --add-data "/python-project/aktools/venv/lib/python3.12/site-packages/akshare/file_fold:akshare/file_fold" --add-data "aktools/assets:aktools/assets" --hidden-import akshare --hidden-import uvicorn aktools/main.py
+或者直接执行
+source venv/bin/activate && pyinstaller aktools-web.spec

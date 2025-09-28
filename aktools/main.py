@@ -19,9 +19,8 @@ from fastapi.responses import FileResponse
 
 from aktools.core.api import app_core, templates
 from aktools.datasets import get_favicon_path, get_homepage_html
-from login import app_user_login
 from aktools.utils import get_latest_version
-from schema.version import VersionBase
+from aktools.schema.version import VersionBase
 
 favicon_path = get_favicon_path(file="favicon.ico")
 html_path = get_homepage_html(file="homepage.html")
@@ -90,7 +89,6 @@ app.add_middleware(
 )
 
 app.include_router(app_core, prefix="/api", tags=["数据接口"])
-app.include_router(app_user_login, prefix="/auth", tags=["登录接口"])
 
 if __name__ == "__main__":
-    uvicorn.run(app="main:app", host="127.0.0.1", port=8080)
+    uvicorn.run(app=app, host="127.0.0.1", port=8888)
