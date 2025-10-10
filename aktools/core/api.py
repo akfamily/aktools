@@ -27,7 +27,7 @@ logger.setLevel(logging.INFO)
 
 # 创建一个TimedRotatingFileHandler来进行日志轮转
 handler = TimedRotatingFileHandler(
-    filename='aktools_log.log', when='midnight', interval=1, backupCount=7, encoding='utf-8'
+    filename='logs/aktools_log.log', when='midnight', interval=1, backupCount=7, encoding='utf-8'
 )
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 handler.setFormatter(formatter)

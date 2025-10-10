@@ -5,6 +5,8 @@ source venv/bin/activate && pip install -r requirements.txt
 source venv/bin/activate
 # 2. 直接运行main.py文件
 python aktools/main.py
+# 升级akshare
+pip install akshare --upgrade
 
 
 打包
