@@ -8,7 +8,7 @@ AKTools is a package of HTTP API for AKShare! It depends on AKShare, FastAPI and
 
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/akshare.svg)](https://pypi.org/project/akshare/)
 [![PyPI](https://img.shields.io/pypi/v/aktools.svg)](https://pypi.org/project/aktools/)
-[![Downloads](https://pepy.tech/badge/aktools)](https://pepy.tech/project/aktools)
+[![PyPI Downloads](https://static.pepy.tech/personalized-badge/aktools?period=total&units=INTERNATIONAL_SYSTEM&left_color=BLACK&right_color=GREEN&left_text=downloads)](https://pepy.tech/projects/aktools)
 [![Documentation Status](https://readthedocs.org/projects/aktools/badge/)](https://aktools.akfamily.xyz/)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![aktools](https://img.shields.io/badge/Data%20Science-AKShare-green)](https://github.com/akfamily/aktools)
