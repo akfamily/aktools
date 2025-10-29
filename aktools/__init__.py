@@ -93,8 +93,9 @@ Changelog
 0.0.88: fix: fix update typer deps
 0.0.89: fix: fix get_latest_version
 0.0.90: fix: fix get_latest_version
+0.0.91: fix: fix update python 3.14
 """
 
 __title__ = "AKTools"
-__version__ = "0.0.90"
+__version__ = "0.0.91"
 __author__ = "AKFamily"
