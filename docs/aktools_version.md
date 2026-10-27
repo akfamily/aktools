@@ -12,9 +12,17 @@
 
 ## 开发进度
 
-0.0.92: fix: fix Dockerfile and migrate setup.py to pyproject.toml
+0.0.92: fix: fix template response and cli startup
 
-0.0.89: fix: fix docs
+    1. 修复新版 Starlette 下主页与模板页面返回 500 的问题（#239）
+    2. 修复安装路径含空格时 aktools 启动闪退的问题（#238）
+    3. Python 版本要求提升到 3.11 及以上，与 AKShare 保持一致
+    4. 更新 Dockerfile，打包配置由 setup.py 迁移到 pyproject.toml
+    5. 删除未使用的数据库相关代码
+
+0.0.91: fix: fix update python 3.14
+
+0.0.90: fix: fix get_latest_version
 
 0.0.89: fix: fix get_latest_version
 
@@ -80,7 +88,7 @@
 
     1. 从 akscript.html 中移除 numpy 和 matplotlib 依赖
 
-0.0.60: add: add css and html to akscript.py
+0.0.60: add: add css and html to akscript.html
 
 0.0.59: add: add templates
 
@@ -136,7 +144,7 @@
     2. 把项目结构化，有利于后续开发
     3. 增加 run.py 文件作为项目的主入口
 
-0.0.44: add: add support response status code
+0.0.44: add: add login support
 
     1. 增加用户认证模块，但是该程序目前并没有采用数据库，还是在测试中
     2. 目前用户可以通过 username 为 `akshare` 和 password 为 `akfamily` 来获取 token
@@ -146,3 +154,87 @@
     
     1. 增加返回状态码，用户可以通过状态码来判断是否获取到数据
     2. 修正一些表述错处
+
+0.0.42: fix: fix email
+
+0.0.41: fix: fix docs
+
+0.0.40: fix: fix docs
+
+0.0.39: fix: fix docs
+
+0.0.38: fix: fix docs
+
+0.0.37: fix: update workflow info
+
+0.0.36: fix: update PYPI info
+
+0.0.35: add: add multiple threads support for multiple requests
+
+0.0.34: fix: fix return None
+
+0.0.33: fix: fix return result
+
+0.0.32: fix: fix docs
+
+0.0.31: add: add cmd arg parser -d
+
+0.0.30: add: add cmd arg parser
+
+0.0.29: test: test
+
+0.0.28: test: test
+
+0.0.27: test: test
+
+0.0.26: test: test
+
+0.0.25: test: test
+
+0.0.24: fix: fix chinese character params in api
+
+0.0.23: fix: fix core module
+
+0.0.22: fix: fix core module
+
+0.0.21: fix: rename api name
+
+0.0.20: fix: rename api name
+
+0.0.19: fix: rename file name
+
+0.0.18: add: add params to interface
+
+0.0.17: fix: update PYPI info
+
+0.0.16: fix: update PYPI info
+
+0.0.15: fix: update PYPI info
+
+0.0.14: fix: test master push tag
+
+0.0.13: fix: test pull_request
+
+0.0.12: fix: README.md
+
+0.0.11: fix: README.md
+
+0.0.10: fix: rename workflows
+
+0.0.9: add automate success
+
+0.0.8: add automate release test again
+
+0.0.7: add automate release test
+
+0.0.6: add automate package management success
+
+0.0.5: add automate package management
+
+0.0.4: add docs
+
+0.0.3: FastAPI deployment test
+
+0.0.2: FastAPI test
+
+0.0.1: for test
