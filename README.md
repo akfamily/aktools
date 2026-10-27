@@ -13,7 +13,7 @@ AKTools is a package of HTTP API for AKShare! It depends on AKShare, FastAPI and
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![aktools](https://img.shields.io/badge/Data%20Science-AKShare-green)](https://github.com/akfamily/aktools)
 [![Actions Status](https://github.com/akfamily/aktools/workflows/build/badge.svg)](https://github.com/akfamily/aktools/actions)
-[![MIT Licence](https://img.shields.io/badge/license-MIT-blue)](https://github.com/akfamily/aktools/blob/master/LICENSE)
+[![MIT Licence](https://img.shields.io/badge/license-MIT-blue)](https://github.com/akfamily/aktools/blob/main/LICENSE)
 [![](https://img.shields.io/github/forks/akfamily/aktools)](https://github.com/akfamily/aktools)
 [![](https://img.shields.io/github/stars/akfamily/aktools)](https://github.com/akfamily/aktools)
 [![](https://img.shields.io/github/issues/akfamily/aktools)](https://github.com/akfamily/aktools)
@@ -30,7 +30,7 @@ pip install aktools
 ## Upgrade
 
 ```shell
-pip install aktools --upgrade -i https://pypi.org/simple  # AKTools's version should great than 0.0.88
+pip install aktools --upgrade  -i https://pypi.org/simple
 ```
 
 ## AKShare

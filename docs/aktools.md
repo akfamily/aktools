@@ -192,7 +192,7 @@ docker pull registry.cn-shanghai.aliyuncs.com/akfamily/aktools:1.8.95
 
 #### 高性能模式
 
-高性能模式为镜像启动后的默认模式，其主要是启动 Gunicorn 作为 WSGI 服务器，提高网络处理的性能，更多资料请[参考](https://gunicorn.org/)
+高性能模式为镜像启动后的默认模式，由 Gunicorn 管理多个 Uvicorn（ASGI）worker 进程，提高并发处理能力，更多资料请[参考](https://gunicorn.org/)
 
 常规方式运行：
 
@@ -236,7 +236,7 @@ http://127.0.0.1:8080/api/public/stock_zh_a_hist
 4. 退出镜像：`exit`
 5. 找到容器 ID：`docker ps -a`
 6. 提交修改：`docker commit -m "update akshare to latest" a07c8632637f ak_tools:1.8.96` 其中 `a07c8632637f` 为第 5 步骤中的容器 ID，`ak_tools:1.8.96` 为新镜像的名字和版本
-7. 利用构建好的新镜像启动新容器：`docker run -p 8080:8080 ak_tools:1.3.96`
+7. 利用构建好的新镜像启动新容器：`docker run -p 8080:8080 ak_tools:1.8.96`
 
 ### 本地构造镜像及使用
 
