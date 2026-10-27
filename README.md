@@ -55,7 +55,7 @@ pip install aktools --upgrade  -i https://pypi.org/simple
 ## Homepage
 
 AKTools set a simple homepage for user to provide simple reference information. When you set up your
-environment and deploy your local application, then you can type `http:127.0.0.1:8080` in your browser.
+environment and deploy your local application, then you can type `http://127.0.0.1:8080` in your browser.
 We are developing more functions now, please pay more attention!
 
 ## Demo

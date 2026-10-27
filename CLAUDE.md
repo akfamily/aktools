@@ -35,10 +35,9 @@ curl "http://127.0.0.1:8080/api/public/stock_zh_a_hist?symbol=000001"
 
 ## Architecture
 
-- `aktools/main.py` — builds the `FastAPI` app, serves the homepage and `/version`, and mounts two routers: `app_core` under `/api` and `app_user_login` under `/auth`. `gunicorn aktools.main:app` / `uvicorn main:app` both target this `app`.
-- `aktools/core/api.py` — the heart of the service. `/api/public/{item_id}` and `/api/private/{item_id}` look the interface up in `dir(ak)`, build the argument string from the query params, call the AKShare function, and serialize the DataFrame. Also serves the PyScript pages (`/api/show`, `/api/show-temp/{interface}`).
-- `aktools/login/` — a demo OAuth2 flow guarding the `private` route; `fake_users_db` is hard-coded demo data, not a real user store.
-- `aktools/cli.py` — the `python -m aktools` entry point (Typer). It launches uvicorn as a subprocess; the command is passed as an argument list (not a shell string) so paths with spaces work.
+- `aktools/main.py` — builds the `FastAPI` app, serves the homepage and `/version`, and mounts the `app_core` router under `/api`. `gunicorn aktools.main:app` / `uvicorn aktools.main:app` both target this `app`.
+- `aktools/core/api.py` — the heart of the service. `/api/public/{item_id}` looks the interface up in `dir(ak)`, calls `getattr(ak, item_id)(**query_params)`, and serializes the DataFrame to JSON via `call_interface`. Also serves the PyScript pages (`/api/show`, `/api/show-temp/{interface}`).
+- `aktools/cli.py` — the `python -m aktools` entry point (Typer). It launches `uvicorn aktools.main:app` as a subprocess; the command is passed as an argument list (not a shell string) so paths with spaces work.
 - `aktools/datasets.py` — resolves bundled assets (HTML templates, favicon) via `importlib.resources`. These files ship inside the wheel; `[tool.setuptools.package-data]` in `pyproject.toml` controls what is included.
 - `aktools/utils.py` — `get_latest_version()` queries PyPI for the newest AKShare/AKTools version shown on the homepage. Tests that render the homepage must stub this to stay offline.
 - `src/app.py` — the Vercel entry point; it just re-exports `app`.
