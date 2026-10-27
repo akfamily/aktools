@@ -1,3 +1,4 @@
+# release_and_deploy
 name: release and deploy
 
 on:
@@ -6,57 +7,54 @@ on:
       - 'v*.*.*'
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        os: [ ubuntu-latest, macos-latest, windows-latest ]
-        python-version: [ "3.12" ]
-
-    steps:
-      - uses: actions/checkout@v4
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-      - name: Lint with flake8
-        run: |
-          pip install flake8
-          # stop the build if there are Python syntax errors or undefined names
-          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-          # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-          flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-      - name: Test with pytest
-        run: |
-          pip install pytest
-          pytest
-
   deploy:
-    needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
-        uses: actions/checkout@v4
-      - name: release
-        uses: softprops/action-gh-release@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: set up python
-        uses: actions/setup-python@v5
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
         with:
           python-version: '3.x'
+
+      # 必须在 build 与 upload 之前：PyPI 的版本号一经占用即不可重用，
+      # 发错版本号无法撤回，只能改用下一个号。
+      # 脚本只依赖标准库，因此放在安装依赖之前也能跑。
+      - name: Verify release metadata
+        run: python scripts/check_release.py "${{ github.ref_name }}"
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install build twine
-      - name: Build and publish
+
+      - name: Build package
+        run: python -m build
+
+      # 上一步校验的是仓库内的版本声明，这一步校验真正要上传的产物文件名。
+      # 两者分开是有意的：构建后端若取错版本号，只有看产物才能发现。
+      - name: Verify built artifacts carry the tagged version
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          echo "期望版本: ${version}"
+          ls -1 dist/
+          for f in dist/*; do
+            case "$(basename "$f")" in
+              aktools-${version}-*.whl|aktools-${version}.tar.gz) ;;
+              *) echo "[release] 产物 $(basename "$f") 与 tag 版本 ${version} 不匹配"; exit 1 ;;
+            esac
+          done
+          twine check dist/*
+
+      - name: Publish package to PyPI
         env:
           TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
           TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
-        run: |
-          python -m build
-          twine upload dist/*
+        run: twine upload dist/*
+
+      # 放在上传之后：上传失败时不会留下没有对应 PyPI 版本的 GitHub Release。
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
