@@ -11,6 +11,7 @@ import os
 from logging.handlers import TimedRotatingFileHandler
 
 import akshare as ak
+import requests
 from fastapi import APIRouter, Request, status
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
@@ -39,11 +40,11 @@ handler.setFormatter(
 logger.addHandler(handler)
 
 
-def _error_response(message: str) -> JSONResponse:
+def _error_response(
+    message: str, status_code: int = status.HTTP_404_NOT_FOUND
+) -> JSONResponse:
     """构造统一的错误响应"""
-    return JSONResponse(
-        status_code=status.HTTP_404_NOT_FOUND, content={"error": message}
-    )
+    return JSONResponse(status_code=status_code, content={"error": message})
 
 
 def call_interface(item_id: str, request: Request) -> JSONResponse:
@@ -70,6 +71,14 @@ def call_interface(item_id: str, request: Request) -> JSONResponse:
             logger.info(f"接口 {item_id} 返回数据为空")
             return _error_response(f"该接口返回数据为空，请确认参数是否正确：{DOC_URL}")
         content = json.loads(received_df.to_json(orient="records", date_format="iso"))
+    except requests.exceptions.RequestException as e:
+        # 网络、代理、连接、超时等上游数据源不可达的错误，与接口用法无关。
+        # 返回 502 并提示排查网络/代理，避免误导用户去升级 AKShare。
+        logger.info(f"接口 {item_id} 访问上游数据源失败：{e}")
+        return _error_response(
+            f"访问上游数据源失败，请检查网络或代理设置（如 HTTP_PROXY/HTTPS_PROXY 环境变量）：{e}",
+            status_code=status.HTTP_502_BAD_GATEWAY,
+        )
     except Exception as e:
         logger.info(f"调用接口 {item_id} 出错：{e}")
         return _error_response(

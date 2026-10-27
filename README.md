@@ -49,7 +49,7 @@ pip install aktools --upgrade  -i https://pypi.org/simple
 
 1. just type the cmd/bash command: `python -m aktools`
 2. then type `http://127.0.0.1:8080/` in your Chrome and you can fetch your homepage and more information
-3. if you just want to test data api, you can type `http://127.0.0.1:8080/api/public/stock_zh_a_hist` in your Chrome
+3. if you just want to test connectivity, you can type `http://127.0.0.1:8080/api/public/tool_trade_date_hist_sina` in your Chrome (a lightweight, stable interface that needs no parameters)
 4. if you want to set parameter for API, then you just type like `http://127.0.0.1:8080/api/public/stock_zh_a_hist?symbol=600000`
 
 ## Homepage

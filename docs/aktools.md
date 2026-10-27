@@ -55,8 +55,8 @@ print(at.__version__)
 
 ![](https://dss-1252952517.cos.ap-chengdu.myqcloud.com/image-20211213200528306.png)
 
-在您的控制台显示如上图信息时，您可以打开您的游览器，以 Chrome 游览器为例，您只需要在地址栏输入：`http://127.0.0.1:8080/api/public/stock_zh_a_hist`
-即可快速获取数据。
+在您的控制台显示如上图信息时，您可以打开您的游览器，以 Chrome 游览器为例，您只需要在地址栏输入：`http://127.0.0.1:8080/api/public/tool_trade_date_hist_sina`
+即可快速验证服务连通性（该接口为新浪交易日历，无需参数且较为稳定）。
 
 ![](https://dss-1252952517.cos.ap-chengdu.myqcloud.com/image-20211213200841258.png)
 
@@ -84,6 +84,35 @@ print(at.__version__)
 对于带参数的接口，此处分为两种情况。此处以 `ak.stock_zh_a_hist()` 接口为例，如果直接访问：`http://127.0.0.1:8080/api/public/stock_zh_a_hist`
 则可以获取带默认参数的数据，如果需要为该接口指定参数，比如获取 `symbol="600000"` 的股票，则只需要访问：`http://127.0.0.1:8080/api/public/stock_zh_a_hist?symbol=600000` 即可。
 注意此处的 `?symbol=600000` 中都不带 `"` 号，如果需要同时指定多个参数，则只需要访问：`http://127.0.0.1:8080/api/public/stock_zh_a_hist?symbol=600000&period=weekly` 即可。
+
+## 常见问题
+
+### 接口返回 502 且提示“访问上游数据源失败”
+
+AKTools 本身只是把请求转发给 AKShare，数据由东方财富、新浪财经等上游网站提供。当返回如下错误时：
+
+```text
+{"error": "访问上游数据源失败，请检查网络或代理设置（如 HTTP_PROXY/HTTPS_PROXY 环境变量）：..."}
+```
+
+通常是运行 AKTools 的机器**无法访问上游数据源**，而不是 AKTools 或接口本身的问题。常见原因与排查方法：
+
+1. 本机配置了 HTTP 代理，但代理不可用。报错中若出现 `ProxyError`、`Unable to connect to proxy` 即属此类。请检查并按需清除代理环境变量：
+
+    ```shell
+    # Linux / macOS
+    unset HTTP_PROXY HTTPS_PROXY ALL_PROXY
+    # Windows PowerShell
+    Remove-Item Env:HTTP_PROXY, Env:HTTPS_PROXY, Env:ALL_PROXY
+    ```
+
+    若必须经代理访问外网，可通过 `NO_PROXY` 排除内网地址，或确认代理本身可用。
+
+2. 网络不通或上游网站临时不可达：可先用 `tool_trade_date_hist_sina` 这类轻量接口测试连通性，或稍后重试。
+
+3. 部分接口对网络环境（如需境内网络）有要求，请参考 [AKShare 文档](https://akshare.akfamily.xyz/) 中对应接口的说明。
+
+> 说明：接口名不存在会返回 `404`；接口调用出错（如参数错误）会返回 `404` 并提示检查用法；上游数据源不可达则返回 `502`。可据此区分是用法问题还是网络问题。
 
 ## 语言调用案例
 
@@ -223,7 +252,7 @@ docker run -d -p 8080:8080 registry.cn-shanghai.aliyuncs.com/akfamily/aktools:1.
 ### 本次访问
 
 ```sh
-http://127.0.0.1:8080/api/public/stock_zh_a_hist
+http://127.0.0.1:8080/api/public/tool_trade_date_hist_sina
 ```
 
 ### 升级镜像

@@ -42,7 +42,7 @@ Successfully upgraded aktools
 
 1. 在命令行运行 `python -m aktools` 启动服务
 2. 浏览器打开 `http://127.0.0.1:8080/` 查看主页与说明信息
-3. 获取数据示例：浏览器打开 `http://127.0.0.1:8080/api/public/stock_zh_a_hist`
-4. 带参数访问：`http://127.0.0.1:8080/api/public/stock_zh_a_hist?symbol=600000`
+3. 连通性测试：浏览器打开 `http://127.0.0.1:8080/api/public/tool_trade_date_hist_sina`（新浪交易日历，无需参数且稳定）
+4. 获取数据并带参数：`http://127.0.0.1:8080/api/public/stock_zh_a_hist?symbol=600000`
 
 更详细的安装说明、启动参数、R / MATLAB 等多语言调用案例与 Docker 部署方式，请见 [详细文档](aktools.md)。
