@@ -40,7 +40,7 @@ logger.info('这是一个信息级别的日志消息')
 
 
 @app_core.get("/private/{item_id}", description="私人接口", summary="该接口主要提供私密访问来获取数据")
-def root(
+def private_root(
         request: Request,
         item_id: str,
         current_user: User = Depends(get_current_active_user),
@@ -105,7 +105,7 @@ def root(
 
 
 @app_core.get(path="/public/{item_id}", description="公开接口", summary="该接口主要提供公开访问来获取数据")
-def root(request: Request, item_id: str):
+def public_root(request: Request, item_id: str):
     """
     接收请求参数及接口名称并返回 JSON 数据
     此处由于 AKShare 的请求中是同步模式，所以这边在定义 root 函数中没有使用 asyncio 来定义，这样可以开启多线程访问
