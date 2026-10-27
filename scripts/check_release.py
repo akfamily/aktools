@@ -9,7 +9,7 @@ Desc: 发布前校验版本元数据自洽，供 release_and_deploy.yml 在构�
 
 校验三处必须一致：
     1. git tag（v0.0.92）
-    2. aktools/__init__.py 中的 __version__
+    2. aktools/_version.py 中的 __version__
     3. docs/aktools_version.md 的版本条目（行首为「0.0.92: 」）
 
 本脚本只依赖标准库，因此 CI 中无需安装任何依赖即可运行。
@@ -40,9 +40,9 @@ def parse_tag(tag: str) -> str:
 
 def read_version(path: pathlib.Path) -> str:
     """
-    读取 aktools/__init__.py 中声明的版本号
+    读取 aktools/_version.py 中声明的版本号
     按文件读取加正则提取，不 import 本包，因此无需安装 aktools 及其依赖
-    :param path: __init__.py 的路径
+    :param path: _version.py 的路径
     :type path: pathlib.Path
     :return: 版本号
     :rtype: str
@@ -80,11 +80,11 @@ def collect_problems(repo_root: pathlib.Path, tag: str) -> List[str]:
     """
     problems: List[str] = []
     tag_version = parse_tag(tag)
-    file_version = read_version(repo_root / "aktools" / "__init__.py")
+    file_version = read_version(repo_root / "aktools" / "_version.py")
 
     if tag_version != file_version:
         problems.append(
-            f"tag 版本 {tag_version} 与 aktools/__init__.py 的 {file_version} 不一致"
+            f"tag 版本 {tag_version} 与 aktools/_version.py 的 {file_version} 不一致"
         )
 
     changelog_text = (repo_root / "docs" / "aktools_version.md").read_text(

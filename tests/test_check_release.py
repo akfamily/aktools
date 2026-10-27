@@ -16,15 +16,15 @@ def make_repo(tmp_path, version="0.0.92", changelog_version=None):
     """
     构造只含发布校验所需两个文件的最小仓库
     :param tmp_path: pytest 提供的临时目录
-    :param version: 写入 __init__.py 的版本号
+    :param version: 写入 _version.py 的版本号
     :param changelog_version: 写入版本说明的版本号，默认与 version 相同
     :return: 仓库根目录
     """
     changelog_version = version if changelog_version is None else changelog_version
     (tmp_path / "aktools").mkdir()
     (tmp_path / "docs").mkdir()
-    (tmp_path / "aktools" / "__init__.py").write_text(
-        f'__title__ = "AKTools"\n__version__ = "{version}"\n', encoding="utf-8"
+    (tmp_path / "aktools" / "_version.py").write_text(
+        f'__version__ = "{version}"\n', encoding="utf-8"
     )
     (tmp_path / "docs" / "aktools_version.md").write_text(
         f"## 开发进度\n\n{changelog_version}: fix: fix something\n", encoding="utf-8"
@@ -92,5 +92,5 @@ def test_collect_problems_reports_every_problem_at_once(tmp_path):
 def test_current_repo_is_consistent():
     """仓库自身的版本号必须已写入版本说明，发布前即可在 CI 中发现遗漏"""
     repo_root = pathlib.Path(__file__).resolve().parent.parent
-    version = read_version(repo_root / "aktools" / "__init__.py")
+    version = read_version(repo_root / "aktools" / "_version.py")
     assert collect_problems(repo_root, f"v{version}") == []

@@ -73,8 +73,8 @@ url = "https://pypi.org/simple"
 default = true
 
 [tool.setuptools.dynamic]
-# 版本号的唯一来源是 aktools/__init__.py 中的 __version__
-version = {attr = "aktools.__version__"}
+# 版本号的唯一来源是 aktools/_version.py 中的 __version__
+version = {attr = "aktools._version.__version__"}
 
 [tool.setuptools.packages.find]
 # 只打包 aktools，避免把 tests 作为顶层包装进 site-packages
