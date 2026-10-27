@@ -1,0 +1,34 @@
+# Dependabot 配置：依赖与 GitHub Actions 的版本漂移自动提 PR
+version: 2
+updates:
+  # Python 依赖。uv 生态直接读取 pyproject.toml 与 uv.lock；
+  # 不要再并列 pip 生态，两者共存会出现只更新 uv.lock、pyproject.toml 保持陈旧的情况。
+  # 不设 target-branch：仓库只有 main 一个长期分支。
+  - package-ecosystem: "uv"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    # 必须分组：每个依赖都要改 uv.lock，不分组时各自开 PR 会相互冲突。
+    # 分组键只能是 patterns: "*"，Dependabot 读不懂 PEP 735 的 dependency-groups。
+    groups:
+      python:
+        patterns:
+          - "*"
+    # 分组后正常每周最多 1 个 PR，留 2 是为了容纳安全更新单独开的 PR。
+    open-pull-requests-limit: 2
+    commit-message:
+      prefix: "build"
+      include: "scope"
+
+  # GitHub Actions。astral-sh/setup-uv 不再发布浮动大版本标签，版本号需要跟进。
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    groups:
+      actions:
+        patterns:
+          - "*"
+    open-pull-requests-limit: 2
+    commit-message:
+      prefix: "ci"
