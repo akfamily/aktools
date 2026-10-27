@@ -13,7 +13,7 @@ from pydantic import BaseModel
 
 app_user_login = APIRouter()
 
-# 用户伪数据库，此处需要修改为 SQLite 数据库
+# 演示用的伪用户数据，仅用于私人接口的认证示例
 fake_users_db = {
     "akshare": {
         "username": "akshare",
