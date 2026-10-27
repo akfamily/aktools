@@ -39,6 +39,7 @@ classifiers = [
 ]
 dependencies = [
     "akshare>=1.16.25",
+    "requests>=2.22.0",
     "fastapi>=0.115.5",
     "uvicorn>=0.16.0",
     "python-multipart>=0.0.9",
