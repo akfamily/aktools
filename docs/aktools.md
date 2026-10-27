@@ -243,3 +243,5 @@ http://127.0.0.1:8080/api/public/stock_zh_a_hist
 可以通过 Dockerfile 文件进行本地镜像的构造，通过下载仓库中：https://github.com/akfamily/aktools/blob/main/Dockerfile 文件到本地后，通过 `docker build -t aktools:v1 .`
 命令来构建镜像，并通过 `docker run -p 8080:8080 aktools:v1` 来启动镜像，如需要后台运行则通过 `docker run -d -p 8080:8080 aktools:v1` 来进行启动。最后通过访问 `http://127.0.0.1:8080/api/public/stock_zh_a_hist`
 进行测试，如果可以获取到数据则本地镜像构建及使用成功！
+
+国内网络环境下构建镜像时，可以通过 `--build-arg` 指定 PyPI 镜像源来加速：`docker build --build-arg PIP_INDEX_URL=https://mirrors.aliyun.com/pypi/simple/ -t aktools:v1 .`

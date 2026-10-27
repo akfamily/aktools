@@ -1,3 +1,67 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aktools"
+dynamic = ["version"]
+description = "AKTools is a tool for AKShare HTTP API!"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [
+    {name = "AKFamily", email = "albertandking@gmail.com"}
+]
+keywords = [
+    "stock",
+    "option",
+    "futures",
+    "bond",
+    "index",
+    "air",
+    "others",
+    "finance",
+    "spider",
+    "quant",
+    "quantitative",
+    "investment",
+    "trading",
+    "algotrading",
+]
+classifiers = [
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "akshare>=1.16.25",
+    "fastapi>=0.115.5",
+    "uvicorn>=0.16.0",
+    "python-multipart>=0.0.9",
+    "jinja2>=3.1.2",
+    "typer[standard]>=0.6.1",
+]
+
+[project.urls]
+Homepage = "https://github.com/akfamily/aktools"
+
+[tool.setuptools.dynamic]
+# 版本号的唯一来源是 aktools/__init__.py 中的 __version__
+version = {attr = "aktools.__version__"}
+
+[tool.setuptools.packages.find]
+# 只打包 aktools，避免把 tests 作为顶层包装进 site-packages
+include = ["aktools*"]
+
+[tool.setuptools.package-data]
+"*" = ["*.json", "*.pk", "*.woff", "*.html", "*.ico"]
+
 [tool.ruff]
 # Exclude a variety of commonly ignored directories.
 exclude = [
