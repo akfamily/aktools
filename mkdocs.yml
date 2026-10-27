@@ -20,6 +20,11 @@ theme:
 repo_name: akfamily/aktools
 repo_url: https://github.com/akfamily/aktools
 
+nav:
+  - 使用说明: index.md
+  - 详细文档: aktools.md
+  - 版本说明: aktools_version.md
+
 markdown_extensions:
   - pymdownx.highlight:
       anchor_linenums: true
