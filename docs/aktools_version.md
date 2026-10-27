@@ -11,6 +11,12 @@
 
 ## 开发进度
 
+0.0.95: feat: distinguish upstream network errors
+
+    1. 上游数据源不可达（网络/代理错误）时返回 502 并提示排查，不再误导为升级 AKShare
+    2. 文档与主页的连通性测试链接改用更稳定的新浪接口
+    3. 文档新增常见问题：502/404 的区别与代理问题排查
+
 0.0.94: refactor: optimize built-in HTML pages
 
     1. 内置主页优化：语言标记、移动端适配、样式整理与深浅色配色
