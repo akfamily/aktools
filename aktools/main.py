@@ -13,7 +13,6 @@ from fastapi.responses import FileResponse
 
 from aktools.core.api import app_core, templates
 from aktools.datasets import get_favicon_path, get_homepage_html
-from aktools.login import app_user_login
 from aktools.utils import get_latest_version
 from aktools.schema.version import VersionBase
 
@@ -89,4 +88,3 @@ app.add_middleware(
 )
 
 app.include_router(app_core, prefix="/api", tags=["数据接口"])
-app.include_router(app_user_login, prefix="/auth", tags=["登录接口"])

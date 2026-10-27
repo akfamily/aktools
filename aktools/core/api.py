@@ -11,12 +11,11 @@ import os
 from logging.handlers import TimedRotatingFileHandler
 
 import akshare as ak
-from fastapi import APIRouter, Depends, Request, status
+from fastapi import APIRouter, Request, status
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 
 from aktools.datasets import get_pyscript_html, get_template_path
-from aktools.login.user_login import User, get_current_active_user
 
 app_core = APIRouter()
 
@@ -78,30 +77,6 @@ def call_interface(item_id: str, request: Request) -> JSONResponse:
         )
     logger.info(f"获取到 {item_id} 的数据")
     return JSONResponse(status_code=status.HTTP_200_OK, content=content)
-
-
-@app_core.get(
-    "/private/{item_id}",
-    description="私人接口",
-    summary="该接口主要提供私密访问来获取数据",
-)
-def private_root(
-    request: Request,
-    item_id: str,
-    current_user: User = Depends(get_current_active_user),
-):
-    """
-    需登录认证的接口，接收接口名与参数并返回 JSON 数据
-    :param request: 请求信息
-    :type request: Request
-    :param item_id: 接口名，如 stock_zh_a_hist
-    :type item_id: str
-    :param current_user: 依赖注入，用于用户登录验证
-    :type current_user: User
-    :return: 指定接口名与参数的数据
-    :rtype: JSONResponse
-    """
-    return call_interface(item_id, request)
 
 
 @app_core.get(
