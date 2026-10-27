@@ -11,6 +11,11 @@
 
 ## 开发进度
 
+0.0.93: refactor: remove demo user login
+
+    1. 删除演示性的用户登录模块（aktools/login）与 /api/private 私人接口
+    2. 移除 POST /auth/token 端点；数据获取统一使用 GET /api/public/{接口}
+
 0.0.92: fix: fix template response and cli startup
 
     1. 修复新版 Starlette 下主页与模板页面返回 500 的问题（#239）
