@@ -51,8 +51,7 @@ def get_user(db, username: str):
 
 
 def fake_decode_token(token):
-    # This doesn't provide any security at all
-    # Check the next version
+    # 仅作演示，不提供任何真正的安全校验
     user = get_user(fake_users_db, token)
     return user
 

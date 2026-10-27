@@ -76,12 +76,14 @@ async def get_version():
     }
 
 
-origins = ["*"]  # 此处设置可以访问的协议，IP和端口信息
+# 允许任意来源访问；认证通过 Authorization 头的 Bearer token 完成，不使用 cookie，
+# 因此 allow_credentials 设为 False——通配来源与携带凭证不能并存，否则浏览器会拒绝跨域请求
+origins = ["*"]
 
 app.add_middleware(
     middleware_class=CORSMiddleware,
     allow_origins=origins,
-    allow_credentials=True,
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
