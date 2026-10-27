@@ -51,9 +51,9 @@ async def favicon() -> FileResponse:
 @app.get(path="/", tags=["主页"], description="主要展示网站首页", summary="网站首页")
 async def get_homepage(request: Request):
     return templates.TemplateResponse(
+        request,
         "homepage.html",  # 此处的 homepage.html 可以自定义，主要采用 jinja2 模版
         context={
-            "request": request,
             "ip_address": request.headers["host"],
             "ak_current_version": akshare.__version__,
             "at_current_version": aktools.__version__,

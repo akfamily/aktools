@@ -201,9 +201,9 @@ templates = Jinja2Templates(directory=short_path)
 )
 def akscript_temp(request: Request, interface: str):
     return templates.TemplateResponse(
+        request,
         "akscript.html",
         context={
-            "request": request,
             "ip": request.headers["host"],
             "interface": interface,
         },

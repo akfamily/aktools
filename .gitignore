@@ -26,3 +26,5 @@ colors
 .DS_Store
 .pytest_cache
 ./log/*
+# AKTools 运行日志
+aktools_log.log
