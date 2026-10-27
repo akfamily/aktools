@@ -1,5 +1,6 @@
 *.bak
 *.pyc
+__pycache__/
 *.xml
 *.tar.gz
 *.iml
