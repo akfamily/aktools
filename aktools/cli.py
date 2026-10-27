@@ -6,7 +6,6 @@ Desc: CLI 命令文件
 """
 
 import sys
-from pathlib import Path
 from subprocess import run
 from typing import Optional
 
@@ -42,19 +41,17 @@ def main(
         is_eager=True,
     ),
 ) -> None:
-    app_dir = Path(__file__).parent
-    # 以参数列表传入且不经过 shell，Python 或 aktools 的安装路径中含空格时也能正确启动
+    # 以参数列表传入且不经过 shell，Python 或 aktools 的安装路径中含空格时也能正确启动；
+    # aktools.main:app 按包路径加载，无需再通过 --app-dir 指定目录
     command = [
         sys.executable,
         "-m",
         "uvicorn",
-        "main:app",
+        "aktools.main:app",
         "--host",
         host,
         "--port",
         str(port),
-        "--app-dir",
-        str(app_dir),
     ]
     typer.echo(
         f"请访问：http://{host}:{port}/version 来获取最新的库版本信息，确保使用最新版本的 AKShare 和 AKTools"

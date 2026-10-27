@@ -5,15 +5,8 @@ Date: 2022/9/28 15:05
 Desc: 主程序入口文件
 """
 
-import os
-import sys
-
-# 添加 package 查找路径，该行必须在前面，否则不能导入相关的模块
-sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-
 import akshare
 import aktools
-import uvicorn
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
@@ -95,6 +88,3 @@ app.add_middleware(
 
 app.include_router(app_core, prefix="/api", tags=["数据接口"])
 app.include_router(app_user_login, prefix="/auth", tags=["登录接口"])
-
-if __name__ == "__main__":
-    uvicorn.run(app="main:app", host="127.0.0.1", port=8080)
