@@ -5,6 +5,7 @@ Date: 2025/10/29 20:05
 Desc: CLI 测试文件
 运行 `python -m pytest tests/test_cli.py` 进行测试
 """
+
 import sys
 
 from typer.testing import CliRunner
@@ -31,7 +32,9 @@ def test_start_command_with_space_in_path(monkeypatch) -> None:
     calls = []
     executable = "C:/Program Files/Python/python.exe"
     monkeypatch.setattr(sys, "executable", executable)
-    monkeypatch.setattr(cli, "run", lambda *args, **kwargs: calls.append((args, kwargs)))
+    monkeypatch.setattr(
+        cli, "run", lambda *args, **kwargs: calls.append((args, kwargs))
+    )
     result = runner.invoke(cli.app, args=["--port", "8081"])
     assert result.exit_code == 0
     (command,), kwargs = calls[0]

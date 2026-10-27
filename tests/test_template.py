@@ -6,6 +6,7 @@ Desc: 模板页面测试
 Starlette 1.x 起 TemplateResponse 只接受 (request, name, context) 的调用方式，
 旧写法会导致页面返回 500，见 https://github.com/akfamily/aktools/issues/239
 """
+
 from fastapi.testclient import TestClient
 
 import aktools.main

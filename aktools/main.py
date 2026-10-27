@@ -4,6 +4,7 @@
 Date: 2022/9/28 15:05
 Desc: 主程序入口文件
 """
+
 import os
 import sys
 
@@ -36,7 +37,10 @@ app = FastAPI(
 
 
 @app.get(
-    path="/favicon.ico", include_in_schema=False, description="获取 ico 的路径", summary="ico 的路径"
+    path="/favicon.ico",
+    include_in_schema=False,
+    description="获取 ico 的路径",
+    summary="ico 的路径",
 )
 async def favicon() -> FileResponse:
     """
