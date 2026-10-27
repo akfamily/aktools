@@ -1,42 +1,112 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>欢迎访问 AKTools 主页</title>
+    <style>
+        :root {
+            color-scheme: light dark;
+        }
+
+        body {
+            margin: 0;
+            padding: 2rem 1rem;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
+            line-height: 1.7;
+            color: #1f2328;
+            background: #f6f8fa;
+        }
+
+        main {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+        }
+
+        h1 {
+            text-align: center;
+            color: #ff7f50;
+            margin-top: 0;
+        }
+
+        .info {
+            list-style: none;
+            padding: 0;
+        }
+
+        .info li {
+            padding: 0.35rem 0;
+            border-bottom: 1px solid #eaecef;
+        }
+
+        .info li:last-child {
+            border-bottom: none;
+        }
+
+        .label {
+            color: #57606a;
+        }
+
+        code {
+            padding: 0.1rem 0.35rem;
+            background: #eff1f3;
+            border-radius: 4px;
+            font-family: Consolas, Monaco, monospace;
+        }
+
+        .links {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        a {
+            color: #0969da;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-<h1 style="text-align: center; color: coral">欢迎来到 AKTools 的主页</h1>
+<main>
+    <h1>欢迎来到 AKTools 的主页</h1>
 
-<div>
-    <p style="text-align: center; color: black">
-        您当前服务器的 IP 地址及端口为：{{ip_address}}
-    </p>
-    <p style="text-align: center; color: black">
-        当前的 AKTools 版本为：{{at_current_version}}，AKShare 版本为：{{ak_current_version}}
-    </p>
-    <p style="text-align: center; color: blue">
-        最新的 AKTools 版本为：{{at_latest_version}}，AKShare 版本为：{{ak_latest_version}}
-    </p>
-    <p style="text-align: center; color: black">
-        请通过：http://{{ip_address}}/api/public/{请求的数据接口} 来访问相关的数据接口
-    </p>
-    <p style="text-align: center; color: black">
-        接口测试在线文档请访问：<a href="http://{{ip_address}}/docs">http://{{ip_address}}/docs</a>
-    </p>
-    <p style="text-align: center; color: black">
-        测试链接请访问：<a href="http://{{ip_address}}/api/public/stock_zh_a_hist">http://{{ip_address}}/api/public/stock_zh_a_hist</a>
-    </p>
-
-</div>
-
-<div style="text-align: center">
-    <ul style="; list-style:none;">
-        <li><a href="https://github.com/akfamily/aktools">AKTools 项目地址</a></li>
-        <li><a href="https://aktools.akfamily.xyz">AKTools 官方文档</a></li>
-        <li><a href="https://github.com/akfamily/akshare">AKShare 项目地址</a></li>
-        <li><a href="https://akshare.akfamily.xyz">AKShare 官方文档</a></li>
+    <ul class="info">
+        <li><span class="label">当前服务器地址：</span><code>{{ip_address}}</code></li>
+        <li>
+            <span class="label">当前版本：</span>AKTools <code>{{at_current_version}}</code>，AKShare <code>{{ak_current_version}}</code>
+        </li>
+        <li>
+            <span class="label">最新版本：</span>AKTools <code>{{at_latest_version}}</code>，AKShare <code>{{ak_latest_version}}</code>
+        </li>
+        <li>
+            <span class="label">数据接口：</span>通过 <code>http://{{ip_address}}/api/public/{接口名称}</code> 访问
+        </li>
+        <li>
+            <span class="label">在线文档：</span><a href="http://{{ip_address}}/docs">http://{{ip_address}}/docs</a>
+        </li>
+        <li>
+            <span class="label">测试链接：</span><a href="http://{{ip_address}}/api/public/stock_zh_a_hist">http://{{ip_address}}/api/public/stock_zh_a_hist</a>
+        </li>
     </ul>
-</div>
 
+    <ul class="links">
+        <li><a href="https://github.com/akfamily/aktools" target="_blank" rel="noopener">AKTools 项目地址</a></li>
+        <li><a href="https://aktools.akfamily.xyz" target="_blank" rel="noopener">AKTools 官方文档</a></li>
+        <li><a href="https://github.com/akfamily/akshare" target="_blank" rel="noopener">AKShare 项目地址</a></li>
+        <li><a href="https://akshare.akfamily.xyz" target="_blank" rel="noopener">AKShare 官方文档</a></li>
+    </ul>
+</main>
 </body>
 </html>

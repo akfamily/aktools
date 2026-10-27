@@ -1,52 +1,78 @@
-<html>
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
-    <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css"/>
-    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
-    <py-env>
-        - pandas
-    </py-env>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AKTools PyScript 数据展示</title>
+    <link rel="stylesheet" href="https://pyscript.net/releases/2024.11.1/core.css"/>
+    <script type="module" src="https://pyscript.net/releases/2024.11.1/core.js"></script>
     <style>
+        body {
+            font-family: Arial, "Microsoft YaHei", sans-serif;
+            margin: 1.5rem;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 1.3rem;
+        }
+
+        #download {
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        #download a {
+            color: #c0392b;
+        }
+
+        #table {
+            overflow-x: auto;
+        }
+
         .mystyle {
+            margin: 0 auto;
             font-size: 11pt;
-            font-family: Arial;
+            font-family: Arial, sans-serif;
             border-collapse: collapse;
             border: 1px solid silver;
         }
 
-        .mystyle td, th {
+        .mystyle td, .mystyle th {
             padding: 5px;
         }
 
         .mystyle tr:nth-child(even) {
-            background: #E0E0E0;
+            background: #e0e0e0;
         }
 
         .mystyle tr:hover {
             background: silver;
             cursor: pointer;
         }
-        a{color: red;}
     </style>
 </head>
-
 <body>
-<py-title>利用 PyScript 在游览器运行 AKShare 实现数据展示及下载功能</py-title>
-<div id="download" align="center"><a href="http://{{ ip }}/api/public/{{ interface }}" download="{{interface}}.json">点击下载</a>
+<h1>利用 PyScript 在浏览器运行 AKShare 实现数据展示及下载功能</h1>
+
+<div id="download">
+    <a href="http://{{ ip }}/api/public/{{ interface }}" download="{{ interface }}.json">点击下载</a>
 </div>
-<div id="table" align="center"></div>
-<py-script output="table">
+
+<div id="table">数据加载中……</div>
+
+<script type="py" config='{"packages": ["pandas"]}'>
+    import io
+
     import pandas as pd
-    import json
+    from pyscript import HTML, display, fetch
 
-    from pyodide.http import open_url
+    # 本地 AKTools 服务提供的数据接口
+    url = "http://{{ ip }}/api/public/{{ interface }}"
 
-    url = "http://{{ ip }}/api/public/{{ interface }}" # 本地 AKTools 搭建
-
-    temp_df = pd.read_json(open_url(url))
-    # temp_df['调整日期'] = pd.to_datetime(temp_df['调整日期']).dt.date
-    temp_html = temp_df.to_html(classes='mystyle')
-    pyscript.write('table', temp_html)
-
-</py-script>
+    text = await fetch(url).text()
+    temp_df = pd.read_json(io.StringIO(text))
+    display(HTML(temp_df.to_html(classes="mystyle")), target="table", append=False)
+</script>
 </body>
 </html>
