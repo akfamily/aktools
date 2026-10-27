@@ -11,6 +11,12 @@
 
 ## 开发进度
 
+0.0.94: refactor: optimize built-in HTML pages
+
+    1. 内置主页优化：语言标记、移动端适配、样式整理与深浅色配色
+    2. PyScript 数据展示页由已废弃的 alpha 版升级到当前稳定版
+    3. 同步文档描述，参照 AKShare 重写 .gitignore
+
 0.0.93: refactor: remove demo user login
 
     1. 删除演示性的用户登录模块（aktools/login）与 /api/private 私人接口
