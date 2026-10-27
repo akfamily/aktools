@@ -94,8 +94,9 @@ Changelog
 0.0.89: fix: fix get_latest_version
 0.0.90: fix: fix get_latest_version
 0.0.91: fix: fix update python 3.14
+0.0.92: fix: fix Dockerfile and migrate setup.py to pyproject.toml
 """
 
 __title__ = "AKTools"
-__version__ = "0.0.91"
+__version__ = "0.0.92"
 __author__ = "AKFamily"

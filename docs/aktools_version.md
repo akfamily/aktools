@@ -13,6 +13,8 @@
 
 ## 开发进度
 
+0.0.92: fix: fix Dockerfile and migrate setup.py to pyproject.toml
+
 0.0.89: fix: fix docs
 
 0.0.89: fix: fix get_latest_version
