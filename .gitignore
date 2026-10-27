@@ -15,6 +15,9 @@ dist/
 *.egg-info/
 colors
 
+# Virtual environment
+.venv/
+
 # IDE
 .idea/
 .env

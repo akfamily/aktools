@@ -21,7 +21,7 @@
 ### 安装要求
 
 由于 AKTools 是基于 [AKShare](https://github.com/akfamily/akshare) 和 [FastAPI](https://github.com/tiangolo/fastapi) 的，所以 [AKTools](https://github.com/akfamily/aktools)
-要求您的 Python 版本高于 Python 3.7(64 位) 且您的操作系统必须是 64 位的操作系统，详细要求以 [AKShare 安装指导](https://akshare.akfamily.xyz/installation.html) 的安装要求为准。
+要求您的 Python 版本为 3.11 及以上（64 位），且您的操作系统必须是 64 位的操作系统，详细要求以 [AKShare 安装指导](https://akshare.akfamily.xyz/installation.html) 的安装要求为准。
 
 ### 一键安装
 

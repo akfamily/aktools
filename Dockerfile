@@ -11,7 +11,7 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=1 \
     TZ=Asia/Shanghai
 
-RUN pip install --index-url "$PIP_INDEX_URL" --upgrade akshare aktools gunicorn
+RUN pip install --index-url "$PIP_INDEX_URL" --upgrade akshare aktools gunicorn uvicorn-worker
 
 # 以非 root 用户运行；AKTools 启动时会在工作目录写入 aktools_log.log，工作目录需可写，
 # 因此使用该用户自己的家目录
@@ -22,4 +22,4 @@ WORKDIR /home/aktools
 EXPOSE 8080
 
 # aktools.main:app 按包路径加载，不依赖 site-packages 的具体位置，升级 Python 版本无需修改
-CMD ["gunicorn", "aktools.main:app", "--bind", "0.0.0.0:8080", "--worker-class", "uvicorn.workers.UvicornWorker"]
+CMD ["gunicorn", "aktools.main:app", "--bind", "0.0.0.0:8080", "--worker-class", "uvicorn_worker.UvicornWorker"]

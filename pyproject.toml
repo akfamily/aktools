@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=61.0"]
+requires = ["setuptools>=77.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -7,8 +7,9 @@ name = "aktools"
 dynamic = ["version"]
 description = "AKTools is a tool for AKShare HTTP API!"
 readme = "README.md"
-requires-python = ">=3.8"
-license = {text = "MIT"}
+requires-python = ">=3.11"
+license = "MIT"
+license-files = ["LICENSE"]
 authors = [
     {name = "AKFamily", email = "albertandking@gmail.com"}
 ]
@@ -29,14 +30,11 @@ keywords = [
     "algotrading",
 ]
 classifiers = [
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: 3.14",
-    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.15",
     "Operating System :: OS Independent",
 ]
 dependencies = [
@@ -45,11 +43,34 @@ dependencies = [
     "uvicorn>=0.16.0",
     "python-multipart>=0.0.9",
     "jinja2>=3.1.2",
-    "typer[standard]>=0.6.1",
+    "typer>=0.6.1",
 ]
 
 [project.urls]
 Homepage = "https://github.com/akfamily/aktools"
+
+# 开发依赖使用 PEP 735 dependency-groups 而非 extra：组不会进入包的元数据，
+# 终端用户安装 aktools 时不会被装上这些工具链。uv sync 默认安装 dev 组。
+[dependency-groups]
+# TestClient 在新版 Starlette 中依赖 httpx2
+test = ["pytest>=8.0.0", "httpx2>=2.0.0"]
+# ruff 版本的唯一来源：CI 的 lint job 与 .pre-commit-config.yaml 的本地钩子
+# 都经 uv.lock 从本组取用，没有第二处版本号需要同步
+lint = ["ruff==0.17.2"]
+dev = [
+    { include-group = "test" },
+    { include-group = "lint" },
+    "commitizen>=4.12.1",
+    "pre-commit>=3.6.2",
+]
+
+# uv.lock 会写入解析时使用的索引地址，因此显式声明官方 PyPI。
+# 本段优先级高于用户级 uv.toml 与 UV_INDEX_URL 环境变量，
+# 本地配置了国内镜像的开发者重新生成的锁文件依然指向官方源。
+[[tool.uv.index]]
+name = "pypi"
+url = "https://pypi.org/simple"
+default = true
 
 [tool.setuptools.dynamic]
 # 版本号的唯一来源是 aktools/__init__.py 中的 __version__
@@ -98,8 +119,8 @@ exclude = [
 line-length = 88
 indent-width = 4
 
-# Assume Python 3.12
-target-version = "py312"
+# Assume Python 3.11
+target-version = "py311"
 
 [tool.ruff.lint]
 # Enable Pyflakes (`F`) and a subset of the pycodestyle (`E`)  codes by default.
