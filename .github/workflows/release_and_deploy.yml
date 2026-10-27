@@ -9,6 +9,14 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    # 绑定到 pypi environment，与 PyPI 上 trusted publisher 的 environment 配置一致
+    environment: pypi
+    permissions:
+      # Trusted Publishing 通过 OIDC 换取 PyPI 上传凭证，无需任何 token/密码
+      id-token: write
+      # 创建 GitHub Release 需要写 contents；一旦显式声明 permissions，
+      # 未列出的权限即为 none，故必须显式给出
+      contents: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
@@ -47,13 +55,11 @@ jobs:
           done
           twine check dist/*
 
+      # Trusted Publishing：通过 OIDC 直接发布，不使用 twine upload，也不需要 secret
       - name: Publish package to PyPI
-        env:
-          TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
-          TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
-        run: twine upload dist/*
+        uses: pypa/gh-action-pypi-publish@release/v1
 
-      # 放在上传之后：上传失败时不会留下没有对应 PyPI 版本的 GitHub Release。
+      # 放在发布之后：上传失败时不会留下没有对应 PyPI 版本的 GitHub Release。
       - name: Create GitHub release
         uses: softprops/action-gh-release@v3
         with:
