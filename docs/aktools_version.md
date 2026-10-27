@@ -104,10 +104,10 @@
 
 0.0.53: fix: fix PyScript demo url
 
-    1. 修复 PyScript demo url 
+    1. 修复 PyScript demo url
 
 0.0.52: add: add pyscript support
-    
+
     1. 新增 PyScript Demo 演示
 
 0.0.51: add: add CORS support
@@ -130,7 +130,7 @@
     2. 修正部分表述错误
 
 0.0.47: add: add tips
-    
+
     1. 移除路径输出
     2. 在终端窗口输出：`http://127.0.0.1:8080/docs` 类似的链接，用户可以一键直达接口文档
 
@@ -139,7 +139,7 @@
     1. 在 setup.py 中增加 `python-multipart` 的依赖
 
 0.0.45: add: add module format support
-    
+
     1. 把核心 API 模块和登录模块拆分开
     2. 把项目结构化，有利于后续开发
     3. 增加 run.py 文件作为项目的主入口
@@ -151,7 +151,7 @@
     3. 通过在请求头中设置 token 参数来访问接口
 
 0.0.43: add: add support response status code
-    
+
     1. 增加返回状态码，用户可以通过状态码来判断是否获取到数据
     2. 修正一些表述错处
 

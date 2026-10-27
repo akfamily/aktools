@@ -231,7 +231,7 @@ http://127.0.0.1:8080/api/public/stock_zh_a_hist
 **目前通过 `docker pull registry.cn-shanghai.aliyuncs.com/akfamily/aktools:[AKShare 的版本号]` 拉取的镜像已经默认安装最新的 AKShare [AKShare 的版本号] 版本**，以下步骤仅供参考：
 
 1. 重新打镜像标签：`docker tag registry.cn-shanghai.aliyuncs.com/akfamily/aktools:1.8.95 ak_tools:1.8.95`
-2. 启动镜像并进入命令行模型：`docker run -it ak_tools:1.8.95 /bin/bash` 
+2. 启动镜像并进入命令行模型：`docker run -it ak_tools:1.8.95 /bin/bash`
 3. 升级 [AKShare](https://github.com/akfamily/akshare) 到最新版：`pip install akshare --upgrade -i https://pypi.org/simple`
 4. 退出镜像：`exit`
 5. 找到容器 ID：`docker ps -a`
