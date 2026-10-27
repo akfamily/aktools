@@ -1,34 +1,87 @@
-*.bak
-*.pyc
+# --- Python Core ---
 __pycache__/
-*.xml
-*.tar.gz
-*.iml
-*.zip
-*.icls
-/_windows/
+*.py[cod]
+*$py.class
 
-/codestyles/
-
-# Temp
+# --- Distribution / Packaging ---
 build/
 dist/
 *.egg-info/
-colors
+.eggs/
+*.egg
+MANIFEST
+*.tar.gz
+*.zip
 
-# Virtual environment
+# --- Virtual Environments ---
+# Common venv naming conventions
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
 .venv/
 
-# IDE
-.idea/
-.env
+# --- Unit Test / Coverage ---
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+htmlcov/
 
-# jupyter
+# --- Type Checking ---
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# --- Jupyter Notebook ---
 .ipynb_checkpoints
-#docs/source/_static/
-#docs/source/_templates/
+
+# --- IDEs / Editors ---
+# JetBrains (IntelliJ, PyCharm, etc.)
+.idea/
+*.iml
+*.icls
+/_windows/
+/codestyles/
+colors
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# Vim
+*.swp
+*.swo
+
+# --- OS Generated Files ---
+# macOS
 .DS_Store
-.pytest_cache
-./log/*
-# AKTools 运行日志
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+ehthumbs.db
+Thumbs.db
+
+# --- Project Specific ---
+*.bak
+*.xml
+
+# Documentation (mkdocs build output)
+site/
+
+# AKTools 运行日志与日志目录
 aktools_log.log
+/log/*
