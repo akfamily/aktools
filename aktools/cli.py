@@ -40,9 +40,19 @@ def main(
     ),
 ) -> None:
     app_dir = Path(__file__).parent
-    order_str = (
-        f"{sys.executable} -m uvicorn main:app --host {host} --port {port} --app-dir {app_dir}"
-    )
+    # 以参数列表传入且不经过 shell，Python 或 aktools 的安装路径中含空格时也能正确启动
+    command = [
+        sys.executable,
+        "-m",
+        "uvicorn",
+        "main:app",
+        "--host",
+        host,
+        "--port",
+        str(port),
+        "--app-dir",
+        str(app_dir),
+    ]
     typer.echo(
         f"请访问：http://{host}:{port}/version 来获取最新的库版本信息，确保使用最新版本的 AKShare 和 AKTools"
     )
@@ -51,7 +61,7 @@ def main(
     typer.echo(f"点击打开接口导览：http://{host}:{port}/docs")
     if auto:
         typer.launch(f"http://{host}:{port}/")
-    run(order_str, shell=True)
+    run(command)
 
 
 if __name__ == "__main__":
