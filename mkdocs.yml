@@ -22,6 +22,7 @@ theme:
     - content.code.annotate
     - content.code.copy
     - navigation.footer
+    - navigation.sections
     - navigation.top
     - search.highlight
     - toc.follow
@@ -37,9 +38,16 @@ theme:
         icon: material/brightness-4
         name: 切换到浅色模式
 
+# 按新手的学习顺序排列
 nav:
-  - 使用说明: index.md
-  - 详细文档: aktools.md
+  - 首页: index.md
+  - 快速入门: getting-started.md
+  - 使用指南:
+      - 调用规则: guide/usage.md
+      - 接口目录: guide/catalog.md
+      - 多语言调用: guide/examples.md
+  - 部署: deploy.md
+  - 常见问题: faq.md
   - 版本说明: aktools_version.md
 
 markdown_extensions:
@@ -52,8 +60,11 @@ markdown_extensions:
   - pymdownx.highlight:
       anchor_linenums: true
   - pymdownx.inlinehilite
+  - pymdownx.keys
   - pymdownx.snippets
   - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
 
 extra_css:
   - css/termynal.css

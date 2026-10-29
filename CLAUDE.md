@@ -40,6 +40,8 @@ uv run --group docs zensical serve            # live preview at http://localhost
 uv run --group docs zensical build --strict   # same command Read the Docs runs
 ```
 
+Docs pages follow a beginner learning path (`index.md` → `getting-started.md` → `guide/{usage,catalog,examples}.md` → `deploy.md` → `faq.md`). `--strict` fails on broken Markdown links and anchors.
+
 ## Architecture
 
 - `aktools/main.py` — builds the `FastAPI` app, serves the homepage and `/version`, and mounts the `app_core` router under `/api`. `gunicorn aktools.main:app` / `uvicorn aktools.main:app` both target this `app`.

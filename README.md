@@ -16,7 +16,9 @@
 
 [AKTools](https://github.com/akfamily/aktools) 是一款用于快速搭建 [AKShare](https://github.com/akfamily/akshare) HTTP API 的工具。只需一行命令即可启动 HTTP 服务，让原本只服务于 Python 用户的开源财经数据接口库 AKShare 突破编程语言的限制：无论您使用的是 C/C++、Java、Go、Rust、Ruby、PHP、JavaScript、R、MATLAB、Stata 等编程语言或软件，都可以快速、轻松地获取财经数据，助力您更好地展开研究和开发工作。
 
-**[AKTools 中文文档](https://aktools.akfamily.xyz/)** | **[AKShare 数据字典](https://akshare.akfamily.xyz/data/index.html)** | **[版本说明](https://github.com/akfamily/aktools/blob/main/docs/aktools_version.md)**
+**[AKTools 中文文档](https://aktools.akfamily.xyz/)** | **[AKShare 数据字典](https://akshare.akfamily.xyz/data/index.html)** | **[版本说明](https://aktools.akfamily.xyz/aktools_version/)**
+
+> **第一次使用？** 请从 [快速入门教程](https://aktools.akfamily.xyz/getting-started/) 开始，约 10 分钟即可完成从安装到下载 Excel 的完整流程。
 
 ## 目录
 
@@ -219,7 +221,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 </details>
 
-更多示例及运行结果，请见 [AKTools 中文文档](https://aktools.akfamily.xyz/aktools/#examples)。
+更多示例及运行结果，请见 [多语言调用](https://aktools.akfamily.xyz/guide/examples/)。
 
 ## 部署
 
@@ -238,7 +240,7 @@ docker run -d -p 8080:8080 aktools
 docker build --build-arg PIP_INDEX_URL=https://mirrors.aliyun.com/pypi/simple/ -t aktools .
 ```
 
-镜像升级等更多说明，请见 [Docker 部署文档](https://aktools.akfamily.xyz/aktools/#docker)。
+镜像升级等更多说明，请见 [部署文档](https://aktools.akfamily.xyz/deploy/#docker)。
 
 ### 生产环境
 
@@ -268,7 +270,7 @@ Remove-Item Env:HTTP_PROXY, Env:HTTPS_PROXY, Env:ALL_PROXY
 
 **返回 404，提示“未找到该接口”或“调用接口出错”**
 
-先升级 AKShare 到最新版，然后对照 [AKShare 数据字典](https://akshare.akfamily.xyz/data/index.html) 检查接口名和参数是否正确。也可以在 Python 中直接调用同名的 AKShare 接口，确认问题是否出在 AKShare。
+先升级 AKShare 到最新版，然后用 `/api/interfaces?q=关键词` 搜索正确的接口名，用 `/api/interfaces/{接口名}` 检查参数名和可选值。也可以在 Python 中直接调用同名的 AKShare 接口，确认问题是否出在 AKShare。
 
 **数据有误或接口报错，应该去哪里反馈？**
 
