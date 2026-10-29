@@ -71,7 +71,9 @@ python -m aktools
 - “AKShare 里有哪些和可转债相关的接口？”
 - “stock_zh_a_hist 这个接口有哪些参数，复权方式怎么填？”
 
-助手会通过 AKTools 提供的 3 个工具完成查询：`search_interfaces` 搜索接口、`describe_interface` 查看参数、`get_data` 获取数据。
+助手会通过 AKTools 提供的 3 个工具完成查询：`search_interfaces` 搜索接口、`describe_interface` 查看参数、`get_data` 获取数据。下面是在 Claude Code 中实际提问的过程（根据真实会话记录回放）：
+
+![在 Claude Code 中提问，AI 助手通过 AKTools 的 MCP 工具查询贵州茅台的日线行情](https://aktools.akfamily.xyz/img/mcp-demo.gif)
 
 <details>
 <summary>Claude Desktop</summary>

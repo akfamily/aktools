@@ -6,6 +6,12 @@ AKTools 内置了 [MCP](https://modelcontextprotocol.io/)（Model Context Protoc
 
 ## 可以问什么 {#examples}
 
+下面是在 Claude Code 中实际提问的过程（根据真实会话记录回放）：
+
+![在 Claude Code 中提问，AI 助手通过 AKTools 的 MCP 工具查询贵州茅台的日线行情](../img/mcp-demo.gif)
+
+更多示例：
+
 - “帮我查一下贵州茅台 2024 年 10 月 8 日到 11 日的前复权日线行情”
 - “AKShare 里有哪些和可转债相关的接口？”
 - “stock_zh_a_hist 这个接口有哪些参数，复权方式怎么填？”
