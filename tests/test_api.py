@@ -6,6 +6,7 @@ Desc: 数据接口错误处理测试
 """
 
 import codecs
+import datetime
 import io
 
 import akshare as ak
@@ -124,3 +125,20 @@ def test_format_param_via_http(fake_interface):
     resp = TestClient(app).get(f"/api/public/{fake_interface}?_format=csv")
     assert resp.status_code == 200
     assert resp.headers["content-type"].startswith("text/csv")
+
+
+def test_format_conversion_error_returns_readable_message(monkeypatch):
+    """
+    数据无法写入 Excel 时返回说明，而不是未处理的 500 错误。
+    object 列中的带时区时间不会被统一去掉时区，openpyxl 会拒绝写入
+    """
+    aware = datetime.datetime(2024, 1, 1, tzinfo=datetime.timezone.utc)
+    monkeypatch.setattr(
+        ak,
+        "aktools_fake_mixed",
+        lambda: pd.DataFrame({"时间": pd.Series([aware, "2024-01-02"], dtype=object)}),
+        raising=False,
+    )
+    resp = call_interface("aktools_fake_mixed", _FakeRequest({"_format": "xlsx"}))
+    assert resp.status_code == 500
+    assert "_format=json" in resp.body.decode("utf-8")

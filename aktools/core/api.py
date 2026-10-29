@@ -9,6 +9,7 @@ import io
 import json
 import logging
 import os
+from typing import Dict, Tuple
 from logging.handlers import TimedRotatingFileHandler
 
 import akshare as ak
@@ -123,11 +124,69 @@ def _file_response(
     )
 
 
-def call_interface(item_id: str, request: Request) -> JSONResponse:
+class InterfaceError(Exception):
+    """调用接口失败，附带对应的 HTTP 状态码；HTTP 路由与 MCP 工具共用同一套错误说明"""
+
+    def __init__(self, message: str, status_code: int):
+        super().__init__(message)
+        self.message = message
+        self.status_code = status_code
+
+
+def fetch_dataframe(item_id: str, params: Dict[str, str]) -> Tuple[pd.DataFrame, str]:
+    """
+    调用 AKShare 接口获取数据，经过结果缓存与 AKShare 内部缓存清理
+    AKShare 为同步请求，调用方以同步函数定义，由 uvicorn 的线程池支持并发访问
+    :param item_id: 接口名，如 stock_zh_a_hist
+    :type item_id: str
+    :param params: 接口参数，值均为文本，如 {"symbol": "000001"}
+    :type params: dict
+    :return: 接口数据，以及是否来自结果缓存（hit 或 miss）
+    :rtype: tuple
+    :raises InterfaceError: 接口不存在、调用出错、返回为空或上游数据源不可达
+    """
+    if not is_interface(item_id):
+        logger.info(f"未找到接口 {item_id}")
+        raise InterfaceError(
+            f"未找到该接口，请升级 AKShare 到最新版本并在文档中确认该接口的使用方式：{DOC_URL}",
+            status.HTTP_404_NOT_FOUND,
+        )
+    akshare_janitor.maybe_clear()
+    # 返回格式不影响数据本身，因此调用方不应把 _format 放进 params，JSON、CSV、Excel 共用同一份缓存
+    cache_key = (item_id, tuple(sorted(params.items())))
+    cached = result_cache.get(cache_key)
+    if cached is not None:
+        return cached, "hit"
+    try:
+        df = getattr(ak, item_id)(**params)
+    except requests.exceptions.RequestException as e:
+        # 网络、代理、连接、超时等上游数据源不可达的错误，与接口用法无关。
+        # 返回 502 并提示排查网络/代理，避免误导用户去升级 AKShare。
+        logger.info(f"接口 {item_id} 访问上游数据源失败：{e}")
+        raise InterfaceError(
+            f"访问上游数据源失败，请检查网络或代理设置（如 HTTP_PROXY/HTTPS_PROXY 环境变量）：{e}",
+            status.HTTP_502_BAD_GATEWAY,
+        ) from e
+    except Exception as e:
+        logger.info(f"调用接口 {item_id} 出错：{e}")
+        raise InterfaceError(
+            f"调用接口出错 {e}，请升级 AKShare 到最新版本并在文档中确认该接口的使用方式：{DOC_URL}",
+            status.HTTP_404_NOT_FOUND,
+        ) from e
+    if df is None:
+        logger.info(f"接口 {item_id} 返回数据为空")
+        raise InterfaceError(
+            f"该接口返回数据为空，请确认参数是否正确：{DOC_URL}",
+            status.HTTP_404_NOT_FOUND,
+        )
+    result_cache.set(cache_key, df)
+    return df, "miss"
+
+
+def call_interface(item_id: str, request: Request) -> Response:
     """
     根据接口名与查询参数调用对应的 AKShare 接口并返回数据
     默认返回 JSON；查询参数 _format=csv 或 _format=xlsx 时返回文件下载
-    AKShare 为同步请求，接口以同步函数定义，由 uvicorn 的线程池支持并发访问
     :param request: 请求信息，查询参数即接口参数，如 symbol=000001
     :type request: Request
     :param item_id: 接口名，如 stock_zh_a_hist
@@ -135,48 +194,28 @@ def call_interface(item_id: str, request: Request) -> JSONResponse:
     :return: 接口数据或错误信息
     :rtype: Response
     """
-    if not is_interface(item_id):
-        logger.info(f"未找到接口 {item_id}")
-        return _error_response(
-            f"未找到该接口，请升级 AKShare 到最新版本并在文档中确认该接口的使用方式：{DOC_URL}"
-        )
     # FastAPI 已对查询串完成 URL 解码，参数值按第一个 = 切分，cookie 等含 = 的值也能正确取出
     params = dict(request.query_params)
     output_format = params.pop(FORMAT_PARAM, "json").lower()
+    # 先校验格式再调用接口，避免格式写错时白白请求一次上游网站
     if output_format not in MEDIA_TYPES:
         return _error_response(
             f"不支持的返回格式 {output_format}，{FORMAT_PARAM} 可选值为：{'、'.join(MEDIA_TYPES)}",
             status_code=status.HTTP_400_BAD_REQUEST,
         )
-    akshare_janitor.maybe_clear()
-    # 返回格式不影响数据本身，因此不计入缓存键，JSON、CSV、Excel 共用同一份缓存
-    cache_key = (item_id, tuple(sorted(params.items())))
     try:
-        received_df = result_cache.get(cache_key)
-        cache_status = "hit" if received_df is not None else "miss"
-        if received_df is None:
-            received_df = getattr(ak, item_id)(**params)
-            if received_df is None:
-                logger.info(f"接口 {item_id} 返回数据为空")
-                return _error_response(
-                    f"该接口返回数据为空，请确认参数是否正确：{DOC_URL}"
-                )
-            result_cache.set(cache_key, received_df)
+        df, cache_status = fetch_dataframe(item_id, params)
+    except InterfaceError as e:
+        return _error_response(e.message, status_code=e.status_code)
+    try:
         if output_format != "json":
-            return _file_response(item_id, received_df, output_format, cache_status)
-        content = json.loads(received_df.to_json(orient="records", date_format="iso"))
-    except requests.exceptions.RequestException as e:
-        # 网络、代理、连接、超时等上游数据源不可达的错误，与接口用法无关。
-        # 返回 502 并提示排查网络/代理，避免误导用户去升级 AKShare。
-        logger.info(f"接口 {item_id} 访问上游数据源失败：{e}")
-        return _error_response(
-            f"访问上游数据源失败，请检查网络或代理设置（如 HTTP_PROXY/HTTPS_PROXY 环境变量）：{e}",
-            status_code=status.HTTP_502_BAD_GATEWAY,
-        )
+            return _file_response(item_id, df, output_format, cache_status)
+        content = json.loads(df.to_json(orient="records", date_format="iso"))
     except Exception as e:
-        logger.info(f"调用接口 {item_id} 出错：{e}")
+        logger.info(f"接口 {item_id} 的数据转换为 {output_format} 失败：{e}")
         return _error_response(
-            f"调用接口出错 {e}，请升级 AKShare 到最新版本并在文档中确认该接口的使用方式：{DOC_URL}"
+            f"数据转换为 {output_format} 格式失败：{e}，可以改用 {FORMAT_PARAM}=json 获取数据",
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
         )
     logger.info(f"获取到 {item_id} 的数据，缓存 {cache_status}")
     return JSONResponse(
