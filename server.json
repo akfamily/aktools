@@ -1,0 +1,30 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.akfamily/aktools",
+  "title": "AKTools",
+  "description": "Search and fetch AKShare financial data (stocks, futures, funds, macro) from AI assistants",
+  "version": "0.0.98",
+  "websiteUrl": "https://aktools.akfamily.xyz/guide/mcp/",
+  "repository": {
+    "url": "https://github.com/akfamily/aktools",
+    "source": "github"
+  },
+  "packages": [
+    {
+      "registryType": "pypi",
+      "registryBaseUrl": "https://pypi.org",
+      "identifier": "aktools",
+      "version": "0.0.98",
+      "runtimeHint": "uvx",
+      "packageArguments": [
+        {
+          "type": "positional",
+          "value": "mcp"
+        }
+      ],
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ]
+}

@@ -101,3 +101,26 @@ def test_startup_message_shows_mcp_url(monkeypatch) -> None:
     result = runner.invoke(cli.app, args=["--port", "8888"])
     assert result.exit_code == 0
     assert "http://127.0.0.1:8888/mcp" in result.stdout
+
+
+def test_mcp_subcommand_starts_stdio_server(monkeypatch) -> None:
+    """aktools mcp 以 stdio 方式启动 MCP，不启动 HTTP 服务；MCP 注册表据此登记为 uvx aktools mcp"""
+    import aktools.mcp_server
+
+    started, http = [], []
+    monkeypatch.setattr(aktools.mcp_server, "main", lambda: started.append(1))
+    monkeypatch.setattr(cli, "run", lambda *args, **kwargs: http.append(1))
+    result = runner.invoke(cli.app, args=["mcp"])
+    assert result.exit_code == 0, result.output
+    assert started == [1]
+    assert http == []
+    # stdout 是 MCP 的协议通道，不能打印 HTTP 服务的启动提示
+    assert result.stdout == ""
+
+
+def test_aktools_command_is_registered() -> None:
+    """pip 安装后提供 aktools 命令，与 python -m aktools 相同"""
+    from importlib.metadata import entry_points
+
+    scripts = {ep.name: ep.value for ep in entry_points(group="console_scripts")}
+    assert scripts.get("aktools") == "aktools.__main__:main"

@@ -58,6 +58,9 @@ dependencies = [
 ]
 
 [project.scripts]
+# aktools 与 python -m aktools 相同：默认启动 HTTP 服务，aktools mcp 以 stdio 方式启动 MCP 服务。
+# MCP 官方注册表的客户端按包名运行 uvx aktools，server.json 据此登记为 uvx aktools mcp
+aktools = "aktools.__main__:main"
 # 供 AI 助手以 stdio 方式启动 MCP 服务，如 uvx --from aktools aktools-mcp
 aktools-mcp = "aktools.mcp_server:main"
 

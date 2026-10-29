@@ -1,0 +1,765 @@
+2026-10-29 18:34:33,038 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 18:34:33,040 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 18:34:33,041 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 18:34:33,081 - AKToolsLog - INFO - 获取 akshare 最新版本失败：timeout
+2026-10-29 18:34:33,082 - AKToolsLog - INFO - 获取 aktools 最新版本失败：down
+2026-10-29 18:41:35,954 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 18:41:35,955 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 18:41:35,956 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 18:41:35,998 - AKToolsLog - INFO - 获取 akshare 最新版本失败：timeout
+2026-10-29 18:41:35,999 - AKToolsLog - INFO - 获取 aktools 最新版本失败：down
+2026-10-29 18:47:20,427 - AKToolsLog - INFO - 获取 aktools 最新版本失败：HTTPSConnectionPool(host='pypi.org', port=443): Read timed out. (read timeout=5)
+2026-10-29 18:49:30,101 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 18:49:30,102 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 18:49:30,102 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 18:49:30,141 - AKToolsLog - INFO - 获取 akshare 最新版本失败：timeout
+2026-10-29 18:49:30,142 - AKToolsLog - INFO - 获取 aktools 最新版本失败：down
+2026-10-29 18:57:57,539 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 18:57:57,540 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 18:57:57,541 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 18:57:57,586 - AKToolsLog - INFO - 获取 akshare 最新版本失败：timeout
+2026-10-29 18:57:57,586 - AKToolsLog - INFO - 获取 aktools 最新版本失败：down
+2026-10-29 19:01:37,527 - AKToolsLog - INFO - 获取到 tool_trade_date_hist_sina 的数据
+2026-10-29 19:02:08,172 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 19:02:08,173 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 19:02:08,174 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 19:02:08,220 - AKToolsLog - INFO - 获取 akshare 最新版本失败：timeout
+2026-10-29 19:02:08,221 - AKToolsLog - INFO - 获取 aktools 最新版本失败：down
+2026-10-29 19:04:56,109 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 19:04:56,110 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 19:04:56,111 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 19:04:56,329 - AKToolsLog - INFO - 获取 akshare 最新版本失败：timeout
+2026-10-29 19:04:56,330 - AKToolsLog - INFO - 获取 aktools 最新版本失败：down
+2026-10-29 19:05:01,957 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 19:05:01,958 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 19:05:01,959 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 19:05:02,219 - AKToolsLog - INFO - 获取 akshare 最新版本失败：timeout
+2026-10-29 19:05:02,220 - AKToolsLog - INFO - 获取 aktools 最新版本失败：down
+2026-10-29 19:05:10,916 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 19:05:10,917 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 19:05:10,917 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 19:05:10,966 - AKToolsLog - INFO - 获取 akshare 最新版本失败：timeout
+2026-10-29 19:05:10,967 - AKToolsLog - INFO - 获取 aktools 最新版本失败：down
+2026-10-29 19:05:39,987 - AKToolsLog - INFO - 获取到 tool_trade_date_hist_sina 的数据
+2026-10-29 19:06:01,710 - AKToolsLog - INFO - 获取到 tool_trade_date_hist_sina 的数据
+2026-10-29 19:06:30,669 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 19:06:30,670 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 19:06:30,671 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 19:06:30,754 - AKToolsLog - INFO - 获取 akshare 最新版本失败：timeout
+2026-10-29 19:06:30,755 - AKToolsLog - INFO - 获取 aktools 最新版本失败：down
+2026-10-29 19:08:10,089 - AKToolsLog - INFO - 获取到 tool_trade_date_hist_sina 的数据
+2026-10-29 19:09:21,056 - AKToolsLog - INFO - 获取到 tool_trade_date_hist_sina 的数据
+2026-10-29 19:09:37,348 - AKToolsLog - INFO - 获取到 tool_trade_date_hist_sina 的数据
+2026-10-29 19:11:24,796 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 19:11:24,797 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 19:11:24,798 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 19:11:24,863 - AKToolsLog - INFO - 获取 akshare 最新版本失败：timeout
+2026-10-29 19:11:24,863 - AKToolsLog - INFO - 获取 aktools 最新版本失败：down
+2026-10-29 19:11:49,578 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 19:11:49,579 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 19:11:49,580 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 19:11:49,640 - AKToolsLog - INFO - 获取 akshare 最新版本失败：timeout
+2026-10-29 19:11:49,641 - AKToolsLog - INFO - 获取 aktools 最新版本失败：down
+2026-10-29 19:20:29,029 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 19:20:29,029 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 19:20:29,030 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 19:20:29,039 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据
+2026-10-29 19:20:29,047 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 19:20:29,071 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 xlsx
+2026-10-29 19:20:29,086 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 19:20:29,172 - AKToolsLog - INFO - 获取 akshare 最新版本失败：timeout
+2026-10-29 19:20:29,173 - AKToolsLog - INFO - 获取 aktools 最新版本失败：down
+2026-10-29 19:20:59,762 - AKToolsLog - INFO - 获取到 tool_trade_date_hist_sina 的数据，格式为 csv
+2026-10-29 19:21:00,135 - AKToolsLog - INFO - 获取到 tool_trade_date_hist_sina 的数据，格式为 xlsx
+2026-10-29 19:21:58,880 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 19:21:58,880 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 19:21:58,881 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 19:21:58,885 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据
+2026-10-29 19:21:58,887 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 19:21:58,896 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 xlsx
+2026-10-29 19:21:58,907 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 19:21:58,987 - AKToolsLog - INFO - 获取 akshare 最新版本失败：timeout
+2026-10-29 19:21:58,987 - AKToolsLog - INFO - 获取 aktools 最新版本失败：down
+2026-10-29 19:24:52,736 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 19:24:52,737 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 19:24:52,737 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 19:24:52,741 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据
+2026-10-29 19:24:52,744 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 19:24:52,751 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 xlsx
+2026-10-29 19:24:52,763 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 19:24:52,848 - AKToolsLog - INFO - 获取 akshare 最新版本失败：timeout
+2026-10-29 19:24:52,849 - AKToolsLog - INFO - 获取 aktools 最新版本失败：down
+2026-10-29 19:31:44,384 - AKToolsLog - INFO - 获取到 tool_trade_date_hist_sina 的数据
+2026-10-29 19:32:05,475 - AKToolsLog - INFO - 获取到 stock_zh_a_daily 的数据
+2026-10-29 19:36:30,039 - AKToolsLog - INFO - 获取到 stock_zh_a_daily 的数据，格式为 xlsx
+2026-10-29 19:36:31,220 - AKToolsLog - INFO - 获取到 stock_zh_a_daily 的数据
+2026-10-29 19:38:30,729 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 19:38:30,730 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 19:38:30,731 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 19:38:30,735 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据
+2026-10-29 19:38:30,738 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 19:38:30,746 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 xlsx
+2026-10-29 19:38:30,759 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 19:38:30,850 - AKToolsLog - INFO - 获取 akshare 最新版本失败：timeout
+2026-10-29 19:38:30,851 - AKToolsLog - INFO - 获取 aktools 最新版本失败：down
+2026-10-29 19:41:05,563 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 19:41:05,564 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 19:41:05,565 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 19:41:05,569 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据
+2026-10-29 19:41:05,571 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 19:41:05,580 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 xlsx
+2026-10-29 19:41:05,594 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 19:41:05,691 - AKToolsLog - INFO - 获取 akshare 最新版本失败：timeout
+2026-10-29 19:41:05,692 - AKToolsLog - INFO - 获取 aktools 最新版本失败：down
+2026-10-29 19:43:12,307 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 19:43:12,308 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 19:43:12,309 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 19:43:12,313 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据
+2026-10-29 19:43:12,315 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 19:43:12,326 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 xlsx
+2026-10-29 19:43:12,342 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 19:43:12,452 - AKToolsLog - INFO - 获取 akshare 最新版本失败：timeout
+2026-10-29 19:43:12,453 - AKToolsLog - INFO - 获取 aktools 最新版本失败：down
+2026-10-29 19:58:48,087 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 19:58:48,088 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 19:58:48,089 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 19:58:48,093 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，缓存 miss
+2026-10-29 19:58:48,095 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 19:58:48,104 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 xlsx
+2026-10-29 19:58:48,115 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 19:58:48,123 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 19:58:48,123 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 hit
+2026-10-29 19:58:48,125 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 19:58:48,125 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，格式为 csv
+2026-10-29 19:58:48,125 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 19:58:48,126 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 19:58:48,126 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 19:58:48,215 - AKToolsLog - INFO - 获取 akshare 最新版本失败：timeout
+2026-10-29 19:58:48,215 - AKToolsLog - INFO - 获取 aktools 最新版本失败：down
+2026-10-29 19:59:02,382 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 19:59:02,383 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 19:59:02,384 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 19:59:02,388 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，缓存 miss
+2026-10-29 19:59:02,391 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 19:59:02,401 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 xlsx
+2026-10-29 19:59:02,415 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 19:59:02,425 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 19:59:02,425 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 hit
+2026-10-29 19:59:02,426 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 19:59:02,427 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，格式为 csv
+2026-10-29 19:59:02,427 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 19:59:02,428 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 19:59:02,428 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 19:59:02,526 - AKToolsLog - INFO - 获取 akshare 最新版本失败：timeout
+2026-10-29 19:59:02,527 - AKToolsLog - INFO - 获取 aktools 最新版本失败：down
+2026-10-29 19:59:38,222 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 19:59:38,223 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 19:59:38,224 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 19:59:38,229 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，缓存 miss
+2026-10-29 19:59:38,232 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 19:59:38,242 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 xlsx
+2026-10-29 19:59:38,255 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 19:59:39,173 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 19:59:39,173 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 hit
+2026-10-29 19:59:39,174 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 19:59:39,174 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，格式为 csv
+2026-10-29 19:59:39,175 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 19:59:39,176 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 19:59:39,176 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 19:59:39,291 - AKToolsLog - INFO - 获取 akshare 最新版本失败：timeout
+2026-10-29 19:59:39,292 - AKToolsLog - INFO - 获取 aktools 最新版本失败：down
+2026-10-29 19:59:50,361 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 19:59:50,362 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 hit
+2026-10-29 19:59:50,363 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 19:59:50,365 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，格式为 csv
+2026-10-29 19:59:50,365 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 19:59:50,366 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 19:59:50,366 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 19:59:53,152 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 19:59:53,152 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 hit
+2026-10-29 19:59:53,153 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 19:59:53,155 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，格式为 csv
+2026-10-29 19:59:53,155 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 19:59:53,156 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 19:59:53,156 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:00:13,314 - AKToolsLog - INFO - 获取到 stock_zh_a_daily 的数据，缓存 miss
+2026-10-29 20:00:13,355 - AKToolsLog - INFO - 获取到 stock_zh_a_daily 的数据，缓存 hit
+2026-10-29 20:00:13,418 - AKToolsLog - INFO - 获取到 stock_zh_a_daily 的数据，格式为 csv
+2026-10-29 20:00:17,918 - AKToolsLog - INFO - 获取到 stock_zh_a_daily 的数据，缓存 miss
+2026-10-29 20:00:18,282 - AKToolsLog - INFO - 获取到 stock_zh_a_daily 的数据，缓存 miss
+2026-10-29 20:01:42,280 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 20:01:42,281 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 20:01:42,282 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 20:01:42,287 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，缓存 miss
+2026-10-29 20:01:42,290 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:01:42,300 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 xlsx
+2026-10-29 20:01:42,314 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:01:43,081 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:01:43,081 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 hit
+2026-10-29 20:01:43,082 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:01:43,082 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，格式为 csv
+2026-10-29 20:01:43,083 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:01:43,084 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:01:43,084 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:01:43,184 - AKToolsLog - INFO - 获取 akshare 最新版本失败：timeout
+2026-10-29 20:01:43,185 - AKToolsLog - INFO - 获取 aktools 最新版本失败：down
+2026-10-29 20:05:29,123 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 20:05:29,124 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 20:05:29,124 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 20:05:29,129 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，缓存 miss
+2026-10-29 20:05:29,131 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:05:29,139 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 xlsx
+2026-10-29 20:05:29,152 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:05:29,900 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:05:29,900 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 hit
+2026-10-29 20:05:29,901 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:05:29,901 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，格式为 csv
+2026-10-29 20:05:29,902 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:05:29,902 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:05:29,903 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:05:29,993 - AKToolsLog - INFO - 获取 akshare 最新版本失败：timeout
+2026-10-29 20:05:29,993 - AKToolsLog - INFO - 获取 aktools 最新版本失败：down
+2026-10-29 20:05:46,550 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 20:05:46,551 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 20:05:46,552 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 20:05:46,556 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，缓存 miss
+2026-10-29 20:05:46,558 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:05:46,566 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 xlsx
+2026-10-29 20:05:46,605 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:05:46,613 - AKToolsLog - INFO - 获取到 aktools_fake_nested 的数据，格式为 xlsx
+2026-10-29 20:06:00,494 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 20:06:00,495 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 20:06:00,496 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 20:06:00,500 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，缓存 miss
+2026-10-29 20:06:00,502 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:06:00,511 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 xlsx
+2026-10-29 20:06:00,524 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:06:00,530 - AKToolsLog - INFO - 获取到 aktools_fake_nested 的数据，格式为 xlsx
+2026-10-29 20:06:01,718 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:06:01,718 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 hit
+2026-10-29 20:06:01,719 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:06:01,719 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，格式为 csv
+2026-10-29 20:06:01,719 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:06:01,720 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:06:01,720 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:06:01,814 - AKToolsLog - INFO - 获取 akshare 最新版本失败：timeout
+2026-10-29 20:06:01,815 - AKToolsLog - INFO - 获取 aktools 最新版本失败：down
+2026-10-29 20:06:11,942 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 20:06:11,943 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 20:06:11,943 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 20:06:11,948 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，缓存 miss
+2026-10-29 20:06:11,950 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:06:11,959 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 xlsx
+2026-10-29 20:06:11,972 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:06:11,978 - AKToolsLog - INFO - 获取到 aktools_fake_nested 的数据，格式为 xlsx
+2026-10-29 20:06:12,921 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:06:12,921 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 hit
+2026-10-29 20:06:12,922 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:06:12,923 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，格式为 csv
+2026-10-29 20:06:12,923 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:06:12,924 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:06:12,924 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:06:13,028 - AKToolsLog - INFO - 获取 akshare 最新版本失败：timeout
+2026-10-29 20:06:13,029 - AKToolsLog - INFO - 获取 aktools 最新版本失败：down
+2026-10-29 20:06:39,660 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 20:06:39,661 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 20:06:39,662 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 20:06:39,666 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，缓存 miss
+2026-10-29 20:06:39,669 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:06:39,677 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 xlsx
+2026-10-29 20:06:39,689 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:06:39,696 - AKToolsLog - INFO - 接口 aktools_fake_mixed 的数据转换为 xlsx 失败：Excel does not support datetimes with timezones. Please ensure that datetimes are timezone unaware before writing to Excel.
+2026-10-29 20:06:40,537 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:06:40,537 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 hit
+2026-10-29 20:06:40,538 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:06:40,539 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，格式为 csv
+2026-10-29 20:06:40,539 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:06:40,540 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:06:40,541 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:06:40,652 - AKToolsLog - INFO - 获取 akshare 最新版本失败：timeout
+2026-10-29 20:06:40,653 - AKToolsLog - INFO - 获取 aktools 最新版本失败：down
+2026-10-29 20:06:42,523 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 20:06:42,524 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 20:06:42,525 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 20:06:42,529 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，缓存 miss
+2026-10-29 20:06:42,531 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:06:42,539 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 xlsx
+2026-10-29 20:06:42,571 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:06:42,577 - AKToolsLog - INFO - 调用接口 aktools_fake_mixed 出错：Excel does not support datetimes with timezones. Please ensure that datetimes are timezone unaware before writing to Excel.
+2026-10-29 20:06:44,435 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 20:06:44,436 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 20:06:44,437 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 20:06:44,441 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，缓存 miss
+2026-10-29 20:06:44,443 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:06:44,451 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 xlsx
+2026-10-29 20:06:44,490 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:06:44,499 - AKToolsLog - INFO - 接口 aktools_fake_mixed 的数据转换为 xlsx 失败：Excel does not support datetimes with timezones. Please ensure that datetimes are timezone unaware before writing to Excel.
+2026-10-29 20:08:07,589 - AKToolsLog - INFO - 未找到接口 nope_xyz
+2026-10-29 20:08:08,545 - AKToolsLog - INFO - 未安装 MCP 依赖，/mcp 不可用；如需使用请执行 pip install aktools[mcp]
+2026-10-29 20:08:46,900 - AKToolsLog - INFO - 未找到接口 nope_xyz
+2026-10-29 20:08:48,006 - AKToolsLog - INFO - 未安装 MCP 依赖，/mcp 不可用；如需使用请执行 pip install aktools[mcp]
+2026-10-29 20:09:03,311 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 20:09:03,312 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 20:09:03,313 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 20:09:03,318 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，缓存 miss
+2026-10-29 20:09:03,322 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:09:03,335 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 xlsx
+2026-10-29 20:09:03,350 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:09:03,358 - AKToolsLog - INFO - 接口 aktools_fake_mixed 的数据转换为 xlsx 失败：Excel does not support datetimes with timezones. Please ensure that datetimes are timezone unaware before writing to Excel.
+2026-10-29 20:09:04,181 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:09:04,181 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 hit
+2026-10-29 20:09:04,182 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:09:04,183 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，格式为 csv
+2026-10-29 20:09:04,183 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:09:04,184 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:09:04,184 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:09:04,368 - AKToolsLog - INFO - 未找到接口 nope_xyz
+2026-10-29 20:09:05,282 - AKToolsLog - INFO - 未安装 MCP 依赖，/mcp 不可用；如需使用请执行 pip install aktools[mcp]
+2026-10-29 20:09:05,466 - AKToolsLog - INFO - 获取 akshare 最新版本失败：timeout
+2026-10-29 20:09:05,467 - AKToolsLog - INFO - 获取 aktools 最新版本失败：down
+2026-10-29 20:10:20,058 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 20:10:20,059 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 20:10:20,061 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 20:10:20,076 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，缓存 miss
+2026-10-29 20:10:20,085 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:10:20,109 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 xlsx
+2026-10-29 20:10:20,128 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:10:20,135 - AKToolsLog - INFO - 接口 aktools_fake_mixed 的数据转换为 xlsx 失败：Excel does not support datetimes with timezones. Please ensure that datetimes are timezone unaware before writing to Excel.
+2026-10-29 20:10:20,959 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:10:20,959 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 hit
+2026-10-29 20:10:20,960 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:10:20,961 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，格式为 csv
+2026-10-29 20:10:20,961 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:10:20,962 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:10:20,962 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:10:21,225 - AKToolsLog - INFO - 未找到接口 nope_xyz
+2026-10-29 20:10:22,260 - AKToolsLog - INFO - 未安装 MCP 依赖，/mcp 不可用；如需使用请执行 pip install aktools[mcp]
+2026-10-29 20:10:22,468 - AKToolsLog - INFO - 获取 akshare 最新版本失败：timeout
+2026-10-29 20:10:22,468 - AKToolsLog - INFO - 获取 aktools 最新版本失败：down
+2026-10-29 20:10:38,818 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 20:10:38,819 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 20:10:38,820 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 20:10:38,829 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，缓存 miss
+2026-10-29 20:10:38,835 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:10:38,858 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 xlsx
+2026-10-29 20:10:38,871 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:10:38,876 - AKToolsLog - INFO - 接口 aktools_fake_mixed 的数据转换为 xlsx 失败：Excel does not support datetimes with timezones. Please ensure that datetimes are timezone unaware before writing to Excel.
+2026-10-29 20:10:39,701 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:10:39,701 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 hit
+2026-10-29 20:10:39,702 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:10:39,703 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，格式为 csv
+2026-10-29 20:10:39,703 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:10:39,704 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:10:39,704 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:10:39,949 - AKToolsLog - INFO - 未找到接口 nope_xyz
+2026-10-29 20:10:40,911 - AKToolsLog - INFO - 未安装 MCP 依赖，/mcp 不可用；如需使用请执行 pip install aktools[mcp]
+2026-10-29 20:10:41,124 - AKToolsLog - INFO - 获取 akshare 最新版本失败：timeout
+2026-10-29 20:10:41,125 - AKToolsLog - INFO - 获取 aktools 最新版本失败：down
+2026-10-29 20:10:51,159 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 20:10:51,160 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 20:10:51,162 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 20:10:51,167 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，缓存 miss
+2026-10-29 20:10:51,171 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:10:51,181 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 xlsx
+2026-10-29 20:10:51,195 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:10:51,202 - AKToolsLog - INFO - 接口 aktools_fake_mixed 的数据转换为 xlsx 失败：Excel does not support datetimes with timezones. Please ensure that datetimes are timezone unaware before writing to Excel.
+2026-10-29 20:10:52,009 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:10:52,009 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 hit
+2026-10-29 20:10:52,010 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:10:52,011 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，格式为 csv
+2026-10-29 20:10:52,011 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:10:52,012 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:10:52,012 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:10:52,171 - AKToolsLog - INFO - 未找到接口 nope_xyz
+2026-10-29 20:10:53,208 - AKToolsLog - INFO - 未安装 MCP 依赖，/mcp 不可用；如需使用请执行 pip install aktools[mcp]
+2026-10-29 20:10:53,368 - AKToolsLog - INFO - 获取 akshare 最新版本失败：timeout
+2026-10-29 20:10:53,368 - AKToolsLog - INFO - 获取 aktools 最新版本失败：down
+2026-10-29 20:11:29,224 - AKToolsLog - INFO - 未找到接口 nope_xyz
+2026-10-29 20:11:47,034 - AKToolsLog - INFO - 未找到接口 nope_xyz
+2026-10-29 20:11:48,287 - AKToolsLog - INFO - 未安装 MCP 依赖，/mcp 不可用；如需使用请执行 pip install aktools[mcp]
+2026-10-29 20:11:51,320 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 20:11:51,321 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 20:11:51,322 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 20:11:51,327 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，缓存 miss
+2026-10-29 20:11:51,330 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:11:51,338 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 xlsx
+2026-10-29 20:11:51,353 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:11:51,360 - AKToolsLog - INFO - 接口 aktools_fake_mixed 的数据转换为 xlsx 失败：Excel does not support datetimes with timezones. Please ensure that datetimes are timezone unaware before writing to Excel.
+2026-10-29 20:11:52,204 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:11:52,204 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 hit
+2026-10-29 20:11:52,205 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:11:52,206 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，格式为 csv
+2026-10-29 20:11:52,206 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:11:52,207 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:11:52,207 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:11:53,403 - AKToolsLog - INFO - 未安装 MCP 依赖，/mcp 不可用；如需使用请执行 pip install aktools[mcp]
+2026-10-29 20:11:53,668 - AKToolsLog - INFO - 获取 akshare 最新版本失败：timeout
+2026-10-29 20:11:53,669 - AKToolsLog - INFO - 获取 aktools 最新版本失败：down
+2026-10-29 20:14:09,504 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 20:14:09,505 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 20:14:09,506 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 20:14:09,510 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，缓存 miss
+2026-10-29 20:14:09,513 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:14:09,521 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 xlsx
+2026-10-29 20:14:09,533 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:14:09,540 - AKToolsLog - INFO - 接口 aktools_fake_mixed 的数据转换为 xlsx 失败：Excel does not support datetimes with timezones. Please ensure that datetimes are timezone unaware before writing to Excel.
+2026-10-29 20:14:10,296 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:14:10,296 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 hit
+2026-10-29 20:14:10,298 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:14:10,298 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，格式为 csv
+2026-10-29 20:14:10,298 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:14:10,299 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:14:10,299 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:14:11,532 - AKToolsLog - INFO - 未安装 MCP 依赖，/mcp 不可用；如需使用请执行 pip install aktools[mcp]
+2026-10-29 20:14:11,749 - AKToolsLog - INFO - 获取 akshare 最新版本失败：timeout
+2026-10-29 20:14:11,750 - AKToolsLog - INFO - 获取 aktools 最新版本失败：down
+2026-10-29 20:22:21,561 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 20:22:21,562 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 20:22:21,563 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 20:22:21,567 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，缓存 miss
+2026-10-29 20:22:21,569 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:22:21,577 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 xlsx
+2026-10-29 20:22:21,586 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:22:21,591 - AKToolsLog - INFO - 接口 aktools_fake_mixed 的数据转换为 xlsx 失败：Excel does not support datetimes with timezones. Please ensure that datetimes are timezone unaware before writing to Excel.
+2026-10-29 20:22:57,159 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 20:22:57,160 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 20:22:57,161 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 20:22:57,166 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，缓存 miss
+2026-10-29 20:22:57,169 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:22:57,180 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 xlsx
+2026-10-29 20:22:57,197 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:22:57,205 - AKToolsLog - INFO - 接口 aktools_fake_mixed 的数据转换为 xlsx 失败：Excel does not support datetimes with timezones. Please ensure that datetimes are timezone unaware before writing to Excel.
+2026-10-29 20:22:58,015 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:22:58,016 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 hit
+2026-10-29 20:22:58,017 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:22:58,017 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，格式为 csv
+2026-10-29 20:22:58,017 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:22:58,018 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:22:58,018 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:22:59,966 - AKToolsLog - INFO - 获取 akshare 最新版本失败：timeout
+2026-10-29 20:22:59,967 - AKToolsLog - INFO - 获取 aktools 最新版本失败：down
+2026-10-29 20:25:05,547 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 20:25:05,548 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 20:25:05,549 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 20:25:05,554 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，缓存 miss
+2026-10-29 20:25:05,559 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:25:05,568 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 xlsx
+2026-10-29 20:25:05,580 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:25:05,587 - AKToolsLog - INFO - 接口 aktools_fake_mixed 的数据转换为 xlsx 失败：Excel does not support datetimes with timezones. Please ensure that datetimes are timezone unaware before writing to Excel.
+2026-10-29 20:25:06,448 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:25:06,448 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 hit
+2026-10-29 20:25:06,449 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:25:06,450 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，格式为 csv
+2026-10-29 20:25:06,450 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:25:06,451 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:25:06,451 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:25:10,529 - AKToolsLog - INFO - 获取 akshare 最新版本失败：timeout
+2026-10-29 20:25:10,530 - AKToolsLog - INFO - 获取 aktools 最新版本失败：down
+2026-10-29 20:27:06,122 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 20:27:06,123 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 20:27:06,124 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 20:27:06,128 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，缓存 miss
+2026-10-29 20:27:06,131 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:27:06,141 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 xlsx
+2026-10-29 20:27:06,154 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:27:06,161 - AKToolsLog - INFO - 接口 aktools_fake_mixed 的数据转换为 xlsx 失败：Excel does not support datetimes with timezones. Please ensure that datetimes are timezone unaware before writing to Excel.
+2026-10-29 20:27:06,936 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:27:06,936 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 hit
+2026-10-29 20:27:06,937 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:27:06,938 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，格式为 csv
+2026-10-29 20:27:06,938 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:27:06,939 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:27:06,939 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:27:10,572 - AKToolsLog - INFO - 获取 akshare 最新版本失败：timeout
+2026-10-29 20:27:10,573 - AKToolsLog - INFO - 获取 aktools 最新版本失败：down
+2026-10-29 20:27:18,524 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 20:27:18,525 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 20:27:18,526 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 20:27:18,537 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，缓存 miss
+2026-10-29 20:27:18,543 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:27:18,568 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 xlsx
+2026-10-29 20:27:18,583 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:27:18,589 - AKToolsLog - INFO - 接口 aktools_fake_mixed 的数据转换为 xlsx 失败：Excel does not support datetimes with timezones. Please ensure that datetimes are timezone unaware before writing to Excel.
+2026-10-29 20:27:19,425 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:27:19,426 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 hit
+2026-10-29 20:27:19,427 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:27:19,427 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，格式为 csv
+2026-10-29 20:27:19,427 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:27:19,428 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:27:19,428 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:27:22,885 - AKToolsLog - INFO - 获取 akshare 最新版本失败：timeout
+2026-10-29 20:27:22,886 - AKToolsLog - INFO - 获取 aktools 最新版本失败：down
+2026-10-29 20:27:31,737 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 20:27:31,738 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 20:27:31,739 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 20:27:31,747 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，缓存 miss
+2026-10-29 20:27:31,754 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:27:31,777 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 xlsx
+2026-10-29 20:27:31,790 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:27:31,797 - AKToolsLog - INFO - 接口 aktools_fake_mixed 的数据转换为 xlsx 失败：Excel does not support datetimes with timezones. Please ensure that datetimes are timezone unaware before writing to Excel.
+2026-10-29 20:27:32,604 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:27:32,604 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 hit
+2026-10-29 20:27:32,605 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:27:32,605 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，格式为 csv
+2026-10-29 20:27:32,606 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:27:32,606 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:27:32,606 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:27:36,589 - AKToolsLog - INFO - 获取 akshare 最新版本失败：timeout
+2026-10-29 20:27:36,589 - AKToolsLog - INFO - 获取 aktools 最新版本失败：down
+2026-10-29 20:27:48,737 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 20:27:48,738 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 20:27:48,739 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 20:27:48,744 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，缓存 miss
+2026-10-29 20:27:48,747 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:27:48,757 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 xlsx
+2026-10-29 20:27:48,771 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:27:48,777 - AKToolsLog - INFO - 接口 aktools_fake_mixed 的数据转换为 xlsx 失败：Excel does not support datetimes with timezones. Please ensure that datetimes are timezone unaware before writing to Excel.
+2026-10-29 20:27:49,559 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:27:49,559 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 hit
+2026-10-29 20:27:49,560 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:27:49,561 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，格式为 csv
+2026-10-29 20:27:49,561 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:27:49,562 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:27:49,562 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:27:52,898 - AKToolsLog - INFO - 获取 akshare 最新版本失败：timeout
+2026-10-29 20:27:52,899 - AKToolsLog - INFO - 获取 aktools 最新版本失败：down
+2026-10-29 20:27:55,388 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 20:27:55,389 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 20:27:55,390 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 20:27:55,395 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，缓存 miss
+2026-10-29 20:27:55,399 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:27:55,411 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 xlsx
+2026-10-29 20:27:55,426 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:27:55,433 - AKToolsLog - INFO - 接口 aktools_fake_mixed 的数据转换为 xlsx 失败：Excel does not support datetimes with timezones. Please ensure that datetimes are timezone unaware before writing to Excel.
+2026-10-29 20:27:56,260 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:27:56,260 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 hit
+2026-10-29 20:27:56,261 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:27:56,261 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，格式为 csv
+2026-10-29 20:27:56,262 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:27:56,263 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:27:56,263 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:27:59,709 - AKToolsLog - INFO - 获取 akshare 最新版本失败：timeout
+2026-10-29 20:27:59,710 - AKToolsLog - INFO - 获取 aktools 最新版本失败：down
+2026-10-29 20:28:02,282 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 20:28:02,284 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 20:28:02,284 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 20:28:02,289 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，缓存 miss
+2026-10-29 20:28:02,291 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:28:02,301 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 xlsx
+2026-10-29 20:28:02,313 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:28:02,320 - AKToolsLog - INFO - 接口 aktools_fake_mixed 的数据转换为 xlsx 失败：Excel does not support datetimes with timezones. Please ensure that datetimes are timezone unaware before writing to Excel.
+2026-10-29 20:28:03,115 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:28:03,115 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 hit
+2026-10-29 20:28:03,116 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:28:03,117 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，格式为 csv
+2026-10-29 20:28:03,117 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:28:03,118 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:28:03,118 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:28:06,927 - AKToolsLog - INFO - 获取 akshare 最新版本失败：timeout
+2026-10-29 20:28:06,928 - AKToolsLog - INFO - 获取 aktools 最新版本失败：down
+2026-10-29 20:28:09,532 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 20:28:09,533 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 20:28:09,534 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 20:28:09,538 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，缓存 miss
+2026-10-29 20:28:09,541 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:28:09,549 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 xlsx
+2026-10-29 20:28:09,562 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:28:09,568 - AKToolsLog - INFO - 接口 aktools_fake_mixed 的数据转换为 xlsx 失败：Excel does not support datetimes with timezones. Please ensure that datetimes are timezone unaware before writing to Excel.
+2026-10-29 20:28:10,377 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:28:10,377 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 hit
+2026-10-29 20:28:10,378 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:28:10,379 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，格式为 csv
+2026-10-29 20:28:10,379 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:28:10,380 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:28:10,380 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:28:14,082 - AKToolsLog - INFO - 获取 akshare 最新版本失败：timeout
+2026-10-29 20:28:14,082 - AKToolsLog - INFO - 获取 aktools 最新版本失败：down
+2026-10-29 20:28:27,792 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 20:28:27,793 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 20:28:27,794 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 20:28:27,799 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，缓存 miss
+2026-10-29 20:28:27,803 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:28:27,816 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 xlsx
+2026-10-29 20:28:27,832 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:28:27,839 - AKToolsLog - INFO - 接口 aktools_fake_mixed 的数据转换为 xlsx 失败：Excel does not support datetimes with timezones. Please ensure that datetimes are timezone unaware before writing to Excel.
+2026-10-29 20:28:28,777 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:28:28,777 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 hit
+2026-10-29 20:28:28,778 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:28:28,779 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，格式为 csv
+2026-10-29 20:28:28,779 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:28:28,780 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:28:28,780 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:28:32,661 - AKToolsLog - INFO - 获取 akshare 最新版本失败：timeout
+2026-10-29 20:28:32,662 - AKToolsLog - INFO - 获取 aktools 最新版本失败：down
+2026-10-29 20:28:35,311 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 20:28:35,312 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 20:28:35,313 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 20:28:35,317 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，缓存 miss
+2026-10-29 20:28:35,319 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:28:35,328 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 xlsx
+2026-10-29 20:28:35,342 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:28:35,348 - AKToolsLog - INFO - 接口 aktools_fake_mixed 的数据转换为 xlsx 失败：Excel does not support datetimes with timezones. Please ensure that datetimes are timezone unaware before writing to Excel.
+2026-10-29 20:28:36,244 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:28:36,244 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 hit
+2026-10-29 20:28:36,245 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:28:36,246 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，格式为 csv
+2026-10-29 20:28:36,246 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:28:36,247 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:28:36,248 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:28:40,022 - AKToolsLog - INFO - 获取 akshare 最新版本失败：timeout
+2026-10-29 20:28:40,023 - AKToolsLog - INFO - 获取 aktools 最新版本失败：down
+2026-10-29 20:30:50,239 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 20:30:50,240 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 20:30:50,241 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 20:30:50,245 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，缓存 miss
+2026-10-29 20:30:50,247 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:30:50,256 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 xlsx
+2026-10-29 20:30:50,267 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:30:50,273 - AKToolsLog - INFO - 接口 aktools_fake_mixed 的数据转换为 xlsx 失败：Excel does not support datetimes with timezones. Please ensure that datetimes are timezone unaware before writing to Excel.
+2026-10-29 20:30:50,992 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:30:50,992 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 hit
+2026-10-29 20:30:50,993 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:30:50,993 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，格式为 csv
+2026-10-29 20:30:50,994 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:30:50,994 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:30:50,994 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:30:54,224 - AKToolsLog - INFO - 获取 akshare 最新版本失败：timeout
+2026-10-29 20:30:54,224 - AKToolsLog - INFO - 获取 aktools 最新版本失败：down
+2026-10-29 20:30:56,509 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 20:30:56,510 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 20:30:56,511 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 20:30:56,515 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，缓存 miss
+2026-10-29 20:30:56,518 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:30:56,526 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 xlsx
+2026-10-29 20:30:56,540 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:30:56,546 - AKToolsLog - INFO - 接口 aktools_fake_mixed 的数据转换为 xlsx 失败：Excel does not support datetimes with timezones. Please ensure that datetimes are timezone unaware before writing to Excel.
+2026-10-29 20:30:57,281 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:30:57,282 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 hit
+2026-10-29 20:30:57,283 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:30:57,283 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，格式为 csv
+2026-10-29 20:30:57,283 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:30:57,284 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:30:57,284 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:31:00,465 - AKToolsLog - INFO - 获取 akshare 最新版本失败：timeout
+2026-10-29 20:31:00,466 - AKToolsLog - INFO - 获取 aktools 最新版本失败：down
+2026-10-29 20:31:02,739 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 20:31:02,741 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 20:31:02,741 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 20:31:02,746 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，缓存 miss
+2026-10-29 20:31:02,748 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:31:02,757 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 xlsx
+2026-10-29 20:31:02,770 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:31:02,777 - AKToolsLog - INFO - 接口 aktools_fake_mixed 的数据转换为 xlsx 失败：Excel does not support datetimes with timezones. Please ensure that datetimes are timezone unaware before writing to Excel.
+2026-10-29 20:31:03,519 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:31:03,519 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 hit
+2026-10-29 20:31:03,520 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:31:03,521 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，格式为 csv
+2026-10-29 20:31:03,521 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:31:03,522 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:31:03,522 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:31:06,860 - AKToolsLog - INFO - 获取 akshare 最新版本失败：timeout
+2026-10-29 20:31:06,860 - AKToolsLog - INFO - 获取 aktools 最新版本失败：down
+2026-10-29 20:31:09,176 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 20:31:09,177 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 20:31:09,178 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 20:31:09,183 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，缓存 miss
+2026-10-29 20:31:09,185 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:31:09,194 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 xlsx
+2026-10-29 20:31:09,205 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:31:09,212 - AKToolsLog - INFO - 接口 aktools_fake_mixed 的数据转换为 xlsx 失败：Excel does not support datetimes with timezones. Please ensure that datetimes are timezone unaware before writing to Excel.
+2026-10-29 20:31:09,965 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:31:09,966 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 hit
+2026-10-29 20:31:09,967 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:31:09,967 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，格式为 csv
+2026-10-29 20:31:09,968 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:31:09,968 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:31:09,969 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:31:13,236 - AKToolsLog - INFO - 获取 akshare 最新版本失败：timeout
+2026-10-29 20:31:13,237 - AKToolsLog - INFO - 获取 aktools 最新版本失败：down
+2026-10-29 20:31:15,579 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 20:31:15,580 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 20:31:15,581 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 20:31:15,585 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，缓存 miss
+2026-10-29 20:31:15,588 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:31:15,597 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 xlsx
+2026-10-29 20:31:15,610 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:31:15,617 - AKToolsLog - INFO - 接口 aktools_fake_mixed 的数据转换为 xlsx 失败：Excel does not support datetimes with timezones. Please ensure that datetimes are timezone unaware before writing to Excel.
+2026-10-29 20:31:16,363 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:31:16,363 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 hit
+2026-10-29 20:31:16,364 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:31:16,365 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，格式为 csv
+2026-10-29 20:31:16,365 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:31:16,366 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:31:16,366 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:31:19,595 - AKToolsLog - INFO - 获取 akshare 最新版本失败：timeout
+2026-10-29 20:31:19,595 - AKToolsLog - INFO - 获取 aktools 最新版本失败：down
+2026-10-29 20:34:19,820 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 20:34:19,821 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 20:34:19,822 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 20:34:19,826 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，缓存 miss
+2026-10-29 20:34:19,828 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:34:19,837 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 xlsx
+2026-10-29 20:34:19,854 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:34:19,863 - AKToolsLog - INFO - 接口 aktools_fake_mixed 的数据转换为 xlsx 失败：Excel does not support datetimes with timezones. Please ensure that datetimes are timezone unaware before writing to Excel.
+2026-10-29 20:34:20,627 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:34:20,628 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 hit
+2026-10-29 20:34:20,629 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:34:20,629 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，格式为 csv
+2026-10-29 20:34:20,630 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:34:20,630 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:34:20,630 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:34:23,866 - AKToolsLog - INFO - 获取 akshare 最新版本失败：timeout
+2026-10-29 20:34:23,868 - AKToolsLog - INFO - 获取 aktools 最新版本失败：down
+2026-10-29 20:35:41,209 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 20:35:41,209 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 20:35:41,210 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 20:35:41,216 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，缓存 miss
+2026-10-29 20:35:41,219 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:35:41,231 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 xlsx
+2026-10-29 20:35:41,243 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 20:35:41,249 - AKToolsLog - INFO - 接口 aktools_fake_mixed 的数据转换为 xlsx 失败：Excel does not support datetimes with timezones. Please ensure that datetimes are timezone unaware before writing to Excel.
+2026-10-29 20:35:41,964 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:35:41,965 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 hit
+2026-10-29 20:35:41,966 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:35:41,966 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，格式为 csv
+2026-10-29 20:35:41,966 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 20:35:41,967 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:35:41,967 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 20:35:46,501 - AKToolsLog - INFO - 获取 akshare 最新版本失败：timeout
+2026-10-29 20:35:46,502 - AKToolsLog - INFO - 获取 aktools 最新版本失败：down
+2026-10-29 20:35:58,034 - AKToolsLog - INFO - 获取 aktools 最新版本失败：HTTPSConnectionPool(host='pypi.org', port=443): Read timed out. (read timeout=5)
+2026-10-29 20:35:58,258 - AKToolsLog - INFO - 获取到 tool_trade_date_hist_sina 的数据，缓存 miss
+2026-10-29 23:39:33,306 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 23:39:33,307 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 23:39:33,308 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 23:39:33,315 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，缓存 miss
+2026-10-29 23:39:33,318 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 23:39:33,330 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 xlsx
+2026-10-29 23:39:33,342 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 23:39:33,348 - AKToolsLog - INFO - 接口 aktools_fake_mixed 的数据转换为 xlsx 失败：Excel does not support datetimes with timezones. Please ensure that datetimes are timezone unaware before writing to Excel.
+2026-10-29 23:39:34,082 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 23:39:34,082 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 hit
+2026-10-29 23:39:34,083 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 23:39:34,084 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，格式为 csv
+2026-10-29 23:39:34,084 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 23:39:34,085 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 23:39:34,085 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 23:39:38,729 - AKToolsLog - INFO - 获取 akshare 最新版本失败：timeout
+2026-10-29 23:39:38,729 - AKToolsLog - INFO - 获取 aktools 最新版本失败：down
+2026-10-29 23:42:18,358 - AKToolsLog - INFO - 未找到接口 not_a_real_interface_xyz
+2026-10-29 23:42:18,359 - AKToolsLog - INFO - 接口 aktools_fake_net 访问上游数据源失败：Unable to connect to proxy
+2026-10-29 23:42:18,359 - AKToolsLog - INFO - 调用接口 aktools_fake_err 出错：bad argument
+2026-10-29 23:42:18,363 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，缓存 miss
+2026-10-29 23:42:18,366 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 23:42:18,375 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 xlsx
+2026-10-29 23:42:18,388 - AKToolsLog - INFO - 获取到 aktools_fake_df 的数据，格式为 csv
+2026-10-29 23:42:18,394 - AKToolsLog - INFO - 接口 aktools_fake_mixed 的数据转换为 xlsx 失败：Excel does not support datetimes with timezones. Please ensure that datetimes are timezone unaware before writing to Excel.
+2026-10-29 23:42:19,238 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 23:42:19,239 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 hit
+2026-10-29 23:42:19,240 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 23:42:19,240 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，格式为 csv
+2026-10-29 23:42:19,240 - AKToolsLog - INFO - 获取到 aktools_fake_count 的数据，缓存 miss
+2026-10-29 23:42:19,241 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 23:42:19,241 - AKToolsLog - INFO - 接口 aktools_fake_none 返回数据为空
+2026-10-29 23:42:24,417 - AKToolsLog - INFO - 获取 akshare 最新版本失败：timeout
+2026-10-29 23:42:24,418 - AKToolsLog - INFO - 获取 aktools 最新版本失败：down

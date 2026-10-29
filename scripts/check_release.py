@@ -7,15 +7,17 @@ Desc: 发布前校验版本元数据自洽，供 release_and_deploy.yml 在构�
 必须在 twine upload 之前运行：PyPI 的版本号一经占用即不可重用，
 发错版本号只能改用下一个号，无法撤回。
 
-校验三处必须一致：
+校验四处必须一致：
     1. git tag（v0.0.92）
     2. aktools/_version.py 中的 __version__
     3. docs/aktools_version.md 的版本条目（行首为「0.0.92: 」）
+    4. server.json（MCP 官方注册表的登记信息）中的 version 与 PyPI 包的 version
 
 本脚本只依赖标准库，因此 CI 中无需安装任何依赖即可运行。
 """
 
 import argparse
+import json
 import pathlib
 import re
 from typing import List
@@ -92,6 +94,15 @@ def collect_problems(repo_root: pathlib.Path, tag: str) -> List[str]:
     )
     if not has_version_entry(changelog_text, file_version):
         problems.append(f"docs/aktools_version.md 缺少 {file_version} 的版本说明")
+
+    server = json.loads((repo_root / "server.json").read_text(encoding="utf-8"))
+    server_versions = [server.get("version")] + [
+        package.get("version") for package in server.get("packages", [])
+    ]
+    if any(v != tag_version for v in server_versions):
+        problems.append(
+            f"server.json 的版本 {server_versions} 与 tag 版本 {tag_version} 不一致"
+        )
 
     return problems
 

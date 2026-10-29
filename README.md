@@ -1,5 +1,7 @@
 # AKTools
 
+<!-- mcp-name: io.github.akfamily/aktools -->
+
 > AKTools exposes [AKShare](https://github.com/akfamily/akshare)'s financial data as an HTTP API and an MCP server, so you can fetch it from any programming language or AI assistant.
 
 [![PyPI](https://img.shields.io/pypi/v/aktools.svg)](https://pypi.org/project/aktools/)
@@ -94,7 +96,11 @@ claude mcp add aktools -- uvx --from aktools aktools-mcp
 <details>
 <summary>Cursor</summary>
 
-把上面的配置加入项目的 `.cursor/mcp.json`，或全局的 `~/.cursor/mcp.json`。
+点击按钮一键添加：
+
+[![Add AKTools MCP server to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/install-mcp?name=aktools&config=eyJjb21tYW5kIjoidXZ4IiwiYXJncyI6WyItLWZyb20iLCJha3Rvb2xzIiwiYWt0b29scy1tY3AiXX0%3D)
+
+也可以手动把上面的配置加入项目的 `.cursor/mcp.json`，或全局的 `~/.cursor/mcp.json`。
 
 </details>
 

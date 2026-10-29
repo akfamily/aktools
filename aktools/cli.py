@@ -49,8 +49,9 @@ def version_callback(value: bool):
         raise typer.Exit()
 
 
-@app.command()
+@app.callback(invoke_without_command=True)
 def main(
+    ctx: typer.Context,
     host: str = typer.Option("127.0.0.1", "--host", "-H", help="设置主机地址"),
     port: int = typer.Option(
         8080, "--port", "-P", min=0, max=65535, clamp=True, help="设置端口"
@@ -79,6 +80,9 @@ def main(
         is_eager=True,
     ),
 ) -> None:
+    """启动 AKTools 的 HTTP 服务；带子命令（如 mcp）时只执行子命令"""
+    if ctx.invoked_subcommand is not None:
+        return
     # 以参数列表传入且不经过 shell，Python 或 aktools 的安装路径中含空格时也能正确启动；
     # aktools.main:app 按包路径加载，无需再通过 --app-dir 指定目录
     command = [
@@ -118,5 +122,18 @@ def main(
     run(command, env=env)
 
 
+@app.command(
+    "mcp", help="以 stdio 方式启动 MCP 服务，供 AI 助手自行启动（与 aktools-mcp 相同）"
+)
+def mcp() -> None:
+    """
+    以 stdio 方式启动 MCP 服务，供 AI 助手自行启动，与 aktools-mcp 命令相同。
+    MCP 官方注册表的客户端按包名运行 uvx aktools，因此在 server.json 中登记为 uvx aktools mcp
+    """
+    import aktools.mcp_server
+
+    aktools.mcp_server.main()
+
+
 if __name__ == "__main__":
-    typer.run(main)
+    app()
