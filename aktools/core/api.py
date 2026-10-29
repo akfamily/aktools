@@ -18,6 +18,15 @@ from fastapi import APIRouter, Query, Request, status
 from fastapi.responses import HTMLResponse, JSONResponse, Response
 from fastapi.templating import Jinja2Templates
 
+from aktools.core.cache import (
+    AKSHARE_CACHE_CLEAR_ENV,
+    CACHE_TTL_ENV,
+    DEFAULT_AKSHARE_CACHE_CLEAR,
+    DEFAULT_CACHE_TTL,
+    AkshareCacheJanitor,
+    ResultCache,
+    env_seconds,
+)
 from aktools.core.catalog import describe_interface, is_interface, list_interfaces
 from aktools.datasets import get_template_path
 
@@ -37,6 +46,13 @@ MEDIA_TYPES = {
 }
 # Excel 单个工作表最多 1048576 行，其中 1 行是表头
 EXCEL_MAX_ROWS = 1048575
+# 响应头，标明本次数据是否来自结果缓存：hit 或 miss
+CACHE_HEADER = "X-AKTools-Cache"
+
+result_cache = ResultCache(ttl=env_seconds(CACHE_TTL_ENV, DEFAULT_CACHE_TTL))
+akshare_janitor = AkshareCacheJanitor(
+    interval=env_seconds(AKSHARE_CACHE_CLEAR_ENV, DEFAULT_AKSHARE_CACHE_CLEAR)
+)
 
 # 按天轮转的日志记录器，保留最近 7 天；Vercel 环境只有 /tmp 可写
 logger = logging.getLogger("AKToolsLog")
@@ -63,7 +79,9 @@ def _error_response(
     return JSONResponse(status_code=status_code, content={"error": message})
 
 
-def _file_response(item_id: str, df: pd.DataFrame, output_format: str) -> Response:
+def _file_response(
+    item_id: str, df: pd.DataFrame, output_format: str, cache_status: str
+) -> Response:
     """
     把接口数据转为 CSV 或 Excel 文件下载
     :param item_id: 接口名，用作下载文件名
@@ -72,6 +90,8 @@ def _file_response(item_id: str, df: pd.DataFrame, output_format: str) -> Respon
     :type df: pandas.DataFrame
     :param output_format: csv 或 xlsx
     :type output_format: str
+    :param cache_status: 数据是否来自结果缓存，hit 或 miss
+    :type cache_status: str
     :return: 文件下载响应
     :rtype: Response
     """
@@ -97,7 +117,8 @@ def _file_response(item_id: str, df: pd.DataFrame, output_format: str) -> Respon
         content=body,
         media_type=MEDIA_TYPES[output_format],
         headers={
-            "Content-Disposition": f'attachment; filename="{item_id}.{output_format}"'
+            "Content-Disposition": f'attachment; filename="{item_id}.{output_format}"',
+            CACHE_HEADER: cache_status,
         },
     )
 
@@ -127,13 +148,22 @@ def call_interface(item_id: str, request: Request) -> JSONResponse:
             f"不支持的返回格式 {output_format}，{FORMAT_PARAM} 可选值为：{'、'.join(MEDIA_TYPES)}",
             status_code=status.HTTP_400_BAD_REQUEST,
         )
+    akshare_janitor.maybe_clear()
+    # 返回格式不影响数据本身，因此不计入缓存键，JSON、CSV、Excel 共用同一份缓存
+    cache_key = (item_id, tuple(sorted(params.items())))
     try:
-        received_df = getattr(ak, item_id)(**params)
+        received_df = result_cache.get(cache_key)
+        cache_status = "hit" if received_df is not None else "miss"
         if received_df is None:
-            logger.info(f"接口 {item_id} 返回数据为空")
-            return _error_response(f"该接口返回数据为空，请确认参数是否正确：{DOC_URL}")
+            received_df = getattr(ak, item_id)(**params)
+            if received_df is None:
+                logger.info(f"接口 {item_id} 返回数据为空")
+                return _error_response(
+                    f"该接口返回数据为空，请确认参数是否正确：{DOC_URL}"
+                )
+            result_cache.set(cache_key, received_df)
         if output_format != "json":
-            return _file_response(item_id, received_df, output_format)
+            return _file_response(item_id, received_df, output_format, cache_status)
         content = json.loads(received_df.to_json(orient="records", date_format="iso"))
     except requests.exceptions.RequestException as e:
         # 网络、代理、连接、超时等上游数据源不可达的错误，与接口用法无关。
@@ -148,8 +178,12 @@ def call_interface(item_id: str, request: Request) -> JSONResponse:
         return _error_response(
             f"调用接口出错 {e}，请升级 AKShare 到最新版本并在文档中确认该接口的使用方式：{DOC_URL}"
         )
-    logger.info(f"获取到 {item_id} 的数据")
-    return JSONResponse(status_code=status.HTTP_200_OK, content=content)
+    logger.info(f"获取到 {item_id} 的数据，缓存 {cache_status}")
+    return JSONResponse(
+        status_code=status.HTTP_200_OK,
+        content=content,
+        headers={CACHE_HEADER: cache_status},
+    )
 
 
 @app_core.get(

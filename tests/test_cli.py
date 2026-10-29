@@ -60,7 +60,7 @@ def test_wildcard_host_shows_reachable_url(monkeypatch, host, local_url) -> None
     必须换成本机回环地址，而 uvicorn 仍按用户指定的地址监听
     """
     calls, launched = [], []
-    monkeypatch.setattr(cli, "run", lambda command: calls.append(command))
+    monkeypatch.setattr(cli, "run", lambda command, **kwargs: calls.append(command))
     monkeypatch.setattr(cli.typer, "launch", lambda url: launched.append(url))
     result = runner.invoke(cli.app, args=["--host", host, "--port", "8888", "--auto"])
     assert result.exit_code == 0
@@ -70,3 +70,25 @@ def test_wildcard_host_shows_reachable_url(monkeypatch, host, local_url) -> None
     assert "http://::" not in result.stdout
     command = calls[0]
     assert command[command.index("--host") + 1] == host
+
+
+def test_cache_options_passed_to_server_via_env(monkeypatch) -> None:
+    """缓存配置通过环境变量传给 uvicorn 子进程"""
+    calls = []
+    monkeypatch.setattr(cli, "run", lambda command, **kwargs: calls.append(kwargs))
+    result = runner.invoke(
+        cli.app, args=["--cache-ttl", "0", "--akshare-cache-clear", "600"]
+    )
+    assert result.exit_code == 0
+    env = calls[0]["env"]
+    assert env["AKTOOLS_CACHE_TTL"] == "0"
+    assert env["AKTOOLS_AKSHARE_CACHE_CLEAR"] == "600"
+
+
+def test_cache_options_default_values(monkeypatch) -> None:
+    calls = []
+    monkeypatch.setattr(cli, "run", lambda command, **kwargs: calls.append(kwargs))
+    assert runner.invoke(cli.app, args=[]).exit_code == 0
+    env = calls[0]["env"]
+    assert env["AKTOOLS_CACHE_TTL"] == "60"
+    assert env["AKTOOLS_AKSHARE_CACHE_CLEAR"] == "3600"

@@ -5,6 +5,7 @@ Date: 2022/9/27 19:05
 Desc: CLI 命令文件
 """
 
+import os
 import sys
 from subprocess import run
 from typing import Optional
@@ -13,6 +14,12 @@ import akshare as ak
 import typer
 
 import aktools
+from aktools.core.cache import (
+    AKSHARE_CACHE_CLEAR_ENV,
+    CACHE_TTL_ENV,
+    DEFAULT_AKSHARE_CACHE_CLEAR,
+    DEFAULT_CACHE_TTL,
+)
 
 app = typer.Typer()
 
@@ -51,6 +58,18 @@ def main(
     auto: bool = typer.Option(
         False, "--auto", "-A", help="自动打开浏览器，默认为不打开"
     ),
+    cache_ttl: int = typer.Option(
+        DEFAULT_CACHE_TTL,
+        "--cache-ttl",
+        min=0,
+        help="结果缓存的有效期（秒），同一接口与参数在有效期内直接返回上次的数据，0 为关闭",
+    ),
+    akshare_cache_clear: int = typer.Option(
+        DEFAULT_AKSHARE_CACHE_CLEAR,
+        "--akshare-cache-clear",
+        min=0,
+        help="清空 AKShare 内部缓存的间隔（秒），避免板块名称等数据停在服务启动时，0 为关闭",
+    ),
     version: Optional[bool] = typer.Option(
         None,
         "--version",
@@ -87,7 +106,13 @@ def main(
         )
     if auto:
         typer.launch(f"{base_url}/")
-    run(command)
+    # 缓存配置通过环境变量传给 uvicorn 子进程，与 Gunicorn、Docker 部署时的配置方式一致
+    env = {
+        **os.environ,
+        CACHE_TTL_ENV: str(cache_ttl),
+        AKSHARE_CACHE_CLEAR_ENV: str(akshare_cache_clear),
+    }
+    run(command, env=env)
 
 
 if __name__ == "__main__":
