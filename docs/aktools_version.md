@@ -10,6 +10,13 @@ AKTools 只负责把 HTTP 请求转发给 AKShare，数据接口的新增与变�
 
 ## 更新记录
 
+0.0.99: feat: publish to the official mcp registry
+
+1. 登记到 MCP 官方注册表（io.github.akfamily/aktools），各 MCP 客户端的市场可以搜到 AKTools；发布流程在 PyPI 发布后自动登记
+2. 新增 aktools 命令（同 python -m aktools）与 aktools mcp 子命令（同 aktools-mcp）
+3. README 与文档改为 HTTP API 与 MCP 两种使用方式并列，加入 Claude Code 实际使用演示、Cursor 一键安装按钮与 MCP 排障说明
+4. 启动提示与内置主页显示 /mcp 地址；PyPI 简介与关键词补充 MCP
+
 0.0.98: feat: add mcp server and result cache
 
 1. 新增 MCP 服务，供 Claude、Cursor 等 AI 助手获取数据：随 HTTP 服务提供 /mcp，或在助手中配置 uvx --from aktools aktools-mcp 以 stdio 方式运行
