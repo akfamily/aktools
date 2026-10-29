@@ -157,3 +157,21 @@ def test_log_handler_falls_back_when_directory_not_writable(tmp_path):
         assert handler.baseFilename.startswith(tempfile.gettempdir())
     finally:
         handler.close()
+
+
+def test_log_path_follows_log_dir_env(monkeypatch, tmp_path):
+    """AKTOOLS_LOG_DIR 指定日志目录；未设置时写到当前工作目录"""
+    monkeypatch.setenv("AKTOOLS_LOG_DIR", str(tmp_path))
+    assert api._log_path() == str(tmp_path / "aktools_log.log")
+    monkeypatch.delenv("AKTOOLS_LOG_DIR")
+    monkeypatch.delenv("VERCEL", raising=False)
+    assert api._log_path() == "aktools_log.log"
+
+
+def test_tests_do_not_write_log_into_repository():
+    """测试运行时日志写到临时目录，不在仓库中留下 aktools_log.log 及其轮转文件"""
+    import pathlib
+
+    repo_root = pathlib.Path(__file__).resolve().parent.parent
+    log_file = pathlib.Path(api.handler.baseFilename).resolve()
+    assert repo_root not in log_file.parents

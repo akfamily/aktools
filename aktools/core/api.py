@@ -75,12 +75,29 @@ def _create_log_handler(filename: str) -> TimedRotatingFileHandler:
         return TimedRotatingFileHandler(filename=fallback, **options)
 
 
-# Vercel 环境只有 /tmp 可写
+# 日志目录由环境变量指定；测试据此把日志写到临时目录，避免在仓库中留下日志文件
+LOG_DIR_ENV = "AKTOOLS_LOG_DIR"
+LOG_FILENAME = "aktools_log.log"
+
+
+def _log_path() -> str:
+    """
+    日志文件路径：优先使用 AKTOOLS_LOG_DIR 指定的目录；
+    Vercel 环境只有 /tmp 可写；其余情况写到当前工作目录
+    :return: 日志文件路径
+    :rtype: str
+    """
+    log_dir = os.getenv(LOG_DIR_ENV)
+    if log_dir:
+        return os.path.join(log_dir, LOG_FILENAME)
+    if os.getenv("VERCEL") == "1":
+        return os.path.join("/tmp", LOG_FILENAME)
+    return LOG_FILENAME
+
+
 logger = logging.getLogger("AKToolsLog")
 logger.setLevel(logging.INFO)
-handler = _create_log_handler(
-    "/tmp/aktools_log.log" if os.getenv("VERCEL") == "1" else "aktools_log.log"
-)
+handler = _create_log_handler(_log_path())
 handler.setFormatter(
     logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 )

@@ -93,7 +93,18 @@ HTTP 方式下，服务只监听本机（默认的 `127.0.0.1`）时，为了防
 
 ## 日志文件在哪里 {#faq-log}
 
-AKTools 在**启动服务时所在的工作目录**下写入 `aktools_log.log`，每天零点轮转一次，保留最近 7 天。部署到 Vercel 时写入 `/tmp/aktools_log.log`。
+AKTools 默认在**启动服务时所在的工作目录**下写入 `aktools_log.log`，每天零点轮转一次（旧日志改名为 `aktools_log.log.YYYY-MM-DD`），保留最近 7 天。部署到 Vercel 时写入 `/tmp/aktools_log.log`；工作目录不可写时写入系统临时目录。
+
+需要指定日志目录时，设置环境变量 `AKTOOLS_LOG_DIR`，例如：
+
+```shell
+# Linux / macOS
+AKTOOLS_LOG_DIR=/var/log/aktools python -m aktools
+# Windows PowerShell
+$env:AKTOOLS_LOG_DIR = "D:\logs\aktools"; python -m aktools
+```
+
+该目录需要事先创建好。
 
 ## 数据有误或接口报错，应该去哪里反馈 {#faq-feedback}
 
