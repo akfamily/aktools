@@ -46,6 +46,7 @@ nav:
       - 调用规则: guide/usage.md
       - 接口目录: guide/catalog.md
       - 多语言调用: guide/examples.md
+      - AI 助手（MCP）: guide/mcp.md
   - 部署: deploy.md
   - 常见问题: faq.md
   - 版本说明: aktools_version.md

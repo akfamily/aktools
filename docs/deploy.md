@@ -68,10 +68,10 @@ docker run -d -p 8080:8080 -e AKTOOLS_CACHE_TTL=300 --name aktools aktools
 
 ```shell
 pip install gunicorn uvicorn-worker
-gunicorn aktools.main:app --bind 0.0.0.0:8080 --workers 4 --worker-class uvicorn_worker.UvicornWorker
+AKTOOLS_HOST=0.0.0.0 gunicorn aktools.main:app --bind 0.0.0.0:8080 --workers 4 --worker-class uvicorn_worker.UvicornWorker
 ```
 
-`--workers` 通常设为 CPU 核数的 2～4 倍，更多配置请参考 [Gunicorn 文档](https://gunicorn.org/)。
+`AKTOOLS_HOST` 告诉 AKTools 实际的监听地址，[MCP 服务](guide/mcp.md#lan)据此决定是否允许局域网访问；不使用 MCP 时可以省略。`--workers` 通常设为 CPU 核数的 2～4 倍，更多配置请参考 [Gunicorn 文档](https://gunicorn.org/)。
 
 !!! warning "安全提示"
 

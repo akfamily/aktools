@@ -109,6 +109,8 @@ def main(
     # 缓存配置通过环境变量传给 uvicorn 子进程，与 Gunicorn、Docker 部署时的配置方式一致
     env = {
         **os.environ,
+        # MCP 据此决定是否只接受发往本机的请求，见 aktools.mcp_server.build_mcp_app
+        "AKTOOLS_HOST": host,
         CACHE_TTL_ENV: str(cache_ttl),
         AKSHARE_CACHE_CLEAR_ENV: str(akshare_cache_clear),
     }

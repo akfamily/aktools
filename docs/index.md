@@ -31,6 +31,7 @@ AKTools 是 AKShare 外面的一层 HTTP 转发，并不改变 AKShare 本身的
 - **接口自查**：通过 `/api/interfaces` 按关键词搜索接口，直接查看每个参数的默认值和说明，详见[接口目录](guide/catalog.md)
 - **表格下载**：加上 `_format=csv` 或 `_format=xlsx`，即可把数据下载为 CSV 或 Excel 文件，详见[下载 CSV 与 Excel](guide/usage.md#download)
 - **结果缓存**：同一接口、同样参数在 60 秒内直接返回上次的数据，减少对上游网站的重复请求，详见[数据缓存](guide/usage.md#cache)
+- **AI 助手**：内置 MCP 服务，在 Claude、Cursor 等 AI 助手中用自然语言获取数据，详见[AI 助手（MCP）](guide/mcp.md)
 - **自带文档**：基于 FastAPI，启动后访问 `/docs` 即可在线查看和调试接口
 - **便于部署**：提供 Dockerfile，支持 Gunicorn + Uvicorn 多进程部署，详见[部署](deploy.md)
 
@@ -74,6 +75,7 @@ Successfully installed aktools
 | [调用规则](guide/usage.md) | 网址怎么写、参数怎么传、返回什么格式、出错了怎么看 |
 | [接口目录](guide/catalog.md) | 搜索接口、查看参数说明 |
 | [多语言调用](guide/examples.md) | curl、Python、JavaScript、R、MATLAB、Rust 示例代码 |
+| [AI 助手（MCP）](guide/mcp.md) | 在 Claude、Cursor 等 AI 助手中用自然语言获取数据 |
 | [部署](deploy.md) | 启动参数、局域网访问、生产环境与 Docker 部署 |
 | [常见问题](faq.md) | 502、404、无法访问、版本升级等问题的排查方法 |
 | [版本说明](aktools_version.md) | 每个版本的更新内容 |

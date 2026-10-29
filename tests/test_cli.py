@@ -90,5 +90,6 @@ def test_cache_options_default_values(monkeypatch) -> None:
     monkeypatch.setattr(cli, "run", lambda command, **kwargs: calls.append(kwargs))
     assert runner.invoke(cli.app, args=[]).exit_code == 0
     env = calls[0]["env"]
+    assert env["AKTOOLS_HOST"] == "127.0.0.1"
     assert env["AKTOOLS_CACHE_TTL"] == "60"
     assert env["AKTOOLS_AKSHARE_CACHE_CLEAR"] == "3600"

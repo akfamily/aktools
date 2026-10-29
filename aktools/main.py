@@ -5,6 +5,9 @@ Date: 2022/9/28 15:05
 Desc: 主程序入口文件
 """
 
+import logging
+import os
+
 import akshare
 import aktools
 from fastapi import FastAPI, Request
@@ -19,12 +22,32 @@ from aktools.schema.version import VersionBase
 favicon_path = get_favicon_path(file="favicon.ico")
 html_path = get_homepage_html(file="homepage.html")
 
+# MCP 服务的监听地址由命令行通过该环境变量传入；Gunicorn、Docker 部署时请按实际监听地址设置
+HOST_ENV = "AKTOOLS_HOST"
+
+
+def _build_mcp():
+    """安装了可选依赖 aktools[mcp] 时构建 MCP 应用，否则返回 (None, None)，服务照常提供其他功能"""
+    try:
+        from aktools.mcp_server import build_mcp_app
+    except ImportError:
+        return None, None
+    return build_mcp_app(os.getenv(HOST_ENV, "127.0.0.1"))
+
+
+mcp_app, mcp_lifespan = _build_mcp()
+if mcp_app is None:
+    logging.getLogger("AKToolsLog").info(
+        "未安装 MCP 依赖，/mcp 不可用；如需使用请执行 pip install aktools[mcp]"
+    )
 
 app = FastAPI(
     title="欢迎访问 AKTools 为 AKShare 打造的 HTTP API 在线文档",
     description="AKTools 是 AKShare 的 HTTP API 工具：把 AKShare 的数据接口部署为 HTTP 服务，任何编程语言都可以通过 HTTP 获取财经数据。接口名与 AKShare 的函数名一致，参数以查询字符串传递，详见 [AKTools 文档](https://aktools.akfamily.xyz/) 与 [AKShare 数据字典](https://akshare.akfamily.xyz/data/index.html)",
     version=akshare.__version__,
     redoc_url=None,
+    # Starlette 不会运行被挂载子应用的 lifespan，MCP 的会话管理器需要由主应用启动
+    lifespan=mcp_lifespan,
 )
 
 
@@ -88,3 +111,7 @@ app.add_middleware(
 )
 
 app.include_router(app_core, prefix="/api", tags=["数据接口"])
+
+if mcp_app is not None:
+    # 精确路由而不是 mount：mount 会把 /mcp 重定向到 /mcp/，MCP 客户端不一定会跟随
+    app.add_route("/mcp", mcp_app, include_in_schema=False)

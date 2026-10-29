@@ -5,13 +5,15 @@
 FROM python:3.14-slim-trixie
 
 ARG PIP_INDEX_URL=https://pypi.org/simple
+# AKTOOLS_HOST：容器内监听 0.0.0.0，MCP 据此允许经端口映射或局域网地址访问 /mcp
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=1 \
-    TZ=Asia/Shanghai
+    TZ=Asia/Shanghai \
+    AKTOOLS_HOST=0.0.0.0
 
-RUN pip install --index-url "$PIP_INDEX_URL" --upgrade akshare aktools gunicorn uvicorn-worker
+RUN pip install --index-url "$PIP_INDEX_URL" --upgrade akshare "aktools[mcp]" gunicorn uvicorn-worker
 
 # 以非 root 用户运行；AKTools 启动时会在工作目录写入 aktools_log.log，工作目录需可写，
 # 因此使用该用户自己的家目录

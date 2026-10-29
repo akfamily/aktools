@@ -40,6 +40,7 @@
 - **跨语言**：返回标准 JSON，任何能发送 HTTP 请求的语言或软件都可以调用
 - **接口自查**：`/api/interfaces` 列出全部接口并支持按关键词搜索，每个接口的参数、默认值和说明都能直接查询
 - **表格下载**：加上 `_format=csv` 或 `_format=xlsx` 即可把数据下载为 CSV 或 Excel 文件
+- **AI 助手**：安装 `aktools[mcp]` 后内置 MCP 服务，在 Claude、Cursor 等 AI 助手中用自然语言获取数据，详见 [AI 助手（MCP）](https://aktools.akfamily.xyz/guide/mcp/)
 - **结果缓存**：同一接口、同样参数在 60 秒内直接返回上次的数据，减少对上游网站的重复请求，降低被封 IP 的风险
 - **自带文档**：基于 [FastAPI](https://fastapi.tiangolo.com/)，启动后访问 `/docs` 即可在线查看和调试接口
 - **便于部署**：提供 Dockerfile，支持 Gunicorn + Uvicorn 多进程部署
@@ -251,7 +252,7 @@ docker build --build-arg PIP_INDEX_URL=https://mirrors.aliyun.com/pypi/simple/ -
 
 ```shell
 pip install gunicorn uvicorn-worker
-gunicorn aktools.main:app --bind 0.0.0.0:8080 --workers 4 --worker-class uvicorn_worker.UvicornWorker
+AKTOOLS_HOST=0.0.0.0 gunicorn aktools.main:app --bind 0.0.0.0:8080 --workers 4 --worker-class uvicorn_worker.UvicornWorker
 ```
 
 > AKTools 不带鉴权功能。如果服务需要暴露到公网，请在前面加一层带鉴权的反向代理（如 Nginx）。
