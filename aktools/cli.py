@@ -100,6 +100,7 @@ def main(
     )
     typer.echo(f"点击打开 HTTP API 主页：{base_url}/")
     typer.echo(f"点击打开接口导览：{base_url}/docs")
+    typer.echo(f"AI 助手（MCP）地址：{base_url}/mcp")
     if host in _WILDCARD_HOSTS:
         typer.echo(
             f"已监听所有网卡，局域网内的其他机器请通过 http://<本机 IP>:{port}/ 访问"

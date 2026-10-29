@@ -2,6 +2,10 @@
 
 本教程带您从零开始完成一次完整的取数流程：安装 AKTools，启动服务，在浏览器里看到第一份数据，找到需要的接口，查看参数，获取贵州茅台的历史行情，最后下载为 Excel 文件。整个过程不需要编写代码，大约需要 10 分钟。
 
+!!! tip "只想在 AI 助手中使用？"
+
+    不需要完成下面的 10 个步骤，直接跳到[在 AI 助手中使用](#mcp)，约 3 分钟即可完成配置。
+
 ## 第 1 步：准备 Python 环境 {#python}
 
 AKTools 需要 **Python 3.11 及以上版本（64 位）**。打开命令行，检查 Python 版本：
@@ -184,11 +188,72 @@ print(df)
 
 回到运行服务的命令行窗口，按 ++ctrl+c++ 即可停止服务。下次使用时，重新运行 `python -m aktools`。
 
+## 在 AI 助手中使用 {#mcp}
+
+AKTools 也可以作为 MCP 服务，让 Claude、Cursor 等 AI 助手直接获取数据。这种方式**不需要安装 Python 和 AKTools，也不需要手动启动服务**，AI 助手会自己启动它。
+
+### 第 1 步：安装 uv
+
+[uv](https://docs.astral.sh/uv/) 会自动下载 Python 和 AKTools，并在独立环境中运行。按[官方安装说明](https://docs.astral.sh/uv/getting-started/installation/)安装后，在命令行中运行 `uvx --version`，能显示版本号即可。
+
+### 第 2 步：添加到 AI 助手
+
+=== "Claude Desktop"
+
+    打开设置中的“开发者 → 编辑配置”，在 `claude_desktop_config.json` 中加入以下内容，保存后重启 Claude Desktop：
+
+    ```json
+    {
+      "mcpServers": {
+        "aktools": {
+          "command": "uvx",
+          "args": ["--from", "aktools", "aktools-mcp"]
+        }
+      }
+    }
+    ```
+
+=== "Claude Code"
+
+    在命令行中运行：
+
+    ```shell
+    claude mcp add aktools -- uvx --from aktools aktools-mcp
+    ```
+
+=== "Cursor"
+
+    在项目的 `.cursor/mcp.json`（或全局的 `~/.cursor/mcp.json`）中加入以下内容：
+
+    ```json
+    {
+      "mcpServers": {
+        "aktools": {
+          "command": "uvx",
+          "args": ["--from", "aktools", "aktools-mcp"]
+        }
+      }
+    }
+    ```
+
+第一次启动时需要下载 AKShare 等依赖（约 150 MB），可能需要几分钟；客户端提示超时的话，等下载完成后重启客户端即可。
+
+### 第 3 步：提问
+
+直接用自然语言提问，例如：
+
+- “帮我查一下贵州茅台 2024 年 10 月 8 日到 11 日的前复权日线行情”
+- “AKShare 里有哪些和可转债相关的接口？”
+- “stock_zh_a_hist 这个接口有哪些参数，复权方式怎么填？”
+
+助手会依次调用 `search_interfaces` 搜索接口、`describe_interface` 查看参数、`get_data` 获取数据。遇到问题请参考[常见问题](faq.md#faq-mcp-timeout)，更多说明见[AI 助手（MCP）](guide/mcp.md)。
+
 ## 下一步 {#next}
 
 恭喜您完成了快速入门！接下来可以：
 
 - 阅读[调用规则](guide/usage.md)，了解返回格式和错误状态码
 - 阅读[接口目录](guide/catalog.md)，了解接口说明中各字段的含义
+- 想在 Claude、Cursor 等 AI 助手中使用？请见[在 AI 助手中使用](#mcp)
 - 想让同事或其他程序访问这个服务？请见[部署](deploy.md)
 - 遇到问题？请先查看[常见问题](faq.md)

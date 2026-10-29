@@ -40,7 +40,7 @@ uv run --group docs zensical serve            # live preview at http://localhost
 uv run --group docs zensical build --strict   # same command Read the Docs runs
 ```
 
-Docs pages follow a beginner learning path (`index.md` → `getting-started.md` → `guide/{usage,catalog,examples}.md` → `deploy.md` → `faq.md`). `--strict` fails on broken Markdown links and anchors.
+Docs pages follow a beginner learning path (`index.md` → `getting-started.md` → `guide/{usage,catalog,examples}.md` → `deploy.md` → `faq.md`). `--strict` fails on broken Markdown links and anchors. The MCP client config snippet (`uvx --from aktools aktools-mcp`) is repeated in `README.md`, `docs/index.md`, `docs/getting-started.md#mcp` and `docs/guide/mcp.md` — change all four together.
 
 ## Architecture
 

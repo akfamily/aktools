@@ -1,6 +1,6 @@
 # AKTools
 
-> AKTools exposes [AKShare](https://github.com/akfamily/akshare)'s financial data interfaces as an HTTP API, so you can fetch data from any programming language.
+> AKTools exposes [AKShare](https://github.com/akfamily/akshare)'s financial data as an HTTP API and an MCP server, so you can fetch it from any programming language or AI assistant.
 
 [![PyPI](https://img.shields.io/pypi/v/aktools.svg)](https://pypi.org/project/aktools/)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/aktools.svg)](https://pypi.org/project/aktools/)
@@ -14,14 +14,20 @@
 [![GitHub forks](https://img.shields.io/github/forks/akfamily/aktools)](https://github.com/akfamily/aktools/network/members)
 [![GitHub issues](https://img.shields.io/github/issues/akfamily/aktools)](https://github.com/akfamily/aktools/issues)
 
-[AKTools](https://github.com/akfamily/aktools) 是一款用于快速搭建 [AKShare](https://github.com/akfamily/akshare) HTTP API 的工具。只需一行命令即可启动 HTTP 服务，让原本只服务于 Python 用户的开源财经数据接口库 AKShare 突破编程语言的限制：无论您使用的是 C/C++、Java、Go、Rust、Ruby、PHP、JavaScript、R、MATLAB、Stata 等编程语言或软件，都可以快速、轻松地获取财经数据，助力您更好地展开研究和开发工作。
+[AKTools](https://github.com/akfamily/aktools) 把开源财经数据接口库 [AKShare](https://github.com/akfamily/akshare) 的一千多个接口变成两种开箱即用的服务：
+
+- **HTTP API**：一行命令启动服务，C/C++、Java、Go、Rust、JavaScript、R、MATLAB、Stata、Excel 等任何编程语言或软件都能通过网址获取数据。
+- **MCP 服务**：在 Claude、Cursor 等 AI 助手中直接用自然语言提问，助手会自己查找接口、填写参数并取回数据。
+
+两种方式背后是同一套接口目录、缓存和错误处理，按需选用即可。
 
 **[AKTools 中文文档](https://aktools.akfamily.xyz/)** | **[AKShare 数据字典](https://akshare.akfamily.xyz/data/index.html)** | **[版本说明](https://aktools.akfamily.xyz/aktools_version/)**
 
-> **第一次使用？** 请从 [快速入门教程](https://aktools.akfamily.xyz/getting-started/) 开始，约 10 分钟即可完成从安装到下载 Excel 的完整流程。
+> **第一次使用？** HTTP API 请从 [快速入门教程](https://aktools.akfamily.xyz/getting-started/) 开始，约 10 分钟即可完成从安装到下载 Excel 的完整流程；AI 助手请直接看下面的 [在 AI 助手中使用](#在-ai-助手中使用)。
 
 ## 目录
 
+- [两种使用方式](#两种使用方式)
 - [特性](#特性)
 - [安装](#安装)
 - [快速开始](#快速开始)
@@ -33,14 +39,84 @@
 - [免责声明](#免责声明)
 - [许可证](#许可证)
 
+## 两种使用方式
+
+### 通过 HTTP API 获取数据
+
+```shell
+pip install aktools
+python -m aktools
+```
+
+然后在浏览器打开 `http://127.0.0.1:8080/api/public/tool_trade_date_hist_sina`，看到交易日历数据即表示成功。更多用法见下文的[快速开始](#快速开始)与[调用规则](#调用规则)。
+
+### 在 AI 助手中使用
+
+先[安装 uv](https://docs.astral.sh/uv/getting-started/installation/)，再把下面的配置加入 AI 助手的 MCP 配置文件，**不需要事先安装 AKTools，也不需要手动启动服务**：
+
+```json
+{
+  "mcpServers": {
+    "aktools": {
+      "command": "uvx",
+      "args": ["--from", "aktools", "aktools-mcp"]
+    }
+  }
+}
+```
+
+重启助手后，就可以直接提问，例如：
+
+- “帮我查一下贵州茅台 2024 年 10 月 8 日到 11 日的前复权日线行情”
+- “AKShare 里有哪些和可转债相关的接口？”
+- “stock_zh_a_hist 这个接口有哪些参数，复权方式怎么填？”
+
+助手会通过 AKTools 提供的 3 个工具完成查询：`search_interfaces` 搜索接口、`describe_interface` 查看参数、`get_data` 获取数据。
+
+<details>
+<summary>Claude Desktop</summary>
+
+打开设置中的“开发者 → 编辑配置”，把上面的配置加入 `claude_desktop_config.json`，保存后重启 Claude Desktop。
+
+</details>
+
+<details>
+<summary>Claude Code</summary>
+
+```shell
+claude mcp add aktools -- uvx --from aktools aktools-mcp
+```
+
+</details>
+
+<details>
+<summary>Cursor</summary>
+
+把上面的配置加入项目的 `.cursor/mcp.json`，或全局的 `~/.cursor/mcp.json`。
+
+</details>
+
+<details>
+<summary>连接已经运行的 AKTools 服务（HTTP 方式）</summary>
+
+已经用 `python -m aktools` 启动了服务，或者想让多台电脑共用一个服务时，可以让助手直接连接 `http://127.0.0.1:8080/mcp`，例如：
+
+```shell
+claude mcp add --transport http aktools http://127.0.0.1:8080/mcp
+```
+
+</details>
+
+第一次启动时 `uvx` 需要下载 AKShare 等依赖（约 150 MB），可能需要几分钟。配置、局域网访问与排障详见 [AI 助手（MCP）文档](https://aktools.akfamily.xyz/guide/mcp/)。
+
 ## 特性
 
+- **两种方式**：同一份数据既可以通过 HTTP API 获取，也可以在 Claude、Cursor 等 AI 助手中用自然语言获取
 - **零配置**：`python -m aktools` 一行命令启动服务，无需编写任何代码
 - **接口全覆盖**：AKShare 的每个数据接口都可以通过 `/api/public/<接口名>` 直接访问，AKShare 新增接口后升级即可使用
 - **跨语言**：返回标准 JSON，任何能发送 HTTP 请求的语言或软件都可以调用
 - **接口自查**：`/api/interfaces` 列出全部接口并支持按关键词搜索，每个接口的参数、默认值和说明都能直接查询
 - **表格下载**：加上 `_format=csv` 或 `_format=xlsx` 即可把数据下载为 CSV 或 Excel 文件
-- **AI 助手**：内置 MCP 服务，在 Claude Desktop、Claude Code、Cursor 等 AI 助手中配置 `uvx --from aktools aktools-mcp` 即可用自然语言获取数据，详见 [AI 助手（MCP）](https://aktools.akfamily.xyz/guide/mcp/)
 - **结果缓存**：同一接口、同样参数在 60 秒内直接返回上次的数据，减少对上游网站的重复请求，降低被封 IP 的风险
 - **自带文档**：基于 [FastAPI](https://fastapi.tiangolo.com/)，启动后访问 `/docs` 即可在线查看和调试接口
 - **便于部署**：提供 Dockerfile，支持 Gunicorn + Uvicorn 多进程部署

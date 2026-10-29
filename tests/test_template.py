@@ -23,6 +23,8 @@ def test_homepage(monkeypatch) -> None:
     response = client.get("/")
     assert response.status_code == 200
     assert "text/html" in response.headers["content-type"]
+    # 主页展示 MCP 地址，方便直接填入 AI 助手
+    assert "/mcp" in response.text
 
 
 def test_show_temp() -> None:

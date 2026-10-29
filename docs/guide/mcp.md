@@ -2,7 +2,15 @@
 
 AKTools 内置了 [MCP](https://modelcontextprotocol.io/)（Model Context Protocol，模型上下文协议）服务。接入后，可以直接在 Claude、Cursor 等 AI 助手中用自然语言获取数据，例如“帮我查一下贵州茅台 2024 年 10 月 8 日到 11 日的日线行情”，助手会自己查找接口、填写参数并取回数据。
 
-安装 AKTools 时已经包含 MCP 服务，不需要额外安装。
+安装 AKTools 时已经包含 MCP 服务，不需要额外安装。第一次配置可以先按[快速入门](../getting-started.md#mcp)的 3 个步骤操作。
+
+## 可以问什么 {#examples}
+
+- “帮我查一下贵州茅台 2024 年 10 月 8 日到 11 日的前复权日线行情”
+- “AKShare 里有哪些和可转债相关的接口？”
+- “stock_zh_a_hist 这个接口有哪些参数，复权方式怎么填？”
+
+助手每次最多取回 1000 行数据（默认 100 行），适合查看具体某段时间、某只证券的数据。需要完整的大表格时，请让助手给出 CSV 下载地址（HTTP 方式），或改用 [HTTP API](usage.md#download) 下载。
 
 ## 两种接入方式 {#modes}
 

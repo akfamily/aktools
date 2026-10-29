@@ -93,3 +93,11 @@ def test_cache_options_default_values(monkeypatch) -> None:
     assert env["AKTOOLS_HOST"] == "127.0.0.1"
     assert env["AKTOOLS_CACHE_TTL"] == "60"
     assert env["AKTOOLS_AKSHARE_CACHE_CLEAR"] == "3600"
+
+
+def test_startup_message_shows_mcp_url(monkeypatch) -> None:
+    """启动提示中给出 MCP 地址，方便直接填入 AI 助手"""
+    monkeypatch.setattr(cli, "run", lambda command, **kwargs: None)
+    result = runner.invoke(cli.app, args=["--port", "8888"])
+    assert result.exit_code == 0
+    assert "http://127.0.0.1:8888/mcp" in result.stdout

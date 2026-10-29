@@ -70,6 +70,27 @@ pip install akshare aktools --upgrade -i https://pypi.org/simple
 
 `/api/show` 与 `/api/show-temp/{接口名}` 页面在浏览器中运行 Python，首次打开需要从 jsDelivr 下载约数十 MB 的 Pyodide 与 pandas，通常需要十几到几十秒。长时间没有反应时，请检查浏览器能否访问 `fastly.jsdelivr.net`。只需要数据时，直接访问 `/api/public/{接口名}` 即可，不依赖这个页面。
 
+## AI 助手提示 MCP 连接超时或启动失败 {#faq-mcp-timeout}
+
+使用 `uvx --from aktools aktools-mcp` 时，第一次启动需要下载 AKShare 等依赖（约 150 MB），可能超过客户端的等待时间。可以先在命令行中运行一次，等它下载完成并停在等待输入的状态后按 ++ctrl+c++ 退出，再重启 AI 助手：
+
+```shell
+uvx --from aktools aktools-mcp
+```
+
+国内网络下载较慢时，可以在 MCP 配置的 `aktools` 下加上 `"env": {"UV_INDEX_URL": "https://mirrors.aliyun.com/pypi/simple/"}` 使用镜像源。
+
+## AI 助手提示找不到 uvx 命令 {#faq-mcp-uvx}
+
+Claude Desktop、Cursor 等桌面应用不一定能读到命令行中的 PATH 设置，即使命令行中能运行 `uvx`，应用也可能报 `spawn uvx ENOENT` 之类的错误。请把配置中的 `"command": "uvx"` 改为 `uvx` 的完整路径：Windows 上用 `where uvx` 查看，macOS 和 Linux 上用 `which uvx` 查看。
+
+## 连接 /mcp 时返回 421 {#faq-mcp-421}
+
+HTTP 方式下，服务只监听本机（默认的 `127.0.0.1`）时，为了防止 DNS 重绑定攻击，`/mcp` 只接受发往 `127.0.0.1`、`localhost` 的请求，用局域网 IP 或域名访问会返回 `421`。
+
+- 需要局域网访问时，用 `python -m aktools --host 0.0.0.0` 启动，详见[局域网访问](guide/mcp.md#lan)。
+- 通过 Nginx 等反向代理、以域名访问时，请设置环境变量 `AKTOOLS_HOST=0.0.0.0` 后再启动服务，并注意 `/mcp` 不带鉴权。
+
 ## 日志文件在哪里 {#faq-log}
 
 AKTools 在**启动服务时所在的工作目录**下写入 `aktools_log.log`，每天零点轮转一次，保留最近 7 天。部署到 Vercel 时写入 `/tmp/aktools_log.log`。
