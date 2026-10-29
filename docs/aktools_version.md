@@ -10,6 +10,13 @@ AKTools 只负责把 HTTP 请求转发给 AKShare，数据接口的新增与变�
 
 ## 更新记录
 
+0.0.97: docs: reorganize docs for beginners
+
+1. 文档按新手学习顺序重组：首页、快速入门、使用指南（调用规则、接口目录、多语言调用）、部署、常见问题
+2. 新增快速入门教程，从安装到查找接口、查看参数、获取数据并下载 Excel，示例均为实际运行结果
+3. 首页与 README 补充接口目录、CSV/Excel 下载等新功能的说明，原“详细文档”页面已拆分
+4. README 的文档状态徽章改用 shields.io，修复在 GitHub 上无法显示的问题
+
 0.0.96: feat: add interface catalog and csv/xlsx export
 
 1. 新增接口目录：/api/interfaces 列出全部接口并支持按接口名或中文标题搜索，/api/interfaces/{接口名} 返回各参数的默认值、类型和说明
