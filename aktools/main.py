@@ -75,7 +75,7 @@ async def get_version():
     }
 
 
-# 允许任意来源访问；认证通过 Authorization 头的 Bearer token 完成，不使用 cookie，
+# 允许任意来源访问，便于浏览器中的网页直接调用数据接口；服务不使用 cookie 等凭证，
 # 因此 allow_credentials 设为 False——通配来源与携带凭证不能并存，否则浏览器会拒绝跨域请求
 origins = ["*"]
 

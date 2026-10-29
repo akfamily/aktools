@@ -30,7 +30,7 @@ def main(
         8080, "--port", "-P", min=0, max=65535, clamp=True, help="设置端口"
     ),
     auto: bool = typer.Option(
-        False, "--auto", "-A", help="自动打开游览器，默认为不打开"
+        False, "--auto", "-A", help="自动打开浏览器，默认为不打开"
     ),
     version: Optional[bool] = typer.Option(
         None,

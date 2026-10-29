@@ -121,7 +121,7 @@ templates = Jinja2Templates(directory=short_path)
     path="/show-temp/{interface}",
     response_class=HTMLResponse,
     description="展示 PyScript",
-    summary="该接口主要展示 PyScript 游览器运行 Python 代码",
+    summary="该接口主要展示 PyScript 浏览器运行 Python 代码",
 )
 def akscript_temp(request: Request, interface: str):
     return templates.TemplateResponse(
@@ -138,7 +138,7 @@ def akscript_temp(request: Request, interface: str):
     path="/show",
     response_class=HTMLResponse,
     description="展示 PyScript",
-    summary="该接口主要展示 PyScript 游览器运行 Python 代码",
+    summary="该接口主要展示 PyScript 浏览器运行 Python 代码",
 )
 def akscript():
     return generate_html_response()
