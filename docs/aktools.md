@@ -108,7 +108,7 @@ python -m aktools --host 0.0.0.0 --port 8888
 | `/api/show-temp/{接口名}` | 用 [PyScript](https://pyscript.net/) 在浏览器中获取并展示该接口的数据，并提供 JSON 下载 |
 | `/api/show` | 上述 PyScript 数据展示页的演示，展示 `tool_trade_date_hist_sina` 接口的数据 |
 
-PyScript 数据展示页在浏览器中运行 Python：首次打开时，浏览器需要从 jsDelivr CDN 下载 Pyodide 与 pandas（数十 MB），因此需要能访问外网，加载可能需要几十秒。
+PyScript 数据展示页在浏览器中运行 Python：首次打开时，浏览器需要从 jsDelivr 的 fastly 节点下载 Pyodide 与 pandas（数十 MB），国内网络一般可以访问，加载通常需要十几到几十秒，之后会使用浏览器缓存。
 
 ## 调用规则 {#usage}
 

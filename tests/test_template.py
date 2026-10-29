@@ -42,3 +42,13 @@ def test_show_renders_default_interface() -> None:
     assert response.status_code == 200
     assert "{{" not in response.text
     assert "/api/public/tool_trade_date_hist_sina" in response.text
+
+
+def test_show_pyodide_avoids_blocked_cdn() -> None:
+    """
+    PyScript 默认从 cdn.jsdelivr.net 加载 Pyodide 与 pandas，国内网络普遍无法访问该域名，
+    页面会一直停在“数据加载中”。模板必须显式把 interpreter 指向可访问的 jsDelivr 节点
+    """
+    response = client.get("/api/show")
+    assert '"interpreter": "https://fastly.jsdelivr.net/pyodide/' in response.text
+    assert "cdn.jsdelivr.net" not in response.text

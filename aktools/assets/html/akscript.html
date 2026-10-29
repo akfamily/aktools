@@ -61,7 +61,12 @@
 
 <div id="table">数据加载中……</div>
 
-<script type="py" config='{"packages": ["pandas"]}'>
+{#
+    PyScript 默认从 cdn.jsdelivr.net 加载 Pyodide 与 pandas，国内网络普遍无法访问该域名，
+    因此显式改用 jsDelivr 的 fastly 节点。Pyodide 版本须与上方 PyScript 版本的默认值一致：
+    升级 PyScript 时，到其发布说明或 core.js 中查找默认的 Pyodide 版本并同步修改
+#}
+<script type="py" config='{"packages": ["pandas"], "interpreter": "https://fastly.jsdelivr.net/pyodide/v314.0.3/full/pyodide.mjs"}'>
     import io
 
     import pandas as pd
