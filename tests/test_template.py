@@ -32,3 +32,13 @@ def test_show_temp() -> None:
     response = client.get("/api/show-temp/stock_zh_a_hist")
     assert response.status_code == 200
     assert "stock_zh_a_hist" in response.text
+
+
+def test_show_renders_default_interface() -> None:
+    """
+    /api/show 以示例接口渲染 PyScript 页面，不能把未渲染的模板原文（{{ ip }} 等）返回给浏览器
+    """
+    response = client.get("/api/show")
+    assert response.status_code == 200
+    assert "{{" not in response.text
+    assert "/api/public/tool_trade_date_hist_sina" in response.text

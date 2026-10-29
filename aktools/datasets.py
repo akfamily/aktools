@@ -26,11 +26,6 @@ def _resource_path(package: str, file: str) -> pathlib.Path:
     return pathlib.Path(str(resources.files(package) / file))
 
 
-def get_pyscript_html(file: str = "akscript.html") -> pathlib.Path:
-    """PyScript 页面模板的路径"""
-    return _resource_path(HTML_PACKAGE, file)
-
-
 def get_homepage_html(file: str = "homepage.html") -> pathlib.Path:
     """主页模板的路径"""
     return _resource_path(HTML_PACKAGE, file)

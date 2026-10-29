@@ -16,11 +16,13 @@ from fastapi import APIRouter, Request, status
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 
-from aktools.datasets import get_pyscript_html, get_template_path
+from aktools.datasets import get_template_path
 
 app_core = APIRouter()
 
 DOC_URL = "https://akshare.akfamily.xyz"
+# /api/show 演示页使用的接口：无需参数、数据量小且较为稳定
+DEMO_INTERFACE = "tool_trade_date_hist_sina"
 
 # 按天轮转的日志记录器，保留最近 7 天；Vercel 环境只有 /tmp 可写
 logger = logging.getLogger("AKToolsLog")
@@ -106,24 +108,12 @@ def public_root(request: Request, item_id: str):
     return call_interface(item_id, request)
 
 
-def generate_html_response():
-    file_path = get_pyscript_html(file="akscript.html")
-    with open(file_path, encoding="utf8") as f:
-        html_content = f.read()
-    return HTMLResponse(content=html_content, status_code=200)
-
-
 short_path = get_template_path()
 templates = Jinja2Templates(directory=short_path)
 
 
-@app_core.get(
-    path="/show-temp/{interface}",
-    response_class=HTMLResponse,
-    description="展示 PyScript",
-    summary="该接口主要展示 PyScript 浏览器运行 Python 代码",
-)
-def akscript_temp(request: Request, interface: str):
+def _render_akscript(request: Request, interface: str):
+    """用 PyScript 页面模板渲染指定接口的数据展示页"""
     return templates.TemplateResponse(
         request,
         "akscript.html",
@@ -135,10 +125,20 @@ def akscript_temp(request: Request, interface: str):
 
 
 @app_core.get(
+    path="/show-temp/{interface}",
+    response_class=HTMLResponse,
+    description="用 PyScript 在浏览器中获取并展示指定接口的数据，并提供 JSON 下载",
+    summary="PyScript 数据展示页",
+)
+def akscript_temp(request: Request, interface: str):
+    return _render_akscript(request, interface)
+
+
+@app_core.get(
     path="/show",
     response_class=HTMLResponse,
-    description="展示 PyScript",
-    summary="该接口主要展示 PyScript 浏览器运行 Python 代码",
+    description=f"PyScript 数据展示页的演示，展示 {DEMO_INTERFACE} 接口的数据",
+    summary="PyScript 数据展示页演示",
 )
-def akscript():
-    return generate_html_response()
+def akscript(request: Request):
+    return _render_akscript(request, DEMO_INTERFACE)
