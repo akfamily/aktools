@@ -5,7 +5,6 @@ Date: 2022/9/28 15:05
 Desc: 主程序入口文件
 """
 
-import logging
 import os
 
 import akshare
@@ -16,6 +15,7 @@ from fastapi.responses import FileResponse
 
 from aktools.core.api import app_core, templates
 from aktools.datasets import get_favicon_path, get_homepage_html
+from aktools.mcp_server import build_mcp_app
 from aktools.utils import get_latest_version
 from aktools.schema.version import VersionBase
 
@@ -26,20 +26,7 @@ html_path = get_homepage_html(file="homepage.html")
 HOST_ENV = "AKTOOLS_HOST"
 
 
-def _build_mcp():
-    """安装了可选依赖 aktools[mcp] 时构建 MCP 应用，否则返回 (None, None)，服务照常提供其他功能"""
-    try:
-        from aktools.mcp_server import build_mcp_app
-    except ImportError:
-        return None, None
-    return build_mcp_app(os.getenv(HOST_ENV, "127.0.0.1"))
-
-
-mcp_app, mcp_lifespan = _build_mcp()
-if mcp_app is None:
-    logging.getLogger("AKToolsLog").info(
-        "未安装 MCP 依赖，/mcp 不可用；如需使用请执行 pip install aktools[mcp]"
-    )
+mcp_app, mcp_lifespan = build_mcp_app(os.getenv(HOST_ENV, "127.0.0.1"))
 
 app = FastAPI(
     title="欢迎访问 AKTools 为 AKShare 打造的 HTTP API 在线文档",
@@ -112,6 +99,5 @@ app.add_middleware(
 
 app.include_router(app_core, prefix="/api", tags=["数据接口"])
 
-if mcp_app is not None:
-    # 精确路由而不是 mount：mount 会把 /mcp 重定向到 /mcp/，MCP 客户端不一定会跟随
-    app.add_route("/mcp", mcp_app, include_in_schema=False)
+# 精确路由而不是 mount：mount 会把 /mcp 重定向到 /mcp/，MCP 客户端不一定会跟随
+app.add_route("/mcp", mcp_app, include_in_schema=False)

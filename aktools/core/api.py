@@ -9,6 +9,7 @@ import io
 import json
 import logging
 import os
+import tempfile
 from typing import Dict, Tuple
 from logging.handlers import TimedRotatingFileHandler
 
@@ -55,17 +56,30 @@ akshare_janitor = AkshareCacheJanitor(
     interval=env_seconds(AKSHARE_CACHE_CLEAR_ENV, DEFAULT_AKSHARE_CACHE_CLEAR)
 )
 
-# 按天轮转的日志记录器，保留最近 7 天；Vercel 环境只有 /tmp 可写
+
+def _create_log_handler(filename: str) -> TimedRotatingFileHandler:
+    """
+    按天轮转的日志文件，保留最近 7 天
+    AI 助手以 stdio 方式启动 aktools-mcp 时，工作目录可能不可写（如 macOS 上的 /），
+    此时改写到系统临时目录，避免服务因无法创建日志文件而启动失败
+    :param filename: 日志文件路径
+    :type filename: str
+    :return: 日志处理器
+    :rtype: TimedRotatingFileHandler
+    """
+    options = {"when": "midnight", "interval": 1, "backupCount": 7, "encoding": "utf-8"}
+    try:
+        return TimedRotatingFileHandler(filename=filename, **options)
+    except OSError:
+        fallback = os.path.join(tempfile.gettempdir(), os.path.basename(filename))
+        return TimedRotatingFileHandler(filename=fallback, **options)
+
+
+# Vercel 环境只有 /tmp 可写
 logger = logging.getLogger("AKToolsLog")
 logger.setLevel(logging.INFO)
-handler = TimedRotatingFileHandler(
-    filename="/tmp/aktools_log.log"
-    if os.getenv("VERCEL") == "1"
-    else "aktools_log.log",
-    when="midnight",
-    interval=1,
-    backupCount=7,
-    encoding="utf-8",
+handler = _create_log_handler(
+    "/tmp/aktools_log.log" if os.getenv("VERCEL") == "1" else "aktools_log.log"
 )
 handler.setFormatter(
     logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")

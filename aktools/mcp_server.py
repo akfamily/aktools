@@ -5,11 +5,14 @@ Date: 2026/10/29 22:00
 Desc: MCP（Model Context Protocol）服务，让 Claude、Cursor 等 AI 助手通过 AKTools 获取 AKShare 数据
 只提供 3 个通用工具，而不是把一千多个接口逐个注册成工具，以免撑满助手的上下文：
 助手先用 search_interfaces 找到接口，再用 describe_interface 查看参数，最后用 get_data 获取数据。
-需要安装可选依赖：pip install aktools[mcp]；挂载在 aktools.main 的 /mcp 路径下
+两种运行方式：随 HTTP 服务挂载在 aktools.main 的 /mcp 路径下；或以 aktools-mcp 命令通过 stdio 运行，
+由 AI 助手自行启动，不需要先运行 HTTP 服务
 """
 
 import contextlib
+import io
 import json
+import sys
 from typing import Annotated, Any, AsyncIterator, Callable, Dict, Optional, Tuple, Union
 from urllib.parse import urlencode
 
@@ -28,6 +31,8 @@ SEARCH_LIMIT = 50
 # get_data 默认与最多返回的行数，完整数据可通过返回的 csv_url 下载
 DEFAULT_ROWS = 100
 MAX_ROWS = 1000
+# stdio 方式运行时没有 HTTP 服务，get_data 不提供 CSV 下载地址；由 main() 关闭
+_csv_url_enabled = True
 
 INSTRUCTIONS = """AKTools 提供 AKShare 的一千多个财经数据接口（股票、期货、期权、基金、债券、外汇、宏观等）。
 使用步骤：
@@ -80,7 +85,7 @@ def get_data(
         int, Field(ge=1, le=MAX_ROWS, description="最多返回的行数，默认 100")
     ] = DEFAULT_ROWS,
 ) -> Dict[str, Any]:
-    """调用 AKShare 接口获取数据。数据量大时只返回前 max_rows 行，并给出总行数与完整数据的 CSV 下载地址"""
+    """调用 AKShare 接口获取数据。数据量大时只返回前 max_rows 行，并给出总行数；随 HTTP 服务运行时还给出完整数据的 CSV 下载地址"""
     if not is_interface(name):
         raise ToolError(f"未找到接口 {name}，请先用 search_interfaces 搜索正确的接口名")
     # 与 HTTP 接口一致：参数值一律按文本传给 AKShare
@@ -98,7 +103,7 @@ def get_data(
         "truncated": len(df) > len(rows),
         "columns": [str(column) for column in df.columns],
         "rows": rows,
-        "csv_url": f"/api/public/{name}?{query}",
+        "csv_url": f"/api/public/{name}?{query}" if _csv_url_enabled else None,
     }
 
 
@@ -129,3 +134,27 @@ def build_mcp_app(
             yield
 
     return app, lifespan
+
+
+def main() -> None:
+    """
+    aktools-mcp 命令的入口：通过 stdio 运行 MCP 服务，由 AI 助手自行启动
+    stdio 方式下 stdout 专门传输协议消息。会话期间 MCP SDK 把文件描述符 1 转到 stderr，
+    协议消息另走一个复制出的描述符；但 print 写入的是 Python 的输出缓冲区，
+    若在会话结束、描述符恢复后才刷新，AKShare 接口中 print 的内容就会混进协议通道。
+    因此换成无缓冲的 stdout，让每次写入立即落到描述符 1，会话期间自然进入 stderr
+    """
+    global _csv_url_enabled
+    _csv_url_enabled = False
+    sys.stdout.flush()
+    sys.stdout = io.TextIOWrapper(
+        io.FileIO(sys.stdout.fileno(), "w", closefd=False),
+        encoding="utf-8",
+        errors="replace",
+        write_through=True,
+    )
+    mcp.run("stdio")
+
+
+if __name__ == "__main__":
+    main()

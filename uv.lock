@@ -59,22 +59,17 @@ dependencies = [
     { name = "akshare" },
     { name = "fastapi" },
     { name = "jinja2" },
+    { name = "mcp" },
     { name = "python-multipart" },
     { name = "requests" },
     { name = "typer" },
     { name = "uvicorn" },
 ]
 
-[package.optional-dependencies]
-mcp = [
-    { name = "mcp" },
-]
-
 [package.dev-dependencies]
 dev = [
     { name = "commitizen" },
     { name = "httpx2" },
-    { name = "mcp" },
     { name = "pre-commit" },
     { name = "pytest" },
     { name = "ruff" },
@@ -87,7 +82,6 @@ lint = [
 ]
 test = [
     { name = "httpx2" },
-    { name = "mcp" },
     { name = "pytest" },
 ]
 
@@ -96,19 +90,17 @@ requires-dist = [
     { name = "akshare", specifier = ">=1.16.25" },
     { name = "fastapi", specifier = ">=0.115.5" },
     { name = "jinja2", specifier = ">=3.1.2" },
-    { name = "mcp", marker = "extra == 'mcp'", specifier = ">=2.3.0" },
+    { name = "mcp", specifier = ">=2.3.0,<3" },
     { name = "python-multipart", specifier = ">=0.0.9" },
     { name = "requests", specifier = ">=2.22.0" },
     { name = "typer", specifier = ">=0.6.1" },
     { name = "uvicorn", specifier = ">=0.16.0" },
 ]
-provides-extras = ["mcp"]
 
 [package.metadata.requires-dev]
 dev = [
     { name = "commitizen", specifier = ">=4.12.1" },
     { name = "httpx2", specifier = ">=2.0.0" },
-    { name = "mcp", specifier = ">=2.3.0" },
     { name = "pre-commit", specifier = ">=3.6.2" },
     { name = "pytest", specifier = ">=8.0.0" },
     { name = "ruff", specifier = "==0.17.2" },
@@ -117,7 +109,6 @@ docs = [{ name = "zensical", specifier = ">=0.0.73" }]
 lint = [{ name = "ruff", specifier = "==0.17.2" }]
 test = [
     { name = "httpx2", specifier = ">=2.0.0" },
-    { name = "mcp", specifier = ">=2.3.0" },
     { name = "pytest", specifier = ">=8.0.0" },
 ]
 

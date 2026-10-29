@@ -13,7 +13,7 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     TZ=Asia/Shanghai \
     AKTOOLS_HOST=0.0.0.0
 
-RUN pip install --index-url "$PIP_INDEX_URL" --upgrade akshare "aktools[mcp]" gunicorn uvicorn-worker
+RUN pip install --index-url "$PIP_INDEX_URL" --upgrade akshare aktools gunicorn uvicorn-worker
 
 # 以非 root 用户运行；AKTools 启动时会在工作目录写入 aktools_log.log，工作目录需可写，
 # 因此使用该用户自己的家目录

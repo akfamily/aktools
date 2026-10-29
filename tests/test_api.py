@@ -142,3 +142,18 @@ def test_format_conversion_error_returns_readable_message(monkeypatch):
     resp = call_interface("aktools_fake_mixed", _FakeRequest({"_format": "xlsx"}))
     assert resp.status_code == 500
     assert "_format=json" in resp.body.decode("utf-8")
+
+
+def test_log_handler_falls_back_when_directory_not_writable(tmp_path):
+    """
+    AI 助手以 stdio 方式启动时，工作目录可能不可写（如 macOS 上的 /），
+    日志文件无法创建时应改写到系统临时目录，而不是让服务启动失败
+    """
+    import tempfile
+
+    unwritable = tmp_path / "missing-dir" / "aktools_log.log"
+    handler = api._create_log_handler(str(unwritable))
+    try:
+        assert handler.baseFilename.startswith(tempfile.gettempdir())
+    finally:
+        handler.close()

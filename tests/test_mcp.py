@@ -9,12 +9,14 @@ Desc: MCP 服务测试
 import json
 import subprocess
 import sys
+import threading
 
 import akshare as ak
 import pandas as pd
 import pytest
 from fastapi.testclient import TestClient
 from mcp.client import Client
+from mcp.client.stdio import StdioServerParameters
 from starlette.applications import Starlette
 from starlette.routing import Route
 
@@ -177,16 +179,97 @@ def test_main_app_mounts_mcp():
         assert c.get("/api/interfaces/stock_zh_a_hist").status_code == 200
 
 
-def test_main_app_works_without_mcp_installed():
-    """未安装 mcp 时，服务照常启动，只是不提供 /mcp"""
-    code = (
-        "import sys; sys.modules['mcp'] = None\n"
-        "from fastapi.testclient import TestClient\n"
-        "from aktools.main import app\n"
-        "c = TestClient(app, base_url='http://127.0.0.1:8080')\n"
-        "print(c.get('/api/interfaces/stock_zh_a_hist').status_code, c.post('/mcp', json={}).status_code)"
+# stdio 子进程中运行的脚本：换上离线的假接口，并故意向 stdout 打印，
+# 验证 AKShare 接口中的 print 不会破坏 stdio 通信
+STDIO_SERVER_SCRIPT = """
+import akshare as ak
+import pandas as pd
+
+def fake(symbol="000001"):
+    print("akshare 接口中的调试输出")
+    return pd.DataFrame({"代码": [symbol] * 3})
+
+ak.aktools_fake_stdio = fake
+from aktools.mcp_server import main
+main()
+"""
+
+
+@pytest.mark.anyio
+async def test_stdio_server_end_to_end(tmp_path):
+    server = StdioServerParameters(
+        command=sys.executable,
+        args=["-c", STDIO_SERVER_SCRIPT],
+        cwd=str(tmp_path),
     )
-    out = subprocess.run(
-        [sys.executable, "-c", code], capture_output=True, text=True, check=True
+    async with Client(server) as client:
+        tools = await client.list_tools()
+        assert {t.name for t in tools.tools} == {
+            "search_interfaces",
+            "describe_interface",
+            "get_data",
+        }
+        search = _payload(
+            await client.call_tool("search_interfaces", {"keyword": "交易日历"})
+        )
+        assert search["total"] >= 1
+        data = _payload(
+            await client.call_tool(
+                "get_data", {"name": "aktools_fake_stdio", "params": {"symbol": "1"}}
+            )
+        )
+    assert data["rows"] == [{"代码": "1"}] * 3
+    # stdio 模式下没有 HTTP 服务，不提供下载地址
+    assert data["csv_url"] is None
+
+
+def test_stdio_stdout_carries_only_protocol_messages(tmp_path):
+    """
+    stdout 中只能有 JSON-RPC 消息。AKShare 接口中 print 的内容会先进入 Python 的输出缓冲区，
+    若在会话结束、SDK 恢复 stdout 之后才写出，就会混入协议通道，因此逐行检查原始输出
+    """
+    messages = [
+        INIT_REQUEST,
+        {"jsonrpc": "2.0", "method": "notifications/initialized"},
+        {
+            "jsonrpc": "2.0",
+            "id": 2,
+            "method": "tools/call",
+            "params": {"name": "get_data", "arguments": {"name": "aktools_fake_stdio"}},
+        },
+    ]
+    proc = subprocess.Popen(
+        [sys.executable, "-c", STDIO_SERVER_SCRIPT],
+        stdin=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        cwd=str(tmp_path),
     )
-    assert out.stdout.split()[-2:] == ["200", "404"]
+    # 超时保护：服务端卡住时结束进程，readline 随之返回，测试以失败告终而不是挂起
+    watchdog = threading.Timer(120, proc.kill)
+    watchdog.start()
+    try:
+        for message in messages:
+            proc.stdin.write((json.dumps(message) + "\n").encode("utf-8"))
+        proc.stdin.flush()
+        # 像真实客户端一样，收到两条响应之后才关闭 stdin；
+        # 过早关闭会让服务端在取数完成前退出，测试结果不稳定
+        responses = [proc.stdout.readline() for _ in range(2)]
+        proc.stdin.close()
+        # 会话结束后剩余的 stdout 必须为空：缓冲区中残留的 print 输出正是在退出时写出的
+        rest, stderr = proc.stdout.read(), proc.stderr.read()
+        proc.wait()
+    finally:
+        watchdog.cancel()
+    for line in responses:
+        assert json.loads(line.decode("utf-8"))["jsonrpc"] == "2.0"
+    assert rest == b""
+    assert "akshare 接口中的调试输出" in stderr.decode("utf-8", errors="replace")
+
+
+def test_aktools_mcp_command_is_registered():
+    """pip 安装后提供 aktools-mcp 命令，供 AI 助手以 stdio 方式启动"""
+    from importlib.metadata import entry_points
+
+    scripts = {ep.name: ep.value for ep in entry_points(group="console_scripts")}
+    assert scripts.get("aktools-mcp") == "aktools.mcp_server:main"

@@ -48,11 +48,13 @@ dependencies = [
     "python-multipart>=0.0.9",
     "jinja2>=3.1.2",
     "typer>=0.6.1",
+    # MCP 服务（/mcp 与 aktools-mcp 命令）。SDK 的大版本之间不兼容（1.x 到 2.x 改了 API），限制在 2.x
+    "mcp>=2.3.0,<3",
 ]
 
-[project.optional-dependencies]
-# MCP 服务（/mcp），供 Claude、Cursor 等 AI 助手调用；未安装时服务照常运行，只是不提供 /mcp
-mcp = ["mcp>=2.3.0"]
+[project.scripts]
+# 供 AI 助手以 stdio 方式启动 MCP 服务，如 uvx --from aktools aktools-mcp
+aktools-mcp = "aktools.mcp_server:main"
 
 [project.urls]
 Homepage = "https://github.com/akfamily/aktools"
@@ -64,8 +66,7 @@ Issues = "https://github.com/akfamily/aktools/issues"
 # 终端用户安装 aktools 时不会被装上这些工具链。uv sync 默认安装 dev 组。
 [dependency-groups]
 # TestClient 在新版 Starlette 中依赖 httpx2
-# mcp 用于运行 MCP 服务的测试，与可选依赖 aktools[mcp] 的版本要求一致
-test = ["pytest>=8.0.0", "httpx2>=2.0.0", "mcp>=2.3.0"]
+test = ["pytest>=8.0.0", "httpx2>=2.0.0"]
 # ruff 版本的唯一来源：CI 的 lint job 与 .pre-commit-config.yaml 的本地钩子
 # 都经 uv.lock 从本组取用，没有第二处版本号需要同步
 lint = ["ruff==0.17.2"]
