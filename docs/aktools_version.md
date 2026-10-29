@@ -10,6 +10,15 @@ AKTools 只负责把 HTTP 请求转发给 AKShare，数据接口的新增与变�
 
 ## 更新记录
 
+0.0.96: feat: add interface catalog and csv/xlsx export
+
+1. 新增接口目录：/api/interfaces 列出全部接口并支持按接口名或中文标题搜索，/api/interfaces/{接口名} 返回各参数的默认值、类型和说明
+2. /api/public 新增 _format 参数，可将数据下载为 CSV（带 BOM，Excel 直接打开不乱码）或 Excel 文件
+3. 修复 /api/show 返回未渲染模板、无法加载数据的问题
+4. PyScript 数据展示页升级到 2026.7.3，并改用国内可访问的 Pyodide 节点
+5. 以 --host 0.0.0.0 启动时，命令行提示与 --auto 打开的地址改用 127.0.0.1，可直接在浏览器中打开
+6. 文档站迁移到 Zensical，重写使用文档、贡献指南与行为准则，更新 PyPI 项目信息
+
 0.0.95: feat: distinguish upstream network errors
 
 1. 上游数据源不可达（网络/代理错误）时返回 502 并提示排查，不再误导为升级 AKShare
