@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "aktools"
 dynamic = ["version"]
-description = "AKTools exposes AKShare's financial data interfaces as an HTTP API"
+description = "HTTP API and MCP server for AKShare: fetch financial data from any programming language or AI assistant"
 readme = "README.md"
 requires-python = ">=3.11"
 license = "MIT"
@@ -16,6 +16,11 @@ authors = [
 keywords = [
     "akshare",
     "http-api",
+    "mcp",
+    "mcp-server",
+    "model-context-protocol",
+    "llm",
+    "ai-agent",
     "fastapi",
     "financial-data",
     "stock",
