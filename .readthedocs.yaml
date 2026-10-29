@@ -1,20 +1,27 @@
 # .readthedocs.yaml
 # Read the Docs configuration file
 # See https://docs.readthedocs.io/en/stable/config-file/v2.html for details
+# Zensical 部署说明：https://docs.readthedocs.com/platform/stable/intro/zensical.html
 
 # Required
 version: 2
 
-# Set the version of Python and other tools you might need
 build:
-  os: ubuntu-24.04
+  os: ubuntu-26.04
   tools:
-    python: "3.13"
-
-mkdocs:
-  configuration: mkdocs.yml
-
-# Optionally declare the Python requirements required to build your docs
-python:
-  install:
-    - requirements: docs/requirements.txt
+    python: "3.14"
+  jobs:
+    # 不用 python.install 的 method: uv：它无法传 --locked、--only-group，
+    # 会把 AKShare 等运行依赖与 dev 组一并装上。这里只装 pyproject.toml 的 docs 组，
+    # 版本由 uv.lock 锁定；uv 版本与 build.yml 的 UV_VERSION 保持一致。
+    # --inexact：不删除虚拟环境里 Read the Docs 预装的包（包括刚装的 uv 本身）。
+    install:
+      - pip install uv==0.13.5
+      - UV_PROJECT_ENVIRONMENT=$READTHEDOCS_VIRTUALENV_PATH uv sync --locked --only-group docs --inexact
+    build:
+      html:
+        - zensical build --strict
+    # Zensical 输出到 mkdocs.yml 的 site_dir（默认 site/），复制到 Read the Docs 发布的目录
+    post_build:
+      - mkdir -p $READTHEDOCS_OUTPUT/html/
+      - cp --recursive site/* $READTHEDOCS_OUTPUT/html/

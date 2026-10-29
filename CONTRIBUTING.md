@@ -125,7 +125,7 @@ uv run python -m aktools --host 127.0.0.1 --port 8080   # 然后打开 http://12
 | `aktools/datasets.py` | 读取随包发布的 HTML 模板、图标等资源 |
 | `aktools/_version.py` | 版本号的唯一来源 |
 | `tests/` | 单元测试 |
-| `docs/` | 文档源文件，由 MkDocs 构建并发布到 Read the Docs |
+| `docs/`、`mkdocs.yml` | 文档源文件与站点配置，由 Zensical 构建并发布到 Read the Docs |
 
 <!-- omit in toc -->
 ### 测试与代码检查
@@ -165,13 +165,19 @@ uv run ruff check .            # 静态检查
 文档分为两部分：
 
 - `README.md`：GitHub 首页和 PyPI 项目页的说明。PyPI 不支持相对链接，因此文中指向仓库文件的链接请使用完整的 GitHub 地址。
-- `docs/`：[AKTools 中文文档](https://aktools.akfamily.xyz/) 的源文件，由 [MkDocs](https://www.mkdocs.org/) + [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) 构建，合并到 `main` 后由 Read the Docs 自动发布。
+- `docs/`：[AKTools 中文文档](https://aktools.akfamily.xyz/) 的源文件，由 [Zensical](https://zensical.org/)（Material for MkDocs 的继任者）读取 `mkdocs.yml` 构建，合并到 `main` 后由 Read the Docs 自动发布。构建工具的版本由 `pyproject.toml` 的 `docs` 依赖组和 `uv.lock` 锁定。
 
-本地预览文档：
+本地预览与构建文档：
 
 ```bash
-uv run --with-requirements docs/requirements.txt mkdocs serve   # 然后打开 http://127.0.0.1:8000
+uv run --group docs zensical serve            # 实时预览，然后打开 http://localhost:8000
+uv run --group docs zensical build --strict   # 与 Read the Docs 相同的构建命令，有警告即失败
 ```
+
+编写文档时请注意：
+
+- 段落中不要为了排版手动换行。中文之间的换行会被渲染成空格，一个段落请写在同一行。
+- 会被其他页面或 README 引用的标题，请用 `{#英文锚点}` 显式指定锚点，例如 `## 常见问题 {#faq}`，不要依赖自动生成的 `#_14` 这类锚点。
 
 错别字、过时的说明、失效的链接、缺少的示例，都欢迎直接提交 Pull Request 修正。
 

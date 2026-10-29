@@ -33,6 +33,13 @@ Smoke-test an interface once the server is up:
 curl "http://127.0.0.1:8080/api/public/stock_zh_a_hist?symbol=000001"
 ```
 
+Docs site (`docs/` + `mkdocs.yml`, built by [Zensical](https://zensical.org/), the Material for MkDocs successor, from the `docs` dependency group — not part of `dev`):
+
+```bash
+uv run --group docs zensical serve            # live preview at http://localhost:8000
+uv run --group docs zensical build --strict   # same command Read the Docs runs
+```
+
 ## Architecture
 
 - `aktools/main.py` — builds the `FastAPI` app, serves the homepage and `/version`, and mounts the `app_core` router under `/api`. `gunicorn aktools.main:app` / `uvicorn aktools.main:app` both target this `app`.
@@ -41,10 +48,11 @@ curl "http://127.0.0.1:8080/api/public/stock_zh_a_hist?symbol=000001"
 - `aktools/datasets.py` — resolves bundled assets (HTML templates, favicon) via `importlib.resources`. These files ship inside the wheel; `[tool.setuptools.package-data]` in `pyproject.toml` controls what is included.
 - `aktools/utils.py` — `get_latest_version()` queries PyPI for the newest AKShare/AKTools version shown on the homepage. Tests that render the homepage must stub this to stay offline.
 - `src/app.py` — the Vercel entry point; it just re-exports `app`.
+- `.readthedocs.yaml` — installs only the `docs` group with `uv sync --locked --only-group docs` and runs `zensical build --strict`. Its pinned `uv==` version must match `UV_VERSION` in `build.yml`.
 
 ## Conventions
 
-- **Packaging metadata lives in `pyproject.toml`** (there is no `setup.py`). The version is read dynamically from `__version__` in `aktools/__init__.py`.
-- **A release bumps three places that must agree**, enforced by `scripts/check_release.py` in the release workflow: the git tag (`vX.Y.Z`), `__version__` in `aktools/__init__.py`, and a `X.Y.Z: ...` entry in `docs/aktools_version.md`. The version history lives only in `docs/aktools_version.md` — do not re-add a copy to `__init__.py`.
+- **Packaging metadata lives in `pyproject.toml`** (there is no `setup.py`). The version is read dynamically from `__version__` in `aktools/_version.py` (re-exported by `aktools/__init__.py`).
+- **A release bumps three places that must agree**, enforced by `scripts/check_release.py` in the release workflow: the git tag (`vX.Y.Z`), `__version__` in `aktools/_version.py`, and a `X.Y.Z: ...` entry in `docs/aktools_version.md`. The version history lives only in `docs/aktools_version.md` — do not re-add a copy to the package.
 - Releasing: push a `vX.Y.Z` tag; `release_and_deploy.yml` verifies metadata, builds, checks the artifacts, uploads to PyPI, then creates the GitHub release.
 - Python 3.11+ only, matching current AKShare. Commit messages follow Conventional Commits (checked by the `commit-msg` hook). PRs target `main`.

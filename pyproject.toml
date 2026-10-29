@@ -58,6 +58,10 @@ test = ["pytest>=8.0.0", "httpx2>=2.0.0"]
 # ruff 版本的唯一来源：CI 的 lint job 与 .pre-commit-config.yaml 的本地钩子
 # 都经 uv.lock 从本组取用，没有第二处版本号需要同步
 lint = ["ruff==0.17.2"]
+# 文档站构建工具（Material for MkDocs 的继任者，直接读取 mkdocs.yml）。
+# 不并入 dev 组：只有改文档时才需要，用 uv run --group docs 按需安装；
+# Read the Docs 也只安装本组，见 .readthedocs.yaml
+docs = ["zensical>=0.0.73"]
 dev = [
     { include-group = "test" },
     { include-group = "lint" },

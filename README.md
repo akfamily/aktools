@@ -14,9 +14,7 @@
 [![GitHub forks](https://img.shields.io/github/forks/akfamily/aktools)](https://github.com/akfamily/aktools/network/members)
 [![GitHub issues](https://img.shields.io/github/issues/akfamily/aktools)](https://github.com/akfamily/aktools/issues)
 
-[AKTools](https://github.com/akfamily/aktools) 是一款用于快速搭建 [AKShare](https://github.com/akfamily/akshare) HTTP API 的工具。
-只需一行命令即可启动 HTTP 服务，让原本只服务于 Python 用户的开源财经数据接口库 AKShare 突破编程语言的限制：
-无论您使用的是 C/C++、Java、Go、Rust、Ruby、PHP、JavaScript、R、MATLAB、Stata 等编程语言或软件，都可以快速、轻松地获取财经数据，助力您更好地展开研究和开发工作。
+[AKTools](https://github.com/akfamily/aktools) 是一款用于快速搭建 [AKShare](https://github.com/akfamily/akshare) HTTP API 的工具。只需一行命令即可启动 HTTP 服务，让原本只服务于 Python 用户的开源财经数据接口库 AKShare 突破编程语言的限制：无论您使用的是 C/C++、Java、Go、Rust、Ruby、PHP、JavaScript、R、MATLAB、Stata 等编程语言或软件，都可以快速、轻松地获取财经数据，助力您更好地展开研究和开发工作。
 
 **[AKTools 中文文档](https://aktools.akfamily.xyz/)** | **[AKShare 数据字典](https://akshare.akfamily.xyz/data/index.html)** | **[版本说明](https://github.com/akfamily/aktools/blob/main/docs/aktools_version.md)**
 
@@ -215,7 +213,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 </details>
 
-更多示例及运行结果，请见 [AKTools 中文文档](https://aktools.akfamily.xyz/aktools/)。
+更多示例及运行结果，请见 [AKTools 中文文档](https://aktools.akfamily.xyz/aktools/#examples)。
 
 ## 部署
 
@@ -234,7 +232,7 @@ docker run -d -p 8080:8080 aktools
 docker build --build-arg PIP_INDEX_URL=https://mirrors.aliyun.com/pypi/simple/ -t aktools .
 ```
 
-预构建镜像的拉取与升级方式，请见 [AKTools-Docker 版本](https://aktools.akfamily.xyz/aktools/#aktools-docker)。
+镜像升级等更多说明，请见 [Docker 部署文档](https://aktools.akfamily.xyz/aktools/#docker)。
 
 ### 生产环境
 
