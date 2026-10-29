@@ -291,3 +291,18 @@ def test_importing_mcp_server_leaves_root_logging_untouched():
         [sys.executable, "-c", code], capture_output=True, text=True, check=True
     )
     assert out.stdout.split() == ["0", str(logging.WARNING)]
+
+
+@pytest.mark.anyio
+async def test_get_data_reports_akshare_rate_limit(monkeypatch):
+    """MCP 与 HTTP 共用错误说明：上游限流时助手看到的是限流提示，而不是升级 AKShare"""
+    import akshare.exceptions as ak_exceptions
+
+    def boom():
+        raise ak_exceptions.RateLimitError("请求过于频繁")
+
+    monkeypatch.setattr(ak, "aktools_fake_rate_limit", boom, raising=False)
+    async with Client(mcp) as client:
+        result = await client.call_tool("get_data", {"name": "aktools_fake_rate_limit"})
+    assert result.is_error
+    assert "稍后重试" in result.content[0].text

@@ -14,6 +14,7 @@ from typing import Dict, Tuple
 from logging.handlers import TimedRotatingFileHandler
 
 import akshare as ak
+import akshare.exceptions as ak_exceptions
 import pandas as pd
 import requests
 from fastapi import APIRouter, Query, Request, status
@@ -164,6 +165,37 @@ class InterfaceError(Exception):
         self.status_code = status_code
 
 
+# AKShare 自定义的异常不继承 requests 的异常类，需要单独对应状态码与处理建议；
+# 未列出的异常（含 AkshareException 基类）仍按接口用法错误处理
+AKSHARE_ERRORS = (
+    (
+        ak_exceptions.NetworkError,
+        status.HTTP_502_BAD_GATEWAY,
+        "访问上游数据源失败，请检查网络或代理设置（如 HTTP_PROXY/HTTPS_PROXY 环境变量）：{e}",
+    ),
+    (
+        ak_exceptions.RateLimitError,
+        status.HTTP_429_TOO_MANY_REQUESTS,
+        "上游数据源限制了访问频率，请稍后重试，或调大 --cache-ttl 减少重复请求：{e}",
+    ),
+    (
+        ak_exceptions.InvalidParameterError,
+        status.HTTP_400_BAD_REQUEST,
+        "参数不合法：{e}，请通过 /api/interfaces/{item_id} 查看参数说明",
+    ),
+    (
+        ak_exceptions.APIError,
+        status.HTTP_502_BAD_GATEWAY,
+        "上游数据源返回错误：{e}，请稍后重试",
+    ),
+    (
+        ak_exceptions.DataParsingError,
+        status.HTTP_502_BAD_GATEWAY,
+        "解析上游数据失败：{e}，上游页面可能已改版，请升级 AKShare 到最新版本，仍有问题请到 AKShare 反馈：https://github.com/akfamily/akshare/issues",
+    ),
+)
+
+
 def fetch_dataframe(item_id: str, params: Dict[str, str]) -> Tuple[pd.DataFrame, str]:
     """
     调用 AKShare 接口获取数据，经过结果缓存与 AKShare 内部缓存清理
@@ -198,6 +230,13 @@ def fetch_dataframe(item_id: str, params: Dict[str, str]) -> Tuple[pd.DataFrame,
             f"访问上游数据源失败，请检查网络或代理设置（如 HTTP_PROXY/HTTPS_PROXY 环境变量）：{e}",
             status.HTTP_502_BAD_GATEWAY,
         ) from e
+    except tuple(error for error, _, _ in AKSHARE_ERRORS) as e:
+        logger.info(f"调用接口 {item_id} 出错：{type(e).__name__}: {e}")
+        for error, status_code, message in AKSHARE_ERRORS:
+            if isinstance(e, error):
+                raise InterfaceError(
+                    message.format(e=e, item_id=item_id), status_code
+                ) from e
     except Exception as e:
         logger.info(f"调用接口 {item_id} 出错：{e}")
         raise InterfaceError(

@@ -10,6 +10,7 @@ import datetime
 import io
 
 import akshare as ak
+import akshare.exceptions as ak_exceptions
 import openpyxl
 import pandas as pd
 import pytest
@@ -175,3 +176,32 @@ def test_tests_do_not_write_log_into_repository():
     repo_root = pathlib.Path(__file__).resolve().parent.parent
     log_file = pathlib.Path(api.handler.baseFilename).resolve()
     assert repo_root not in log_file.parents
+
+
+@pytest.mark.parametrize(
+    ("exception", "status_code", "hint"),
+    [
+        (ak_exceptions.NetworkError("连接被重置"), 502, "代理"),
+        (ak_exceptions.RateLimitError("请求过于频繁"), 429, "稍后"),
+        (ak_exceptions.InvalidParameterError("symbol 不合法"), 400, "/api/interfaces/"),
+        (ak_exceptions.APIError("服务不可用", 503), 502, "503"),
+        (ak_exceptions.DataParsingError("页面结构变化"), 502, "AKShare"),
+    ],
+)
+def test_akshare_exceptions_map_to_status_codes(
+    monkeypatch, exception, status_code, hint
+):
+    """
+    AKShare 自定义的异常不继承 requests 的异常类，不能一律当作接口用法错误返回 404 并提示升级 AKShare：
+    网络问题、上游限流、参数错误、上游报错与页面改版分别返回对应的状态码与处理建议
+    """
+
+    def boom():
+        raise exception
+
+    monkeypatch.setattr(ak, "aktools_fake_akshare_error", boom, raising=False)
+    resp = call_interface("aktools_fake_akshare_error", _FakeRequest())
+    body = resp.body.decode("utf-8")
+    assert resp.status_code == status_code
+    assert hint in body
+    assert str(exception) in body
