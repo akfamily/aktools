@@ -10,6 +10,14 @@ AKTools 只负责把 HTTP 请求转发给 AKShare，数据接口的新增与变�
 
 ## 更新记录
 
+0.0.98: feat: add mcp server and result cache
+
+1. 新增 MCP 服务，供 Claude、Cursor 等 AI 助手获取数据：随 HTTP 服务提供 /mcp，或在助手中配置 uvx --from aktools aktools-mcp 以 stdio 方式运行
+2. 新增结果缓存：同一接口、同样参数在 60 秒内直接返回上次的数据，可用 --cache-ttl 调整，响应头 X-AKTools-Cache 标明是否命中
+3. 定期清空 AKShare 内部缓存（默认每小时），修复服务长期运行后板块名称等数据不更新的问题，可用 --akshare-cache-clear 调整
+4. 数据无法转换为所选格式时返回说明；日志目录不可写时改写到系统临时目录
+5. 文档新增“什么情况下不必用 AKTools”、缓存设置与 AI 助手（MCP）的说明
+
 0.0.97: docs: reorganize docs for beginners
 
 1. 文档按新手学习顺序重组：首页、快速入门、使用指南（调用规则、接口目录、多语言调用）、部署、常见问题
