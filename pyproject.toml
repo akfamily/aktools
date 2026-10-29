@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "aktools"
 dynamic = ["version"]
-description = "AKTools is a tool for AKShare HTTP API!"
+description = "AKTools exposes AKShare's financial data interfaces as an HTTP API"
 readme = "README.md"
 requires-python = ">=3.11"
 license = "MIT"
@@ -14,15 +14,16 @@ authors = [
     {name = "AKFamily", email = "albertandking@gmail.com"}
 ]
 keywords = [
+    "akshare",
+    "http-api",
+    "fastapi",
+    "financial-data",
     "stock",
     "option",
     "futures",
     "bond",
     "index",
-    "air",
-    "others",
     "finance",
-    "spider",
     "quant",
     "quantitative",
     "investment",
@@ -36,6 +37,8 @@ classifiers = [
     "Programming Language :: Python :: 3.14",
     "Programming Language :: Python :: 3.15",
     "Operating System :: OS Independent",
+    "Framework :: FastAPI",
+    "Topic :: Office/Business :: Financial :: Investment",
 ]
 dependencies = [
     "akshare>=1.16.25",
@@ -49,6 +52,9 @@ dependencies = [
 
 [project.urls]
 Homepage = "https://github.com/akfamily/aktools"
+Documentation = "https://aktools.akfamily.xyz/"
+Changelog = "https://aktools.akfamily.xyz/aktools_version/"
+Issues = "https://github.com/akfamily/aktools/issues"
 
 # 开发依赖使用 PEP 735 dependency-groups 而非 extra：组不会进入包的元数据，
 # 终端用户安装 aktools 时不会被装上这些工具链。uv sync 默认安装 dev 组。

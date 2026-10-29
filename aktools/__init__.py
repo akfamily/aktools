@@ -1,4 +1,4 @@
-"""AKTools 是 AKShare 的 HTTP API 工具, 主要目的是使 AKShare 的数据接口部署到本地从而通过 HTTP 访问来获取所需要的数据"""
+"""AKTools 是 AKShare 的 HTTP API 工具：把 AKShare 的数据接口部署为 HTTP 服务，任何编程语言都可以通过 HTTP 获取财经数据"""
 
 from aktools._version import __version__
 

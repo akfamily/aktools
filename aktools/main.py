@@ -22,7 +22,7 @@ html_path = get_homepage_html(file="homepage.html")
 
 app = FastAPI(
     title="欢迎访问 AKTools 为 AKShare 打造的 HTTP API 在线文档",
-    description="AKTools 是 AKShare 的 HTTP API 工具, 主要目的是使 AKShare 的数据接口部署到服务器，从而让用户通过 HTTP 访问相关接口来获取所需要的数据",
+    description="AKTools 是 AKShare 的 HTTP API 工具：把 AKShare 的数据接口部署为 HTTP 服务，任何编程语言都可以通过 HTTP 获取财经数据。接口名与 AKShare 的函数名一致，参数以查询字符串传递，详见 [AKTools 文档](https://aktools.akfamily.xyz/) 与 [AKShare 数据字典](https://akshare.akfamily.xyz/data/index.html)",
     version=akshare.__version__,
     redoc_url=None,
 )

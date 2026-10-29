@@ -1,40 +1,39 @@
-## [AKTools](https://github.com/akfamily/aktools) 版本说明
+# 版本说明
 
-## 开发目标
+本页记录 [AKTools](https://github.com/akfamily/aktools) 每个版本的主要变更，最新版本在最前。升级到最新版：
 
-1. 提供 AKShare 的 HTTP API 核心功能
-2. 提供多线程访问功能
-3. 增加接口状态码支持
-4. 增加用户自定义数据接口功能
-5. 增加主页及增强命令行支持
-6. 增加测试支持
+```shell
+pip install aktools --upgrade -i https://pypi.org/simple
+```
 
-## 开发进度
+AKTools 只负责把 HTTP 请求转发给 AKShare，数据接口的新增与变更请查看 [AKShare 版本更新说明](https://akshare.akfamily.xyz/changelog.html)。
+
+## 更新记录
 
 0.0.95: feat: distinguish upstream network errors
 
-    1. 上游数据源不可达（网络/代理错误）时返回 502 并提示排查，不再误导为升级 AKShare
-    2. 文档与主页的连通性测试链接改用更稳定的新浪接口
-    3. 文档新增常见问题：502/404 的区别与代理问题排查
+1. 上游数据源不可达（网络/代理错误）时返回 502 并提示排查，不再误导为升级 AKShare
+2. 文档与主页的连通性测试链接改用更稳定的新浪接口
+3. 文档新增常见问题：502/404 的区别与代理问题排查
 
 0.0.94: refactor: optimize built-in HTML pages
 
-    1. 内置主页优化：语言标记、移动端适配、样式整理与深浅色配色
-    2. PyScript 数据展示页由已废弃的 alpha 版升级到当前稳定版
-    3. 同步文档描述，参照 AKShare 重写 .gitignore
+1. 内置主页优化：语言标记、移动端适配、样式整理与深浅色配色
+2. PyScript 数据展示页由已废弃的 alpha 版升级到当前稳定版
+3. 同步文档描述，参照 AKShare 重写 .gitignore
 
 0.0.93: refactor: remove demo user login
 
-    1. 删除演示性的用户登录模块（aktools/login）与 /api/private 私人接口
-    2. 移除 POST /auth/token 端点；数据获取统一使用 GET /api/public/{接口}
+1. 删除演示性的用户登录模块（aktools/login）与 /api/private 私人接口
+2. 移除 POST /auth/token 端点；数据获取统一使用 GET /api/public/{接口}
 
 0.0.92: fix: fix template response and cli startup
 
-    1. 修复新版 Starlette 下主页与模板页面返回 500 的问题（#239）
-    2. 修复安装路径含空格时 aktools 启动闪退的问题（#238）
-    3. Python 版本要求提升到 3.11 及以上，与 AKShare 保持一致
-    4. 更新 Dockerfile，打包配置由 setup.py 迁移到 pyproject.toml
-    5. 删除未使用的数据库相关代码
+1. 修复新版 Starlette 下主页与模板页面返回 500 的问题（#239）
+2. 修复安装路径含空格时 aktools 启动闪退的问题（#238）
+3. Python 版本要求提升到 3.11 及以上，与 AKShare 保持一致
+4. 更新 Dockerfile，打包配置由 setup.py 迁移到 pyproject.toml
+5. 删除未使用的数据库相关代码
 
 0.0.91: fix: fix update python 3.14
 
@@ -64,7 +63,7 @@
 
 0.0.78: add: add test_cli.py
 
-    1. 增加测试文件，增加项目的稳健型
+1. 增加测试文件，增加项目的稳健型
 
 0.0.77: add: add cli.py file
 
@@ -82,7 +81,7 @@
 
 0.0.70: add: add homepage
 
-    1. 增加首页，提供更多帮助信息
+1. 增加首页，提供更多帮助信息
 
 0.0.69: fix: fix file path in datasets.py
 
@@ -102,7 +101,7 @@
 
 0.0.61: fix: fix remove dependency from akscript.html
 
-    1. 从 akscript.html 中移除 numpy 和 matplotlib 依赖
+1. 从 akscript.html 中移除 numpy 和 matplotlib 依赖
 
 0.0.60: add: add css and html to akscript.html
 
@@ -120,56 +119,56 @@
 
 0.0.53: fix: fix PyScript demo url
 
-    1. 修复 PyScript demo url
+1. 修复 PyScript demo url
 
 0.0.52: add: add pyscript support
 
-    1. 新增 PyScript Demo 演示
+1. 新增 PyScript Demo 演示
 
 0.0.51: add: add CORS support
 
-    1. 新增跨域的支持
+1. 新增跨域的支持
 
 0.0.50: add: add interface docs
 
-    1. 给接口增加描述和简要说明
-    2. 修正部分函数的签名
+1. 给接口增加描述和简要说明
+2. 修正部分函数的签名
 
 0.0.49: add: add FastAPI docs introduction
 
-    1. 提供文档的标题、描述及版本
-    2. 文档的版本与 AKShare 的版本对应，方便查询相关接口
+1. 提供文档的标题、描述及版本
+2. 文档的版本与 AKShare 的版本对应，方便查询相关接口
 
 0.0.48: fix: fix docs
 
-    1. 修正 URL 连接
-    2. 修正部分表述错误
+1. 修正 URL 连接
+2. 修正部分表述错误
 
 0.0.47: add: add tips
 
-    1. 移除路径输出
-    2. 在终端窗口输出：`http://127.0.0.1:8080/docs` 类似的链接，用户可以一键直达接口文档
+1. 移除路径输出
+2. 在终端窗口输出：`http://127.0.0.1:8080/docs` 类似的链接，用户可以一键直达接口文档
 
 0.0.46: fix: fix setup.py
 
-    1. 在 setup.py 中增加 `python-multipart` 的依赖
+1. 在 setup.py 中增加 `python-multipart` 的依赖
 
 0.0.45: add: add module format support
 
-    1. 把核心 API 模块和登录模块拆分开
-    2. 把项目结构化，有利于后续开发
-    3. 增加 run.py 文件作为项目的主入口
+1. 把核心 API 模块和登录模块拆分开
+2. 把项目结构化，有利于后续开发
+3. 增加 run.py 文件作为项目的主入口
 
 0.0.44: add: add login support
 
-    1. 增加用户认证模块，但是该程序目前并没有采用数据库，还是在测试中
-    2. 目前用户可以通过 username 为 `akshare` 和 password 为 `akfamily` 来获取 token
-    3. 通过在请求头中设置 token 参数来访问接口
+1. 增加用户认证模块，但是该程序目前并没有采用数据库，还是在测试中
+2. 目前用户可以通过 username 为 `akshare` 和 password 为 `akfamily` 来获取 token
+3. 通过在请求头中设置 token 参数来访问接口
 
 0.0.43: add: add support response status code
 
-    1. 增加返回状态码，用户可以通过状态码来判断是否获取到数据
-    2. 修正一些表述错处
+1. 增加返回状态码，用户可以通过状态码来判断是否获取到数据
+2. 修正一些表述错处
 
 0.0.42: fix: fix email
 
