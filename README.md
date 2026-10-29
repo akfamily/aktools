@@ -5,7 +5,7 @@
 [![PyPI](https://img.shields.io/pypi/v/aktools.svg)](https://pypi.org/project/aktools/)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/aktools.svg)](https://pypi.org/project/aktools/)
 [![PyPI Downloads](https://static.pepy.tech/personalized-badge/aktools?period=total&units=INTERNATIONAL_SYSTEM&left_color=BLACK&right_color=GREEN&left_text=downloads)](https://pepy.tech/projects/aktools)
-[![Documentation Status](https://app.readthedocs.org/projects/aktools/badge/?version=latest)](https://aktools.akfamily.xyz/)
+[![Documentation Status](https://img.shields.io/readthedocs/aktools/latest)](https://aktools.akfamily.xyz/)
 [![Actions Status](https://github.com/akfamily/aktools/actions/workflows/build.yml/badge.svg)](https://github.com/akfamily/aktools/actions/workflows/build.yml)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![Data Science - AKShare](https://img.shields.io/badge/Data%20Science-AKShare-green)](https://github.com/akfamily/akshare)
