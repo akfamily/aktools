@@ -105,6 +105,8 @@ python -m aktools --host 0.0.0.0 --port 8888
 | `/docs` | 接口导览（Swagger UI），可在线调试接口 |
 | `/version` | 当前与最新的 AKShare、AKTools 版本 |
 | `/api/public/{接口名}` | 获取数据，详见[调用规则](#usage) |
+| `/api/interfaces` | 接口目录：全部接口的名称与中文标题，可用 `?q=关键词` 搜索，详见[接口目录](#catalog) |
+| `/api/interfaces/{接口名}` | 接口的标题、数据源地址与各参数的默认值、类型和说明 |
 | `/api/show-temp/{接口名}` | 用 [PyScript](https://pyscript.net/) 在浏览器中获取并展示该接口的数据，并提供 JSON 下载 |
 | `/api/show` | 上述 PyScript 数据展示页的演示，展示 `tool_trade_date_hist_sina` 接口的数据 |
 
@@ -160,6 +162,24 @@ http://127.0.0.1:8080/api/public/stock_zh_a_hist?symbol=600000&period=weekly&sta
 ]
 ```
 
+### 下载 CSV 与 Excel {#download}
+
+加上保留参数 `_format`，可以把数据直接下载为表格文件，方便在 Excel、Stata、MATLAB 等软件中使用：
+
+| `_format` | 返回内容 |
+| --- | --- |
+| `json` | 默认值，返回 JSON 数组 |
+| `csv` | 下载 `{接口名}.csv`，UTF-8 编码并带 BOM，Excel 直接打开中文不会乱码 |
+| `xlsx` | 下载 `{接口名}.xlsx` Excel 文件 |
+
+例如：
+
+```text
+http://127.0.0.1:8080/api/public/stock_zh_a_hist?symbol=000001&start_date=20240101&end_date=20241231&_format=xlsx
+```
+
+`_format` 由 AKTools 处理，不会传给 AKShare 接口。Excel 单个工作表最多约 104 万行，数据超出时请改用 `csv`。
+
 ### 错误与状态码 {#status-codes}
 
 失败时返回 `{"error": "错误信息"}`：
@@ -167,10 +187,50 @@ http://127.0.0.1:8080/api/public/stock_zh_a_hist?symbol=600000&period=weekly&sta
 | 状态码 | 含义 | 处理建议 |
 | --- | --- | --- |
 | `200` | 成功 | — |
-| `404` | 接口名不存在、接口调用出错（如参数错误）或接口返回空数据 | 升级 AKShare，并对照 AKShare 文档检查接口名和参数 |
+| `400` | `_format` 取值不支持，或数据行数超过 Excel 上限 | 改用 `json`、`csv` 或 `xlsx`；数据过大时改用 `csv` |
+| `404` | 接口名不存在、接口调用出错（如参数错误）或接口返回空数据 | 升级 AKShare，并对照[接口参数说明](#catalog)检查接口名和参数 |
 | `502` | 无法访问上游数据源 | 检查网络和代理设置，见[常见问题](#faq-502) |
 
 可以根据状态码区分是用法问题还是网络问题。
+
+## 接口目录 {#catalog}
+
+不知道接口名或参数怎么填时，可以直接向服务查询，不需要去翻 AKShare 文档。这些信息来自 AKShare 接口的函数签名和说明，查询时不会访问上游数据源。
+
+按关键词搜索接口，关键词匹配接口名或中文标题：
+
+```text
+http://127.0.0.1:8080/api/interfaces?q=交易日历
+```
+
+```json
+[
+  {"name": "futures_rule", "title": "国泰君安期货-交易日历数据表"},
+  {"name": "tool_trade_date_hist_sina", "title": "新浪财经-交易日历-历史数据"}
+]
+```
+
+不带 `q` 时返回全部接口。查看某个接口的参数说明：
+
+```text
+http://127.0.0.1:8080/api/interfaces/stock_zh_a_hist
+```
+
+```json
+{
+  "name": "stock_zh_a_hist",
+  "title": "东方财富网-行情首页-沪深京 A 股-每日行情",
+  "source_url": "https://quote.eastmoney.com/concept/sh603777.html?from=classic",
+  "url": "/api/public/stock_zh_a_hist",
+  "params": [
+    {"name": "symbol", "default": "000001", "required": false, "type": "str", "description": "股票代码"},
+    {"name": "period", "default": "daily", "required": false, "type": "str", "description": "choice of {'daily', 'weekly', 'monthly'}"}
+  ],
+  "doc": "AKShare 接口的完整说明文字……"
+}
+```
+
+示例中的 `params` 只列出了前两个参数。`required` 为 `true` 的参数必须传入；`doc` 是接口的完整说明，参数说明解析不全时可以参考它。
 
 ## 多语言调用 {#examples}
 

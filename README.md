@@ -36,6 +36,8 @@
 - **零配置**：`python -m aktools` 一行命令启动服务，无需编写任何代码
 - **接口全覆盖**：AKShare 的每个数据接口都可以通过 `/api/public/<接口名>` 直接访问，AKShare 新增接口后升级即可使用
 - **跨语言**：返回标准 JSON，任何能发送 HTTP 请求的语言或软件都可以调用
+- **接口自查**：`/api/interfaces` 列出全部接口并支持按关键词搜索，每个接口的参数、默认值和说明都能直接查询
+- **表格下载**：加上 `_format=csv` 或 `_format=xlsx` 即可把数据下载为 CSV 或 Excel 文件
 - **自带文档**：基于 [FastAPI](https://fastapi.tiangolo.com/)，启动后访问 `/docs` 即可在线查看和调试接口
 - **便于部署**：提供 Dockerfile，支持 Gunicorn + Uvicorn 多进程部署
 
@@ -68,6 +70,8 @@ pip install akshare aktools --upgrade -i https://pypi.org/simple
     | `http://127.0.0.1:8080/` | 主页，展示简要的使用说明 |
     | `http://127.0.0.1:8080/docs` | 接口导览，可在线调试 |
     | `http://127.0.0.1:8080/version` | 当前与最新的 AKShare、AKTools 版本 |
+    | `http://127.0.0.1:8080/api/interfaces?q=历史行情` | 按关键词搜索接口 |
+    | `http://127.0.0.1:8080/api/interfaces/stock_zh_a_hist` | 查看接口的参数、默认值和说明 |
     | `http://127.0.0.1:8080/api/public/tool_trade_date_hist_sina` | 连通性测试（新浪交易日历，无需参数且较为稳定） |
     | `http://127.0.0.1:8080/api/public/stock_zh_a_hist?symbol=600000` | 带参数获取数据 |
 
@@ -92,16 +96,18 @@ GET /api/public/{接口名}?{参数1}={值1}&{参数2}={值2}
 akshare.{接口名}(参数1="值1", 参数2="值2")
 ```
 
-- **接口名**与 AKShare 的函数名完全一致，接口列表和参数说明请查阅 [AKShare 数据字典](https://akshare.akfamily.xyz/data/index.html)。
+- **接口名**与 AKShare 的函数名完全一致。可以通过 `/api/interfaces?q=关键词` 搜索接口，通过 `/api/interfaces/{接口名}` 查看参数说明，详细的数据说明请查阅 [AKShare 数据字典](https://akshare.akfamily.xyz/data/index.html)。
 - **参数**以查询字符串传递，值不需要加引号，例如 `?symbol=600000&period=weekly`；不传的参数使用 AKShare 接口的默认值。
-- **返回值**是由 DataFrame 按行转换得到的 JSON 数组，日期时间字段为 ISO 8601 格式，例如 `"2024-01-25T00:00:00.000"`。
+- **返回值**默认是由 DataFrame 按行转换得到的 JSON 数组，日期时间字段为 ISO 8601 格式，例如 `"2024-01-25T00:00:00.000"`。
+- **下载表格**：加上保留参数 `_format=csv` 或 `_format=xlsx`，数据会以 `{接口名}.csv` 或 `{接口名}.xlsx` 文件下载，例如 `/api/public/stock_zh_a_hist?symbol=000001&_format=xlsx`。CSV 为带 BOM 的 UTF-8 编码，可以直接用 Excel 打开。
 
 请求失败时返回 `{"error": "错误信息"}`，状态码含义如下：
 
 | 状态码 | 含义 | 处理建议 |
 | --- | --- | --- |
 | `200` | 成功 | — |
-| `404` | 接口名不存在，或接口调用出错（如参数错误） | 升级 AKShare，并对照文档检查接口名和参数 |
+| `400` | `_format` 取值不支持，或数据行数超过 Excel 上限 | 改用 `json`、`csv` 或 `xlsx`；数据过大时改用 `csv` |
+| `404` | 接口名不存在，或接口调用出错（如参数错误） | 升级 AKShare，并对照 `/api/interfaces/{接口名}` 检查接口名和参数 |
 | `502` | 无法访问上游数据源 | 检查网络和代理设置，见 [常见问题](#常见问题) |
 
 ## 多语言调用示例
