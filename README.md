@@ -80,7 +80,7 @@ pip install akshare aktools --upgrade -i https://pypi.org/simple
 | `--auto` | `-A` | 关闭 | 启动后自动打开浏览器 |
 | `--version` | `-v` | — | 查看 AKTools 版本 |
 
-例如：`python -m aktools --host 0.0.0.0 --port 8888 --auto`
+例如：`python -m aktools --port 8888 --auto` 会在 8888 端口启动并自动打开浏览器。需要让局域网内的其他机器访问时，加上 `--host 0.0.0.0`，其他机器通过 `http://<本机 IP>:8888` 访问；`0.0.0.0` 只表示监听所有网卡，不能当作访问地址在浏览器中打开。
 
 ## 调用规则
 

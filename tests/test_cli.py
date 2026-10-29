@@ -8,6 +8,7 @@ Desc: CLI 测试文件
 
 import sys
 
+import pytest
 from typer.testing import CliRunner
 
 from aktools import __title__, __version__, cli
@@ -41,3 +42,31 @@ def test_start_command_with_space_in_path(monkeypatch) -> None:
     assert command[0] == executable
     assert command[command.index("--port") + 1] == "8081"
     assert not kwargs.get("shell")
+
+
+@pytest.mark.parametrize(
+    ("host", "local_url"),
+    [
+        ("0.0.0.0", "http://127.0.0.1:8888/"),
+        ("::", "http://[::1]:8888/"),
+        ("127.0.0.1", "http://127.0.0.1:8888/"),
+        ("192.168.1.10", "http://192.168.1.10:8888/"),
+        ("::1", "http://[::1]:8888/"),
+    ],
+)
+def test_wildcard_host_shows_reachable_url(monkeypatch, host, local_url) -> None:
+    """
+    0.0.0.0 / :: 只表示“监听所有网卡”，不能作为访问地址：打印的链接与 --auto 打开的页面
+    必须换成本机回环地址，而 uvicorn 仍按用户指定的地址监听
+    """
+    calls, launched = [], []
+    monkeypatch.setattr(cli, "run", lambda command: calls.append(command))
+    monkeypatch.setattr(cli.typer, "launch", lambda url: launched.append(url))
+    result = runner.invoke(cli.app, args=["--host", host, "--port", "8888", "--auto"])
+    assert result.exit_code == 0
+    assert launched == [local_url]
+    assert f"{local_url}docs" in result.stdout
+    assert "http://0.0.0.0" not in result.stdout
+    assert "http://::" not in result.stdout
+    command = calls[0]
+    assert command[command.index("--host") + 1] == host
