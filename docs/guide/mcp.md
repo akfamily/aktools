@@ -2,6 +2,8 @@
 
 AKTools 内置了 [MCP](https://modelcontextprotocol.io/)（Model Context Protocol，模型上下文协议）服务。接入后，可以直接在 Claude、Cursor 等 AI 助手中用自然语言获取数据，例如“帮我查一下贵州茅台 2024 年 10 月 8 日到 11 日的日线行情”，助手会自己查找接口、填写参数并取回数据。
 
+AKTools 已上架 [MCP 官方注册表](https://registry.modelcontextprotocol.io/v0.1/servers?search=io.github.akfamily/aktools)，名称为 `io.github.akfamily/aktools`，支持从注册表安装的客户端可以直接搜索添加。
+
 安装 AKTools 时已经包含 MCP 服务，不需要额外安装。第一次配置可以先按[快速入门](../getting-started.md#mcp)的 3 个步骤操作。
 
 ## 可以问什么 {#examples}
