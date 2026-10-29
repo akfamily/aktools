@@ -27,29 +27,26 @@ wheels = [
 
 [[package]]
 name = "akshare"
-version = "1.20.0"
+version = "1.20.5"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "akracer", marker = "sys_platform == 'linux'" },
     { name = "beautifulsoup4" },
     { name = "curl-cffi" },
-    { name = "decorator" },
     { name = "html5lib" },
-    { name = "jsonpath" },
     { name = "lxml" },
     { name = "mini-racer", marker = "sys_platform != 'linux'" },
     { name = "openpyxl" },
     { name = "pandas" },
     { name = "py-mini-racer", marker = "sys_platform == 'linux'" },
     { name = "requests" },
-    { name = "tabulate" },
     { name = "tqdm" },
     { name = "urllib3" },
     { name = "xlrd" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/3a/07/5f4dfc6d8101e9e493f05f661d58c76aebfead40ef38068610ea9d0d0604/akshare-1.20.0.tar.gz", hash = "sha256:1c6383947258a3f996f68fafbba0ec341f553ede06c825f37f0ee6913b8765cf", size = 990514, upload-time = "2026-10-27T14:14:40.383Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/0d/03/4b647925d8e4f94c0f68214183505b35e0aedeaba898489611e39b95ef15/akshare-1.20.5.tar.gz", hash = "sha256:4f57c359dab4b384b46584d1b533eca1593bef3c30d0c6828e356e543984ae90", size = 1010259, upload-time = "2026-10-29T16:48:50.532Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/9a/68/b70cacefe487899782e5166c9fa048ea9f5d7315714e26f901a3a82017ff/akshare-1.20.0-py3-none-any.whl", hash = "sha256:2907d7ce600a12b2a879dc798072a29deb5b12ce5fb4e3fa48278c01de936706", size = 1204600, upload-time = "2026-10-27T14:14:38.272Z" },
+    { url = "https://files.pythonhosted.org/packages/79/5b/b4327f7f1c32c407a3c8bb2608372e26b9e9c16d74fcbdd06b29b4cc441f/akshare-1.20.5-py3-none-any.whl", hash = "sha256:217ec513785023d4f430b3b4216a5ed27773df73b17364dd42e44a5b59fde467", size = 1209964, upload-time = "2026-10-29T16:48:48.698Z" },
 ]
 
 [[package]]
@@ -600,15 +597,6 @@ wheels = [
 ]
 
 [[package]]
-name = "decorator"
-version = "5.3.1"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/60/8b/32f9823da46cde7df2087faa08cd98d01b908f8dcab982cdba9c84e85355/decorator-5.3.1.tar.gz", hash = "sha256:4cbcdd55a6efadb9dbea26b858f4fb3264567b52d69ca0d25b721b553f60ea82", size = 58084, upload-time = "2026-05-18T06:03:28.057Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/05/7f/798705f5296a58ca505d600456748d1be48078eac8a7050d8a98bc9edb89/decorator-5.3.1-py3-none-any.whl", hash = "sha256:f47fe6fdbd2edd623ecfe36875d37aba411624e2670dd395dddae1358689bb3c", size = 10365, upload-time = "2026-05-18T06:03:26.517Z" },
-]
-
-[[package]]
 name = "deepmerge"
 version = "4.0.0"
 source = { registry = "https://pypi.org/simple" }
@@ -772,12 +760,6 @@ sdist = { url = "https://files.pythonhosted.org/packages/df/bf/f7da0350254c0ed7c
 wheels = [
     { url = "https://files.pythonhosted.org/packages/62/a1/3d680cbfd5f4b8f15abc1d571870c5fc3e594bb582bc3b64ea099db13e56/jinja2-3.1.6-py3-none-any.whl", hash = "sha256:85ece4451f492d0c13c5dd7c13a64681a86afae63a5f347908daf103ce6d2f67", size = 134899, upload-time = "2025-03-05T20:05:00.369Z" },
 ]
-
-[[package]]
-name = "jsonpath"
-version = "0.82.2"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/cf/a1/693351acd0a9edca4de9153372a65e75398898ea7f8a5c722ab00f464929/jsonpath-0.82.2.tar.gz", hash = "sha256:d87ef2bcbcded68ee96bc34c1809b69457ecec9b0c4dd471658a12bd391002d1", size = 10353, upload-time = "2023-08-24T18:57:55.459Z" }
 
 [[package]]
 name = "jsonschema"
@@ -2101,15 +2083,6 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/48/bb/3d8757f21e9a53d9035c9eb039a777047139a16bfdbedfc7a58241c3d914/starlette-1.10.0.tar.gz", hash = "sha256:b8399098d4c1e3522734f7235dc79b1fc967f96cf139c81e0fa30479e0685f9b", size = 2734356, upload-time = "2026-10-24T15:04:12.342Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/88/2e/947cfe02def9371c07cd5bf5b6b61c829e9aecb9904db02a66cfafbc1eec/starlette-1.10.0-py3-none-any.whl", hash = "sha256:478c0ab3b4ced6e82719849c118fa406f0278a3499c1a898cd15cd31bdc38ce4", size = 80571, upload-time = "2026-10-24T15:04:10.371Z" },
-]
-
-[[package]]
-name = "tabulate"
-version = "0.10.0"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/46/58/8c37dea7bbf769b20d58e7ace7e5edfe65b849442b00ffcdd56be88697c6/tabulate-0.10.0.tar.gz", hash = "sha256:e2cfde8f79420f6deeffdeda9aaec3b6bc5abce947655d17ac662b126e48a60d", size = 91754, upload-time = "2026-03-04T18:55:34.402Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/99/55/db07de81b5c630da5cbf5c7df646580ca26dfaefa593667fc6f2fe016d2e/tabulate-0.10.0-py3-none-any.whl", hash = "sha256:f0b0622e567335c8fabaaa659f1b33bcb6ddfe2e496071b743aa113f8774f2d3", size = 39814, upload-time = "2026-03-04T18:55:31.284Z" },
 ]
 
 [[package]]
