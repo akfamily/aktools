@@ -72,6 +72,16 @@ http://127.0.0.1:8080/api/public/stock_zh_a_hist?symbol=600000&period=weekly&sta
 ]
 ```
 
+## 数据缓存 {#cache}
+
+为了减少对上游网站的重复请求，AKTools 会缓存接口返回的数据：
+
+- 同一接口、同样参数的请求，在 **60 秒**内直接返回上次的数据，不再访问上游网站。`_format` 不影响缓存，同样参数的 JSON、CSV、Excel 请求共用一份数据。
+- 响应头 `X-AKTools-Cache` 标明数据来源：`hit` 表示来自缓存，`miss` 表示刚从上游获取。
+- 出错的请求和空数据不会被缓存。
+
+需要更实时的数据，或想延长缓存时间，请在启动时设置，详见[缓存设置](../deploy.md#cache)。
+
 ## 下载 CSV 与 Excel {#download}
 
 加上保留参数 `_format`，可以把数据直接下载为表格文件，方便在 Excel、Stata、MATLAB 等软件中使用：

@@ -9,6 +9,8 @@
 | `--host` | `-H` | `127.0.0.1` | 监听地址 |
 | `--port` | `-P` | `8080` | 监听端口 |
 | `--auto` | `-A` | 关闭 | 启动后自动打开浏览器 |
+| `--cache-ttl` | — | `60` | 结果缓存的有效期（秒），`0` 为关闭，详见[缓存设置](#cache) |
+| `--akshare-cache-clear` | — | `3600` | 清空 AKShare 内部缓存的间隔（秒），`0` 为关闭，详见[缓存设置](#cache) |
 | `--version` | `-v` | — | 查看 AKTools 版本 |
 | `--help` | — | — | 查看帮助 |
 
@@ -35,6 +37,30 @@ python -m aktools --host 0.0.0.0 --port 8888
     `0.0.0.0` 只是“监听所有网卡”的意思，不能在浏览器中打开。监听 `0.0.0.0` 时，命令行打印的链接和 `--auto` 打开的页面会自动使用 `127.0.0.1`。
 
 其他机器仍然无法访问时，请参考[常见问题](faq.md#faq-remote)。
+
+## 缓存设置 {#cache}
+
+AKTools 有两种缓存，都可以在启动时调整：
+
+| 缓存 | 作用 | 命令行参数 | 环境变量 | 默认值 |
+| --- | --- | --- | --- | --- |
+| 结果缓存 | 同一接口、同样参数在有效期内直接返回上次的数据 | `--cache-ttl` | `AKTOOLS_CACHE_TTL` | 60 秒 |
+| AKShare 内部缓存清理 | AKShare 的部分接口会把板块名称、代码对照表等数据缓存在内存中，服务长期运行时会一直不更新，因此定期清空 | `--akshare-cache-clear` | `AKTOOLS_AKSHARE_CACHE_CLEAR` | 3600 秒 |
+
+例如，关闭结果缓存，并每 10 分钟清空一次 AKShare 内部缓存：
+
+```shell
+python -m aktools --cache-ttl 0 --akshare-cache-clear 600
+```
+
+用 Gunicorn 或 Docker 部署时，通过环境变量设置：
+
+```shell
+AKTOOLS_CACHE_TTL=300 gunicorn aktools.main:app --bind 0.0.0.0:8080 --workers 4 --worker-class uvicorn_worker.UvicornWorker
+docker run -d -p 8080:8080 -e AKTOOLS_CACHE_TTL=300 --name aktools aktools
+```
+
+缓存保存在进程内存中，服务重启后清空。Gunicorn 启动多个 worker 进程时，每个进程各有一份缓存，因此同样的请求可能分别由不同进程各访问一次上游网站。
 
 ## 生产环境 {#production}
 

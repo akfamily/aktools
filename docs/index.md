@@ -14,6 +14,15 @@
 - 使用 Java、Go、JavaScript 等语言开发应用，需要一个财经数据服务的开发者
 - 希望把数据获取集中在一台服务器上，供团队成员共同使用的团队
 
+## 什么情况下不必用 AKTools {#when-not}
+
+AKTools 是 AKShare 外面的一层 HTTP 转发，并不改变 AKShare 本身的特点。以下情况可以考虑其他方式：
+
+- **个人在 R、Stata 中使用**：R 的 [reticulate](https://rstudio.github.io/reticulate/)、Stata 16 及以上的 `python` 代码块都能直接调用 AKShare，不需要额外运行一个服务。AKTools 同样需要安装 Python，它省去的是编写 Python 代码，而不是安装 Python。
+- **生产或商业用途**：AKShare 的数据来自公开网页，网站改版时接口可能失效，数据仅供学术研究使用。对稳定性和授权有要求时，请使用有授权的商业数据源。
+- **需要长期、可复现的历史数据**：每次请求都会实时访问上游网站。做研究时，更稳妥的做法是定期把数据保存到本地文件或数据库，研究时读取本地数据。
+- **部署到公网供不特定的人使用**：AKTools 不带鉴权，所有请求都从服务器的同一个 IP 访问上游网站，请求量大时容易被封 IP，转发数据也可能违反数据源的使用条款。
+
 ## 特性
 
 - **零配置**：`python -m aktools` 一行命令启动服务，无需编写任何代码
@@ -21,6 +30,7 @@
 - **跨语言**：返回标准 JSON，任何能发送 HTTP 请求的语言或软件都可以调用
 - **接口自查**：通过 `/api/interfaces` 按关键词搜索接口，直接查看每个参数的默认值和说明，详见[接口目录](guide/catalog.md)
 - **表格下载**：加上 `_format=csv` 或 `_format=xlsx`，即可把数据下载为 CSV 或 Excel 文件，详见[下载 CSV 与 Excel](guide/usage.md#download)
+- **结果缓存**：同一接口、同样参数在 60 秒内直接返回上次的数据，减少对上游网站的重复请求，详见[数据缓存](guide/usage.md#cache)
 - **自带文档**：基于 FastAPI，启动后访问 `/docs` 即可在线查看和调试接口
 - **便于部署**：提供 Dockerfile，支持 Gunicorn + Uvicorn 多进程部署，详见[部署](deploy.md)
 

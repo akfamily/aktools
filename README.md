@@ -40,6 +40,7 @@
 - **跨语言**：返回标准 JSON，任何能发送 HTTP 请求的语言或软件都可以调用
 - **接口自查**：`/api/interfaces` 列出全部接口并支持按关键词搜索，每个接口的参数、默认值和说明都能直接查询
 - **表格下载**：加上 `_format=csv` 或 `_format=xlsx` 即可把数据下载为 CSV 或 Excel 文件
+- **结果缓存**：同一接口、同样参数在 60 秒内直接返回上次的数据，减少对上游网站的重复请求，降低被封 IP 的风险
 - **自带文档**：基于 [FastAPI](https://fastapi.tiangolo.com/)，启动后访问 `/docs` 即可在线查看和调试接口
 - **便于部署**：提供 Dockerfile，支持 Gunicorn + Uvicorn 多进程部署
 
@@ -84,6 +85,8 @@ pip install akshare aktools --upgrade -i https://pypi.org/simple
 | `--host` | `-H` | `127.0.0.1` | 监听地址，需要局域网或其他机器访问时设置为 `0.0.0.0` |
 | `--port` | `-P` | `8080` | 监听端口 |
 | `--auto` | `-A` | 关闭 | 启动后自动打开浏览器 |
+| `--cache-ttl` | — | `60` | 结果缓存的有效期（秒），同一接口、同样参数在有效期内直接返回上次的数据，`0` 为关闭 |
+| `--akshare-cache-clear` | — | `3600` | 清空 AKShare 内部缓存的间隔（秒），避免板块名称等数据一直不更新，`0` 为关闭 |
 | `--version` | `-v` | — | 查看 AKTools 版本 |
 
 例如：`python -m aktools --port 8888 --auto` 会在 8888 端口启动并自动打开浏览器。需要让局域网内的其他机器访问时，加上 `--host 0.0.0.0`，其他机器通过 `http://<本机 IP>:8888` 访问；`0.0.0.0` 只表示监听所有网卡，不能当作访问地址在浏览器中打开。
@@ -271,6 +274,10 @@ Remove-Item Env:HTTP_PROXY, Env:HTTPS_PROXY, Env:ALL_PROXY
 **返回 404，提示“未找到该接口”或“调用接口出错”**
 
 先升级 AKShare 到最新版，然后用 `/api/interfaces?q=关键词` 搜索正确的接口名，用 `/api/interfaces/{接口名}` 检查参数名和可选值。也可以在 Python 中直接调用同名的 AKShare 接口，确认问题是否出在 AKShare。
+
+**数据没有及时更新**
+
+同一接口、同样参数的请求在 60 秒内会返回缓存的数据，响应头 `X-AKTools-Cache: hit` 表示数据来自缓存，启动时加上 `--cache-ttl 0` 可关闭缓存。板块名称等数据由 AKShare 内部缓存，默认每小时清空一次，可用 `--akshare-cache-clear` 调整。
 
 **数据有误或接口报错，应该去哪里反馈？**
 
