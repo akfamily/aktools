@@ -124,3 +124,28 @@ def test_aktools_command_is_registered() -> None:
 
     scripts = {ep.name: ep.value for ep in entry_points(group="console_scripts")}
     assert scripts.get("aktools") == "aktools.__main__:main"
+
+
+def test_proxy_and_timeout_passed_to_server_via_env(monkeypatch) -> None:
+    """代理与超时通过环境变量传给 uvicorn 子进程，与 Gunicorn、Docker 部署时的配置方式一致"""
+    calls = []
+    monkeypatch.setattr(cli, "run", lambda command, **kwargs: calls.append(kwargs))
+    result = runner.invoke(
+        cli.app, args=["--proxy", "http://127.0.0.1:7890", "--timeout", "120"]
+    )
+    assert result.exit_code == 0, result.output
+    env = calls[0]["env"]
+    assert env["AKTOOLS_PROXY"] == "http://127.0.0.1:7890"
+    assert env["AKTOOLS_TIMEOUT"] == "120.0"
+
+
+def test_proxy_and_timeout_not_set_by_default(monkeypatch) -> None:
+    """不传参数时不设置，沿用已有的环境变量，否则沿用 AKShare 的默认值"""
+    monkeypatch.delenv("AKTOOLS_PROXY", raising=False)
+    monkeypatch.delenv("AKTOOLS_TIMEOUT", raising=False)
+    calls = []
+    monkeypatch.setattr(cli, "run", lambda command, **kwargs: calls.append(kwargs))
+    assert runner.invoke(cli.app, args=[]).exit_code == 0
+    env = calls[0]["env"]
+    assert "AKTOOLS_PROXY" not in env
+    assert "AKTOOLS_TIMEOUT" not in env

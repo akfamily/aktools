@@ -11,6 +11,8 @@
 | `--auto` | `-A` | 关闭 | 启动后自动打开浏览器 |
 | `--cache-ttl` | — | `60` | 结果缓存的有效期（秒），`0` 为关闭，详见[缓存设置](#cache) |
 | `--akshare-cache-clear` | — | `3600` | 清空 AKShare 内部缓存的间隔（秒），`0` 为关闭，详见[缓存设置](#cache) |
+| `--proxy` | — | 不设置 | 访问上游数据源使用的代理，详见[代理与超时](#network) |
+| `--timeout` | — | `60` | 访问上游数据源的读取超时（秒），详见[代理与超时](#network) |
 | `--version` | `-v` | — | 查看 AKTools 版本 |
 | `--help` | — | — | 查看帮助 |
 
@@ -61,6 +63,27 @@ docker run -d -p 8080:8080 -e AKTOOLS_CACHE_TTL=300 --name aktools aktools
 ```
 
 缓存保存在进程内存中，服务重启后清空。Gunicorn 启动多个 worker 进程时，每个进程各有一份缓存，因此同样的请求可能分别由不同进程各访问一次上游网站。
+
+## 代理与超时 {#network}
+
+AKTools 通过 AKShare 访问东方财富、新浪财经等上游网站，可以为这些请求指定代理和超时（需要 AKShare 1.20.4 及以上版本）：
+
+| 设置 | 命令行参数 | 环境变量 | 默认值 |
+| --- | --- | --- | --- |
+| 代理 | `--proxy` | `AKTOOLS_PROXY` | 不设置，沿用 `HTTP_PROXY`、`HTTPS_PROXY` 等环境变量 |
+| 读取超时 | `--timeout` | `AKTOOLS_TIMEOUT` | 60 秒（AKShare 的默认值） |
+
+例如，经本机 7890 端口的代理访问，并把读取超时调大到 120 秒：
+
+```shell
+python -m aktools --proxy http://127.0.0.1:7890 --timeout 120
+```
+
+- 代理同时用于 http 与 https 请求，只影响 AKTools 访问上游网站，不影响本机其他程序。
+- 读取超时指两次收到数据之间的最长等待时间，不是整个请求的总时长；连接超时固定为 10 秒。数据量大、上游响应慢的接口经常超时时再调大。
+- 两项都在服务启动时设置一次，对所有请求生效，不能按请求单独指定。
+- 用 Gunicorn、Docker 部署时设置环境变量，例如 `docker run -e AKTOOLS_PROXY=http://代理地址:端口 ...`；以 stdio 方式运行 MCP 时，在客户端配置的 `env` 中设置，详见[AI 助手（MCP）](guide/mcp.md#stdio)。
+- 少数直接调用底层库的 AKShare 接口可能不受这两项设置影响，以 AKShare 文档为准。
 
 ## 生产环境 {#production}
 

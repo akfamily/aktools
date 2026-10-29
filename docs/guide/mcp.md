@@ -79,7 +79,7 @@ AKTools 已上架 [MCP 官方注册表](https://registry.modelcontextprotocol.io
 
 !!! tip "首次启动较慢"
 
-    第一次启动时，`uvx` 需要下载 AKShare 等依赖（约 150 MB），可能需要几分钟，客户端可能提示连接超时。下载完成后重启客户端即可。国内网络可以在配置中加上镜像源，例如在 `aktools` 下添加 `"env": {"UV_INDEX_URL": "https://mirrors.aliyun.com/pypi/simple/"}`。
+    第一次启动时，`uvx` 需要下载 AKShare 等依赖（约 150 MB），可能需要几分钟，客户端可能提示连接超时。下载完成后重启客户端即可。国内网络可以在配置中加上镜像源，例如在 `aktools` 下添加 `"env": {"UV_INDEX_URL": "https://mirrors.aliyun.com/pypi/simple/"}`。需要代理或调整超时时，同样在 `env` 中加上 `AKTOOLS_PROXY`、`AKTOOLS_TIMEOUT`，详见[代理与超时](../deploy.md#network)。
 
 `aktools mcp` 与 `aktools-mcp` 两个命令作用相同，MCP 官方注册表中登记的启动方式是 `uvx aktools mcp`。已经用 pip 安装了 AKTools 时，也可以把 `command` 设为 `aktools-mcp`、去掉 `args`。这要求客户端能在 PATH 中找到该命令；找不到时，请改用命令的完整路径（Windows 上可用 `where aktools-mcp` 查看，macOS 和 Linux 上用 `which aktools-mcp`）。
 

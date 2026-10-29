@@ -31,6 +31,7 @@ from aktools.core.cache import (
     env_seconds,
 )
 from aktools.core.catalog import describe_interface, is_interface, list_interfaces
+from aktools.core.network import apply_network_settings
 from aktools.datasets import get_template_path
 
 app_core = APIRouter()
@@ -104,6 +105,10 @@ handler.setFormatter(
 )
 logger.addHandler(handler)
 
+# 服务进程启动时按 AKTOOLS_PROXY、AKTOOLS_TIMEOUT 设置一次 AKShare 的全局代理与超时
+for _message in apply_network_settings():
+    logger.info(_message)
+
 
 def _error_response(
     message: str, status_code: int = status.HTTP_404_NOT_FOUND
@@ -171,7 +176,7 @@ AKSHARE_ERRORS = (
     (
         ak_exceptions.NetworkError,
         status.HTTP_502_BAD_GATEWAY,
-        "访问上游数据源失败，请检查网络或代理设置（如 HTTP_PROXY/HTTPS_PROXY 环境变量）：{e}",
+        "访问上游数据源失败，请检查网络或代理设置（HTTP_PROXY/HTTPS_PROXY 环境变量，或启动参数 --proxy）：{e}",
     ),
     (
         ak_exceptions.RateLimitError,
@@ -227,7 +232,7 @@ def fetch_dataframe(item_id: str, params: Dict[str, str]) -> Tuple[pd.DataFrame,
         # 返回 502 并提示排查网络/代理，避免误导用户去升级 AKShare。
         logger.info(f"接口 {item_id} 访问上游数据源失败：{e}")
         raise InterfaceError(
-            f"访问上游数据源失败，请检查网络或代理设置（如 HTTP_PROXY/HTTPS_PROXY 环境变量）：{e}",
+            f"访问上游数据源失败，请检查网络或代理设置（HTTP_PROXY/HTTPS_PROXY 环境变量，或启动参数 --proxy）：{e}",
             status.HTTP_502_BAD_GATEWAY,
         ) from e
     except tuple(error for error, _, _ in AKSHARE_ERRORS) as e:

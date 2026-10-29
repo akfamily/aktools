@@ -14,6 +14,7 @@ import akshare as ak
 import typer
 
 import aktools
+from aktools.core.network import PROXY_ENV, TIMEOUT_ENV
 from aktools.core.cache import (
     AKSHARE_CACHE_CLEAR_ENV,
     CACHE_TTL_ENV,
@@ -64,6 +65,17 @@ def main(
         "--cache-ttl",
         min=0,
         help="结果缓存的有效期（秒），同一接口与参数在有效期内直接返回上次的数据，0 为关闭",
+    ),
+    proxy: Optional[str] = typer.Option(
+        None,
+        "--proxy",
+        help="访问上游数据源使用的代理，如 http://127.0.0.1:7890；不设置时沿用 HTTP_PROXY 等环境变量",
+    ),
+    timeout: Optional[float] = typer.Option(
+        None,
+        "--timeout",
+        min=0.001,
+        help="访问上游数据源的读取超时（秒），连接超时固定为 10 秒；不设置时使用 AKShare 的默认值 60 秒",
     ),
     akshare_cache_clear: int = typer.Option(
         DEFAULT_AKSHARE_CACHE_CLEAR,
@@ -119,6 +131,13 @@ def main(
         CACHE_TTL_ENV: str(cache_ttl),
         AKSHARE_CACHE_CLEAR_ENV: str(akshare_cache_clear),
     }
+    # 只在显式传入时设置，否则沿用已有的环境变量，再否则沿用 AKShare 的默认值
+    if proxy:
+        env[PROXY_ENV] = proxy
+        typer.echo(f"访问上游数据源使用代理：{proxy}")
+    if timeout is not None:
+        env[TIMEOUT_ENV] = str(timeout)
+        typer.echo(f"访问上游数据源的读取超时：{timeout:g} 秒")
     run(command, env=env)
 
 

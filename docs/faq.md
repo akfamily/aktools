@@ -7,7 +7,7 @@
 AKTools 本身只是把请求转发给 AKShare，数据由东方财富、新浪财经等上游网站提供。当返回如下错误时：
 
 ```text
-{"error": "访问上游数据源失败，请检查网络或代理设置（如 HTTP_PROXY/HTTPS_PROXY 环境变量）：..."}
+{"error": "访问上游数据源失败，请检查网络或代理设置（HTTP_PROXY/HTTPS_PROXY 环境变量，或启动参数 --proxy）：..."}
 ```
 
 通常是运行 AKTools 的机器**无法访问上游数据源**，而不是 AKTools 或接口本身的问题。常见原因与排查方法：
@@ -21,11 +21,17 @@ AKTools 本身只是把请求转发给 AKShare，数据由东方财富、新浪�
     Remove-Item Env:HTTP_PROXY, Env:HTTPS_PROXY, Env:ALL_PROXY
     ```
 
-    若必须经代理访问外网，可通过 `NO_PROXY` 排除内网地址，或确认代理本身可用。
+    若必须经代理访问外网，请确认代理本身可用，或用 `--proxy` 只为 AKTools 指定代理，详见[代理与超时](deploy.md#network)。
 
-2. 网络不通或上游网站临时不可达：可先用 `tool_trade_date_hist_sina` 这类轻量接口测试连通性，或稍后重试。
+2. 网络不通、上游网站临时不可达或响应过慢：可先用 `tool_trade_date_hist_sina` 这类轻量接口测试连通性，或稍后重试。数据量大的接口超时时，可以用 `--timeout` 调大读取超时。
 
 3. 部分接口对网络环境（如需境内网络）有要求，请参考 [AKShare 文档](https://akshare.akfamily.xyz/) 中对应接口的说明。
+
+4. 报错中出现“上游数据源返回错误”或“解析上游数据失败”：前者多为上游网站临时故障，稍后重试即可；后者多为上游页面改版，请升级 AKShare。
+
+## 接口返回 429 {#faq-429}
+
+上游网站限制了访问频率，通常是短时间内请求过多。请稍后重试；多人或多个程序共用服务时，可以调大 `--cache-ttl`，让同样的请求直接使用缓存，详见[缓存设置](deploy.md#cache)。
 
 ## 接口返回 404 {#faq-404}
 
