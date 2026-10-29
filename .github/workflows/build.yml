@@ -13,7 +13,7 @@ env:
   # 与本地开发使用的 uv 版本保持一致，避免"本地通过、CI 失败"。
   # 升级时请连同开发者本地的 uv 一起升，并重新生成 uv.lock；
   # .readthedocs.yaml 中 pip install uv== 的版本号也要同步修改。
-  UV_VERSION: "0.13.5"
+  UV_VERSION: "0.13.6"
 
 # 两个 job 相互独立并行，任何一个失败都不阻塞另一个的反馈。
 # astral-sh/setup-uv 自 v8 起不再发布浮动大版本标签，必须写完整版本号，

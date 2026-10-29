@@ -16,7 +16,7 @@ build:
     # 版本由 uv.lock 锁定；uv 版本与 build.yml 的 UV_VERSION 保持一致。
     # --inexact：不删除虚拟环境里 Read the Docs 预装的包（包括刚装的 uv 本身）。
     install:
-      - pip install uv==0.13.5
+      - pip install uv==0.13.6
       - UV_PROJECT_ENVIRONMENT=$READTHEDOCS_VIRTUALENV_PATH uv sync --locked --only-group docs --inexact
     build:
       html:
