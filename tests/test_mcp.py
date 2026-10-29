@@ -7,6 +7,7 @@ Desc: MCP 服务测试
 """
 
 import json
+import logging
 import subprocess
 import sys
 import threading
@@ -273,3 +274,20 @@ def test_aktools_mcp_command_is_registered():
 
     scripts = {ep.name: ep.value for ep in entry_points(group="console_scripts")}
     assert scripts.get("aktools-mcp") == "aktools.mcp_server:main"
+
+
+def test_importing_mcp_server_leaves_root_logging_untouched():
+    """
+    MCP SDK 创建 MCPServer 时会调用 logging.basicConfig，给根日志记录器加上控制台输出。
+    AKTools 必装 MCP，不能因此改变 python -m aktools 的控制台输出，也不能接管嵌入方程序的日志配置
+    """
+    code = (
+        "import logging\n"
+        "import aktools.main\n"
+        "root = logging.getLogger()\n"
+        "print(len(root.handlers), root.level)"
+    )
+    out = subprocess.run(
+        [sys.executable, "-c", code], capture_output=True, text=True, check=True
+    )
+    assert out.stdout.split() == ["0", str(logging.WARNING)]

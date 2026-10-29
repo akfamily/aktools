@@ -12,6 +12,7 @@ Desc: MCP（Model Context Protocol）服务，让 Claude、Cursor 等 AI 助手�
 import contextlib
 import io
 import json
+import logging
 import sys
 from typing import Annotated, Any, AsyncIterator, Callable, Dict, Optional, Tuple, Union
 from urllib.parse import urlencode
@@ -41,12 +42,28 @@ INSTRUCTIONS = """AKTools 提供 AKShare 的一千多个财经数据接口（股
 3. 用 get_data 传入接口名和参数获取数据；数据量大时只返回前若干行，完整数据可通过 csv_url 下载
 参数值一律按文本传给 AKShare，日期通常写成 20240101 的形式。"""
 
-mcp = MCPServer(
-    "AKTools",
-    instructions=INSTRUCTIONS,
-    version=aktools.__version__,
-    website_url="https://aktools.akfamily.xyz/",
-)
+
+def _create_server() -> MCPServer:
+    """
+    创建 MCPServer，且不改动根日志记录器
+    SDK 在构造时调用 logging.basicConfig(level=INFO)，会让 python -m aktools 的每次请求都多打一行日志，
+    也会接管嵌入 AKTools 的程序的日志配置；因此构造后恢复根日志记录器原有的处理器与级别
+    """
+    root = logging.getLogger()
+    handlers, level = list(root.handlers), root.level
+    try:
+        return MCPServer(
+            "AKTools",
+            instructions=INSTRUCTIONS,
+            version=aktools.__version__,
+            website_url="https://aktools.akfamily.xyz/",
+        )
+    finally:
+        root.handlers[:] = handlers
+        root.setLevel(level)
+
+
+mcp = _create_server()
 
 
 @mcp.tool()
