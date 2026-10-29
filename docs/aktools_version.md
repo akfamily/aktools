@@ -10,6 +10,15 @@ AKTools 只负责把 HTTP 请求转发给 AKShare，数据接口的新增与变�
 
 ## 更新记录
 
+0.1.0: feat: proxy and timeout settings, clearer upstream errors
+
+AKTools 已具备 HTTP API 与 MCP 两种完整的使用方式，自本版本起进入 0.1.x。
+
+1. 新增 --proxy 与 --timeout（环境变量 AKTOOLS_PROXY、AKTOOLS_TIMEOUT），设置访问上游数据源的代理与读取超时，需要 AKShare 1.20.4 及以上版本
+2. AKShare 自定义的异常返回对应的状态码：网络问题 502、上游限流 429、参数不合法 400、上游报错与页面改版 502，不再一律返回 404 并提示升级 AKShare；MCP 工具同样适用
+3. 新增环境变量 AKTOOLS_LOG_DIR 指定日志目录
+4. 修复跑测试时日志写进仓库目录的问题
+
 0.0.99: feat: publish to the official mcp registry
 
 1. 登记到 MCP 官方注册表（io.github.akfamily/aktools），各 MCP 客户端的市场可以搜到 AKTools；发布流程在 PyPI 发布后自动登记
