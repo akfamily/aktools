@@ -72,6 +72,19 @@ AKShare 的数据接口会随上游网站的变化频繁更新，遇到问题时
 pip install akshare aktools --upgrade -i https://pypi.org/simple
 ```
 
+## 刚发布的新版本安装不到 {#faq-mirror}
+
+清华、阿里云等国内 PyPI 镜像同步 PyPI 上的新版本通常需要几个小时。在此期间，用镜像源执行 `pip install aktools --upgrade` 或 `uvx --from aktools` 仍会装到旧版本；指定新版本号时还会报错，例如 pip 提示 `No matching distribution found`，uv 提示 `there is no version of aktools==…`。
+
+可以等镜像同步完成，或者临时改从官方 PyPI 安装：
+
+```shell
+pip install aktools --upgrade -i https://pypi.org/simple
+uvx --default-index https://pypi.org/simple --from aktools aktools-mcp
+```
+
+在 MCP 客户端配置中，把这两个参数加到 `args` 最前面即可，例如 `["--default-index", "https://pypi.org/simple", "--from", "aktools", "aktools-mcp"]`。命令行中的 `--default-index` 会覆盖 uv 配置文件里设置的镜像源。
+
 ## AI 助手提示 MCP 连接超时或启动失败 {#faq-mcp-timeout}
 
 使用 `uvx --from aktools aktools-mcp` 时，第一次启动需要下载 AKShare 等依赖（约 150 MB），可能超过客户端的等待时间。可以先在命令行中运行一次，等它下载完成并停在等待输入的状态后按 ++ctrl+c++ 退出，再重启 AI 助手：
