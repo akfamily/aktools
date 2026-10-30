@@ -10,6 +10,15 @@ AKTools 只负责把 HTTP 请求转发给 AKShare，数据接口的新增与变�
 
 ## 更新记录
 
+0.1.1: fix: homepage no longer blocks the server
+
+**不兼容的改动：已移除 PyScript 数据展示页 `/api/show` 与 `/api/show-temp/{接口名}`。** 取数请使用 `/api/public/{接口名}`，表格可加 `_format=csv` 或 `_format=xlsx` 下载。
+
+1. 修复主页与 /version 查询 PyPI 最新版本时阻塞整个服务的问题：内网或无法访问 PyPI 的环境中，此前每打开一次主页，其他请求（取数据、/mcp）都会卡住约 10 秒；最新版本的查询结果改为缓存 1 小时
+2. Dockerfile 新增构建参数 BASE_IMAGE，国内网络可改用镜像站拉取基础镜像；文档说明可用 WEB_CONCURRENCY 调整 worker 数量
+3. 常见问题补充国内 PyPI 镜像同步延迟时如何安装新版本
+4. 内部重构：拆分 aktools/core/api.py；只改文档时 CI 不再运行测试
+
 0.1.0: feat: proxy and timeout settings, clearer upstream errors
 
 AKTools 已具备 HTTP API 与 MCP 两种完整的使用方式，自本版本起进入 0.1.x。

@@ -3,7 +3,7 @@
   "name": "io.github.akfamily/aktools",
   "title": "AKTools",
   "description": "Search and fetch AKShare financial data (stocks, futures, funds, macro) from AI assistants",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "websiteUrl": "https://aktools.akfamily.xyz/guide/mcp/",
   "repository": {
     "url": "https://github.com/akfamily/aktools",
@@ -14,7 +14,7 @@
       "registryType": "pypi",
       "registryBaseUrl": "https://pypi.org",
       "identifier": "aktools",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "runtimeHint": "uvx",
       "packageArguments": [
         {
