@@ -72,10 +72,6 @@ AKShare 的数据接口会随上游网站的变化频繁更新，遇到问题时
 pip install akshare aktools --upgrade -i https://pypi.org/simple
 ```
 
-## PyScript 数据展示页一直显示“数据加载中” {#faq-pyscript}
-
-`/api/show` 与 `/api/show-temp/{接口名}` 页面在浏览器中运行 Python，首次打开需要从 jsDelivr 下载约数十 MB 的 Pyodide 与 pandas，通常需要十几到几十秒。长时间没有反应时，请检查浏览器能否访问 `fastly.jsdelivr.net`。只需要数据时，直接访问 `/api/public/{接口名}` 即可，不依赖这个页面。
-
 ## AI 助手提示 MCP 连接超时或启动失败 {#faq-mcp-timeout}
 
 使用 `uvx --from aktools aktools-mcp` 时，第一次启动需要下载 AKShare 等依赖（约 150 MB），可能超过客户端的等待时间。可以先在命令行中运行一次，等它下载完成并停在等待输入的状态后按 ++ctrl+c++ 退出，再重启 AI 助手：

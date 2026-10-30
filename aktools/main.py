@@ -12,15 +12,17 @@ import aktools
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
+from fastapi.templating import Jinja2Templates
 
-from aktools.core.api import app_core, templates
-from aktools.datasets import get_favicon_path, get_homepage_html
+from aktools.core.api import app_core
+from aktools.datasets import get_favicon_path, get_homepage_html, get_template_path
 from aktools.mcp_server import build_mcp_app
 from aktools.utils import get_latest_version
 from aktools.schema.version import VersionBase
 
 favicon_path = get_favicon_path(file="favicon.ico")
 html_path = get_homepage_html(file="homepage.html")
+templates = Jinja2Templates(directory=get_template_path())
 
 # MCP 服务的监听地址由命令行通过该环境变量传入；Gunicorn、Docker 部署时请按实际监听地址设置
 HOST_ENV = "AKTOOLS_HOST"

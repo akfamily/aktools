@@ -14,10 +14,6 @@
 | `/api/public/{接口名}` | 获取数据，详见下文 |
 | `/api/interfaces` | 接口目录，可用 `?q=关键词` 搜索，详见[接口目录](catalog.md) |
 | `/api/interfaces/{接口名}` | 接口的标题、数据源地址与各参数的默认值、类型和说明 |
-| `/api/show-temp/{接口名}` | 用 [PyScript](https://pyscript.net/) 在浏览器中获取并展示该接口的数据，并提供 JSON 下载 |
-| `/api/show` | 上述 PyScript 数据展示页的演示，展示 `tool_trade_date_hist_sina` 接口的数据 |
-
-PyScript 数据展示页在浏览器中运行 Python：首次打开时，浏览器需要从 jsDelivr 的 fastly 节点下载 Pyodide 与 pandas（数十 MB），国内网络一般可以访问，加载通常需要十几到几十秒，之后会使用浏览器缓存。
 
 ## 获取数据 {#usage}
 

@@ -29,33 +29,12 @@ def test_homepage(monkeypatch) -> None:
     assert "/mcp" in response.text
 
 
-def test_show_temp() -> None:
-    """
-    测试 PyScript 模板页面可以正常渲染
-    """
-    response = client.get("/api/show-temp/stock_zh_a_hist")
-    assert response.status_code == 200
-    assert "stock_zh_a_hist" in response.text
-
-
-def test_show_renders_default_interface() -> None:
-    """
-    /api/show 以示例接口渲染 PyScript 页面，不能把未渲染的模板原文（{{ ip }} 等）返回给浏览器
-    """
-    response = client.get("/api/show")
-    assert response.status_code == 200
-    assert "{{" not in response.text
-    assert "/api/public/tool_trade_date_hist_sina" in response.text
-
-
-def test_show_pyodide_avoids_blocked_cdn() -> None:
-    """
-    PyScript 默认从 cdn.jsdelivr.net 加载 Pyodide 与 pandas，国内网络普遍无法访问该域名，
-    页面会一直停在“数据加载中”。模板必须显式把 interpreter 指向可访问的 jsDelivr 节点
-    """
-    response = client.get("/api/show")
-    assert '"interpreter": "https://fastly.jsdelivr.net/pyodide/' in response.text
-    assert "cdn.jsdelivr.net" not in response.text
+@pytest.mark.parametrize(
+    "path", ["/api/show", "/api/show-temp/tool_trade_date_hist_sina"]
+)
+def test_pyscript_pages_removed(path) -> None:
+    """PyScript 数据展示页已移除：它依赖外部 CDN、首次加载需下载数十 MB，取数请使用 /api/public"""
+    assert client.get(path).status_code == 404
 
 
 @pytest.mark.anyio

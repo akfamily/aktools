@@ -18,8 +18,7 @@ import akshare.exceptions as ak_exceptions
 import pandas as pd
 import requests
 from fastapi import APIRouter, Query, Request, status
-from fastapi.responses import HTMLResponse, JSONResponse, Response
-from fastapi.templating import Jinja2Templates
+from fastapi.responses import JSONResponse, Response
 
 from aktools.core.cache import (
     AKSHARE_CACHE_CLEAR_ENV,
@@ -32,13 +31,10 @@ from aktools.core.cache import (
 )
 from aktools.core.catalog import describe_interface, is_interface, list_interfaces
 from aktools.core.network import apply_network_settings
-from aktools.datasets import get_template_path
 
 app_core = APIRouter()
 
 DOC_URL = "https://akshare.akfamily.xyz"
-# /api/show 演示页使用的接口：无需参数、数据量小且较为稳定
-DEMO_INTERFACE = "tool_trade_date_hist_sina"
 
 # 返回格式由保留参数 _format 指定，调用 AKShare 接口前会被移除；
 # AKShare 的接口参数均不以下划线开头，不会与之冲突
@@ -350,39 +346,3 @@ def interface_detail(item_id: str):
             f"未找到该接口，请升级 AKShare 到最新版本或通过 /api/interfaces 查找接口名：{DOC_URL}"
         )
     return info
-
-
-short_path = get_template_path()
-templates = Jinja2Templates(directory=short_path)
-
-
-def _render_akscript(request: Request, interface: str):
-    """用 PyScript 页面模板渲染指定接口的数据展示页"""
-    return templates.TemplateResponse(
-        request,
-        "akscript.html",
-        context={
-            "ip": request.headers["host"],
-            "interface": interface,
-        },
-    )
-
-
-@app_core.get(
-    path="/show-temp/{interface}",
-    response_class=HTMLResponse,
-    description="用 PyScript 在浏览器中获取并展示指定接口的数据，并提供 JSON 下载",
-    summary="PyScript 数据展示页",
-)
-def akscript_temp(request: Request, interface: str):
-    return _render_akscript(request, interface)
-
-
-@app_core.get(
-    path="/show",
-    response_class=HTMLResponse,
-    description=f"PyScript 数据展示页的演示，展示 {DEMO_INTERFACE} 接口的数据",
-    summary="PyScript 数据展示页演示",
-)
-def akscript(request: Request):
-    return _render_akscript(request, DEMO_INTERFACE)
