@@ -10,6 +10,12 @@ AKTools 只负责把 HTTP 请求转发给 AKShare，数据接口的新增与变�
 
 ## 更新记录
 
+0.1.3: fix: clear errors for unknown parameters
+
+1. 参数名写错时返回 400，并列出该接口的全部可用参数，不再返回 404 并提示升级 AKShare，也不会白白请求一次上游网站；MCP 的 get_data 同样适用
+2. 最低依赖提升到 AKShare 1.20.13：页码等数字参数可以直接以文本传入，--timeout 对所有接口生效
+3. AKShare 1.20.13 起各接口不再提供 timeout 参数，旧网址中的 timeout 会返回 400 并提示改用 --timeout
+
 0.1.2: feat: optional access token
 
 1. 新增可选的访问令牌（--token，环境变量 AKTOOLS_TOKEN）：设置后，数据接口与 /mcp 需要携带令牌，支持请求头 Authorization: Bearer <令牌> 或网址参数 _token=<令牌>，多个令牌用逗号分隔；主页、/version 与 /docs 保持公开；未设置时行为不变
