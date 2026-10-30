@@ -1,13 +1,25 @@
 # build（名称保留不改，README 的状态徽章引用了它）
 name: build
 
+# 只改文档时不跑测试矩阵（16 个任务，含排队较慢的 macOS）；文档站由 Read the Docs 单独构建。
+# README.md 与 docs/aktools_version.md 不能跳过：前者是 PyPI 项目说明并含 MCP 注册表的归属标记，
+# 后者与版本号的一致性都有测试把关。后写的 ! 规则会覆盖前面的忽略规则
 on:
   push:
     branches:
       - main
+    paths-ignore: &docs-only
+      - "docs/**"
+      - "!docs/aktools_version.md"
+      - "mkdocs.yml"
+      - ".readthedocs.yaml"
+      - "CLAUDE.md"
+      - "CONTRIBUTING.md"
+      - "CODE_OF_CONDUCT.md"
   pull_request:
     branches:
       - main
+    paths-ignore: *docs-only
 
 env:
   # 与本地开发使用的 uv 版本保持一致，避免"本地通过、CI 失败"。
