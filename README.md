@@ -318,17 +318,17 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 ### Docker
 
-使用仓库中的 [Dockerfile](https://github.com/akfamily/aktools/blob/main/Dockerfile) 构建镜像，镜像默认以 Gunicorn 管理多个 Uvicorn worker 运行：
+使用仓库中的 [Dockerfile](https://github.com/akfamily/aktools/blob/main/Dockerfile) 构建镜像，镜像默认以 Gunicorn + Uvicorn worker 运行，worker 数量可用 `-e WEB_CONCURRENCY=4` 调整：
 
 ```shell
 docker build -t aktools .
 docker run -d -p 8080:8080 aktools
 ```
 
-国内网络环境下可以指定 PyPI 镜像源加速构建：
+国内网络通常无法访问 Docker Hub 与官方 PyPI，可以分别指定镜像：
 
 ```shell
-docker build --build-arg PIP_INDEX_URL=https://mirrors.aliyun.com/pypi/simple/ -t aktools .
+docker build --build-arg BASE_IMAGE=docker.m.daocloud.io/library/python:3.14-slim-trixie --build-arg PIP_INDEX_URL=https://mirrors.aliyun.com/pypi/simple/ -t aktools .
 ```
 
 镜像升级等更多说明，请见 [部署文档](https://aktools.akfamily.xyz/deploy/#docker)。

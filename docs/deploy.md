@@ -104,17 +104,19 @@ AKTOOLS_HOST=0.0.0.0 gunicorn aktools.main:app --bind 0.0.0.0:8080 --workers 4 -
 
 ### 构建镜像
 
-仓库中提供了 [Dockerfile](https://github.com/akfamily/aktools/blob/main/Dockerfile)，构建时会安装 PyPI 上最新的 AKShare 和 AKTools。下载该文件后，在其所在目录执行：
+仓库中提供了 [Dockerfile](https://github.com/akfamily/aktools/blob/main/Dockerfile)，构建时会从 PyPI 安装最新的 AKShare 和 AKTools，不需要仓库中的其他文件。下载该文件后，在其所在目录执行：
 
 ```shell
 docker build -t aktools .
 ```
 
-国内网络环境下，可以指定 PyPI 镜像源加速构建：
+国内网络通常无法访问 Docker Hub 与官方 PyPI，可以分别用 `BASE_IMAGE` 指定基础镜像的镜像站、用 `PIP_INDEX_URL` 指定 PyPI 镜像源：
 
 ```shell
-docker build --build-arg PIP_INDEX_URL=https://mirrors.aliyun.com/pypi/simple/ -t aktools .
+docker build --build-arg BASE_IMAGE=docker.m.daocloud.io/library/python:3.14-slim-trixie --build-arg PIP_INDEX_URL=https://mirrors.aliyun.com/pypi/simple/ -t aktools .
 ```
+
+`docker.m.daocloud.io` 是 DaoCloud 提供的 Docker Hub 镜像站，也可以换成其他可用的镜像站。刚发版后 PyPI 镜像源可能还没有同步新版本，详见[常见问题](faq.md#faq-mirror)。
 
 ### 启动容器
 
@@ -122,7 +124,13 @@ docker build --build-arg PIP_INDEX_URL=https://mirrors.aliyun.com/pypi/simple/ -
 docker run -d -p 8080:8080 --name aktools aktools
 ```
 
-镜像默认以 Gunicorn + Uvicorn worker 的方式运行，与[生产环境](#production)的部署方式一致。如需改用普通模式启动：
+镜像默认以 Gunicorn + Uvicorn worker 的方式运行，默认只启动 1 个 worker 进程。需要更高的并发能力时，用 `WEB_CONCURRENCY` 指定 worker 数量，参考[生产环境](#production)中的说明：
+
+```shell
+docker run -d -p 8080:8080 -e WEB_CONCURRENCY=4 --name aktools aktools
+```
+
+如需改用普通模式启动：
 
 ```shell
 docker run -d -p 8080:8080 --name aktools aktools python -m aktools --host 0.0.0.0 --port 8080

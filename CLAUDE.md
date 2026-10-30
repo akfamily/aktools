@@ -59,6 +59,7 @@ Docs pages follow a beginner learning path (`index.md` → `getting-started.md` 
 - `aktools/datasets.py` — resolves bundled assets (the homepage template, favicon) via `importlib.resources`. These files ship inside the wheel; `[tool.setuptools.package-data]` in `pyproject.toml` controls what is included.
 - `aktools/utils.py` — `get_latest_version()` queries PyPI for the newest AKShare/AKTools version shown on the homepage and `/version`, caching successes for 1h and failures for 5min. It blocks on the network, so those two routes are plain `def` (run in the thread pool) — making them `async` would freeze every other request, including `/mcp`, whenever PyPI is slow or unreachable. Tests that render the homepage must stub this to stay offline.
 - `src/app.py` — the Vercel entry point; it just re-exports `app`.
+- `Dockerfile` — installs `akshare` and `aktools` from PyPI (not from this checkout; `.dockerignore` excludes everything), so an image only reflects released versions. `BASE_IMAGE` and `PIP_INDEX_URL` build args exist because Docker Hub and official PyPI are usually unreachable from China (e.g. `docker.m.daocloud.io/library/python:3.14-slim-trixie`). Gunicorn runs 1 worker unless `WEB_CONCURRENCY` is set.
 - `.readthedocs.yaml` — installs only the `docs` group with `uv sync --locked --only-group docs` and runs `zensical build --strict`. Its pinned `uv==` version must match `UV_VERSION` in `build.yml`.
 
 ## Conventions

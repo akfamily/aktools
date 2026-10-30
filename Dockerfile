@@ -1,8 +1,13 @@
 # AKTools：AKShare 的 HTTP API 服务镜像
 # 构建：docker build -t aktools .
 # 运行：docker run -d -p 8080:8080 aktools，然后访问 http://127.0.0.1:8080/docs
-# 国内构建可指定镜像源：docker build --build-arg PIP_INDEX_URL=https://mirrors.aliyun.com/pypi/simple/ -t aktools .
-FROM python:3.14-slim-trixie
+# 国内网络通常无法访问 Docker Hub 与官方 PyPI，构建时可分别指定镜像：
+#   docker build \
+#     --build-arg BASE_IMAGE=docker.m.daocloud.io/library/python:3.14-slim-trixie \
+#     --build-arg PIP_INDEX_URL=https://mirrors.aliyun.com/pypi/simple/ \
+#     -t aktools .
+ARG BASE_IMAGE=python:3.14-slim-trixie
+FROM ${BASE_IMAGE}
 
 ARG PIP_INDEX_URL=https://pypi.org/simple
 # AKTOOLS_HOST：容器内监听 0.0.0.0，MCP 据此允许经端口映射或局域网地址访问 /mcp
