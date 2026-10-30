@@ -67,7 +67,7 @@ docker run -d -p 8080:8080 -e AKTOOLS_CACHE_TTL=300 --name aktools aktools
 
 ## 代理与超时 {#network}
 
-AKTools 通过 AKShare 访问东方财富、新浪财经等上游网站，可以为这些请求指定代理和超时（需要 AKShare 1.20.4 及以上版本）：
+AKTools 通过 AKShare 访问东方财富、新浪财经等上游网站，可以为这些请求指定代理和超时：
 
 | 设置 | 命令行参数 | 环境变量 | 默认值 |
 | --- | --- | --- | --- |
