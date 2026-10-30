@@ -7,6 +7,8 @@ Starlette 1.x 起 TemplateResponse 只接受 (request, name, context) 的调用�
 旧写法会导致页面返回 500，见 https://github.com/akfamily/aktools/issues/239
 """
 
+import anyio
+import pytest
 from fastapi.testclient import TestClient
 
 import aktools.main
@@ -54,3 +56,42 @@ def test_show_pyodide_avoids_blocked_cdn() -> None:
     response = client.get("/api/show")
     assert '"interpreter": "https://fastly.jsdelivr.net/pyodide/' in response.text
     assert "cdn.jsdelivr.net" not in response.text
+
+
+@pytest.mark.anyio
+@pytest.mark.parametrize("path", ["/", "/version"])
+async def test_slow_version_lookup_does_not_block_other_requests(monkeypatch, path):
+    """
+    查询 PyPI 最新版本是同步的网络请求，若在异步路由中直接执行会阻塞事件循环，
+    内网等无法访问 PyPI 的环境中，其他请求（取数据、/mcp）都会跟着卡住
+    """
+    import time
+
+    import httpx2
+
+    def slow_lookup(package):
+        time.sleep(1)
+        return "0.0.0"
+
+    monkeypatch.setattr(aktools.main, "get_latest_version", slow_lookup)
+    finished = []
+    transport = httpx2.ASGITransport(app=app)
+    async with httpx2.AsyncClient(
+        transport=transport, base_url="http://127.0.0.1:8080"
+    ) as client:
+
+        async def fetch(url):
+            resp = await client.get(url)
+            finished.append(url)
+            return resp
+
+        async with anyio.create_task_group() as tg:
+            tg.start_soon(fetch, path)
+            await anyio.sleep(0.1)
+            tg.start_soon(fetch, "/api/interfaces/stock_zh_a_hist")
+    assert finished == ["/api/interfaces/stock_zh_a_hist", path]
+
+
+@pytest.fixture
+def anyio_backend():
+    return "asyncio"

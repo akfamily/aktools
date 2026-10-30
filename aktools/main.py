@@ -54,8 +54,10 @@ async def favicon() -> FileResponse:
     return FileResponse(favicon_path)
 
 
+# 主页与 /version 会同步查询 PyPI 上的最新版本，因此定义为普通函数，由线程池执行；
+# 定义为 async 会阻塞事件循环，无法访问 PyPI 时其他请求（取数据、/mcp）都会跟着卡住
 @app.get(path="/", tags=["主页"], description="主要展示网站首页", summary="网站首页")
-async def get_homepage(request: Request):
+def get_homepage(request: Request):
     return templates.TemplateResponse(
         request,
         "homepage.html",  # 此处的 homepage.html 可以自定义，主要采用 jinja2 模版
@@ -76,7 +78,7 @@ async def get_homepage(request: Request):
     summary="获取开源库版本",
     response_model=VersionBase,
 )
-async def get_version():
+def get_version():
     return {
         "ak_current_version": akshare.__version__,
         "at_current_version": aktools.__version__,
