@@ -10,6 +10,11 @@ AKTools 只负责把 HTTP 请求转发给 AKShare，数据接口的新增与变�
 
 ## 更新记录
 
+0.1.2: feat: optional access token
+
+1. 新增可选的访问令牌（--token，环境变量 AKTOOLS_TOKEN）：设置后，数据接口与 /mcp 需要携带令牌，支持请求头 Authorization: Bearer <令牌> 或网址参数 _token=<令牌>，多个令牌用逗号分隔；主页、/version 与 /docs 保持公开；未设置时行为不变
+2. 修复主页上的地址写死为 http:// 的问题：经反向代理以 HTTPS 访问时，主页显示的接口与 /mcp 地址改为与实际访问的协议、域名一致
+
 0.1.1: fix: homepage no longer blocks the server
 
 **不兼容的改动：已移除 PyScript 数据展示页 `/api/show` 与 `/api/show-temp/{接口名}`。** 取数请使用 `/api/public/{接口名}`，表格可加 `_format=csv` 或 `_format=xlsx` 下载。
