@@ -14,6 +14,7 @@ import akshare as ak
 import typer
 
 import aktools
+from aktools.core.auth import TOKEN_ENV
 from aktools.core.network import PROXY_ENV, TIMEOUT_ENV
 from aktools.core.cache import (
     AKSHARE_CACHE_CLEAR_ENV,
@@ -77,6 +78,11 @@ def main(
         min=0.001,
         help="访问上游数据源的读取超时（秒），连接超时固定为 10 秒；不设置时使用 AKShare 的默认值 60 秒",
     ),
+    token: Optional[str] = typer.Option(
+        None,
+        "--token",
+        help="访问令牌，设置后数据接口与 /mcp 需要携带令牌，多个令牌用逗号分隔；不设置时无需令牌",
+    ),
     akshare_cache_clear: int = typer.Option(
         DEFAULT_AKSHARE_CACHE_CLEAR,
         "--akshare-cache-clear",
@@ -135,6 +141,10 @@ def main(
     if proxy:
         env[PROXY_ENV] = proxy
         typer.echo(f"访问上游数据源使用代理：{proxy}")
+    if token:
+        env[TOKEN_ENV] = token
+        # 不打印令牌本身，避免出现在终端记录中
+        typer.echo("已启用访问令牌：数据接口与 /mcp 需要携带令牌")
     if timeout is not None:
         env[TIMEOUT_ENV] = str(timeout)
         typer.echo(f"访问上游数据源的读取超时：{timeout:g} 秒")

@@ -206,3 +206,9 @@ def test_akshare_exceptions_map_to_status_codes(
     assert resp.status_code == status_code
     assert hint in body
     assert str(exception) in body
+
+
+def test_token_param_not_passed_to_akshare(fake_interface):
+    """_token 由 AKTools 处理，不能传给 AKShare 接口，也不计入缓存键"""
+    resp = call_interface(fake_interface, _FakeRequest({"_token": "secret"}))
+    assert resp.status_code == 200

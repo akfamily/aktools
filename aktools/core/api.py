@@ -9,6 +9,7 @@ Desc: HTTP 路由：获取数据（/api/public）与接口目录（/api/interfac
 from fastapi import APIRouter, Query, Request, status
 from fastapi.responses import JSONResponse, Response
 
+from aktools.core.auth import TOKEN_PARAM
 from aktools.core.catalog import describe_interface, list_interfaces
 from aktools.core.fetch import DOC_URL, InterfaceError, fetch_dataframe
 from aktools.core.formats import (
@@ -47,6 +48,8 @@ def call_interface(item_id: str, request: Request) -> Response:
     # FastAPI 已对查询串完成 URL 解码，参数值按第一个 = 切分，cookie 等含 = 的值也能正确取出
     params = dict(request.query_params)
     output_format = params.pop(FORMAT_PARAM, "json").lower()
+    # 访问令牌已由中间件校验，不能传给 AKShare 接口，也不计入缓存键
+    params.pop(TOKEN_PARAM, None)
     # 先校验格式再调用接口，避免格式写错时白白请求一次上游网站
     if output_format not in MEDIA_TYPES:
         return _error_response(

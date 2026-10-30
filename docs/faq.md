@@ -99,6 +99,10 @@ uvx --from aktools aktools-mcp
 
 Claude Desktop、Cursor 等桌面应用不一定能读到命令行中的 PATH 设置，即使命令行中能运行 `uvx`，应用也可能报 `spawn uvx ENOENT` 之类的错误。请把配置中的 `"command": "uvx"` 改为 `uvx` 的完整路径：Windows 上用 `where uvx` 查看，macOS 和 Linux 上用 `which uvx` 查看。
 
+## 接口返回 401 {#faq-401}
+
+服务启用了[访问令牌](deploy.md#token)，请求没有携带令牌或令牌不正确。请向服务管理员获取令牌，在请求头加上 `Authorization: Bearer <令牌>`，或在网址中加上 `_token=<令牌>`。HTTP 方式的 MCP 客户端返回 401 时，请在客户端配置中加上该请求头，详见[AI 助手（MCP）](guide/mcp.md#http)。
+
 ## 连接 /mcp 时返回 421 {#faq-mcp-421}
 
 HTTP 方式下，服务只监听本机（默认的 `127.0.0.1`）时，为了防止 DNS 重绑定攻击，`/mcp` 只接受发往 `127.0.0.1`、`localhost` 的请求，用局域网 IP 或域名访问会返回 `421`。

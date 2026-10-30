@@ -149,3 +149,14 @@ def test_proxy_and_timeout_not_set_by_default(monkeypatch) -> None:
     env = calls[0]["env"]
     assert "AKTOOLS_PROXY" not in env
     assert "AKTOOLS_TIMEOUT" not in env
+
+
+def test_token_passed_via_env_and_not_printed(monkeypatch) -> None:
+    """令牌经环境变量传给服务进程，启动提示中不显示令牌本身"""
+    calls = []
+    monkeypatch.setattr(cli, "run", lambda command, **kwargs: calls.append(kwargs))
+    result = runner.invoke(cli.app, args=["--token", "s3cr3t-value"])
+    assert result.exit_code == 0, result.output
+    assert calls[0]["env"]["AKTOOLS_TOKEN"] == "s3cr3t-value"
+    assert "s3cr3t-value" not in result.stdout
+    assert "令牌" in result.stdout

@@ -15,6 +15,7 @@ from fastapi.responses import FileResponse
 from fastapi.templating import Jinja2Templates
 
 from aktools.core.api import app_core
+from aktools.core.auth import TokenAuthMiddleware, load_tokens
 from aktools.datasets import get_favicon_path, get_homepage_html, get_template_path
 from aktools.mcp_server import build_mcp_app
 from aktools.utils import get_latest_version
@@ -96,6 +97,9 @@ def get_version():
 # 因此 allow_credentials 设为 False——通配来源与携带凭证不能并存，否则浏览器会拒绝跨域请求
 origins = ["*"]
 
+# 可选的访问令牌（AKTOOLS_TOKEN），须先于 CORS 添加：后添加的中间件在外层，
+# 这样未通过令牌校验的 401 响应同样带有跨域响应头，浏览器中的网页能读到错误说明
+app.add_middleware(TokenAuthMiddleware, tokens=load_tokens())
 app.add_middleware(
     middleware_class=CORSMiddleware,
     allow_origins=origins,

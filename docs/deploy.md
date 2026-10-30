@@ -13,6 +13,7 @@
 | `--akshare-cache-clear` | — | `3600` | 清空 AKShare 内部缓存的间隔（秒），`0` 为关闭，详见[缓存设置](#cache) |
 | `--proxy` | — | 不设置 | 访问上游数据源使用的代理，详见[代理与超时](#network) |
 | `--timeout` | — | `60` | 访问上游数据源的读取超时（秒），详见[代理与超时](#network) |
+| `--token` | — | 不设置 | 访问令牌，详见[访问令牌](#token) |
 | `--version` | `-v` | — | 查看 AKTools 版本 |
 | `--help` | — | — | 查看帮助 |
 
@@ -85,6 +86,31 @@ python -m aktools --proxy http://127.0.0.1:7890 --timeout 120
 - 用 Gunicorn、Docker 部署时设置环境变量，例如 `docker run -e AKTOOLS_PROXY=http://代理地址:端口 ...`；以 stdio 方式运行 MCP 时，在客户端配置的 `env` 中设置，详见[AI 助手（MCP）](guide/mcp.md#stdio)。
 - 少数直接调用底层库的 AKShare 接口可能不受这两项设置影响，以 AKShare 文档为准。
 
+## 访问令牌 {#token}
+
+多人或多台电脑共用一个服务时，可以设置访问令牌，只让持有令牌的人使用：
+
+```shell
+python -m aktools --host 0.0.0.0 --token 一串足够长的随机字符
+```
+
+也可以用环境变量 `AKTOOLS_TOKEN` 设置，Gunicorn、Docker 部署时同样适用，例如 `docker run -e AKTOOLS_TOKEN=... aktools`。随机令牌可以用 `python -c "import secrets; print(secrets.token_urlsafe(32))"` 生成。
+
+设置后，数据接口（`/api/` 开头的地址）与 `/mcp` 需要携带令牌，否则返回 `401`；主页、`/version` 与 `/docs` 只展示版本和使用说明，仍然公开。携带令牌有两种方式：
+
+| 方式 | 写法 | 适合 |
+| --- | --- | --- |
+| 请求头 | `Authorization: Bearer <令牌>` | 程序、MCP 客户端 |
+| 查询参数 | 在网址末尾加上 `_token=<令牌>`，如 `/api/public/stock_zh_a_hist?symbol=000001&_token=<令牌>` | Excel、Stata、浏览器等不便设置请求头的场景 |
+
+- 多个令牌用逗号分隔，如 `--token alice令牌,bob令牌`，任意一个均可访问。每人一个令牌时，删掉某个令牌即可单独撤销此人的权限，修改后需要重启服务。
+- 写在网址中的令牌会出现在浏览器历史、服务的访问日志和反向代理的日志里，请尽量用请求头方式；经公网访问时请配合 HTTPS 使用，否则令牌会以明文传输。
+- 以 stdio 方式运行的 MCP（`aktools-mcp`）不经过网络，不需要令牌。HTTP 方式的 MCP 客户端需要配置请求头，详见[AI 助手（MCP）](guide/mcp.md#http)。
+
+!!! note "为什么不提供用户登录"
+
+    令牌是一把共享的“钥匙”，适合团队内部共用。AKTools 不保存用户信息，因此不提供注册、登录和按人分配权限。需要对接企业账号或按人管理权限时，请在前面加一层现成的认证网关，如 OAuth2 Proxy、Cloudflare Access。
+
 ## 生产环境 {#production}
 
 `python -m aktools` 启动的是单进程的 Uvicorn，适合个人使用。需要同时服务多人或多个程序时，建议用 Gunicorn 管理多个 Uvicorn worker 进程，提高并发处理能力（Gunicorn 不支持 Windows，请在 Linux 或 macOS 上使用）：
@@ -98,7 +124,7 @@ AKTOOLS_HOST=0.0.0.0 gunicorn aktools.main:app --bind 0.0.0.0:8080 --workers 4 -
 
 !!! warning "安全提示"
 
-    AKTools 不带鉴权和限流功能，任何能访问到服务的人都可以调用全部接口。如果服务需要暴露到公网，请在前面加一层带鉴权的反向代理（如 Nginx），或者只在内网中使用。
+    未设置[访问令牌](#token)时，任何能访问到服务的人都可以调用全部接口。AKTools 不带限流功能，所有请求都从服务器的同一个 IP 访问上游网站，不建议开放给不特定的人使用；确需对外提供时，请设置访问令牌并配合 HTTPS。
 
 使用 Nginx 等反向代理时，请转发 `Host` 与 `X-Forwarded-Proto` 请求头（如 `proxy_set_header Host $host;`、`proxy_set_header X-Forwarded-Proto $scheme;`），主页上显示的地址才会是用户实际访问的域名与协议。服务默认只信任本机反向代理传来的这些请求头；反向代理在其他机器上时，Gunicorn 需加上 `--forwarded-allow-ips <反向代理的 IP>`。
 

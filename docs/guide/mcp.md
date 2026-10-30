@@ -99,6 +99,14 @@ claude mcp add --transport http aktools http://127.0.0.1:8080/mcp
 
 Cursor 则在 `mcp.json` 中使用 `"url": "http://127.0.0.1:8080/mcp"` 代替 `command` 与 `args`。使用过程中服务需要保持运行。
 
+服务设置了[访问令牌](../deploy.md#token)时，需要在客户端配置中加上请求头，例如 Claude Code：
+
+```shell
+claude mcp add --transport http aktools http://127.0.0.1:8080/mcp --header "Authorization: Bearer <令牌>"
+```
+
+Cursor 则在 `mcp.json` 的 `aktools` 下加上 `"headers": {"Authorization": "Bearer <令牌>"}`。`get_data` 返回的 CSV 下载地址不含令牌，下载时需要自行加上 `_token=<令牌>`。
+
 ## 提供的工具 {#tools}
 
 AKShare 有一千多个接口，如果逐个注册成工具，会占满助手的上下文。因此 AKTools 只提供 3 个通用工具，由助手分步使用：
@@ -127,4 +135,4 @@ python -m aktools --host 0.0.0.0
 
 !!! warning "安全提示"
 
-    MCP 与 `/api/public` 一样不带鉴权，能访问到 `/mcp` 的人都可以通过它获取数据。请只在本机或内网中使用。
+    未设置[访问令牌](../deploy.md#token)时，能访问到 `/mcp` 的人都可以通过它获取数据。多人共用或经公网访问时，请设置访问令牌。

@@ -174,6 +174,7 @@ pip install akshare aktools --upgrade -i https://pypi.org/simple
 | `--akshare-cache-clear` | — | `3600` | 清空 AKShare 内部缓存的间隔（秒），避免板块名称等数据一直不更新，`0` 为关闭 |
 | `--proxy` | — | 不设置 | 访问上游数据源使用的代理，如 `http://127.0.0.1:7890`；不设置时沿用 `HTTP_PROXY` 等环境变量 |
 | `--timeout` | — | `60` | 访问上游数据源的读取超时（秒），连接超时固定为 10 秒 |
+| `--token` | — | 不设置 | 访问令牌，设置后数据接口与 `/mcp` 需要携带令牌，多个令牌用逗号分隔，详见 [访问令牌](https://aktools.akfamily.xyz/deploy/#token) |
 | `--version` | `-v` | — | 查看 AKTools 版本 |
 
 例如：`python -m aktools --port 8888 --auto` 会在 8888 端口启动并自动打开浏览器。需要让局域网内的其他机器访问时，加上 `--host 0.0.0.0`，其他机器通过 `http://<本机 IP>:8888` 访问；`0.0.0.0` 只表示监听所有网卡，不能当作访问地址在浏览器中打开。
@@ -198,6 +199,7 @@ akshare.{接口名}(参数1="值1", 参数2="值2")
 | 状态码 | 含义 | 处理建议 |
 | --- | --- | --- |
 | `200` | 成功 | — |
+| `401` | 服务启用了访问令牌，但请求没有携带令牌或令牌不正确 | 在请求头加上 `Authorization: Bearer <令牌>`，或在网址中加上 `_token=<令牌>` |
 | `400` | 参数不合法，`_format` 取值不支持，或数据行数超过 Excel 上限 | 对照 `/api/interfaces/{接口名}` 检查参数；`_format` 改用 `json`、`csv` 或 `xlsx`，数据过大时改用 `csv` |
 | `404` | 接口名不存在，或接口调用出错 | 升级 AKShare，并对照 `/api/interfaces/{接口名}` 检查接口名和参数 |
 | `429` | 上游数据源限制了访问频率 | 稍后重试，或调大 `--cache-ttl` 减少重复请求 |
@@ -342,7 +344,7 @@ pip install gunicorn uvicorn-worker
 AKTOOLS_HOST=0.0.0.0 gunicorn aktools.main:app --bind 0.0.0.0:8080 --workers 4 --worker-class uvicorn_worker.UvicornWorker
 ```
 
-> AKTools 不带鉴权功能。如果服务需要暴露到公网，请在前面加一层带鉴权的反向代理（如 Nginx）。
+> 多人或多台电脑共用服务时，可以用 `--token` 设置访问令牌，详见 [访问令牌](https://aktools.akfamily.xyz/deploy/#token)。AKTools 不提供用户登录，需要按人管理权限时，请在前面加一层带认证的反向代理。
 
 ## 常见问题
 

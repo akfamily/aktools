@@ -103,6 +103,7 @@ http://127.0.0.1:8080/api/public/stock_zh_a_hist?symbol=000001&start_date=202401
 | 状态码 | 含义 | 处理建议 |
 | --- | --- | --- |
 | `200` | 成功 | — |
+| `401` | 服务启用了访问令牌，但请求没有携带令牌或令牌不正确 | 在请求头加上 `Authorization: Bearer <令牌>`，或在网址中加上 `_token=<令牌>`，详见[访问令牌](../deploy.md#token) |
 | `400` | 参数不合法，`_format` 取值不支持，或数据行数超过 Excel 上限 | 对照[接口参数说明](catalog.md#detail)检查参数；`_format` 改用 `json`、`csv` 或 `xlsx`，数据过大时改用 `csv` |
 | `404` | 接口名不存在、接口调用出错或接口返回空数据 | 升级 AKShare，并对照[接口参数说明](catalog.md#detail)检查接口名和参数，详见[常见问题](../faq.md#faq-404) |
 | `429` | 上游数据源限制了访问频率 | 稍后重试，或调大 `--cache-ttl` 减少重复请求，详见[缓存设置](../deploy.md#cache) |
