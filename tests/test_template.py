@@ -29,6 +29,19 @@ def test_homepage(monkeypatch) -> None:
     assert "/mcp" in response.text
 
 
+def test_homepage_links_follow_request_scheme(monkeypatch) -> None:
+    """
+    经 Nginx 等反向代理以 HTTPS 访问时，主页上的地址也要是 https，
+    否则复制到 AI 助手或程序中会连不上，浏览器也可能拦截混合内容
+    """
+    monkeypatch.setattr(aktools.main, "get_latest_version", lambda package: "0.0.0")
+    https_client = TestClient(app, base_url="https://data.example.com")
+    text = https_client.get("/").text
+    assert "https://data.example.com/mcp" in text
+    assert "https://data.example.com/api/interfaces" in text
+    assert "http://data.example.com" not in text
+
+
 @pytest.mark.parametrize(
     "path", ["/api/show", "/api/show-temp/tool_trade_date_hist_sina"]
 )

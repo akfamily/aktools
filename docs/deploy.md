@@ -100,6 +100,8 @@ AKTOOLS_HOST=0.0.0.0 gunicorn aktools.main:app --bind 0.0.0.0:8080 --workers 4 -
 
     AKTools 不带鉴权和限流功能，任何能访问到服务的人都可以调用全部接口。如果服务需要暴露到公网，请在前面加一层带鉴权的反向代理（如 Nginx），或者只在内网中使用。
 
+使用 Nginx 等反向代理时，请转发 `Host` 与 `X-Forwarded-Proto` 请求头（如 `proxy_set_header Host $host;`、`proxy_set_header X-Forwarded-Proto $scheme;`），主页上显示的地址才会是用户实际访问的域名与协议。服务默认只信任本机反向代理传来的这些请求头；反向代理在其他机器上时，Gunicorn 需加上 `--forwarded-allow-ips <反向代理的 IP>`。
+
 ## Docker {#docker}
 
 ### 构建镜像

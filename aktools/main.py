@@ -65,6 +65,9 @@ def get_homepage(request: Request):
         "homepage.html",  # 此处的 homepage.html 可以自定义，主要采用 jinja2 模版
         context={
             "ip_address": request.headers["host"],
+            # 含协议与路径前缀，经反向代理以 HTTPS 访问时为 https://…；
+            # uvicorn 默认信任本机反向代理传来的 X-Forwarded-Proto
+            "base_url": str(request.base_url).rstrip("/"),
             "ak_current_version": akshare.__version__,
             "at_current_version": aktools.__version__,
             "ak_latest_version": get_latest_version("akshare"),

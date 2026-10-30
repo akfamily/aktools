@@ -91,22 +91,22 @@
             <span class="label">最新版本：</span>AKTools <code>{{at_latest_version}}</code>，AKShare <code>{{ak_latest_version}}</code>
         </li>
         <li>
-            <span class="label">数据接口：</span>通过 <code>http://{{ip_address}}/api/public/{接口名称}</code> 访问
+            <span class="label">数据接口：</span>通过 <code>{{base_url}}/api/public/{接口名称}</code> 访问
         </li>
         <li>
-            <span class="label">接口目录：</span><a href="http://{{ip_address}}/api/interfaces">http://{{ip_address}}/api/interfaces</a>（可加 <code>?q=关键词</code> 搜索）
+            <span class="label">接口目录：</span><a href="{{base_url}}/api/interfaces">{{base_url}}/api/interfaces</a>（可加 <code>?q=关键词</code> 搜索）
         </li>
         <li>
             <span class="label">下载表格：</span>在数据接口地址后加上 <code>?_format=csv</code> 或 <code>?_format=xlsx</code>
         </li>
         <li>
-            <span class="label">AI 助手（MCP）：</span><code>http://{{ip_address}}/mcp</code>，填入 Claude、Cursor 等 AI 助手即可用自然语言获取数据
+            <span class="label">AI 助手（MCP）：</span><code>{{base_url}}/mcp</code>，填入 Claude、Cursor 等 AI 助手即可用自然语言获取数据
         </li>
         <li>
-            <span class="label">在线文档：</span><a href="http://{{ip_address}}/docs">http://{{ip_address}}/docs</a>
+            <span class="label">在线文档：</span><a href="{{base_url}}/docs">{{base_url}}/docs</a>
         </li>
         <li>
-            <span class="label">连通性测试：</span><a href="http://{{ip_address}}/api/public/tool_trade_date_hist_sina">http://{{ip_address}}/api/public/tool_trade_date_hist_sina</a>（新浪交易日历，无需参数且稳定）
+            <span class="label">连通性测试：</span><a href="{{base_url}}/api/public/tool_trade_date_hist_sina">{{base_url}}/api/public/tool_trade_date_hist_sina</a>（新浪交易日历，无需参数且稳定）
         </li>
     </ul>
 
