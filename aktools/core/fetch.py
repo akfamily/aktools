@@ -6,7 +6,8 @@ Desc: 调用 AKShare 接口获取数据，HTTP 路由（/api/public）与 MCP �
 包括接口校验、结果缓存、AKShare 内部缓存清理，以及把各类异常对应到 HTTP 状态码与处理建议
 """
 
-from typing import Dict, Tuple
+import inspect
+from typing import Dict, List, Optional, Tuple
 
 import akshare as ak
 import akshare.exceptions as ak_exceptions
@@ -80,6 +81,33 @@ AKSHARE_ERRORS = (
 )
 
 
+def _unknown_param_message(func, item_id: str, params: Dict[str, str]) -> Optional[str]:
+    """
+    按函数签名检查参数名，返回错误说明；参数名均有效，或接口接受 **kwargs 无法检查时返回 None
+    参数名写错时接口会抛出 TypeError，事先检查可以给出可用参数，也不会白白请求一次上游网站
+    """
+    try:
+        signature = inspect.signature(func)
+    except (TypeError, ValueError):
+        return None
+    accepted = signature.parameters.values()
+    if any(p.kind == p.VAR_KEYWORD for p in accepted):
+        return None
+    names: List[str] = [
+        p.name for p in accepted if p.kind in (p.POSITIONAL_OR_KEYWORD, p.KEYWORD_ONLY)
+    ]
+    unknown = [key for key in params if key not in names]
+    if not unknown:
+        return None
+    message = f"接口 {item_id} 不支持参数 {'、'.join(unknown)}；可用参数：{'、'.join(names) or '无'}"
+    if "timeout" in unknown:
+        # AKShare 1.20.13 起各接口不再有 timeout 参数，超时统一由全局设置
+        message += (
+            "。超时请在启动 AKTools 时用 --timeout 或环境变量 AKTOOLS_TIMEOUT 设置"
+        )
+    return message + f"，参数说明见 /api/interfaces/{item_id}"
+
+
 def fetch_dataframe(item_id: str, params: Dict[str, str]) -> Tuple[pd.DataFrame, str]:
     """
     调用 AKShare 接口获取数据，经过结果缓存与 AKShare 内部缓存清理
@@ -90,7 +118,7 @@ def fetch_dataframe(item_id: str, params: Dict[str, str]) -> Tuple[pd.DataFrame,
     :type params: dict
     :return: 接口数据，以及是否来自结果缓存（hit 或 miss）
     :rtype: tuple
-    :raises InterfaceError: 接口不存在、调用出错、返回为空或上游数据源不可达
+    :raises InterfaceError: 接口不存在、参数名无效、调用出错、返回为空或上游数据源不可达
     """
     if not is_interface(item_id):
         logger.info(f"未找到接口 {item_id}")
@@ -98,6 +126,10 @@ def fetch_dataframe(item_id: str, params: Dict[str, str]) -> Tuple[pd.DataFrame,
             f"未找到该接口，请升级 AKShare 到最新版本并在文档中确认该接口的使用方式：{DOC_URL}",
             status.HTTP_404_NOT_FOUND,
         )
+    unknown = _unknown_param_message(getattr(ak, item_id), item_id, params)
+    if unknown:
+        logger.info(unknown)
+        raise InterfaceError(unknown, status.HTTP_400_BAD_REQUEST)
     akshare_janitor.maybe_clear()
     # 返回格式不影响数据本身，因此调用方不应把 _format 放进 params，JSON、CSV、Excel 共用同一份缓存
     cache_key = (item_id, tuple(sorted(params.items())))

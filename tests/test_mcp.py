@@ -306,3 +306,20 @@ async def test_get_data_reports_akshare_rate_limit(monkeypatch):
         result = await client.call_tool("get_data", {"name": "aktools_fake_rate_limit"})
     assert result.is_error
     assert "稍后重试" in result.content[0].text
+
+
+@pytest.mark.anyio
+async def test_get_data_reports_unknown_param(monkeypatch):
+    """MCP 与 HTTP 共用参数检查：参数名写错时助手能看到支持的参数，从而自行改正"""
+
+    def fake(symbol="000001"):
+        return pd.DataFrame({"代码": [symbol]})
+
+    monkeypatch.setattr(ak, "aktools_fake_param", fake, raising=False)
+    async with Client(mcp) as client:
+        result = await client.call_tool(
+            "get_data", {"name": "aktools_fake_param", "params": {"symol": "1"}}
+        )
+    assert result.is_error
+    assert "不支持参数 symol" in result.content[0].text
+    assert "可用参数：symbol" in result.content[0].text

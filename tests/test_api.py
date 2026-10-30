@@ -212,3 +212,44 @@ def test_token_param_not_passed_to_akshare(fake_interface):
     """_token 由 AKTools 处理，不能传给 AKShare 接口，也不计入缓存键"""
     resp = call_interface(fake_interface, _FakeRequest({"_token": "secret"}))
     assert resp.status_code == 200
+
+
+def _fake_daily(symbol="000001", start_date="19700101"):
+    return pd.DataFrame({"代码": [symbol]})
+
+
+@pytest.fixture
+def strict_interface(monkeypatch):
+    monkeypatch.setattr(ak, "aktools_fake_strict", _fake_daily, raising=False)
+    return "aktools_fake_strict"
+
+
+def test_unknown_param_returns_400_with_supported_params(strict_interface):
+    """
+    参数名拼错时，接口会抛出 TypeError；此前按接口用法错误返回 404 并提示升级 AKShare，
+    现在调用前就按函数签名检查，返回 400 并列出支持的参数，也不会白白请求一次上游网站
+    """
+    resp = call_interface(strict_interface, _FakeRequest({"symol": "600000"}))
+    body = resp.body.decode("utf-8")
+    assert resp.status_code == 400
+    assert "不支持参数 symol" in body
+    assert "可用参数：symbol、start_date" in body
+
+
+def test_removed_timeout_param_hints_cli_option(strict_interface):
+    """AKShare 1.20.13 起各接口不再有 timeout 参数，旧网址中的 timeout 提示改用 --timeout"""
+    resp = call_interface(strict_interface, _FakeRequest({"timeout": "5"}))
+    body = resp.body.decode("utf-8")
+    assert resp.status_code == 400
+    assert "--timeout" in body
+
+
+def test_interface_with_kwargs_skips_param_check(monkeypatch):
+    """接受 **kwargs 的接口无法从签名得知参数名，不做检查，交给接口自身处理"""
+
+    def flexible(**kwargs):
+        return pd.DataFrame({"k": list(kwargs)})
+
+    monkeypatch.setattr(ak, "aktools_fake_kwargs", flexible, raising=False)
+    resp = call_interface("aktools_fake_kwargs", _FakeRequest({"anything": "1"}))
+    assert resp.status_code == 200
