@@ -16,7 +16,8 @@ import pandas as pd
 import pytest
 import requests
 
-import aktools.core.api as api
+import aktools.core.formats as formats
+import aktools.core.log as log
 
 from aktools.core.api import call_interface
 
@@ -111,7 +112,7 @@ def test_invalid_format_returns_400(fake_interface):
 
 
 def test_xlsx_too_many_rows_suggests_csv(fake_interface, monkeypatch):
-    monkeypatch.setattr(api, "EXCEL_MAX_ROWS", 1)
+    monkeypatch.setattr(formats, "EXCEL_MAX_ROWS", 1)
     resp = call_interface(fake_interface, _FakeRequest({"_format": "xlsx"}))
     assert resp.status_code == 400
     assert "csv" in resp.body.decode("utf-8")
@@ -153,7 +154,7 @@ def test_log_handler_falls_back_when_directory_not_writable(tmp_path):
     import tempfile
 
     unwritable = tmp_path / "missing-dir" / "aktools_log.log"
-    handler = api._create_log_handler(str(unwritable))
+    handler = log._create_log_handler(str(unwritable))
     try:
         assert handler.baseFilename.startswith(tempfile.gettempdir())
     finally:
@@ -163,10 +164,10 @@ def test_log_handler_falls_back_when_directory_not_writable(tmp_path):
 def test_log_path_follows_log_dir_env(monkeypatch, tmp_path):
     """AKTOOLS_LOG_DIR 指定日志目录；未设置时写到当前工作目录"""
     monkeypatch.setenv("AKTOOLS_LOG_DIR", str(tmp_path))
-    assert api._log_path() == str(tmp_path / "aktools_log.log")
+    assert log._log_path() == str(tmp_path / "aktools_log.log")
     monkeypatch.delenv("AKTOOLS_LOG_DIR")
     monkeypatch.delenv("VERCEL", raising=False)
-    assert api._log_path() == "aktools_log.log"
+    assert log._log_path() == "aktools_log.log"
 
 
 def test_tests_do_not_write_log_into_repository():
@@ -174,7 +175,7 @@ def test_tests_do_not_write_log_into_repository():
     import pathlib
 
     repo_root = pathlib.Path(__file__).resolve().parent.parent
-    log_file = pathlib.Path(api.handler.baseFilename).resolve()
+    log_file = pathlib.Path(log.handler.baseFilename).resolve()
     assert repo_root not in log_file.parents
 
 

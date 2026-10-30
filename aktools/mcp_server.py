@@ -23,7 +23,8 @@ from pydantic import Field
 from starlette.applications import Starlette
 
 import aktools
-from aktools.core.api import FORMAT_PARAM, InterfaceError, fetch_dataframe
+from aktools.core.fetch import InterfaceError, fetch_dataframe
+from aktools.core.formats import FORMAT_PARAM
 from aktools.core.catalog import describe_interface as _describe_interface
 from aktools.core.catalog import is_interface, list_interfaces
 

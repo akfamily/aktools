@@ -14,6 +14,7 @@ import pandas as pd
 import pytest
 
 import aktools.core.api as api
+import aktools.core.fetch as fetch
 from aktools.core.cache import (
     AkshareCacheJanitor,
     ResultCache,
@@ -137,7 +138,7 @@ def counting_interface(monkeypatch):
         return pd.DataFrame({"代码": [symbol], "收盘": [9.5]})
 
     monkeypatch.setattr(ak, "aktools_fake_count", fake, raising=False)
-    monkeypatch.setattr(api, "result_cache", ResultCache(ttl=60, maxsize=10))
+    monkeypatch.setattr(fetch, "result_cache", ResultCache(ttl=60, maxsize=10))
     return calls
 
 
@@ -164,7 +165,7 @@ def test_cache_key_depends_on_params_not_format(counting_interface):
 def test_empty_result_is_not_cached(monkeypatch):
     calls = []
     monkeypatch.setattr(ak, "aktools_fake_none", lambda: calls.append(1), raising=False)
-    monkeypatch.setattr(api, "result_cache", ResultCache(ttl=60, maxsize=10))
+    monkeypatch.setattr(fetch, "result_cache", ResultCache(ttl=60, maxsize=10))
     for _ in range(2):
         assert (
             api.call_interface("aktools_fake_none", _FakeRequest()).status_code == 404

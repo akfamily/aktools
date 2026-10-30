@@ -2,108 +2,28 @@
 # /usr/bin/env python
 """
 Date: 2024/1/12 22:05
-Desc: HTTP 模式主文件
+Desc: HTTP 路由：获取数据（/api/public）与接口目录（/api/interfaces）
+取数逻辑见 aktools.core.fetch，格式转换见 aktools.core.formats
 """
 
-import io
-import json
-import logging
-import os
-import tempfile
-from typing import Dict, Tuple
-from logging.handlers import TimedRotatingFileHandler
-
-import akshare as ak
-import akshare.exceptions as ak_exceptions
-import pandas as pd
-import requests
 from fastapi import APIRouter, Query, Request, status
 from fastapi.responses import JSONResponse, Response
 
-from aktools.core.cache import (
-    AKSHARE_CACHE_CLEAR_ENV,
-    CACHE_TTL_ENV,
-    DEFAULT_AKSHARE_CACHE_CLEAR,
-    DEFAULT_CACHE_TTL,
-    AkshareCacheJanitor,
-    ResultCache,
-    env_seconds,
+from aktools.core.catalog import describe_interface, list_interfaces
+from aktools.core.fetch import DOC_URL, InterfaceError, fetch_dataframe
+from aktools.core.formats import (
+    FORMAT_PARAM,
+    MEDIA_TYPES,
+    TooManyRowsError,
+    to_file_bytes,
+    to_records,
 )
-from aktools.core.catalog import describe_interface, is_interface, list_interfaces
-from aktools.core.network import apply_network_settings
+from aktools.core.log import logger
 
 app_core = APIRouter()
 
-DOC_URL = "https://akshare.akfamily.xyz"
-
-# 返回格式由保留参数 _format 指定，调用 AKShare 接口前会被移除；
-# AKShare 的接口参数均不以下划线开头，不会与之冲突
-FORMAT_PARAM = "_format"
-MEDIA_TYPES = {
-    "json": "application/json",
-    "csv": "text/csv; charset=utf-8",
-    "xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-}
-# Excel 单个工作表最多 1048576 行，其中 1 行是表头
-EXCEL_MAX_ROWS = 1048575
 # 响应头，标明本次数据是否来自结果缓存：hit 或 miss
 CACHE_HEADER = "X-AKTools-Cache"
-
-result_cache = ResultCache(ttl=env_seconds(CACHE_TTL_ENV, DEFAULT_CACHE_TTL))
-akshare_janitor = AkshareCacheJanitor(
-    interval=env_seconds(AKSHARE_CACHE_CLEAR_ENV, DEFAULT_AKSHARE_CACHE_CLEAR)
-)
-
-
-def _create_log_handler(filename: str) -> TimedRotatingFileHandler:
-    """
-    按天轮转的日志文件，保留最近 7 天
-    AI 助手以 stdio 方式启动 aktools-mcp 时，工作目录可能不可写（如 macOS 上的 /），
-    此时改写到系统临时目录，避免服务因无法创建日志文件而启动失败
-    :param filename: 日志文件路径
-    :type filename: str
-    :return: 日志处理器
-    :rtype: TimedRotatingFileHandler
-    """
-    options = {"when": "midnight", "interval": 1, "backupCount": 7, "encoding": "utf-8"}
-    try:
-        return TimedRotatingFileHandler(filename=filename, **options)
-    except OSError:
-        fallback = os.path.join(tempfile.gettempdir(), os.path.basename(filename))
-        return TimedRotatingFileHandler(filename=fallback, **options)
-
-
-# 日志目录由环境变量指定；测试据此把日志写到临时目录，避免在仓库中留下日志文件
-LOG_DIR_ENV = "AKTOOLS_LOG_DIR"
-LOG_FILENAME = "aktools_log.log"
-
-
-def _log_path() -> str:
-    """
-    日志文件路径：优先使用 AKTOOLS_LOG_DIR 指定的目录；
-    Vercel 环境只有 /tmp 可写；其余情况写到当前工作目录
-    :return: 日志文件路径
-    :rtype: str
-    """
-    log_dir = os.getenv(LOG_DIR_ENV)
-    if log_dir:
-        return os.path.join(log_dir, LOG_FILENAME)
-    if os.getenv("VERCEL") == "1":
-        return os.path.join("/tmp", LOG_FILENAME)
-    return LOG_FILENAME
-
-
-logger = logging.getLogger("AKToolsLog")
-logger.setLevel(logging.INFO)
-handler = _create_log_handler(_log_path())
-handler.setFormatter(
-    logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-)
-logger.addHandler(handler)
-
-# 服务进程启动时按 AKTOOLS_PROXY、AKTOOLS_TIMEOUT 设置一次 AKShare 的全局代理与超时
-for _message in apply_network_settings():
-    logger.info(_message)
 
 
 def _error_response(
@@ -111,147 +31,6 @@ def _error_response(
 ) -> JSONResponse:
     """构造统一的错误响应"""
     return JSONResponse(status_code=status_code, content={"error": message})
-
-
-def _file_response(
-    item_id: str, df: pd.DataFrame, output_format: str, cache_status: str
-) -> Response:
-    """
-    把接口数据转为 CSV 或 Excel 文件下载
-    :param item_id: 接口名，用作下载文件名
-    :type item_id: str
-    :param df: 接口返回的数据
-    :type df: pandas.DataFrame
-    :param output_format: csv 或 xlsx
-    :type output_format: str
-    :param cache_status: 数据是否来自结果缓存，hit 或 miss
-    :type cache_status: str
-    :return: 文件下载响应
-    :rtype: Response
-    """
-    if output_format == "csv":
-        # utf-8-sig 带 BOM，Excel 直接打开时中文列名不会乱码
-        body = df.to_csv(index=False).encode("utf-8-sig")
-    else:
-        if len(df) > EXCEL_MAX_ROWS:
-            return _error_response(
-                f"数据共 {len(df)} 行，超过 Excel 单个工作表的上限，请改用 {FORMAT_PARAM}=csv",
-                status_code=status.HTTP_400_BAD_REQUEST,
-            )
-        # Excel 不支持带时区的时间，写入前去掉时区信息，保留当地时间
-        df = df.copy()
-        for column in df.columns:
-            if isinstance(df[column].dtype, pd.DatetimeTZDtype):
-                df[column] = df[column].dt.tz_localize(None)
-        buffer = io.BytesIO()
-        df.to_excel(buffer, index=False, engine="openpyxl")
-        body = buffer.getvalue()
-    logger.info(f"获取到 {item_id} 的数据，格式为 {output_format}")
-    return Response(
-        content=body,
-        media_type=MEDIA_TYPES[output_format],
-        headers={
-            "Content-Disposition": f'attachment; filename="{item_id}.{output_format}"',
-            CACHE_HEADER: cache_status,
-        },
-    )
-
-
-class InterfaceError(Exception):
-    """调用接口失败，附带对应的 HTTP 状态码；HTTP 路由与 MCP 工具共用同一套错误说明"""
-
-    def __init__(self, message: str, status_code: int):
-        super().__init__(message)
-        self.message = message
-        self.status_code = status_code
-
-
-# AKShare 自定义的异常不继承 requests 的异常类，需要单独对应状态码与处理建议；
-# 未列出的异常（含 AkshareException 基类）仍按接口用法错误处理
-AKSHARE_ERRORS = (
-    (
-        ak_exceptions.NetworkError,
-        status.HTTP_502_BAD_GATEWAY,
-        "访问上游数据源失败，请检查网络或代理设置（HTTP_PROXY/HTTPS_PROXY 环境变量，或启动参数 --proxy）：{e}",
-    ),
-    (
-        ak_exceptions.RateLimitError,
-        status.HTTP_429_TOO_MANY_REQUESTS,
-        "上游数据源限制了访问频率，请稍后重试，或调大 --cache-ttl 减少重复请求：{e}",
-    ),
-    (
-        ak_exceptions.InvalidParameterError,
-        status.HTTP_400_BAD_REQUEST,
-        "参数不合法：{e}，请通过 /api/interfaces/{item_id} 查看参数说明",
-    ),
-    (
-        ak_exceptions.APIError,
-        status.HTTP_502_BAD_GATEWAY,
-        "上游数据源返回错误：{e}，请稍后重试",
-    ),
-    (
-        ak_exceptions.DataParsingError,
-        status.HTTP_502_BAD_GATEWAY,
-        "解析上游数据失败：{e}，上游页面可能已改版，请升级 AKShare 到最新版本，仍有问题请到 AKShare 反馈：https://github.com/akfamily/akshare/issues",
-    ),
-)
-
-
-def fetch_dataframe(item_id: str, params: Dict[str, str]) -> Tuple[pd.DataFrame, str]:
-    """
-    调用 AKShare 接口获取数据，经过结果缓存与 AKShare 内部缓存清理
-    AKShare 为同步请求，调用方以同步函数定义，由 uvicorn 的线程池支持并发访问
-    :param item_id: 接口名，如 stock_zh_a_hist
-    :type item_id: str
-    :param params: 接口参数，值均为文本，如 {"symbol": "000001"}
-    :type params: dict
-    :return: 接口数据，以及是否来自结果缓存（hit 或 miss）
-    :rtype: tuple
-    :raises InterfaceError: 接口不存在、调用出错、返回为空或上游数据源不可达
-    """
-    if not is_interface(item_id):
-        logger.info(f"未找到接口 {item_id}")
-        raise InterfaceError(
-            f"未找到该接口，请升级 AKShare 到最新版本并在文档中确认该接口的使用方式：{DOC_URL}",
-            status.HTTP_404_NOT_FOUND,
-        )
-    akshare_janitor.maybe_clear()
-    # 返回格式不影响数据本身，因此调用方不应把 _format 放进 params，JSON、CSV、Excel 共用同一份缓存
-    cache_key = (item_id, tuple(sorted(params.items())))
-    cached = result_cache.get(cache_key)
-    if cached is not None:
-        return cached, "hit"
-    try:
-        df = getattr(ak, item_id)(**params)
-    except requests.exceptions.RequestException as e:
-        # 网络、代理、连接、超时等上游数据源不可达的错误，与接口用法无关。
-        # 返回 502 并提示排查网络/代理，避免误导用户去升级 AKShare。
-        logger.info(f"接口 {item_id} 访问上游数据源失败：{e}")
-        raise InterfaceError(
-            f"访问上游数据源失败，请检查网络或代理设置（HTTP_PROXY/HTTPS_PROXY 环境变量，或启动参数 --proxy）：{e}",
-            status.HTTP_502_BAD_GATEWAY,
-        ) from e
-    except tuple(error for error, _, _ in AKSHARE_ERRORS) as e:
-        logger.info(f"调用接口 {item_id} 出错：{type(e).__name__}: {e}")
-        for error, status_code, message in AKSHARE_ERRORS:
-            if isinstance(e, error):
-                raise InterfaceError(
-                    message.format(e=e, item_id=item_id), status_code
-                ) from e
-    except Exception as e:
-        logger.info(f"调用接口 {item_id} 出错：{e}")
-        raise InterfaceError(
-            f"调用接口出错 {e}，请升级 AKShare 到最新版本并在文档中确认该接口的使用方式：{DOC_URL}",
-            status.HTTP_404_NOT_FOUND,
-        ) from e
-    if df is None:
-        logger.info(f"接口 {item_id} 返回数据为空")
-        raise InterfaceError(
-            f"该接口返回数据为空，请确认参数是否正确：{DOC_URL}",
-            status.HTTP_404_NOT_FOUND,
-        )
-    result_cache.set(cache_key, df)
-    return df, "miss"
 
 
 def call_interface(item_id: str, request: Request) -> Response:
@@ -279,20 +58,33 @@ def call_interface(item_id: str, request: Request) -> Response:
     except InterfaceError as e:
         return _error_response(e.message, status_code=e.status_code)
     try:
-        if output_format != "json":
-            return _file_response(item_id, df, output_format, cache_status)
-        content = json.loads(df.to_json(orient="records", date_format="iso"))
+        if output_format == "json":
+            body = None
+            content = to_records(df)
+        else:
+            body = to_file_bytes(df, output_format)
+    except TooManyRowsError as e:
+        return _error_response(str(e), status_code=status.HTTP_400_BAD_REQUEST)
     except Exception as e:
         logger.info(f"接口 {item_id} 的数据转换为 {output_format} 失败：{e}")
         return _error_response(
             f"数据转换为 {output_format} 格式失败：{e}，可以改用 {FORMAT_PARAM}=json 获取数据",
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
         )
-    logger.info(f"获取到 {item_id} 的数据，缓存 {cache_status}")
-    return JSONResponse(
-        status_code=status.HTTP_200_OK,
-        content=content,
-        headers={CACHE_HEADER: cache_status},
+    logger.info(f"获取到 {item_id} 的数据，格式 {output_format}，缓存 {cache_status}")
+    if body is None:
+        return JSONResponse(
+            status_code=status.HTTP_200_OK,
+            content=content,
+            headers={CACHE_HEADER: cache_status},
+        )
+    return Response(
+        content=body,
+        media_type=MEDIA_TYPES[output_format],
+        headers={
+            "Content-Disposition": f'attachment; filename="{item_id}.{output_format}"',
+            CACHE_HEADER: cache_status,
+        },
     )
 
 
