@@ -40,7 +40,7 @@ uv run --group docs zensical serve            # live preview at http://localhost
 uv run --group docs zensical build --strict   # same command Read the Docs runs
 ```
 
-Docs pages follow a beginner learning path (`index.md` → `getting-started.md` → `guide/{usage,catalog,examples}.md` → `deploy.md` → `faq.md`). `--strict` fails on broken Markdown links and anchors. The MCP client config snippet (`uvx --from aktools aktools-mcp`) is repeated in `README.md`, `docs/index.md`, `docs/getting-started.md#mcp` and `docs/guide/mcp.md` — change all four together.
+Docs pages follow a beginner learning path (`index.md` → `getting-started.md` → `guide/{usage,catalog,examples}.md` → `deploy.md` → `faq.md`). `--strict` fails on broken Markdown links and anchors. The MCP client config snippet (`uvx --from aktools aktools-mcp`) is repeated in `README.md`, `docs/index.md`, `docs/getting-started.md#mcp`, `docs/guide/mcp.md` and `docs/llms.txt` — change all five together. `docs/llms.txt` (the [llms.txt](https://llmstxt.org/) orientation file for AI assistants, plain English) is copied verbatim to the site root as `https://aktools.akfamily.xyz/llms.txt`; keep its tool signatures, CLI options and status codes in step with the code, and keep the MCP tool list in step with akshare's `llms.txt` and `docs/mcp.md`.
 
 ## Architecture
 

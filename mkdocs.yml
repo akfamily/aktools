@@ -1,7 +1,7 @@
 # 文档站配置：由 Zensical 读取并构建（uv run --group docs zensical serve），
 # 写法与 Material for MkDocs 兼容，见 https://zensical.org/docs/compatibility/mkdocs/migration/
 site_name: AKTools 官方文档
-site_description: AKTools 是 AKShare 的 HTTP API 工具，一行命令即可让任何编程语言通过 HTTP 获取 AKShare 的财经数据
+site_description: AKTools 是 AKShare 的 MCP 服务与 HTTP API 工具，让 Claude、Cursor 等 AI 助手和任何编程语言都能获取 AKShare 的财经数据
 site_url: https://aktools.akfamily.xyz/
 repo_name: akfamily/aktools
 repo_url: https://github.com/akfamily/aktools
