@@ -11,7 +11,7 @@ AKShare 的 docstring 约定为：首行是中文标题，第二行是数据源�
 import inspect
 import re
 from functools import lru_cache
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Tuple
 
 import akshare as ak
 
@@ -102,14 +102,36 @@ def describe_interface(name: str) -> Optional[Dict]:
                 "description": documented.get("description", ""),
             }
         )
+    registered = _registry_info(name)
     return {
         "name": name,
         "title": parsed["title"],
         "source_url": parsed["source_url"],
         "url": f"/api/public/{name}",
         "params": params,
+        # 以下三项取自 AKShare 的接口注册表（ak.interface_info），未登记的接口为空
+        "outputs": [
+            {key: column.get(key, "") for key in ("name", "type", "desc")}
+            for column in registered.get("outputs") or []
+        ],
+        "limit_desc": registered.get("limit_desc") or "",
+        "example": registered.get("example") or "",
         "doc": doc,
     }
+
+
+def _registry_info(name: str) -> Dict:
+    """
+    AKShare 注册表中登记的接口信息：返回列、数据范围说明与调用示例
+    AKShare 1.20.13 起提供 ak.interface_info；没有该函数或接口未登记时返回空字典
+    """
+    interface_info = getattr(ak, "interface_info", None)
+    if interface_info is None:
+        return {}
+    try:
+        return interface_info(name) or {}
+    except Exception:
+        return {}
 
 
 @lru_cache(maxsize=1)
@@ -139,3 +161,38 @@ def list_interfaces(q: str = "") -> List[Dict[str, str]]:
         for item in _all_interfaces()
         if keyword in item["name"].lower() or keyword in item["title"].lower()
     ]
+
+
+def search_interfaces(keyword: str, limit: int) -> Tuple[int, List[Dict[str, str]]]:
+    """
+    按关键词检索接口，结果按相关度排序，供 MCP 的 search_interfaces 工具使用
+    优先使用 AKShare 的 ak.search：支持“A股 日线”这类多个关键词，并按接口名、描述、
+    返回列等综合打分；没有 ak.search 或其未找到结果时，退回接口名与标题的子串匹配
+    :param keyword: 关键词，多个关键词用空格分隔
+    :type keyword: str
+    :param limit: 最多返回的条数
+    :type limit: int
+    :return: (匹配总数, [{"name": 接口名, "title": 标题, "category": 类目}])
+    :rtype: tuple
+    """
+    titles = {item["name"]: item["title"] for item in _all_interfaces()}
+    search = getattr(ak, "search", None)
+    if search is not None and keyword.strip():
+        try:
+            found = search(keyword, limit=len(titles))
+        except Exception:
+            found = None
+        if found is not None and len(found) and "接口名" in found:
+            items = [
+                {
+                    "name": row["接口名"],
+                    "title": titles.get(row["接口名"]) or str(row.get("描述", "")),
+                    "category": str(row.get("类目", "")),
+                }
+                for _, row in found.iterrows()
+                if row["接口名"] in titles
+            ]
+            if items:
+                return len(items), items[:limit]
+    items = [{**item, "category": ""} for item in list_interfaces(keyword)]
+    return len(items), items[:limit]

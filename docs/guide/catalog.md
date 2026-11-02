@@ -54,6 +54,9 @@ http://127.0.0.1:8080/api/interfaces/stock_zh_a_hist
 | `source_url` | 数据来源网页，可以打开对照数据含义 |
 | `url` | 获取数据的地址 |
 | `params` | 参数列表，见下表 |
+| `outputs` | 返回的列，每列包含 `name`、`type`、`desc`，取自 AKShare 的接口注册表，未登记时为空 |
+| `limit_desc` | 单次调用返回的数据范围说明 |
+| `example` | Python 调用示例 |
 | `doc` | 接口的完整说明，参数说明不全时可以参考它 |
 
 `params` 中每个参数的字段：

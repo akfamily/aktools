@@ -19,6 +19,7 @@ from urllib.parse import urlencode
 
 from mcp.server import MCPServer
 from mcp.server.mcpserver.exceptions import ToolError
+from mcp.types import ToolAnnotations
 from pydantic import Field
 from starlette.applications import Starlette
 
@@ -26,7 +27,8 @@ import aktools
 from aktools.core.fetch import InterfaceError, fetch_dataframe
 from aktools.core.formats import FORMAT_PARAM
 from aktools.core.catalog import describe_interface as _describe_interface
-from aktools.core.catalog import is_interface, list_interfaces
+from aktools.core.catalog import is_interface
+from aktools.core.catalog import search_interfaces as _search_interfaces
 
 # 搜索结果最多返回的条数；关键词很宽泛时（如 stock）可能匹配数百个接口
 SEARCH_LIMIT = 50
@@ -38,9 +40,10 @@ _csv_url_enabled = True
 
 INSTRUCTIONS = """AKTools 提供 AKShare 的一千多个财经数据接口（股票、期货、期权、基金、债券、外汇、宏观等）。
 使用步骤：
-1. 用 search_interfaces 按中文关键词或接口名搜索，例如“个股的历史行情”“交易日历”“stock_zh_a”
-2. 用 describe_interface 查看接口的参数、默认值和说明
-3. 用 get_data 传入接口名和参数获取数据；数据量大时只返回前若干行，完整数据可通过 csv_url 下载
+1. 用 search_interfaces 搜索接口，可用多个关键词，例如“A股 日线”“交易日历”“期货持仓”“stock_zh_a”
+2. 用 describe_interface 查看接口的参数、默认值、返回列与调用示例
+3. 用 get_data 传入接口名和参数获取数据；数据量大时一次最多返回 max_rows 行，
+   用 offset 翻页，offset 为负数时从末尾倒数（按日期升序的数据，最新的行在末尾，如 offset=-20 取最近 20 行）
 参数值一律按文本传给 AKShare，日期通常写成 20240101 的形式。"""
 
 
@@ -66,31 +69,41 @@ def _create_server() -> MCPServer:
 
 mcp = _create_server()
 
+# 三个工具都只读取数据：不修改任何状态，可重复调用，会访问外部数据源
+READ_ONLY = ToolAnnotations(
+    read_only_hint=True,
+    destructive_hint=False,
+    idempotent_hint=True,
+    open_world_hint=True,
+)
 
-@mcp.tool()
+
+@mcp.tool(annotations=READ_ONLY)
 def search_interfaces(
     keyword: Annotated[
         str,
-        Field(description="关键词，匹配接口名或中文标题，如“历史行情”“交易日历”"),
+        Field(
+            description="关键词，多个关键词用空格分隔，如“A股 日线”“交易日历”“期货持仓”"
+        ),
     ],
 ) -> Dict[str, Any]:
-    """按关键词搜索 AKShare 数据接口，返回接口名与中文标题。结果较多时只返回前 50 个，请换用更具体的关键词"""
-    items = list_interfaces(keyword)
-    return {"total": len(items), "items": items[:SEARCH_LIMIT]}
+    """按关键词搜索 AKShare 数据接口，结果按相关度排序，返回接口名、中文标题与类目。最多返回前 50 个"""
+    total, items = _search_interfaces(keyword, SEARCH_LIMIT)
+    return {"total": total, "items": items}
 
 
-@mcp.tool()
+@mcp.tool(annotations=READ_ONLY)
 def describe_interface(
     name: Annotated[str, Field(description="接口名，如 stock_zh_a_hist")],
 ) -> Dict[str, Any]:
-    """查看接口的标题、数据源地址，以及各参数的默认值、类型和说明"""
+    """查看接口的标题、数据源地址、各参数的默认值、类型和说明，以及返回列、数据范围说明与调用示例"""
     info = _describe_interface(name)
     if info is None:
         raise ToolError(f"未找到接口 {name}，请先用 search_interfaces 搜索正确的接口名")
     return info
 
 
-@mcp.tool()
+@mcp.tool(annotations=READ_ONLY)
 def get_data(
     name: Annotated[str, Field(description="接口名，如 stock_zh_a_hist")],
     params: Annotated[
@@ -102,8 +115,14 @@ def get_data(
     max_rows: Annotated[
         int, Field(ge=1, le=MAX_ROWS, description="最多返回的行数，默认 100")
     ] = DEFAULT_ROWS,
+    offset: Annotated[
+        int,
+        Field(
+            description="从第几行开始返回（从 0 开始）；负数表示从末尾倒数，如 -20 取最后 20 行"
+        ),
+    ] = 0,
 ) -> Dict[str, Any]:
-    """调用 AKShare 接口获取数据。数据量大时只返回前 max_rows 行，并给出总行数；随 HTTP 服务运行时还给出完整数据的 CSV 下载地址"""
+    """调用 AKShare 接口获取数据。一次最多返回 max_rows 行，用 offset 翻页或取最后若干行；返回总行数与本次的起始行，随 HTTP 服务运行时还给出完整数据的 CSV 下载地址"""
     if not is_interface(name):
         raise ToolError(f"未找到接口 {name}，请先用 search_interfaces 搜索正确的接口名")
     # 与 HTTP 接口一致：参数值一律按文本传给 AKShare
@@ -112,12 +131,17 @@ def get_data(
         df, _ = fetch_dataframe(name, text_params)
     except InterfaceError as e:
         raise ToolError(e.message) from e
-    rows = json.loads(df.head(max_rows).to_json(orient="records", date_format="iso"))
+    # 负数从末尾倒数；越界时夹到表的范围内，与 Python 切片的语义一致
+    start = max(len(df) + offset, 0) if offset < 0 else min(offset, len(df))
+    page = df.iloc[start : start + max_rows]
+    rows = json.loads(page.to_json(orient="records", date_format="iso"))
     query = urlencode({**text_params, FORMAT_PARAM: "csv"})
     return {
         "name": name,
         "total_rows": len(df),
+        "offset": start,
         "returned_rows": len(rows),
+        # 本次返回的不是完整的表
         "truncated": len(df) > len(rows),
         "columns": [str(column) for column in df.columns],
         "rows": rows,

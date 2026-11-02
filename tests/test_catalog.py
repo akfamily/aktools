@@ -125,3 +125,18 @@ def test_describe_rejects_non_interface_names() -> None:
         n for n in dir(ak) if isinstance(getattr(ak, n), types.ModuleType)
     )
     assert client.get(f"/api/interfaces/{module_name}").status_code == 404
+
+
+def test_describe_interface_without_registry_entry_has_empty_extras(
+    monkeypatch,
+) -> None:
+    """AKShare 注册表中没有登记的接口，返回列与示例为空，不影响其余字段"""
+
+    def fake(code="1"):
+        return None
+
+    monkeypatch.setattr(ak, "aktools_fake_unregistered", fake, raising=False)
+    info = describe_interface("aktools_fake_unregistered")
+    assert info["outputs"] == []
+    assert info["example"] == ""
+    assert info["params"][0]["name"] == "code"

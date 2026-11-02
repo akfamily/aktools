@@ -66,16 +66,24 @@ client config: `UV_INDEX_URL` (PyPI mirror, e.g.
 
 It exposes three generic tools rather than one tool per interface:
 
-- `search_interfaces(keyword)`: match interface names and Chinese titles;
-  returns `total` and up to 50 `items` of `{name, title}`. Chinese data-type
-  keywords work best, e.g. `历史行情`, `交易日历`, `分红`, `资金流`.
-- `describe_interface(name)`: title, source URL, and each parameter's
-  default, type and description.
-- `get_data(name, params, max_rows)`: call the interface. `params` is an
-  object such as `{"symbol": "000001", "start_date": "20240101"}`; values
-  are passed to AKShare as text. `max_rows` defaults to 100, max 1000.
-  Returns `total_rows`, `returned_rows`, `truncated`, `columns`, `rows`, and
-  `csv_url` for the full table (HTTP mode only, `null` over stdio).
+- `search_interfaces(keyword)`: ranked search over interface names,
+  descriptions and output columns; space-separated keywords combine, e.g.
+  `A股 日线`, `期货持仓`, `交易日历`, `分红`. Returns `total` (all matches)
+  and up to 50 `items` of `{name, title, category}`, most relevant first.
+- `describe_interface(name)`: title, source URL, each parameter's default,
+  type and description, plus `outputs` (returned columns), `limit_desc`
+  (what one call returns) and `example` (Python call) when AKShare has
+  them registered.
+- `get_data(name, params, max_rows, offset)`: call the interface. `params`
+  is an object such as `{"symbol": "000001", "start_date": "20240101"}`;
+  values are passed to AKShare as text. `max_rows` defaults to 100, max
+  1000. `offset` pages through the table; a negative `offset` counts from
+  the end, so for date-ascending data `offset=-20` gives the latest 20 rows.
+  Returns `total_rows`, `offset` (actual start row), `returned_rows`,
+  `truncated`, `columns`, `rows`, and `csv_url` for the full table (HTTP
+  mode only, `null` over stdio).
+
+All three tools are annotated read-only.
 
 Typical flow: `search_interfaces` -> `describe_interface` -> `get_data`.
 

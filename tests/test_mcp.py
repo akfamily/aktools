@@ -77,9 +77,10 @@ async def test_search_interfaces():
         result = _payload(
             await client.call_tool("search_interfaces", {"keyword": "交易日历"})
         )
-    names = {item["name"] for item in result["items"]}
-    assert "tool_trade_date_hist_sina" in names
-    assert result["total"] == len(result["items"])
+    # 结果按相关度排序，最相关的接口排在前面；total 为全部匹配数，可能多于返回的条数
+    top = [item["name"] for item in result["items"][:3]]
+    assert "tool_trade_date_hist_sina" in top
+    assert result["total"] >= len(result["items"])
 
 
 @pytest.mark.anyio
@@ -323,3 +324,77 @@ async def test_get_data_reports_unknown_param(monkeypatch):
     assert result.is_error
     assert "不支持参数 symol" in result.content[0].text
     assert "可用参数：symbol" in result.content[0].text
+
+
+@pytest.mark.anyio
+async def test_get_data_negative_offset_returns_last_rows(fake_table):
+    """
+    数据按时间升序排列时，最新的行在末尾；只取前 max_rows 行，助手永远看不到最近的数据。
+    offset 为负数时从末尾倒数，如 -10 取最后 10 行
+    """
+    async with Client(mcp) as client:
+        result = _payload(
+            await client.call_tool(
+                "get_data", {"name": fake_table, "offset": -10, "max_rows": 10}
+            )
+        )
+    assert [row["序号"] for row in result["rows"]] == list(range(240, 250))
+    assert result["offset"] == 240
+    assert result["truncated"] is True
+
+
+@pytest.mark.anyio
+async def test_get_data_positive_offset_pages_through(fake_table):
+    async with Client(mcp) as client:
+        result = _payload(
+            await client.call_tool(
+                "get_data", {"name": fake_table, "offset": 245, "max_rows": 10}
+            )
+        )
+    assert [row["序号"] for row in result["rows"]] == list(range(245, 250))
+    assert result["offset"] == 245
+    assert result["returned_rows"] == 5
+
+
+@pytest.mark.anyio
+async def test_search_matches_compound_keywords():
+    """助手常用组合关键词，如“A股 日线”；简单的子串匹配找不到，需要按词检索并排序"""
+    async with Client(mcp) as client:
+        result = _payload(
+            await client.call_tool("search_interfaces", {"keyword": "A股 日线"})
+        )
+    names = [item["name"] for item in result["items"]]
+    assert "stock_zh_a_hist" in names
+    assert all({"name", "title", "category"} <= set(item) for item in result["items"])
+
+
+@pytest.mark.anyio
+async def test_search_falls_back_to_substring_match(monkeypatch):
+    """ak.search 找不到时（或旧版 AKShare 没有 ak.search）仍按接口名与标题的子串匹配"""
+    monkeypatch.setattr(ak, "search", lambda *a, **k: pd.DataFrame(), raising=False)
+    async with Client(mcp) as client:
+        result = _payload(
+            await client.call_tool("search_interfaces", {"keyword": "交易日历"})
+        )
+    assert "tool_trade_date_hist_sina" in {item["name"] for item in result["items"]}
+
+
+@pytest.mark.anyio
+async def test_describe_interface_includes_outputs_and_example():
+    """补充 AKShare 登记的返回列与调用示例，助手取数前就知道会拿到哪些列"""
+    async with Client(mcp) as client:
+        result = _payload(
+            await client.call_tool("describe_interface", {"name": "air_city_table"})
+        )
+    assert result["outputs"] and {"name", "type"} <= set(result["outputs"][0])
+    assert "ak.air_city_table" in result["example"]
+
+
+@pytest.mark.anyio
+async def test_tools_are_marked_read_only():
+    """三个工具都只读取数据，标注后部分客户端可以少弹确认框"""
+    async with Client(mcp) as client:
+        tools = (await client.list_tools()).tools
+    for tool in tools:
+        assert tool.annotations.read_only_hint is True
+        assert tool.annotations.destructive_hint is False
