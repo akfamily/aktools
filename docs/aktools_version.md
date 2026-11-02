@@ -10,6 +10,14 @@ AKTools 只负责把 HTTP 请求转发给 AKShare，数据接口的新增与变�
 
 ## 更新记录
 
+0.1.4: feat: better MCP search, paging and interface details
+
+1. MCP 的 get_data 新增 offset：用于翻页，负数表示从末尾倒数，如 -20 取最后 20 行；此前只能取表头，按日期升序的数据最新的行取不到
+2. MCP 的 search_interfaces 改为按相关度检索，支持“A股 日线”“期货持仓”等多个关键词，结果附带类目
+3. describe_interface 与 /api/interfaces/{接口名} 补充返回列、数据范围说明与调用示例
+4. MCP 的三个工具标注为只读
+5. 文档站发布 llms.txt，向 AI 助手说明 AKTools 的接入方式
+
 0.1.3: fix: clear errors for unknown parameters
 
 1. 参数名写错时返回 400，并列出该接口的全部可用参数，不再返回 404 并提示升级 AKShare，也不会白白请求一次上游网站；MCP 的 get_data 同样适用
