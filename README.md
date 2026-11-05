@@ -19,7 +19,7 @@
 [AKTools](https://github.com/akfamily/aktools) 把开源财经数据接口库 [AKShare](https://github.com/akfamily/akshare) 的一千多个接口变成两种开箱即用的服务：
 
 - **HTTP API**：一行命令启动服务，C/C++、Java、Go、Rust、JavaScript、R、MATLAB、Stata、Excel 等任何编程语言或软件都能通过网址获取数据。
-- **MCP 服务**：在 Claude、Cursor 等 AI 助手中直接用自然语言提问，助手会自己查找接口、填写参数并取回数据。
+- **MCP 服务**：在 WorkBuddy、Claude、Codex、Cursor 等 AI 助手中直接用自然语言提问，助手会自己查找接口、填写参数并取回数据。
 
 两种方式背后是同一套接口目录、缓存和错误处理，按需选用即可。
 
@@ -77,6 +77,15 @@ python -m aktools
 
 ![在 Claude Code 中提问，AI 助手通过 AKTools 的 MCP 工具查询贵州茅台的日线行情](https://aktools.akfamily.xyz/img/mcp-demo.gif)
 
+> **与 AKQuant 联用，一句话体验 AI 量化回测**：在 WorkBuddy 中输入“安装 AKShare 和 AKQuant 各自的官方 MCP，运行一个示例策略并报告结果”，AI 会自动下载数据、运行回测、解读结果，并给出改进策略的建议。详见[与 AKQuant 联用](https://aktools.akfamily.xyz/guide/mcp/#akquant)。
+
+<details>
+<summary>WorkBuddy</summary>
+
+直接对 WorkBuddy 说“安装 AKShare 的官方 MCP”，它会自己完成配置。也可以手动把上面的配置加入 WorkBuddy 的连接器（MCP）设置，或用户级配置文件 `~/.workbuddy/mcp.json`；国内网络可以在 `aktools` 下加上 `"env": {"UV_INDEX_URL": "https://mirrors.aliyun.com/pypi/simple/"}` 使用镜像源。
+
+</details>
+
 <details>
 <summary>Claude Desktop</summary>
 
@@ -89,6 +98,15 @@ python -m aktools
 
 ```shell
 claude mcp add aktools -- uvx --from aktools aktools-mcp
+```
+
+</details>
+
+<details>
+<summary>Codex</summary>
+
+```shell
+codex mcp add aktools -- uvx --from aktools aktools-mcp
 ```
 
 </details>
@@ -119,7 +137,7 @@ claude mcp add --transport http aktools http://127.0.0.1:8080/mcp
 
 ## 特性
 
-- **两种方式**：同一份数据既可以通过 HTTP API 获取，也可以在 Claude、Cursor 等 AI 助手中用自然语言获取
+- **两种方式**：同一份数据既可以通过 HTTP API 获取，也可以在 WorkBuddy、Claude、Codex、Cursor 等 AI 助手中用自然语言获取
 - **零配置**：`python -m aktools` 一行命令启动服务，无需编写任何代码
 - **接口全覆盖**：AKShare 的每个数据接口都可以通过 `/api/public/<接口名>` 直接访问，AKShare 新增接口后升级即可使用
 - **跨语言**：返回标准 JSON，任何能发送 HTTP 请求的语言或软件都可以调用

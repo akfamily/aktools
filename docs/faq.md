@@ -101,6 +101,8 @@ uvx --from aktools aktools-mcp
 
 国内网络下载较慢时，可以在 MCP 配置的 `aktools` 下加上 `"env": {"UV_INDEX_URL": "https://mirrors.aliyun.com/pypi/simple/"}` 使用镜像源。
 
+Codex 可以在 `~/.codex/config.toml` 的 `[mcp_servers.aktools]` 下加上 `startup_timeout_sec = 120`，延长启动时的等待时间。与 [AKQuant 联用](guide/mcp.md#akquant)时，AKQuant 第一次启动同样要下载依赖，也可以先运行一次 `uvx --from "akquant[mcp]" akquant-mcp --help` 提前下载好。
+
 ## AI 助手提示找不到 uvx 命令 {#faq-mcp-uvx}
 
 Claude Desktop、Cursor 等桌面应用不一定能读到命令行中的 PATH 设置，即使命令行中能运行 `uvx`，应用也可能报 `spawn uvx ENOENT` 之类的错误。请把配置中的 `"command": "uvx"` 改为 `uvx` 的完整路径：Windows 上用 `where uvx` 查看，macOS 和 Linux 上用 `which uvx` 查看。

@@ -1,6 +1,6 @@
 # AI 助手（MCP）
 
-AKTools 内置了 [MCP](https://modelcontextprotocol.io/)（Model Context Protocol，模型上下文协议）服务。接入后，可以直接在 Claude、Cursor 等 AI 助手中用自然语言获取数据，例如“帮我查一下贵州茅台 2024 年 10 月 8 日到 11 日的日线行情”，助手会自己查找接口、填写参数并取回数据。
+AKTools 内置了 [MCP](https://modelcontextprotocol.io/)（Model Context Protocol，模型上下文协议）服务。接入后，可以直接在 WorkBuddy、Claude、Codex、Cursor 等 AI 助手中用自然语言获取数据，例如“帮我查一下贵州茅台 2024 年 10 月 8 日到 11 日的日线行情”，助手会自己查找接口、填写参数并取回数据。
 
 AKTools 已上架 [MCP 官方注册表](https://registry.modelcontextprotocol.io/v0.1/servers?search=io.github.akfamily/aktools)，名称为 `io.github.akfamily/aktools`，支持从注册表安装的客户端可以直接搜索添加。
 
@@ -20,6 +20,8 @@ AKTools 已上架 [MCP 官方注册表](https://registry.modelcontextprotocol.io
 
 助手每次最多取回 1000 行数据（默认 100 行），适合查看具体某段时间、某只证券的数据。需要完整的大表格时，请让助手给出 CSV 下载地址（HTTP 方式），或改用 [HTTP API](usage.md#download) 下载。
 
+想让 AI 接着用这些数据写策略、跑回测，请看[与 AKQuant 联用](#akquant)。
+
 ## 两种接入方式 {#modes}
 
 | 方式 | 怎么用 | 适合 |
@@ -32,6 +34,26 @@ AKTools 已上架 [MCP 官方注册表](https://registry.modelcontextprotocol.io
 ## stdio 方式 {#stdio}
 
 推荐用 [uv](https://docs.astral.sh/uv/) 的 `uvx` 启动：它会自动下载并在独立环境中运行 AKTools，不需要事先用 pip 安装。请先[安装 uv](https://docs.astral.sh/uv/getting-started/installation/)。
+
+=== "WorkBuddy"
+
+    最简单的方法是直接对 WorkBuddy 说“安装 AKShare 的官方 MCP”，它会自己完成配置。
+
+    也可以手动添加：在 WorkBuddy 的连接器（MCP）设置中粘贴下面的配置，或者直接编辑用户级配置文件 `~/.workbuddy/mcp.json`（Windows 上是 `C:\Users\<用户名>\.workbuddy\mcp.json`）：
+
+    ```json
+    {
+      "mcpServers": {
+        "aktools": {
+          "command": "uvx",
+          "args": ["--from", "aktools", "aktools-mcp"],
+          "env": {"UV_INDEX_URL": "https://mirrors.aliyun.com/pypi/simple/"}
+        }
+      }
+    }
+    ```
+
+    `env` 中的镜像源用来加快国内下载，在国外可以去掉。连接器显示绿色圆点即表示已连接。只想在某个项目中使用时，把配置写到项目目录下的 `.workbuddy/mcp.json`。
 
 === "Claude Desktop"
 
@@ -57,6 +79,25 @@ AKTools 已上架 [MCP 官方注册表](https://registry.modelcontextprotocol.io
     ```shell
     claude mcp add aktools -- uvx --from aktools aktools-mcp
     ```
+
+=== "Codex"
+
+    在命令行中运行：
+
+    ```shell
+    codex mcp add aktools -- uvx --from aktools aktools-mcp
+    ```
+
+    也可以手动编辑 `~/.codex/config.toml`。第一次启动要下载依赖，建议把启动等待时间调长：
+
+    ```toml
+    [mcp_servers.aktools]
+    command = "uvx"
+    args = ["--from", "aktools", "aktools-mcp"]
+    startup_timeout_sec = 120
+    ```
+
+    国内网络可以再加一行 `env = { UV_INDEX_URL = "https://mirrors.aliyun.com/pypi/simple/" }`。
 
 === "Cursor"
 
@@ -124,6 +165,65 @@ AKShare 有一千多个接口，如果逐个注册成工具，会占满助手的
 数据超过返回行数时，`get_data` 会给出总行数。HTTP 方式下还会给出完整数据的 CSV 下载地址，例如 `/api/public/stock_zh_a_daily?symbol=sh600519&_format=csv`，在地址前加上服务地址即可下载；stdio 方式没有 HTTP 服务，因此不提供下载地址。
 
 `get_data` 与 `/api/public` 使用同一套逻辑，同样经过[数据缓存](usage.md#cache)，出错时的说明也相同。
+
+## 与 AKQuant 联用：AI 自动回测 {#akquant}
+
+[AKQuant](https://akquant.akfamily.xyz/) 是 AKFamily 的量化回测框架，也有自己的官方 MCP 服务。两个服务一起接入后，AI 助手可以完成从数据到回测报告的全过程：
+
+| 服务 | 负责 |
+| --- | --- |
+| AKTools（AKShare 官方 MCP） | 查找 AKShare 的接口、查看参数、取回数据 |
+| AKQuant | 查询 AKQuant 的 API、编写并检查策略、准备行情数据、运行回测、读取成交与权益明细 |
+
+### 一句话体验
+
+在 WorkBuddy 中输入：
+
+> 安装 AKShare 和 AKQuant 各自的官方 MCP，运行一个示例策略并报告结果
+
+助手会自己完成安装，然后下载数据、编写策略、运行回测，解读收益、回撤等结果，并给出改进策略的建议。在 Claude Code、Codex 等助手中也可以这样提问。
+
+想让结果更具体，可以写明标的、时间和策略，例如：
+
+- “用平安银行（000001）近三年的日线，跑一个 5 日与 20 日均线交叉的策略，报告收益、最大回撤和交易次数”
+- “先查一下 AKShare 里沪深 300 指数的日线接口，再用它回测一个简单的趋势策略”
+- “把刚才的策略改成只在均线向上时开仓，再跑一次，和上一次的结果对比”
+
+### 手动配置
+
+助手没能自动安装时，可以手动把两个服务加入配置文件。WorkBuddy、Cursor、Claude Desktop 等使用 JSON 配置的客户端：
+
+```json
+{
+  "mcpServers": {
+    "aktools": {
+      "command": "uvx",
+      "args": ["--from", "aktools", "aktools-mcp"],
+      "env": {"UV_INDEX_URL": "https://mirrors.aliyun.com/pypi/simple/"}
+    },
+    "akquant": {
+      "command": "uvx",
+      "args": ["--from", "akquant[mcp]", "akquant-mcp", "--root", "D:/akquant-demo"],
+      "env": {"UV_INDEX_URL": "https://mirrors.aliyun.com/pypi/simple/"}
+    }
+  }
+}
+```
+
+Claude Code 与 Codex 在命令行中运行（把 `claude` 换成 `codex` 即为 Codex 的写法）：
+
+```shell
+claude mcp add aktools -- uvx --from aktools aktools-mcp
+claude mcp add akquant -- uvx --from "akquant[mcp]" akquant-mcp --root D:/akquant-demo
+```
+
+`--root` 是 AKQuant 的项目目录，请先建好这个文件夹，并换成你自己的路径（macOS 上类似 `/Users/<用户名>/akquant-demo`）。Windows 路径写进 JSON 时，请用正斜杠 `/`，或把 `\` 写成 `\\`。策略文件和数据文件都必须放在这个目录中，回测结果保存在其中的 `.akquant-mcp` 文件夹里。AKQuant 的工具和参数详见 [AKQuant 的 MCP 文档](https://akquant.akfamily.xyz/guide/mcp/)。
+
+!!! warning "注意事项"
+
+    - AKQuant 会在本机直接运行策略代码，**没有沙箱隔离**，与自己运行 `python strategy.py` 相同。请只运行自己或助手刚写好、看过内容的策略，不要运行来源不明的策略文件。
+    - 第一次启动时两个服务都要下载依赖，可能需要几分钟，详见[常见问题](../faq.md#faq-mcp-timeout)。
+    - 回测结果与改进建议由 AI 生成，仅供学习和研究，不构成投资建议。
 
 ## 局域网访问 {#lan}
 

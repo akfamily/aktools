@@ -190,13 +190,31 @@ print(df)
 
 ## 在 AI 助手中使用 {#mcp}
 
-AKTools 也可以作为 MCP 服务，让 Claude、Cursor 等 AI 助手直接获取数据。这种方式**不需要安装 Python 和 AKTools，也不需要手动启动服务**，AI 助手会自己启动它。
+AKTools 也可以作为 MCP 服务，让 WorkBuddy、Claude、Codex、Cursor 等 AI 助手直接获取数据。这种方式**不需要安装 Python 和 AKTools，也不需要手动启动服务**，AI 助手会自己启动它。
 
 ### 第 1 步：安装 uv
 
 [uv](https://docs.astral.sh/uv/) 会自动下载 Python 和 AKTools，并在独立环境中运行。按[官方安装说明](https://docs.astral.sh/uv/getting-started/installation/)安装后，在命令行中运行 `uvx --version`，能显示版本号即可。
 
 ### 第 2 步：添加到 AI 助手
+
+=== "WorkBuddy"
+
+    直接对 WorkBuddy 说“安装 AKShare 的官方 MCP”，它会自己完成配置。
+
+    也可以手动在 WorkBuddy 的连接器（MCP）设置中，或用户级配置文件 `~/.workbuddy/mcp.json` 中加入以下内容，连接器显示绿色圆点即表示已连接：
+
+    ```json
+    {
+      "mcpServers": {
+        "aktools": {
+          "command": "uvx",
+          "args": ["--from", "aktools", "aktools-mcp"],
+          "env": {"UV_INDEX_URL": "https://mirrors.aliyun.com/pypi/simple/"}
+        }
+      }
+    }
+    ```
 
 === "Claude Desktop"
 
@@ -219,6 +237,14 @@ AKTools 也可以作为 MCP 服务，让 Claude、Cursor 等 AI 助手直接获�
 
     ```shell
     claude mcp add aktools -- uvx --from aktools aktools-mcp
+    ```
+
+=== "Codex"
+
+    在命令行中运行：
+
+    ```shell
+    codex mcp add aktools -- uvx --from aktools aktools-mcp
     ```
 
 === "Cursor"
@@ -246,7 +272,7 @@ AKTools 也可以作为 MCP 服务，让 Claude、Cursor 等 AI 助手直接获�
 - “AKShare 里有哪些和可转债相关的接口？”
 - “stock_zh_a_hist 这个接口有哪些参数，复权方式怎么填？”
 
-助手会依次调用 `search_interfaces` 搜索接口、`describe_interface` 查看参数、`get_data` 获取数据。遇到问题请参考[常见问题](faq.md#faq-mcp-timeout)，更多说明见[AI 助手（MCP）](guide/mcp.md)。
+助手会依次调用 `search_interfaces` 搜索接口、`describe_interface` 查看参数、`get_data` 获取数据。想让助手接着写策略、跑回测，请看[与 AKQuant 联用](guide/mcp.md#akquant)。遇到问题请参考[常见问题](faq.md#faq-mcp-timeout)，更多说明见[AI 助手（MCP）](guide/mcp.md)。
 
 ## 下一步 {#next}
 

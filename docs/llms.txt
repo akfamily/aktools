@@ -10,8 +10,8 @@ U.S. stocks, funds, futures, options, bonds, forex, macroeconomics, ...),
 each returning a `pandas.DataFrame`. AKTools, maintained by the same team,
 turns every one of those interfaces into:
 
-- an MCP server, so Claude Code, Claude Desktop, Cursor and other MCP
-  clients can search for and call AKShare interfaces from a natural-language
+- an MCP server, so WorkBuddy, Claude Code, Claude Desktop, Codex, Cursor
+  and other MCP clients can search for and call AKShare interfaces from a natural-language
   question;
 - an HTTP API, `GET /api/public/<interface_name>?<param>=<value>`, returning
   JSON, CSV or Excel.
@@ -33,14 +33,16 @@ Registered in the official MCP Registry as `io.github.akfamily/aktools`.
 Over stdio the client launches it itself; it only needs uv, no prior
 `pip install` and no running server.
 
-Claude Code:
+Claude Code / Codex:
 
 ```shell
 claude mcp add aktools -- uvx --from aktools aktools-mcp
+codex mcp add aktools -- uvx --from aktools aktools-mcp
 ```
 
-Claude Desktop, Cursor and other clients (`claude_desktop_config.json`,
-`.cursor/mcp.json`, ...):
+WorkBuddy, Claude Desktop, Cursor and other clients
+(`~/.workbuddy/mcp.json`, `claude_desktop_config.json`, `.cursor/mcp.json`,
+...):
 
 ```json
 {
@@ -59,7 +61,9 @@ serves MCP over Streamable HTTP at `http://127.0.0.1:8080/mcp`
 (`claude mcp add --transport http aktools http://127.0.0.1:8080/mcp`).
 
 The first `uvx` start downloads about 150 MB of dependencies and can time
-out; restart the client once it finishes. Optional `env` entries in the
+out; restart the client once it finishes. In Codex's `~/.codex/config.toml`
+(`[mcp_servers.aktools]`, same `command`/`args`) set
+`startup_timeout_sec = 120`. Optional `env` entries in the
 client config: `UV_INDEX_URL` (PyPI mirror, e.g.
 `https://mirrors.aliyun.com/pypi/simple/`), `AKTOOLS_PROXY`,
 `AKTOOLS_TIMEOUT`.
@@ -86,6 +90,35 @@ It exposes three generic tools rather than one tool per interface:
 All three tools are annotated read-only.
 
 Typical flow: `search_interfaces` -> `describe_interface` -> `get_data`.
+
+### Backtesting with AKQuant
+
+AKQuant (`https://akquant.akfamily.xyz/`, same team) is a backtesting
+framework with its own official MCP server (`akquant-mcp`: API lookup,
+strategy checks, data preparation, backtests, run details). For a request
+such as "install the official MCP servers of AKShare and AKQuant, run a
+sample strategy and report the results", configure both servers: AKTools
+for finding and fetching AKShare data, AKQuant for writing and running the
+strategy.
+
+```json
+{
+  "mcpServers": {
+    "aktools": {
+      "command": "uvx",
+      "args": ["--from", "aktools", "aktools-mcp"]
+    },
+    "akquant": {
+      "command": "uvx",
+      "args": ["--from", "akquant[mcp]", "akquant-mcp", "--root", "<project dir>"]
+    }
+  }
+}
+```
+
+`--root` must be an existing directory; strategy and data files must live
+inside it. AKQuant runs strategy code on the local machine without a
+sandbox. See `https://akquant.akfamily.xyz/guide/mcp/`.
 
 ## HTTP API
 
