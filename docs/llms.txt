@@ -10,7 +10,7 @@ U.S. stocks, funds, futures, options, bonds, forex, macroeconomics, ...),
 each returning a `pandas.DataFrame`. AKTools, maintained by the same team,
 turns every one of those interfaces into:
 
-- an MCP server, so WorkBuddy, Claude Code, Claude Desktop, Codex, Cursor
+- an MCP server, so WorkBuddy, Codex, Cursor, Claude Code, Claude Desktop
   and other MCP clients can search for and call AKShare interfaces from a natural-language
   question;
 - an HTTP API, `GET /api/public/<interface_name>?<param>=<value>`, returning
@@ -33,15 +33,15 @@ Registered in the official MCP Registry as `io.github.akfamily/aktools`.
 Over stdio the client launches it itself; it only needs uv, no prior
 `pip install` and no running server.
 
-Claude Code / Codex:
+Codex / Claude Code:
 
 ```shell
-claude mcp add aktools -- uvx --from aktools aktools-mcp
 codex mcp add aktools -- uvx --from aktools aktools-mcp
+claude mcp add aktools -- uvx --from aktools aktools-mcp
 ```
 
-WorkBuddy, Claude Desktop, Cursor and other clients
-(`~/.workbuddy/mcp.json`, `claude_desktop_config.json`, `.cursor/mcp.json`,
+WorkBuddy, Cursor, Claude Desktop and other clients
+(`~/.workbuddy/mcp.json`, `.cursor/mcp.json`, `claude_desktop_config.json`,
 ...):
 
 ```json

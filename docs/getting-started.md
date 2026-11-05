@@ -190,7 +190,7 @@ print(df)
 
 ## 在 AI 助手中使用 {#mcp}
 
-AKTools 也可以作为 MCP 服务，让 WorkBuddy、Claude、Codex、Cursor 等 AI 助手直接获取数据。这种方式**不需要安装 Python 和 AKTools，也不需要手动启动服务**，AI 助手会自己启动它。
+AKTools 也可以作为 MCP 服务，让 WorkBuddy、Codex、Cursor、Claude 等 AI 助手直接获取数据。这种方式**不需要安装 Python 和 AKTools，也不需要手动启动服务**，AI 助手会自己启动它。
 
 ### 第 1 步：安装 uv
 
@@ -216,9 +216,17 @@ AKTools 也可以作为 MCP 服务，让 WorkBuddy、Claude、Codex、Cursor 等
     }
     ```
 
-=== "Claude Desktop"
+=== "Codex"
 
-    打开设置中的“开发者 → 编辑配置”，在 `claude_desktop_config.json` 中加入以下内容，保存后重启 Claude Desktop：
+    在命令行中运行：
+
+    ```shell
+    codex mcp add aktools -- uvx --from aktools aktools-mcp
+    ```
+
+=== "Cursor"
+
+    在项目的 `.cursor/mcp.json`（或全局的 `~/.cursor/mcp.json`）中加入以下内容：
 
     ```json
     {
@@ -239,17 +247,9 @@ AKTools 也可以作为 MCP 服务，让 WorkBuddy、Claude、Codex、Cursor 等
     claude mcp add aktools -- uvx --from aktools aktools-mcp
     ```
 
-=== "Codex"
+=== "Claude Desktop"
 
-    在命令行中运行：
-
-    ```shell
-    codex mcp add aktools -- uvx --from aktools aktools-mcp
-    ```
-
-=== "Cursor"
-
-    在项目的 `.cursor/mcp.json`（或全局的 `~/.cursor/mcp.json`）中加入以下内容：
+    打开设置中的“开发者 → 编辑配置”，在 `claude_desktop_config.json` 中加入以下内容，保存后重启 Claude Desktop：
 
     ```json
     {
@@ -280,6 +280,6 @@ AKTools 也可以作为 MCP 服务，让 WorkBuddy、Claude、Codex、Cursor 等
 
 - 阅读[调用规则](guide/usage.md)，了解返回格式和错误状态码
 - 阅读[接口目录](guide/catalog.md)，了解接口说明中各字段的含义
-- 想在 Claude、Cursor 等 AI 助手中使用？请见[在 AI 助手中使用](#mcp)
+- 想在 WorkBuddy、Codex、Cursor、Claude 等 AI 助手中使用？请见[在 AI 助手中使用](#mcp)
 - 想让同事或其他程序访问这个服务？请见[部署](deploy.md)
 - 遇到问题？请先查看[常见问题](faq.md)

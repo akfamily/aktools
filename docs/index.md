@@ -5,7 +5,7 @@
 [AKTools](https://github.com/akfamily/aktools) 把开源财经数据接口库 [AKShare](https://github.com/akfamily/akshare) 的一千多个接口变成两种开箱即用的服务：
 
 - **HTTP API**：一行命令启动服务，C/C++、Java、Go、Rust、JavaScript、R、MATLAB、Stata、Excel 等任何编程语言或软件都能通过网址获取数据。
-- **MCP 服务**：在 WorkBuddy、Claude、Codex、Cursor 等 AI 助手中直接用自然语言提问，助手会自己查找接口、填写参数并取回数据。
+- **MCP 服务**：在 WorkBuddy、Codex、Cursor、Claude 等 AI 助手中直接用自然语言提问，助手会自己查找接口、填写参数并取回数据。
 
 两种方式背后是同一套接口目录、缓存和错误处理，按需选用即可。
 
@@ -19,7 +19,7 @@
 - 使用 R、MATLAB、Stata、Excel 等软件，想直接获取 AKShare 财经数据的研究人员
 - 使用 Java、Go、JavaScript 等语言开发应用，需要一个财经数据服务的开发者
 - 希望把数据获取集中在一台服务器上，供团队成员共同使用的团队
-- 使用 WorkBuddy、Claude、Codex、Cursor 等 AI 助手做研究或写代码，想让助手直接查询财经数据的用户
+- 使用 WorkBuddy、Codex、Cursor、Claude 等 AI 助手做研究或写代码，想让助手直接查询财经数据的用户
 
 ## 什么情况下不必用 AKTools {#when-not}
 
@@ -32,7 +32,7 @@ AKTools 是 AKShare 外面的一层 HTTP 转发，并不改变 AKShare 本身的
 
 ## 特性
 
-- **两种方式**：同一份数据既可以通过 HTTP API 获取，也可以在 WorkBuddy、Claude、Codex、Cursor 等 AI 助手中用自然语言获取，详见[AI 助手（MCP）](guide/mcp.md)；与 [AKQuant 联用](guide/mcp.md#akquant)时，AI 还能接着写策略、跑回测并解读结果
+- **两种方式**：同一份数据既可以通过 HTTP API 获取，也可以在 WorkBuddy、Codex、Cursor、Claude 等 AI 助手中用自然语言获取，详见[AI 助手（MCP）](guide/mcp.md)；与 [AKQuant 联用](guide/mcp.md#akquant)时，AI 还能接着写策略、跑回测并解读结果
 - **零配置**：`python -m aktools` 一行命令启动服务，无需编写任何代码
 - **接口全覆盖**：AKShare 的每个数据接口都可以通过 `/api/public/<接口名>` 直接访问，AKShare 新增接口后升级即可使用
 - **跨语言**：返回标准 JSON，任何能发送 HTTP 请求的语言或软件都可以调用
@@ -79,7 +79,7 @@ Successfully installed aktools
 ### AI 助手
 
 1. [安装 uv](https://docs.astral.sh/uv/getting-started/installation/)
-2. 把以下配置加入 WorkBuddy、Claude Desktop、Cursor 等 AI 助手的 MCP 配置文件，然后重启助手：
+2. 把以下配置加入 WorkBuddy、Cursor、Claude Desktop 等 AI 助手的 MCP 配置文件，然后重启助手：
 
     ```json
     {
@@ -104,7 +104,7 @@ Successfully installed aktools
 | [调用规则](guide/usage.md) | 网址怎么写、参数怎么传、返回什么格式、出错了怎么看 |
 | [接口目录](guide/catalog.md) | 搜索接口、查看参数说明 |
 | [多语言调用](guide/examples.md) | curl、Python、JavaScript、R、MATLAB、Rust 示例代码 |
-| [AI 助手（MCP）](guide/mcp.md) | 在 WorkBuddy、Claude、Codex、Cursor 等 AI 助手中用自然语言获取数据，与 AKQuant 联用自动回测 |
+| [AI 助手（MCP）](guide/mcp.md) | 在 WorkBuddy、Codex、Cursor、Claude 等 AI 助手中用自然语言获取数据，与 AKQuant 联用自动回测 |
 | [部署](deploy.md) | 启动参数、局域网访问、生产环境与 Docker 部署 |
 | [常见问题](faq.md) | 502、404、无法访问、版本升级等问题的排查方法 |
 | [版本说明](aktools_version.md) | 每个版本的更新内容 |

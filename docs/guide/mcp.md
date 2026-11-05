@@ -1,6 +1,6 @@
 # AI 助手（MCP）
 
-AKTools 内置了 [MCP](https://modelcontextprotocol.io/)（Model Context Protocol，模型上下文协议）服务。接入后，可以直接在 WorkBuddy、Claude、Codex、Cursor 等 AI 助手中用自然语言获取数据，例如“帮我查一下贵州茅台 2024 年 10 月 8 日到 11 日的日线行情”，助手会自己查找接口、填写参数并取回数据。
+AKTools 内置了 [MCP](https://modelcontextprotocol.io/)（Model Context Protocol，模型上下文协议）服务。接入后，可以直接在 WorkBuddy、Codex、Cursor、Claude 等 AI 助手中用自然语言获取数据，例如“帮我查一下贵州茅台 2024 年 10 月 8 日到 11 日的日线行情”，助手会自己查找接口、填写参数并取回数据。
 
 AKTools 已上架 [MCP 官方注册表](https://registry.modelcontextprotocol.io/v0.1/servers?search=io.github.akfamily/aktools)，名称为 `io.github.akfamily/aktools`，支持从注册表安装的客户端可以直接搜索添加。
 
@@ -55,31 +55,6 @@ AKTools 已上架 [MCP 官方注册表](https://registry.modelcontextprotocol.io
 
     `env` 中的镜像源用来加快国内下载，在国外可以去掉。连接器显示绿色圆点即表示已连接。只想在某个项目中使用时，把配置写到项目目录下的 `.workbuddy/mcp.json`。
 
-=== "Claude Desktop"
-
-    打开设置中的“开发者 → 编辑配置”，在 `claude_desktop_config.json` 中添加：
-
-    ```json
-    {
-      "mcpServers": {
-        "aktools": {
-          "command": "uvx",
-          "args": ["--from", "aktools", "aktools-mcp"]
-        }
-      }
-    }
-    ```
-
-    保存后重启 Claude Desktop。
-
-=== "Claude Code"
-
-    在命令行中运行：
-
-    ```shell
-    claude mcp add aktools -- uvx --from aktools aktools-mcp
-    ```
-
 === "Codex"
 
     在命令行中运行：
@@ -117,6 +92,31 @@ AKTools 已上架 [MCP 官方注册表](https://registry.modelcontextprotocol.io
       }
     }
     ```
+
+=== "Claude Code"
+
+    在命令行中运行：
+
+    ```shell
+    claude mcp add aktools -- uvx --from aktools aktools-mcp
+    ```
+
+=== "Claude Desktop"
+
+    打开设置中的“开发者 → 编辑配置”，在 `claude_desktop_config.json` 中添加：
+
+    ```json
+    {
+      "mcpServers": {
+        "aktools": {
+          "command": "uvx",
+          "args": ["--from", "aktools", "aktools-mcp"]
+        }
+      }
+    }
+    ```
+
+    保存后重启 Claude Desktop。
 
 !!! tip "首次启动较慢"
 
@@ -181,7 +181,7 @@ AKShare 有一千多个接口，如果逐个注册成工具，会占满助手的
 
 > 安装 AKShare 和 AKQuant 各自的官方 MCP，运行一个示例策略并报告结果
 
-助手会自己完成安装，然后下载数据、编写策略、运行回测，解读收益、回撤等结果，并给出改进策略的建议。在 Claude Code、Codex 等助手中也可以这样提问。
+助手会自己完成安装，然后下载数据、编写策略、运行回测，解读收益、回撤等结果，并给出改进策略的建议。在 Codex、Cursor、Claude Code 等助手中也可以这样提问。
 
 想让结果更具体，可以写明标的、时间和策略，例如：
 
@@ -210,11 +210,11 @@ AKShare 有一千多个接口，如果逐个注册成工具，会占满助手的
 }
 ```
 
-Claude Code 与 Codex 在命令行中运行（把 `claude` 换成 `codex` 即为 Codex 的写法）：
+Codex 与 Claude Code 在命令行中运行（把 `codex` 换成 `claude` 即为 Claude Code 的写法）：
 
 ```shell
-claude mcp add aktools -- uvx --from aktools aktools-mcp
-claude mcp add akquant -- uvx --from "akquant[mcp]" akquant-mcp --root D:/akquant-demo
+codex mcp add aktools -- uvx --from aktools aktools-mcp
+codex mcp add akquant -- uvx --from "akquant[mcp]" akquant-mcp --root D:/akquant-demo
 ```
 
 `--root` 是 AKQuant 的项目目录，请先建好这个文件夹，并换成你自己的路径（macOS 上类似 `/Users/<用户名>/akquant-demo`）。Windows 路径写进 JSON 时，请用正斜杠 `/`，或把 `\` 写成 `\\`。策略文件和数据文件都必须放在这个目录中，回测结果保存在其中的 `.akquant-mcp` 文件夹里。AKQuant 的工具和参数详见 [AKQuant 的 MCP 文档](https://akquant.akfamily.xyz/guide/mcp/)。
