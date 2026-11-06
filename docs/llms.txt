@@ -94,7 +94,8 @@ Typical flow: `search_interfaces` -> `describe_interface` -> `get_data`.
 ### Backtesting with AKQuant
 
 AKQuant (`https://akquant.akfamily.xyz/`, same team) is a backtesting
-framework with its own official MCP server (`akquant-mcp`: API lookup,
+framework with its own official MCP server, registered in the official MCP
+Registry as `io.github.akfamily/akquant` (`akquant-mcp`: API lookup,
 strategy checks, data preparation, backtests, run details). For a request
 such as "install the official MCP servers of AKShare and AKQuant, run a
 sample strategy and report the results", configure both servers: AKTools

@@ -168,7 +168,7 @@ AKShare 有一千多个接口，如果逐个注册成工具，会占满助手的
 
 ## 与 AKQuant 联用：AI 自动回测 {#akquant}
 
-[AKQuant](https://akquant.akfamily.xyz/) 是 AKFamily 的量化回测框架，也有自己的官方 MCP 服务。两个服务一起接入后，AI 助手可以完成从数据到回测报告的全过程：
+[AKQuant](https://akquant.akfamily.xyz/) 是 AKFamily 的量化回测框架，也有自己的官方 MCP 服务，同样已上架 [MCP 官方注册表](https://registry.modelcontextprotocol.io/v0.1/servers?search=io.github.akfamily/akquant)，名称为 `io.github.akfamily/akquant`。两个服务一起接入后，AI 助手可以完成从数据到回测报告的全过程：
 
 | 服务 | 负责 |
 | --- | --- |
