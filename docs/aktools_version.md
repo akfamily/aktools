@@ -10,6 +10,14 @@ AKTools 只负责把 HTTP 请求转发给 AKShare，数据接口的新增与变�
 
 ## 更新记录
 
+0.1.5: feat: label data sources and suggest alternatives on Eastmoney rate limits
+
+1. MCP 的 search_interfaces、describe_interface 与 /api/interfaces/{接口名} 新增 source，用中文标明数据来源，如“新浪财经”“同花顺”“东方财富”；describe 另有 rate_limit。东方财富行情类接口（实时行情、历史 K 线、板块、资金流等）标为“东方财富·行情（频繁访问易限流）”，与不限流的东方财富数据中心区分。限流标记需要 AKShare 1.20.37 及以上版本，旧版本只显示“东方财富”
+2. 修复东方财富行情接口被限流时返回 502 并提示检查代理的问题，现在返回 429
+3. 东方财富行情接口被限流时，报错说明需要等待的时间，并在有把握时列出其他来源的同类接口，如 stock_zh_a_hist 被限流时建议 stock_zh_a_hist_tx（腾讯）、stock_zh_a_daily（新浪财经）；MCP 与 HTTP API 相同
+4. MCP 发给助手的使用说明要求：批量获取行情数据时优先选用其他来源，被限流时不要立即重试，回答时说明数据来源
+5. 文档新增 WorkBuddy 与 Codex 的 MCP 配置方法，以及与 AKQuant 联用、由 AI 自动回测的说明
+
 0.1.4: feat: better MCP search, paging and interface details
 
 1. MCP 的 get_data 新增 offset：用于翻页，负数表示从末尾倒数，如 -20 取最后 20 行；此前只能取表头，按日期升序的数据最新的行取不到
