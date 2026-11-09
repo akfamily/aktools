@@ -253,3 +253,41 @@ def test_interface_with_kwargs_skips_param_check(monkeypatch):
     monkeypatch.setattr(ak, "aktools_fake_kwargs", flexible, raising=False)
     resp = call_interface("aktools_fake_kwargs", _FakeRequest({"anything": "1"}))
     assert resp.status_code == 200
+
+
+def test_push2_rate_limit_is_429_not_network_error(monkeypatch):
+    """
+    AKShare 的 Push2RateLimitError 同时继承 RateLimitError 与 requests.ConnectionError；
+    必须按限流返回 429，不能被当成网络故障返回 502 并让用户去查代理
+    """
+    from akshare.utils.http import Push2RateLimitError
+
+    def boom():
+        raise Push2RateLimitError("东方财富 push2 行情服务器断开了连接")
+
+    monkeypatch.setattr(ak, "aktools_fake_push2_ban", boom, raising=False)
+    resp = call_interface("aktools_fake_push2_ban", _FakeRequest())
+    assert resp.status_code == 429
+    assert "代理" not in resp.body.decode("utf-8")
+
+
+def test_push2_rate_limit_suggests_other_sources(monkeypatch):
+    """东方财富行情接口被限流时，提示等待时间与其他来源的同类接口"""
+    import aktools.core.catalog as catalog
+
+    def boom():
+        raise ak_exceptions.RateLimitError("请求过于频繁")
+
+    monkeypatch.setattr(ak, "aktools_fake_push2_quote", boom, raising=False)
+    monkeypatch.setattr(catalog, "rate_limit_of", lambda name: "eastmoney_push2")
+    monkeypatch.setattr(
+        catalog,
+        "find_alternatives",
+        lambda name: [{"name": "stock_zh_a_daily", "title": "", "source": "新浪财经"}],
+    )
+    resp = call_interface("aktools_fake_push2_quote", _FakeRequest())
+    body = resp.body.decode("utf-8")
+    assert resp.status_code == 429
+    assert "5 分钟" in body
+    assert "stock_zh_a_daily（新浪财经）" in body
+    assert "请求过于频繁" in body

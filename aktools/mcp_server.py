@@ -44,7 +44,11 @@ INSTRUCTIONS = """AKTools 提供 AKShare 的一千多个财经数据接口（股
 2. 用 describe_interface 查看接口的参数、默认值、返回列与调用示例
 3. 用 get_data 传入接口名和参数获取数据；数据量大时一次最多返回 max_rows 行，
    用 offset 翻页，offset 为负数时从末尾倒数（按日期升序的数据，最新的行在末尾，如 offset=-20 取最近 20 行）
-参数值一律按文本传给 AKShare，日期通常写成 20240101 的形式。"""
+参数值一律按文本传给 AKShare，日期通常写成 20240101 的形式。
+数据来源：搜索结果与接口说明中的 source 是数据来源，同类数据常有多个来源（如东方财富、新浪财经、腾讯）。
+来源为“东方财富·行情（频繁访问易限流）”的接口，短时间内请求较多时整个 IP 会被临时限流，所有东方财富行情接口约 5 分钟以上无法使用；
+需要连续获取多只证券或大量行情数据时，优先选用其他来源的同类接口。东方财富的其他接口（宏观、财务报表、龙虎榜等）不受影响，照常使用。
+get_data 报 429 限流时不要立即重试同一个接口，按报错中的建议改用其他来源。回答时说明数据来自哪个来源；换了来源时告诉用户，不同来源的复权方式与列名可能不同。"""
 
 
 def _create_server() -> MCPServer:
@@ -87,7 +91,7 @@ def search_interfaces(
         ),
     ],
 ) -> Dict[str, Any]:
-    """按关键词搜索 AKShare 数据接口，结果按相关度排序，返回接口名、中文标题与类目。最多返回前 50 个"""
+    """按关键词搜索 AKShare 数据接口，结果按相关度排序，返回接口名、中文标题、类目与数据来源（source）。最多返回前 50 个"""
     total, items = _search_interfaces(keyword, SEARCH_LIMIT)
     return {"total": total, "items": items}
 
@@ -96,7 +100,7 @@ def search_interfaces(
 def describe_interface(
     name: Annotated[str, Field(description="接口名，如 stock_zh_a_hist")],
 ) -> Dict[str, Any]:
-    """查看接口的标题、数据源地址、各参数的默认值、类型和说明，以及返回列、数据范围说明与调用示例"""
+    """查看接口的标题、数据来源与访问限制、各参数的默认值、类型和说明，以及返回列、数据范围说明与调用示例"""
     info = _describe_interface(name)
     if info is None:
         raise ToolError(f"未找到接口 {name}，请先用 search_interfaces 搜索正确的接口名")

@@ -35,7 +35,9 @@ http://127.0.0.1:8080/api/interfaces/stock_zh_a_hist
 {
   "name": "stock_zh_a_hist",
   "title": "东方财富网-行情首页-沪深京 A 股-每日行情",
+  "source": "东方财富·行情（频繁访问易限流）",
   "source_url": "https://quote.eastmoney.com/concept/sh603777.html?from=classic",
+  "rate_limit": "eastmoney_push2",
   "url": "/api/public/stock_zh_a_hist",
   "params": [
     {"name": "symbol", "default": "000001", "required": false, "type": "str", "description": "股票代码"},
@@ -51,7 +53,9 @@ http://127.0.0.1:8080/api/interfaces/stock_zh_a_hist
 | --- | --- |
 | `name` | 接口名，即 `/api/public/` 后面要写的名称 |
 | `title` | 中文标题，说明数据来源和内容 |
+| `source` | 数据来源的中文名称，如“新浪财经”“同花顺”“东方财富”；东方财富行情服务器的接口标为“东方财富·行情（频繁访问易限流）”，见[东方财富行情接口的限流](#rate-limit) |
 | `source_url` | 数据来源网页，可以打开对照数据含义 |
+| `rate_limit` | 访问限制，取自 AKShare 的接口注册表：`eastmoney_push2` 表示频繁访问会被东方财富临时限流，其他接口为 `null` |
 | `url` | 获取数据的地址 |
 | `params` | 参数列表，见下表 |
 | `outputs` | 返回的列，每列包含 `name`、`type`、`desc`，取自 AKShare 的接口注册表，未登记时为空 |
@@ -74,3 +78,9 @@ http://127.0.0.1:8080/api/interfaces/stock_zh_a_hist
 !!! note "说明来自 AKShare"
 
     参数说明直接取自 AKShare 源码中的注释，个别接口的说明可能不完整。需要了解数据字段的含义时，请查阅 [AKShare 数据字典](https://akshare.akfamily.xyz/data/index.html)。
+
+## 东方财富行情接口的限流 {#rate-limit}
+
+东方财富的行情类接口（实时行情、历史 K 线、板块、资金流等，约 100 个）使用的服务器在短时间内请求较多时，会临时封禁来源 IP，首次一般约 5 分钟后恢复，期间所有东方财富行情接口都会返回 `429`。这类接口的 `source` 为“东方财富·行情（频繁访问易限流）”，`rate_limit` 为 `eastmoney_push2`。东方财富的宏观、财务报表、龙虎榜等接口使用其他服务器，不受影响。
+
+需要批量获取行情数据时，可以先搜索同一类数据的其他来源，例如 A 股日线除了东方财富的 `stock_zh_a_hist`，还有新浪财经的 `stock_zh_a_daily` 和腾讯的 `stock_zh_a_hist_tx`。被限流时，返回的错误信息会列出可以改用的同类接口，它们的参数可能不同，调用前请先查看参数说明。

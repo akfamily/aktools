@@ -81,6 +81,9 @@ async def test_search_interfaces():
     top = [item["name"] for item in result["items"][:3]]
     assert "tool_trade_date_hist_sina" in top
     assert result["total"] >= len(result["items"])
+    # 每个结果都带中文的数据来源，AI 可据此在同类接口中选择其他来源
+    item = next(i for i in result["items"] if i["name"] == "tool_trade_date_hist_sina")
+    assert item["source"] == "新浪财经"
 
 
 @pytest.mark.anyio
@@ -307,6 +310,31 @@ async def test_get_data_reports_akshare_rate_limit(monkeypatch):
         result = await client.call_tool("get_data", {"name": "aktools_fake_rate_limit"})
     assert result.is_error
     assert "稍后重试" in result.content[0].text
+
+
+@pytest.mark.anyio
+async def test_get_data_push2_rate_limit_hint(monkeypatch):
+    """东方财富行情接口被限流时，助手看到等待时间与其他来源的同类接口，而不是反复重试"""
+    import akshare.exceptions as ak_exceptions
+
+    import aktools.core.catalog as catalog
+
+    def boom():
+        raise ak_exceptions.RateLimitError("请求过于频繁")
+
+    monkeypatch.setattr(ak, "aktools_fake_push2", boom, raising=False)
+    monkeypatch.setattr(catalog, "rate_limit_of", lambda name: "eastmoney_push2")
+    monkeypatch.setattr(
+        catalog,
+        "find_alternatives",
+        lambda name: [{"name": "stock_zh_a_hist_tx", "title": "", "source": "腾讯"}],
+    )
+    async with Client(mcp) as client:
+        result = await client.call_tool("get_data", {"name": "aktools_fake_push2"})
+    assert result.is_error
+    text = result.content[0].text
+    assert "stock_zh_a_hist_tx（腾讯）" in text
+    assert "describe_interface" in text
 
 
 @pytest.mark.anyio

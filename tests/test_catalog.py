@@ -140,3 +140,142 @@ def test_describe_interface_without_registry_entry_has_empty_extras(
     assert info["outputs"] == []
     assert info["example"] == ""
     assert info["params"][0]["name"] == "code"
+
+
+# ---- 数据来源与东方财富 push2 限流 ----
+
+import pandas as pd  # noqa: E402
+import pytest  # noqa: E402
+
+from aktools.core import catalog  # noqa: E402
+
+PUSH2 = "eastmoney_push2"
+
+
+def _fake_registry(monkeypatch, records):
+    """用给定的登记信息代替 ak.interface_info，未列出的接口视为未登记"""
+    monkeypatch.setattr(catalog, "_registry_info", lambda name: records.get(name, {}))
+
+
+@pytest.mark.parametrize(
+    ("url", "rate_limit", "expected"),
+    [
+        ("https://finance.sina.com.cn/realstock/", None, "新浪财经"),
+        ("https://data.10jqka.com.cn/funds/ggzjl/", None, "同花顺"),
+        ("https://gu.qq.com/sh000919/zs", None, "腾讯"),
+        ("https://data.eastmoney.com/cjsj/cpi.html", None, "东方财富"),
+        ("https://quote.eastmoney.com/center/", PUSH2, catalog.PUSH2_SOURCE),
+        ("https://www.example.org/data", None, "example.org"),
+    ],
+)
+def test_source_of_maps_domain_to_chinese_name(monkeypatch, url, rate_limit, expected):
+    _fake_registry(
+        monkeypatch, {"stock_zh_a_hist": {"url": url, "rate_limit": rate_limit}}
+    )
+    assert catalog.source_of("stock_zh_a_hist") == expected
+
+
+def test_push2_source_tells_it_is_rate_limited():
+    # 来源名本身要让 AI 一眼看出这类接口频繁访问会被限流，与东方财富数据中心区分开
+    assert "东方财富" in catalog.PUSH2_SOURCE
+    assert "限流" in catalog.PUSH2_SOURCE
+
+
+def test_source_of_falls_back_to_docstring_url(monkeypatch):
+    """AKShare 没有登记 url 时，取 docstring 第二行的数据源地址"""
+
+    def fake():
+        """
+        新浪财经-测试接口
+        https://vip.stock.finance.sina.com.cn/mkt/
+        """
+
+    monkeypatch.setattr(ak, "aktools_fake_source", fake, raising=False)
+    _fake_registry(monkeypatch, {})
+    assert catalog.source_of("aktools_fake_source") == "新浪财经"
+
+
+def test_source_of_unknown_is_empty(monkeypatch):
+    def fake():
+        """没有数据源地址的接口"""
+
+    monkeypatch.setattr(ak, "aktools_fake_nosource", fake, raising=False)
+    _fake_registry(monkeypatch, {})
+    assert catalog.source_of("aktools_fake_nosource") == ""
+
+
+def test_rate_limit_of_reads_registry(monkeypatch):
+    _fake_registry(
+        monkeypatch,
+        {"stock_zh_a_hist": {"rate_limit": PUSH2}, "macro_china_cpi": {}},
+    )
+    assert catalog.rate_limit_of("stock_zh_a_hist") == PUSH2
+    # 旧版 AKShare 的登记没有 rate_limit 字段，按不限流处理
+    assert catalog.rate_limit_of("macro_china_cpi") is None
+
+
+def test_describe_interface_includes_source_and_rate_limit(monkeypatch):
+    _fake_registry(
+        monkeypatch,
+        {
+            "stock_zh_a_hist": {
+                "url": "https://quote.eastmoney.com/",
+                "rate_limit": PUSH2,
+            }
+        },
+    )
+    info = describe_interface("stock_zh_a_hist")
+    assert info["source"] == catalog.PUSH2_SOURCE
+    assert info["rate_limit"] == PUSH2
+
+
+ALT_REGISTRY = {
+    "stock_zh_a_hist": {
+        "category": "stock",
+        "rate_limit": PUSH2,
+        "desc": "东方财富-沪深京 A 股日频率数据",
+    },
+    "stock_zh_a_hist_tx": {"category": "stock", "url": "https://gu.qq.com/"},
+    "stock_zh_a_daily": {"category": "stock", "url": "https://finance.sina.com.cn/"},
+    "stock_zh_a_spot_em": {"category": "stock", "rate_limit": PUSH2},
+    "stock_us_daily": {"category": "stock", "url": "https://finance.sina.com.cn/"},
+    "fund_etf_hist_sina": {"category": "fund", "url": "https://finance.sina.com.cn/"},
+}
+
+
+def _fake_search(rows):
+    def search(query, limit=20):
+        return pd.DataFrame(
+            rows, columns=["接口名", "类目", "描述", "有无文档", "匹配分"]
+        )
+
+    return search
+
+
+def test_find_alternatives_prefers_other_sources_of_same_data(monkeypatch):
+    _fake_registry(monkeypatch, ALT_REGISTRY)
+    monkeypatch.setattr(
+        ak,
+        "search",
+        _fake_search(
+            [
+                ["stock_zh_a_hist", "stock", "", True, 200.0],  # 自身
+                ["stock_zh_a_spot_em", "stock", "", True, 150.0],  # 同样走 push2
+                ["fund_etf_hist_sina", "fund", "", True, 120.0],  # 类目不同
+                ["stock_us_daily", "stock", "", True, 100.0],  # 只有 1 段前缀相同且分低
+                ["stock_zh_a_daily", "stock", "", True, 80.0],
+                ["stock_zh_a_hist_tx", "stock", "", True, 110.0],
+            ]
+        ),
+    )
+    names = [item["name"] for item in catalog.find_alternatives("stock_zh_a_hist")]
+    assert names == ["stock_zh_a_hist_tx", "stock_zh_a_daily"]
+
+
+def test_find_alternatives_returns_nothing_when_unsure(monkeypatch):
+    """没有足够相似的接口时不给候选，以免把 AI 引向不相关的数据"""
+    _fake_registry(monkeypatch, ALT_REGISTRY)
+    monkeypatch.setattr(
+        ak, "search", _fake_search([["stock_us_daily", "stock", "", True, 15.0]])
+    )
+    assert catalog.find_alternatives("stock_zh_a_hist") == []

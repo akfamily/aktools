@@ -73,8 +73,10 @@ It exposes three generic tools rather than one tool per interface:
 - `search_interfaces(keyword)`: ranked search over interface names,
   descriptions and output columns; space-separated keywords combine, e.g.
   `A股 日线`, `期货持仓`, `交易日历`, `分红`. Returns `total` (all matches)
-  and up to 50 `items` of `{name, title, category}`, most relevant first.
-- `describe_interface(name)`: title, source URL, each parameter's default,
+  and up to 50 `items` of `{name, title, category, source}`, most relevant
+  first; `source` is the data source in Chinese, e.g. `新浪财经`, `东方财富`.
+- `describe_interface(name)`: title, `source`, source URL, `rate_limit`,
+  each parameter's default,
   type and description, plus `outputs` (returned columns), `limit_desc`
   (what one call returns) and `example` (Python call) when AKShare has
   them registered.
@@ -90,6 +92,19 @@ It exposes three generic tools rather than one tool per interface:
 All three tools are annotated read-only.
 
 Typical flow: `search_interfaces` -> `describe_interface` -> `get_data`.
+
+The same data often has several sources (A-share daily bars:
+`stock_zh_a_hist` from Eastmoney, `stock_zh_a_daily` from Sina,
+`stock_zh_a_hist_tx` from Tencent). Interfaces whose `source` is
+`东方财富·行情（频繁访问易限流）` (`rate_limit: "eastmoney_push2"`, about 100
+quote, K-line, board and fund-flow interfaces) hit Eastmoney's push2 quote
+servers, which ban the client IP for 5+ minutes after a burst of requests;
+all of them fail during the ban. For bulk or repeated quote fetching prefer
+another source. Other Eastmoney interfaces (macro, financial statements,
+dragon-tiger list) use other servers and are not limited. On a push2 ban
+`get_data` returns a 429 error that says how long to wait and, when
+confident, lists up to 3 same-data interfaces from other sources; check
+their parameters with `describe_interface` before calling them.
 
 ### Backtesting with AKQuant
 
@@ -140,7 +155,8 @@ python -m aktools            # http://127.0.0.1:8080
 Errors return `{"error": "..."}` with status `400` (invalid parameter; an
 unknown name gets a message listing the valid ones), `401` (missing or wrong access
 token), `404` (unknown interface or call failed; upgrade AKShare), `429`
-(upstream rate limit) or `502` (upstream unreachable or changed).
+(upstream rate limit; for Eastmoney quote interfaces the message suggests
+other sources) or `502` (upstream unreachable or changed).
 
 Results are cached 60 s per interface and parameters (`--cache-ttl`,
 response header `X-AKTools-Cache: hit|miss`). Server options: `--host`,

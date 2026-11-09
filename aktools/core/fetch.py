@@ -24,6 +24,7 @@ from aktools.core.cache import (
     ResultCache,
     env_seconds,
 )
+from aktools.core import catalog
 from aktools.core.catalog import is_interface
 from aktools.core.log import logger
 from aktools.core.network import apply_network_settings
@@ -79,6 +80,53 @@ AKSHARE_ERRORS = (
         "解析上游数据失败：{e}，上游页面可能已改版，请升级 AKShare 到最新版本，仍有问题请到 AKShare 反馈：https://github.com/akfamily/akshare/issues",
     ),
 )
+
+
+def _is_push2_ban(item_id: str, e: Exception) -> bool:
+    """
+    是否为东方财富 push2 行情服务器的限流
+    AKShare 登记了 rate_limit 时按登记判断；旧版本没有该字段，但 1.20.7 起限流时会抛出
+    Push2RateLimitError，按异常类型也能识别
+    """
+    if type(e).__name__ == "Push2RateLimitError":
+        return True
+    return catalog.rate_limit_of(item_id) == catalog.EASTMONEY_PUSH2
+
+
+def _push2_ban_message(item_id: str, e: Exception) -> str:
+    """东方财富行情接口被限流时的说明：等待多久、期间不要做什么，以及其他来源的同类接口"""
+    message = (
+        "东方财富行情服务器限制了当前 IP 的访问频率，通常需要等待 5 分钟以上才能恢复；"
+        "期间请不要再调用东方财富的行情接口，否则会延长限流时间。"
+        "东方财富数据中心的接口（宏观、财务报表、龙虎榜等）不受影响。"
+    )
+    alternatives = catalog.find_alternatives(item_id)
+    if alternatives:
+        names = "、".join(
+            f"{item['name']}（{item['source']}）" if item["source"] else item["name"]
+            for item in alternatives
+        )
+        message += (
+            f"可以先改用其他来源的同类接口：{names}。这些接口是按名称与描述推测的，"
+            "参数与返回列可能不同，调用前请查看参数说明"
+            "（MCP 中用 describe_interface，HTTP 中访问 /api/interfaces/<接口名>）。"
+        )
+    else:
+        message += (
+            "可以搜索其他来源的同类接口（MCP 中用 search_interfaces），"
+            f"选择来源不是“{catalog.PUSH2_SOURCE}”的接口。"
+        )
+    return message + f"AKShare 的原始报错：{e}"
+
+
+def _akshare_error(item_id: str, e: Exception) -> InterfaceError:
+    """把 AKShare 自定义的异常转为带状态码与处理建议的 InterfaceError"""
+    for error, status_code, message in AKSHARE_ERRORS:
+        if isinstance(e, error):
+            if error is ak_exceptions.RateLimitError and _is_push2_ban(item_id, e):
+                return InterfaceError(_push2_ban_message(item_id, e), status_code)
+            return InterfaceError(message.format(e=e, item_id=item_id), status_code)
+    raise AssertionError(f"未对应的 AKShare 异常：{type(e).__name__}")
 
 
 def _unknown_param_message(func, item_id: str, params: Dict[str, str]) -> Optional[str]:
@@ -138,6 +186,11 @@ def fetch_dataframe(item_id: str, params: Dict[str, str]) -> Tuple[pd.DataFrame,
         return cached, "hit"
     try:
         df = getattr(ak, item_id)(**params)
+    except tuple(error for error, _, _ in AKSHARE_ERRORS) as e:
+        # 必须先于 requests 的异常处理：AKShare 的 Push2RateLimitError 同时继承
+        # RateLimitError 与 requests.ConnectionError，应按限流返回 429，而不是按网络故障返回 502
+        logger.info(f"调用接口 {item_id} 出错：{type(e).__name__}: {e}")
+        raise _akshare_error(item_id, e) from e
     except requests.exceptions.RequestException as e:
         # 网络、代理、连接、超时等上游数据源不可达的错误，与接口用法无关。
         # 返回 502 并提示排查网络/代理，避免误导用户去升级 AKShare。
@@ -146,13 +199,6 @@ def fetch_dataframe(item_id: str, params: Dict[str, str]) -> Tuple[pd.DataFrame,
             f"访问上游数据源失败，请检查网络或代理设置（HTTP_PROXY/HTTPS_PROXY 环境变量，或启动参数 --proxy）：{e}",
             status.HTTP_502_BAD_GATEWAY,
         ) from e
-    except tuple(error for error, _, _ in AKSHARE_ERRORS) as e:
-        logger.info(f"调用接口 {item_id} 出错：{type(e).__name__}: {e}")
-        for error, status_code, message in AKSHARE_ERRORS:
-            if isinstance(e, error):
-                raise InterfaceError(
-                    message.format(e=e, item_id=item_id), status_code
-                ) from e
     except Exception as e:
         logger.info(f"调用接口 {item_id} 出错：{e}")
         raise InterfaceError(
