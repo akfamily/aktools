@@ -18,7 +18,7 @@ resolution-markers = [
 
 [[package]]
 name = "akshare"
-version = "1.20.35"
+version = "1.20.37"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "beautifulsoup4" },
@@ -33,9 +33,9 @@ dependencies = [
     { name = "urllib3" },
     { name = "xlrd" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/2b/fb/b264c22d09ae943af18840e9483d74d69b6cf5bd400c01a3f3467154af90/akshare-1.20.35.tar.gz", hash = "sha256:7851285ae1a101fe93b9087c479b2dd47b7a0832c6186d50c10d9681ddfedc06", size = 972583, upload-time = "2026-11-06T02:26:40.692Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/87/b7/1869cf583463e33214e911b7eb22fc0d89531db0269b5d36d50c1c07861c/akshare-1.20.37.tar.gz", hash = "sha256:3dd145b36d64ae265779f393f0566ee500cc661e4293f0ca18c9d3aa56b5b59f", size = 976144, upload-time = "2026-11-09T16:31:50.501Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/31/70/794d3d5f4cbabaaec776963cc93b8869d5120c192cb34c59cfeb23c9e75b/akshare-1.20.35-py3-none-any.whl", hash = "sha256:4979b84b2941ded032fc989a0e6e78191282d472d4f9bcce29c84260fb2b2c31", size = 1149880, upload-time = "2026-11-06T02:26:38.693Z" },
+    { url = "https://files.pythonhosted.org/packages/12/2e/2d72350c9774c2813579169dc0b375c319a4d53f934cd9c3b9e4c7a3594f/akshare-1.20.37-py3-none-any.whl", hash = "sha256:d0f5756157d0c1f7f7046124ad1a8b9574385e8321cfbc00bd0230586eed17af", size = 1151012, upload-time = "2026-11-09T16:31:48.712Z" },
 ]
 
 [[package]]
