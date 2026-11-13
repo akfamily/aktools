@@ -10,6 +10,16 @@ AKTools 只负责把 HTTP 请求转发给 AKShare，数据接口的新增与变�
 
 ## 更新记录
 
+0.1.6: feat: curated alternatives, better search and clearer errors for MCP
+
+1. 东方财富行情接口被限流时，建议的同类接口改为取自 AKShare 人工维护的对照表，不再按接口名称猜测；0.1.5 的猜测有不少配错，如把 ST 股票列表配给日线。describe_interface 与 /api/interfaces/{接口名} 新增 alternatives，取数前就能看到其他来源的同类接口。没有登记的接口不再给出候选
+2. 搜索更准：随 AKShare 1.20.39 支持常用同义词，“港股 日线”“期货 日线”这类说法能直接找到日线行情接口；MCP 的 search_interfaces 没有匹配时返回提示，说明关键词应描述数据类型而不是证券名称
+3. 接口名写错或使用已更名的旧接口名（如 get_futures_daily）时，报错中列出名称相近的接口，MCP 与 HTTP API 相同
+4. 大连商品交易所接口被对方网站拒绝访问时，不再提示“请稍后重试”，改为说明重试无效并保留 AKShare 给出的替代接口
+5. 更多数据来源显示中文名称，如集思录、上海黄金交易所、财联社
+6. MCP 的 search_interfaces 工具描述中写明优先选用其他来源的规则，不依赖客户端是否向模型传递服务说明
+7. AKShare 的最低版本要求提高到 1.20.39
+
 0.1.5: feat: label data sources and suggest alternatives on Eastmoney rate limits
 
 1. MCP 的 search_interfaces、describe_interface 与 /api/interfaces/{接口名} 新增 source，用中文标明数据来源，如“新浪财经”“同花顺”“东方财富”；describe 另有 rate_limit。东方财富行情类接口（实时行情、历史 K 线、板块、资金流等）标为“东方财富·行情（频繁访问易限流）”，与不限流的东方财富数据中心区分。限流标记需要 AKShare 1.20.37 及以上版本，旧版本只显示“东方财富”
