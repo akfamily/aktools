@@ -107,8 +107,8 @@ def _push2_ban_message(item_id: str, e: Exception) -> str:
             for item in alternatives
         )
         message += (
-            f"可以先改用其他来源的同类接口：{names}。这些接口是按名称与描述推测的，"
-            "参数与返回列可能不同，调用前请查看参数说明"
+            f"可以先改用其他来源的同类接口：{names}。它们的参数写法与返回列"
+            "可能不同，调用前请查看参数说明"
             "（MCP 中用 describe_interface，HTTP 中访问 /api/interfaces/<接口名>）。"
         )
     else:
@@ -121,6 +121,13 @@ def _push2_ban_message(item_id: str, e: Exception) -> str:
 
 def _akshare_error(item_id: str, e: Exception) -> InterfaceError:
     """把 AKShare 自定义的异常转为带状态码与处理建议的 InterfaceError"""
+    if type(e).__name__ == "DceBlockedError":
+        # 大连商品交易所网站拒绝程序访问是长期状态，不能像其他上游报错那样建议稍后重试；
+        # AKShare 的报错里已说明原因与可以改用的接口。按类名判断，旧版 AKShare 没有这个类
+        return InterfaceError(
+            f"上游数据源拒绝程序访问，重试无效，请改用其他接口：{e}",
+            status.HTTP_502_BAD_GATEWAY,
+        )
     for error, status_code, message in AKSHARE_ERRORS:
         if isinstance(e, error):
             if error is ak_exceptions.RateLimitError and _is_push2_ban(item_id, e):
@@ -171,7 +178,8 @@ def fetch_dataframe(item_id: str, params: Dict[str, str]) -> Tuple[pd.DataFrame,
     if not is_interface(item_id):
         logger.info(f"未找到接口 {item_id}")
         raise InterfaceError(
-            f"未找到该接口，请升级 AKShare 到最新版本并在文档中确认该接口的使用方式：{DOC_URL}",
+            f"未找到该接口。{catalog.not_found_hint(item_id)}"
+            f"请升级 AKShare 到最新版本并在文档中确认该接口的使用方式：{DOC_URL}",
             status.HTTP_404_NOT_FOUND,
         )
     unknown = _unknown_param_message(getattr(ak, item_id), item_id, params)

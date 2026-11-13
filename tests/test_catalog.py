@@ -144,7 +144,6 @@ def test_describe_interface_without_registry_entry_has_empty_extras(
 
 # ---- 数据来源与东方财富 push2 限流 ----
 
-import pandas as pd  # noqa: E402
 import pytest  # noqa: E402
 
 from aktools.core import catalog  # noqa: E402
@@ -231,51 +230,89 @@ def test_describe_interface_includes_source_and_rate_limit(monkeypatch):
 
 ALT_REGISTRY = {
     "stock_zh_a_hist": {
-        "category": "stock",
         "rate_limit": PUSH2,
-        "desc": "东方财富-沪深京 A 股日频率数据",
+        "alternatives": [
+            "stock_zh_a_daily",
+            "stock_zh_a_spot_em",
+            "aktools_removed_interface",
+        ],
     },
-    "stock_zh_a_hist_tx": {"category": "stock", "url": "https://gu.qq.com/"},
-    "stock_zh_a_daily": {"category": "stock", "url": "https://finance.sina.com.cn/"},
-    "stock_zh_a_spot_em": {"category": "stock", "rate_limit": PUSH2},
-    "stock_us_daily": {"category": "stock", "url": "https://finance.sina.com.cn/"},
-    "fund_etf_hist_sina": {"category": "fund", "url": "https://finance.sina.com.cn/"},
+    "stock_zh_a_daily": {"url": "https://finance.sina.com.cn/"},
+    "stock_zh_a_spot_em": {"rate_limit": PUSH2},
 }
 
 
-def _fake_search(rows):
-    def search(query, limit=20):
-        return pd.DataFrame(
-            rows, columns=["接口名", "类目", "描述", "有无文档", "匹配分"]
-        )
-
-    return search
-
-
-def test_find_alternatives_prefers_other_sources_of_same_data(monkeypatch):
+def test_registered_alternatives_come_from_akshare_registry(monkeypatch):
+    """同类接口取自 AKShare 人工维护的对照表，登记了但当前版本没有的接口不列出"""
     _fake_registry(monkeypatch, ALT_REGISTRY)
-    monkeypatch.setattr(
-        ak,
-        "search",
-        _fake_search(
-            [
-                ["stock_zh_a_hist", "stock", "", True, 200.0],  # 自身
-                ["stock_zh_a_spot_em", "stock", "", True, 150.0],  # 同样走 push2
-                ["fund_etf_hist_sina", "fund", "", True, 120.0],  # 类目不同
-                ["stock_us_daily", "stock", "", True, 100.0],  # 只有 1 段前缀相同且分低
-                ["stock_zh_a_daily", "stock", "", True, 80.0],
-                ["stock_zh_a_hist_tx", "stock", "", True, 110.0],
-            ]
-        ),
-    )
+    items = catalog.registered_alternatives("stock_zh_a_hist")
+    assert [item["name"] for item in items] == [
+        "stock_zh_a_daily",
+        "stock_zh_a_spot_em",
+    ]
+    assert items[0]["source"] == "新浪财经"
+    assert items[1]["rate_limit"] == PUSH2
+
+
+def test_find_alternatives_excludes_other_push2_interfaces(monkeypatch):
+    """限流按 IP 生效，被限流时其他东方财富行情接口同样用不了，不能作为替代"""
+    _fake_registry(monkeypatch, ALT_REGISTRY)
     names = [item["name"] for item in catalog.find_alternatives("stock_zh_a_hist")]
-    assert names == ["stock_zh_a_hist_tx", "stock_zh_a_daily"]
+    assert names == ["stock_zh_a_daily"]
 
 
-def test_find_alternatives_returns_nothing_when_unsure(monkeypatch):
-    """没有足够相似的接口时不给候选，以免把 AI 引向不相关的数据"""
+def test_find_alternatives_does_not_guess(monkeypatch):
+    """没有登记同类接口时不给候选：0.1.5 按名称猜测，会把 ST 股票列表配给日线"""
+    _fake_registry(monkeypatch, {"stock_zh_a_st_em": {"rate_limit": PUSH2}})
+    assert catalog.find_alternatives("stock_zh_a_st_em") == []
+
+
+def test_describe_interface_lists_alternatives(monkeypatch):
     _fake_registry(monkeypatch, ALT_REGISTRY)
-    monkeypatch.setattr(
-        ak, "search", _fake_search([["stock_us_daily", "stock", "", True, 15.0]])
+    info = describe_interface("stock_zh_a_hist")
+    assert info["alternatives"] == [
+        {
+            "name": "stock_zh_a_daily",
+            "title": info["alternatives"][0]["title"],
+            "source": "新浪财经",
+        },
+        {
+            "name": "stock_zh_a_spot_em",
+            "title": info["alternatives"][1]["title"],
+            "source": catalog.PUSH2_SOURCE,
+        },
+    ]
+
+
+def test_real_registry_has_alternatives_for_a_share_daily():
+    """随依赖安装的 AKShare（不低于 1.20.39）登记了 A 股日线的同类接口"""
+    names = [item["name"] for item in catalog.find_alternatives("stock_zh_a_hist")]
+    assert names == ["stock_zh_a_daily", "stock_zh_a_hist_tx"]
+
+
+def test_similar_names_for_renamed_interface():
+    # AKShare 1.20.31 把 get_futures_daily 更名为 futures_daily
+    assert "futures_daily" in catalog.similar_names("get_futures_daily")
+    assert catalog.similar_names("zzz_nothing_like_this_qq") == []
+
+
+def test_unknown_interface_404_suggests_similar_names():
+    resp = client.get("/api/interfaces/stock_zh_a_hists")
+    assert resp.status_code == 404
+    assert "stock_zh_a_hist" in resp.json()["error"]
+    assert "名称相近的接口" in resp.json()["error"]
+    # 没有相近名称时不出现这句提示
+    resp = client.get("/api/interfaces/zzz_nothing_like_this_qq")
+    assert "名称相近的接口" not in resp.json()["error"]
+
+
+def test_source_of_names_more_data_sources(monkeypatch):
+    _fake_registry(
+        monkeypatch,
+        {
+            "bond_cb_jsl": {"url": "https://app.jisilu.cn/data/cbnew/"},
+            "spot_golden_benchmark_sge": {"url": "https://www.sge.com.cn/sjzx/"},
+        },
     )
-    assert catalog.find_alternatives("stock_zh_a_hist") == []
+    assert catalog.source_of("bond_cb_jsl") == "集思录"
+    assert catalog.source_of("spot_golden_benchmark_sge") == "上海黄金交易所"

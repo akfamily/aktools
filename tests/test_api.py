@@ -291,3 +291,27 @@ def test_push2_rate_limit_suggests_other_sources(monkeypatch):
     assert "5 分钟" in body
     assert "stock_zh_a_daily（新浪财经）" in body
     assert "请求过于频繁" in body
+
+
+def test_unknown_interface_suggests_similar_names():
+    """接口更名或写错名称时，404 里给出名称相近的接口"""
+    resp = call_interface("get_futures_daily", _FakeRequest())
+    body = resp.body.decode("utf-8")
+    assert resp.status_code == 404
+    assert "futures_daily" in body
+
+
+def test_dce_blocked_error_does_not_suggest_retry(monkeypatch):
+    """大连商品交易所拒绝程序访问是长期状态，不能提示稍后重试"""
+    from akshare.utils.http import DceBlockedError
+
+    def boom():
+        raise DceBlockedError("大连商品交易所网站对程序访问启用了反爬虫验证", 412)
+
+    monkeypatch.setattr(ak, "aktools_fake_dce", boom, raising=False)
+    resp = call_interface("aktools_fake_dce", _FakeRequest())
+    body = resp.body.decode("utf-8")
+    assert resp.status_code == 502
+    assert "稍后重试" not in body
+    assert "重试无效" in body
+    assert "反爬虫验证" in body

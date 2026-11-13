@@ -426,3 +426,44 @@ async def test_tools_are_marked_read_only():
     for tool in tools:
         assert tool.annotations.read_only_hint is True
         assert tool.annotations.destructive_hint is False
+
+
+@pytest.mark.anyio
+async def test_search_without_match_returns_hint():
+    """没有匹配时告诉助手该怎么换关键词，而不是只返回空列表"""
+    async with Client(mcp) as client:
+        result = _payload(
+            await client.call_tool("search_interfaces", {"keyword": "魑魅魍魉"})
+        )
+        found = _payload(
+            await client.call_tool("search_interfaces", {"keyword": "港股 日线"})
+        )
+    assert result["total"] == 0
+    assert "数据类型" in result["hint"]
+    # 有结果时不带提示；“日线”靠 AKShare 的同义词匹配到港股日线接口
+    assert "hint" not in found
+    assert {item["name"] for item in found["items"][:2]} == {
+        "stock_hk_daily",
+        "stock_hk_hist",
+    }
+
+
+@pytest.mark.anyio
+async def test_unknown_interface_tool_error_suggests_similar_names():
+    """助手凭记忆用了旧接口名时，报错里直接给出相近的名称"""
+    async with Client(mcp) as client:
+        data = await client.call_tool("get_data", {"name": "get_futures_daily"})
+        desc = await client.call_tool(
+            "describe_interface", {"name": "stock_zh_a_hists"}
+        )
+    assert data.is_error and "futures_daily" in data.content[0].text
+    assert desc.is_error and "stock_zh_a_hist" in desc.content[0].text
+
+
+@pytest.mark.anyio
+async def test_search_tool_description_carries_source_guidance():
+    """不是所有客户端都会把服务说明交给模型，换源的规则在工具描述里也要有"""
+    async with Client(mcp) as client:
+        tools = {tool.name: tool for tool in (await client.list_tools()).tools}
+    assert "易限流" in tools["search_interfaces"].description
+    assert "alternatives" in tools["describe_interface"].description

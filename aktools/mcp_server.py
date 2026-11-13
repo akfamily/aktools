@@ -27,7 +27,7 @@ import aktools
 from aktools.core.fetch import InterfaceError, fetch_dataframe
 from aktools.core.formats import FORMAT_PARAM
 from aktools.core.catalog import describe_interface as _describe_interface
-from aktools.core.catalog import is_interface
+from aktools.core.catalog import is_interface, not_found_hint
 from aktools.core.catalog import search_interfaces as _search_interfaces
 
 # 搜索结果最多返回的条数；关键词很宽泛时（如 stock）可能匹配数百个接口
@@ -45,10 +45,18 @@ INSTRUCTIONS = """AKTools 提供 AKShare 的一千多个财经数据接口（股
 3. 用 get_data 传入接口名和参数获取数据；数据量大时一次最多返回 max_rows 行，
    用 offset 翻页，offset 为负数时从末尾倒数（按日期升序的数据，最新的行在末尾，如 offset=-20 取最近 20 行）
 参数值一律按文本传给 AKShare，日期通常写成 20240101 的形式。
-数据来源：搜索结果与接口说明中的 source 是数据来源，同类数据常有多个来源（如东方财富、新浪财经、腾讯）。
+搜索关键词请描述数据类型（如“港股 日线”“期货 分钟”），不要写具体证券的名称或代码。
+数据来源：搜索结果与接口说明中的 source 是数据来源，同类数据常有多个来源（如东方财富、新浪财经、腾讯）；
+describe_interface 的 alternatives 列出了来自其他来源的同类接口。
 来源为“东方财富·行情（频繁访问易限流）”的接口，短时间内请求较多时整个 IP 会被临时限流，所有东方财富行情接口约 5 分钟以上无法使用；
 需要连续获取多只证券或大量行情数据时，优先选用其他来源的同类接口。东方财富的其他接口（宏观、财务报表、龙虎榜等）不受影响，照常使用。
 get_data 报 429 限流时不要立即重试同一个接口，按报错中的建议改用其他来源。回答时说明数据来自哪个来源；换了来源时告诉用户，不同来源的复权方式与列名可能不同。"""
+
+
+SEARCH_EMPTY_HINT = (
+    "没有匹配的接口。关键词应描述数据类型，如“A股 日线”“期货 持仓”“可转债 实时行情”，"
+    "不要写具体证券的名称或代码；也可以换一种说法，或用英文的接口名片段（如 stock_zh_a）再试"
+)
 
 
 def _create_server() -> MCPServer:
@@ -91,19 +99,25 @@ def search_interfaces(
         ),
     ],
 ) -> Dict[str, Any]:
-    """按关键词搜索 AKShare 数据接口，结果按相关度排序，返回接口名、中文标题、类目与数据来源（source）。最多返回前 50 个"""
+    """按关键词搜索 AKShare 数据接口，结果按相关度排序，返回接口名、中文标题、类目与数据来源（source）。最多返回前 50 个。关键词描述数据类型，不要写证券名称或代码。同类数据常有多个来源：source 为“东方财富·行情（频繁访问易限流）”的接口，需要连续或批量取数时优先选其他来源的同类接口"""
     total, items = _search_interfaces(keyword, SEARCH_LIMIT)
-    return {"total": total, "items": items}
+    result: Dict[str, Any] = {"total": total, "items": items}
+    if not total:
+        result["hint"] = SEARCH_EMPTY_HINT
+    return result
 
 
 @mcp.tool(annotations=READ_ONLY)
 def describe_interface(
     name: Annotated[str, Field(description="接口名，如 stock_zh_a_hist")],
 ) -> Dict[str, Any]:
-    """查看接口的标题、数据来源与访问限制、各参数的默认值、类型和说明，以及返回列、数据范围说明与调用示例"""
+    """查看接口的标题、数据来源与访问限制、其他来源的同类接口（alternatives）、各参数的默认值、类型和说明，以及返回列、数据范围说明与调用示例"""
     info = _describe_interface(name)
     if info is None:
-        raise ToolError(f"未找到接口 {name}，请先用 search_interfaces 搜索正确的接口名")
+        raise ToolError(
+            f"未找到接口 {name}。{not_found_hint(name)}"
+            "请用 search_interfaces 搜索正确的接口名"
+        )
     return info
 
 
@@ -128,7 +142,10 @@ def get_data(
 ) -> Dict[str, Any]:
     """调用 AKShare 接口获取数据。一次最多返回 max_rows 行，用 offset 翻页或取最后若干行；返回总行数与本次的起始行，随 HTTP 服务运行时还给出完整数据的 CSV 下载地址"""
     if not is_interface(name):
-        raise ToolError(f"未找到接口 {name}，请先用 search_interfaces 搜索正确的接口名")
+        raise ToolError(
+            f"未找到接口 {name}。{not_found_hint(name)}"
+            "请用 search_interfaces 搜索正确的接口名"
+        )
     # 与 HTTP 接口一致：参数值一律按文本传给 AKShare
     text_params = {key: str(value) for key, value in (params or {}).items()}
     try:

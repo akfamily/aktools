@@ -38,6 +38,10 @@ http://127.0.0.1:8080/api/interfaces/stock_zh_a_hist
   "source": "东方财富·行情（频繁访问易限流）",
   "source_url": "https://quote.eastmoney.com/concept/sh603777.html?from=classic",
   "rate_limit": "eastmoney_push2",
+  "alternatives": [
+    {"name": "stock_zh_a_daily", "title": "新浪财经-A 股-个股的历史行情数据，大量抓取容易封 IP", "source": "新浪财经"},
+    {"name": "stock_zh_a_hist_tx", "title": "腾讯证券-日频-股票历史数据", "source": "腾讯"}
+  ],
   "url": "/api/public/stock_zh_a_hist",
   "params": [
     {"name": "symbol", "default": "000001", "required": false, "type": "str", "description": "股票代码"},
@@ -56,6 +60,7 @@ http://127.0.0.1:8080/api/interfaces/stock_zh_a_hist
 | `source` | 数据来源的中文名称，如“新浪财经”“同花顺”“东方财富”；东方财富行情服务器的接口标为“东方财富·行情（频繁访问易限流）”，见[东方财富行情接口的限流](#rate-limit) |
 | `source_url` | 数据来源网页，可以打开对照数据含义 |
 | `rate_limit` | 访问限制，取自 AKShare 的接口注册表：`eastmoney_push2` 表示频繁访问会被东方财富临时限流，其他接口为 `null` |
+| `alternatives` | 来自其他数据源的同类接口，每项包含 `name`、`title`、`source`，取自 AKShare 人工维护的对照表（AKShare 1.20.39 起），没有登记时为空；它们的参数与返回列可能不同 |
 | `url` | 获取数据的地址 |
 | `params` | 参数列表，见下表 |
 | `outputs` | 返回的列，每列包含 `name`、`type`、`desc`，取自 AKShare 的接口注册表，未登记时为空 |
@@ -73,7 +78,7 @@ http://127.0.0.1:8080/api/interfaces/stock_zh_a_hist
 | `type` | AKShare 声明的参数类型，如 `str`、`float`。通过网址传入的参数值都是文本，AKTools 会原样传给 AKShare |
 | `description` | 参数说明，`choice of {...}` 表示可选值 |
 
-接口名不存在时返回 `404`。
+接口名不存在时返回 `404`，并在错误信息中列出名称相近的接口。
 
 !!! note "说明来自 AKShare"
 
@@ -83,4 +88,4 @@ http://127.0.0.1:8080/api/interfaces/stock_zh_a_hist
 
 东方财富的行情类接口（实时行情、历史 K 线、板块、资金流等，约 100 个）使用的服务器在短时间内请求较多时，会临时封禁来源 IP，首次一般约 5 分钟后恢复，期间所有东方财富行情接口都会返回 `429`。这类接口的 `source` 为“东方财富·行情（频繁访问易限流）”，`rate_limit` 为 `eastmoney_push2`。东方财富的宏观、财务报表、龙虎榜等接口使用其他服务器，不受影响。
 
-需要批量获取行情数据时，可以先搜索同一类数据的其他来源，例如 A 股日线除了东方财富的 `stock_zh_a_hist`，还有新浪财经的 `stock_zh_a_daily` 和腾讯的 `stock_zh_a_hist_tx`。被限流时，返回的错误信息会列出可以改用的同类接口，它们的参数可能不同，调用前请先查看参数说明。
+需要批量获取行情数据时，可以先搜索同一类数据的其他来源，例如 A 股日线除了东方财富的 `stock_zh_a_hist`，还有新浪财经的 `stock_zh_a_daily` 和腾讯的 `stock_zh_a_hist_tx`。接口说明中的 `alternatives` 列出了 AKShare 登记的同类接口；被限流时，返回的错误信息也会列出其中可以改用的接口。它们的参数可能不同，调用前请先查看参数说明。

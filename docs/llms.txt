@@ -76,7 +76,8 @@ It exposes three generic tools rather than one tool per interface:
   and up to 50 `items` of `{name, title, category, source}`, most relevant
   first; `source` is the data source in Chinese, e.g. `新浪财经`, `东方财富`.
 - `describe_interface(name)`: title, `source`, source URL, `rate_limit`,
-  each parameter's default,
+  `alternatives` (same-data interfaces from other sources, each
+  `{name, title, source}`), each parameter's default,
   type and description, plus `outputs` (returned columns), `limit_desc`
   (what one call returns) and `example` (Python call) when AKShare has
   them registered.
@@ -102,9 +103,16 @@ servers, which ban the client IP for 5+ minutes after a burst of requests;
 all of them fail during the ban. For bulk or repeated quote fetching prefer
 another source. Other Eastmoney interfaces (macro, financial statements,
 dragon-tiger list) use other servers and are not limited. On a push2 ban
-`get_data` returns a 429 error that says how long to wait and, when
-confident, lists up to 3 same-data interfaces from other sources; check
-their parameters with `describe_interface` before calling them.
+`get_data` returns a 429 error that says how long to wait and lists the
+registered same-data interfaces from other sources (the non-push2 entries
+of `alternatives`, hand-curated in AKShare >= 1.20.39; none are guessed);
+check their parameters with `describe_interface` before calling them.
+
+Search by data type (`港股 日线`, `期货 分钟`), not by security name or code;
+common synonyms such as `日线` = `日频` = `历史行情` are understood. An empty
+result carries a `hint`. An unknown interface name (typo, or renamed such
+as `get_futures_daily` -> `futures_daily`) returns an error listing the
+closest names.
 
 ### Backtesting with AKQuant
 

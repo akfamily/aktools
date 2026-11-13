@@ -8,6 +8,7 @@ AKShare 的 docstring 约定为：首行是中文标题，第二行是数据源�
 随后是 ":param 参数名: 说明" 与 ":type 参数名: 类型"
 """
 
+import difflib
 import inspect
 import re
 from functools import lru_cache
@@ -53,13 +54,39 @@ SOURCE_NAMES = (
     ("stats.gov.cn", "国家统计局"),
     ("pbc.gov.cn", "中国人民银行"),
     ("amac.org.cn", "中国证券投资基金业协会"),
+    ("1234567.com.cn", "天天基金网"),
+    ("danjuanfunds.com", "雪球基金"),
+    ("futunn.com", "富途牛牛"),
+    ("jisilu.cn", "集思录"),
+    ("optbbs.com", "期权论坛"),
+    ("ccxe.com.cn", "财新数据"),
+    ("caixin.com", "财新数据"),
+    ("cls.cn", "财联社"),
+    ("wallstreetcn.com", "华尔街见闻"),
+    ("chinascope.com", "数库"),
+    ("joinquant.com", "聚宽"),
+    ("swhyresearch.com", "申万宏源研究"),
+    ("ccidx.com", "中证商品指数"),
+    ("chinabond.com.cn", "中国债券信息网"),
+    ("nafmii.org.cn", "中国银行间市场交易商协会"),
+    ("safe.gov.cn", "国家外汇管理局"),
+    ("sse.org.cn", "深圳证券交易所"),
+    ("sge.com.cn", "上海黄金交易所"),
+    ("ine.cn", "上海国际能源交易中心"),
+    ("gtjaqh.com", "国泰君安期货"),
+    ("9qihuo.com", "九期网"),
+    ("99qh.com", "99 期货网"),
+    ("100ppi.com", "生意社"),
+    ("soozhu.com", "搜猪"),
+    ("zhuwang.com.cn", "玄田数据"),
+    ("msweet.com.cn", "沐甜科技"),
+    ("cpcadata.com", "乘联会"),
+    ("endata.com.cn", "艺恩"),
+    ("endata.cn", "艺恩"),
 )
 
-# 查找其他来源的同类接口时，接口名末尾的数据源缩写不参与前缀比较
-SOURCE_SUFFIXES = {"em", "sina", "ths", "tx", "xq", "cninfo", "lg", "cx", "sw", "cni"}
-# 标题中的来源与栏目名称不能体现数据内容，检索同类接口前先去掉
-TITLE_NOISE_RE = re.compile(r"东方财富网?|行情中心|数据中心|[-—_()（）；;，,。]")
-ALTERNATIVES_LIMIT = 3
+# 接口名写错时，最多给出几个名称相近的接口
+SIMILAR_LIMIT = 3
 
 
 def is_interface(name: str) -> bool:
@@ -153,6 +180,11 @@ def describe_interface(name: str) -> Optional[Dict]:
         "source_url": parsed["source_url"],
         # 访问限制，取自 AKShare 的接口登记；"eastmoney_push2" 表示频繁访问会被东方财富临时限流
         "rate_limit": registered.get("rate_limit"),
+        # 来自其他数据源的同类接口，取自 AKShare 人工维护的对照表；参数与返回列可能不同
+        "alternatives": [
+            {"name": item["name"], "title": item["title"], "source": item["source"]}
+            for item in registered_alternatives(name)
+        ],
         "url": f"/api/public/{name}",
         "params": params,
         # 以下三项取自 AKShare 的接口注册表（ak.interface_info），未登记的接口为空
@@ -218,69 +250,67 @@ def source_of(name: str) -> str:
     return host.removeprefix("www.")
 
 
-def _name_tokens(name: str) -> List[str]:
-    """接口名按下划线切分，去掉末尾的数据源缩写，如 stock_zh_a_spot_em -> stock zh a spot"""
-    tokens = name.split("_")
-    return tokens[:-1] if tokens[-1] in SOURCE_SUFFIXES else tokens
-
-
-def _common_prefix(a: str, b: str) -> int:
-    """两个接口名开头有几段相同，如 stock_zh_a_hist 与 stock_zh_a_daily 为 3"""
-    count = 0
-    for x, y in zip(_name_tokens(a), _name_tokens(b)):
-        if x != y:
-            break
-        count += 1
-    return count
-
-
-def find_alternatives(name: str) -> List[Dict[str, str]]:
+def registered_alternatives(name: str) -> List[Dict[str, Optional[str]]]:
     """
-    为东方财富行情接口推测其他来源的同类接口，供被限流时参考
-    用去掉来源词的标题调用 ak.search，只保留同类目、且不请求 push2 行情服务器的接口，
-    并要求接口名前缀至少 3 段相同，或 2 段相同且匹配分不低于 20；把握不大时宁可不给。
-    结果是按名称与描述推测的，参数与返回列可能不同，调用前需要查看参数说明
+    AKShare 登记的同类接口：来自其他数据源、内容属于同一类的接口
+    取自 AKShare 接口登记的 alternatives 字段（1.20.39 起提供，人工维护）；AKTools 不自行推测，
+    按名称与描述猜测时会把 ST 股票列表配给日线、把 B 股配给科创板。旧版 AKShare 没有该字段时为空
     :param name: 接口名，如 stock_zh_a_hist
     :type name: str
-    :return: 最多 3 个 {"name": 接口名, "title": 标题, "source": 来源}
+    :return: [{"name": 接口名, "title": 标题, "source": 来源, "rate_limit": 访问限制}]
     :rtype: list
     """
-    search = getattr(ak, "search", None)
-    registered = _registry_info(name)
-    if search is None or not registered:
-        return []
-    title = (
-        registered.get("desc")
-        or parse_docstring(inspect.getdoc(getattr(ak, name, None)) or "")["title"]
-    )
-    query = " ".join(TITLE_NOISE_RE.sub(" ", title).split())
-    if not query:
-        return []
-    try:
-        found = search(query, limit=300)
-    except Exception:
-        return []
-    if found is None or "接口名" not in found:
-        return []
-    candidates = []
-    for _, row in found.iterrows():
-        candidate = row["接口名"]
-        if candidate == name or not is_interface(candidate):
-            continue
-        info = _registry_info(candidate)
-        if info.get("category") != registered.get("category"):
-            continue
-        if info.get("rate_limit") == EASTMONEY_PUSH2:
-            continue
-        prefix = _common_prefix(name, candidate)
-        score = float(row.get("匹配分", 0) or 0)
-        if prefix >= 3 or (prefix >= 2 and score >= 20):
-            candidates.append((-prefix, -score, candidate))
     titles = {item["name"]: item["title"] for item in _all_interfaces()}
     return [
-        {"name": n, "title": titles.get(n, ""), "source": source_of(n)}
-        for _, _, n in sorted(candidates)[:ALTERNATIVES_LIMIT]
+        {
+            "name": other,
+            "title": titles.get(other, ""),
+            "source": source_of(other),
+            "rate_limit": rate_limit_of(other),
+        }
+        for other in _registry_info(name).get("alternatives") or []
+        if is_interface(other)
     ]
+
+
+def find_alternatives(name: str) -> List[Dict[str, Optional[str]]]:
+    """
+    东方财富行情接口被限流时可以改用的同类接口
+    即 registered_alternatives 中不请求东方财富 push2 行情服务器的那些：限流按 IP 生效，
+    被限流期间其他东方财富行情接口同样无法使用
+    :param name: 接口名，如 stock_zh_a_hist
+    :type name: str
+    :return: 同 registered_alternatives；没有登记时为空列表
+    :rtype: list
+    """
+    return [
+        item
+        for item in registered_alternatives(name)
+        if item["rate_limit"] != EASTMONEY_PUSH2
+    ]
+
+
+def similar_names(name: str, limit: int = SIMILAR_LIMIT) -> List[str]:
+    """
+    接口名不存在时，找出名称最接近的接口，用于提示
+    接口更名（如 get_futures_daily 改为 futures_daily）或凭记忆写错名称时很常见。
+    按字符相似度比较，而不用 ak.search：后者对任何输入都会按片段给出结果，
+    名称完全无关时也会列出几个接口，反而误导
+    :param name: 不存在的接口名
+    :type name: str
+    :param limit: 最多返回几个
+    :type limit: int
+    :return: 接口名列表，没有足够相近的名称时为空
+    :rtype: list
+    """
+    names = [item["name"] for item in _all_interfaces()]
+    return difflib.get_close_matches(name, names, n=limit, cutoff=0.6)
+
+
+def not_found_hint(name: str) -> str:
+    """接口名不存在时附在报错后的提示：名称相近的接口，没有时为空字符串"""
+    similar = similar_names(name)
+    return f"名称相近的接口：{'、'.join(similar)}。" if similar else ""
 
 
 @lru_cache(maxsize=1)
