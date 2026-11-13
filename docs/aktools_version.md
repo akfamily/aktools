@@ -10,6 +10,12 @@ AKTools 只负责把 HTTP 请求转发给 AKShare，数据接口的新增与变�
 
 ## 更新记录
 
+0.1.7: build: require Python 3.11.5 or later
+
+**不兼容的改动：最低 Python 版本由 3.11 提高到 3.11.5。** 使用 Python 3.11.0～3.11.4 的环境会停留在 0.1.6，请升级到 3.11.5 或更高的版本（3.12 及以上不受影响）。
+
+1. 最低 Python 版本提高到 3.11.5：AKShare 依赖的网页解析库 soupsieve 在 4.0 修复了一个拒绝服务漏洞，修复版要求 Python 3.11.5，更低的版本只能安装到有漏洞的 2.10
+
 0.1.6: feat: curated alternatives, better search and clearer errors for MCP
 
 1. 东方财富行情接口被限流时，建议的同类接口改为取自 AKShare 人工维护的对照表，不再按接口名称猜测；0.1.5 的猜测有不少配错，如把 ST 股票列表配给日线。describe_interface 与 /api/interfaces/{接口名} 新增 alternatives，取数前就能看到其他来源的同类接口。没有登记的接口不再给出候选
