@@ -149,7 +149,7 @@ claude mcp add --transport http aktools http://127.0.0.1:8080/mcp
 
 ## 安装
 
-AKTools 要求 **Python 3.11 及以上（64 位）**，运行环境要求与 [AKShare 安装指导](https://akshare.akfamily.xyz/installation.html) 一致。
+AKTools 要求 **Python 3.11.5 及以上（64 位）**，运行环境要求与 [AKShare 安装指导](https://akshare.akfamily.xyz/installation.html) 一致。
 
 ```shell
 pip install aktools

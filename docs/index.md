@@ -60,7 +60,7 @@ AKShare 从新浪财经等网站获取数据，AKTools 以 JSON、CSV 或 Excel 
 
 ### HTTP API
 
-已经安装了 Python 3.11 及以上版本？只需 3 步：
+已经安装了 Python 3.11.5 及以上版本？只需 3 步：
 
 <div class="termy">
 

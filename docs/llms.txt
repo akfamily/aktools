@@ -179,7 +179,7 @@ variables under Gunicorn and Docker).
 - Data comes live from public upstream websites. Errors about the data
   itself are AKShare issues (`https://github.com/akfamily/akshare/issues`);
   only startup, routing or serialization problems belong to AKTools.
-- Python 3.11+.
+- Python 3.11.5+.
 
 ## Docs
 

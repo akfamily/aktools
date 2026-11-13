@@ -7,7 +7,7 @@ name = "aktools"
 dynamic = ["version"]
 description = "HTTP API and MCP server for AKShare: fetch financial data from any programming language or AI assistant"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.11.5"
 license = "MIT"
 license-files = ["LICENSE"]
 authors = [

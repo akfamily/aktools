@@ -8,7 +8,7 @@
 
 ## 第 1 步：准备 Python 环境 {#python}
 
-AKTools 需要 **Python 3.11 及以上版本（64 位）**。打开命令行，检查 Python 版本：
+AKTools 需要 **Python 3.11.5 及以上版本（64 位）**。打开命令行，检查 Python 版本：
 
 === "Windows"
 
@@ -28,7 +28,7 @@ AKTools 需要 **Python 3.11 及以上版本（64 位）**。打开命令行，�
 
     macOS 和 Linux 上的命令通常是 `python3`，下文的 `python` 请相应替换为 `python3`。
 
-显示 `Python 3.11.x` 或更高的版本号即可。如果提示“不是内部或外部命令”或版本过低，请先到 [Python 官网](https://www.python.org/downloads/) 下载安装新版本。Windows 用户安装时请勾选 **Add python.exe to PATH**。
+显示 `Python 3.11.5` 或更高的版本号即可。如果提示“不是内部或外部命令”或版本过低，请先到 [Python 官网](https://www.python.org/downloads/) 下载安装新版本。Windows 用户安装时请勾选 **Add python.exe to PATH**。
 
 ## 第 2 步：安装 AKTools {#install}
 
