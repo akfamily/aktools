@@ -334,6 +334,9 @@ NON_DATA_FUNCTIONS = [
 ]
 
 
+REMOVED_IN_AKSHARE_1_20_63 = {"set_token", "get_token", "pro_api"}
+
+
 @pytest.mark.parametrize("name", NON_DATA_FUNCTIONS)
 def test_non_data_functions_are_not_interfaces(name):
     """
@@ -342,7 +345,9 @@ def test_non_data_functions_are_not_interfaces(name):
     """
     from aktools.core.catalog import is_interface
 
-    assert hasattr(ak, name)
+    # set_token、get_token、pro_api 在 AKShare 1.20.63 中已移除，不存在时同样不能是接口
+    if name not in REMOVED_IN_AKSHARE_1_20_63:
+        assert hasattr(ak, name)
     assert not is_interface(name)
 
 
@@ -350,7 +355,10 @@ def test_config_functions_cannot_be_called_through_api(monkeypatch):
     """请求 set_proxies、set_timeout、set_token 时返回 404，且函数没有被执行"""
     called = []
     for name in ("set_proxies", "set_timeout", "set_token"):
-        monkeypatch.setattr(ak, name, lambda *a, _n=name, **k: called.append(_n))
+        # raising=False：AKShare 1.20.63 起没有 set_token，补上后同样不应被调用
+        monkeypatch.setattr(
+            ak, name, lambda *a, _n=name, **k: called.append(_n), raising=False
+        )
     for name, params in (
         ("set_proxies", {"proxies": "http://203.0.113.9:8080"}),
         ("set_timeout", {"timeout": "1"}),
