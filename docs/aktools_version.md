@@ -10,6 +10,12 @@ AKTools 只负责把 HTTP 请求转发给 AKShare，数据接口的新增与变�
 
 ## 更新记录
 
+0.1.9: feat: tell the new name when a renamed or removed interface is requested
+
+1. 请求已更名的旧接口名时，404 的报错信息给出新名称与更名的版本，例如请求 /api/public/stock_zh_a_hist 会提示“stock_zh_a_hist 已在 1.20.46 更名为 stock_zh_a_hist_em”；已移除的接口给出移除的版本与更新日志链接。此前只按名称相似度列出几个接口，改名的接口常常排不到第一位，已移除的接口列出的则是不相干的名称
+2. MCP 的 describe_interface 与 get_data、HTTP 的 /api/interfaces/{接口名} 给出同样的提示，AI 助手使用旧接口名时可以直接改用新名称
+3. 提示取自 AKShare 1.20.55 新增的改名对照，AKShare 的最低版本由 1.20.48 提高到 1.20.55；名称拼写错误等其他情况仍按名称相似度给出候选
+
 0.1.8: fix!: follow the interface renames of AKShare 1.20.41-1.20.48
 
 **不兼容的改动：要求 AKShare 1.20.48 或更高版本，原先的接口网址需要改用新的接口名。** AKShare 在 1.20.41～1.20.48 按金融含义统一了接口命名，并把类目由 22 个合并为 15 个，共 300 多个接口改名、旧名称不再保留，例如 stock_zh_a_hist 改为 stock_zh_a_hist_em、stock_zh_a_daily 改为 stock_zh_a_daily_sina、tool_trade_date_hist_sina 改为 calendar_trade_date_hist_sina。请求旧名称会返回 404，完整对照见 [AKShare 接口更名一览表](https://akshare.akfamily.xyz/changelog.html#changelog-rename)。

@@ -308,7 +308,22 @@ def similar_names(name: str, limit: int = SIMILAR_LIMIT) -> List[str]:
 
 
 def not_found_hint(name: str) -> str:
-    """接口名不存在时附在报错后的提示：名称相近的接口，没有时为空字符串"""
+    """
+    接口名不存在时附在报错后的提示
+    已更名或已移除的接口给出新名称或移除的版本，取自 AKShare 的改名对照
+    （akshare.registry.renamed_hint，AKShare 1.20.55 起提供）；其余情况给出名称相近的
+    接口，没有时为空字符串。改名的接口必须先查对照：按名称相似度猜出来的候选
+    常常把另一个数据源的接口排在前面，对已移除的接口则完全不相干
+    :param name: 不存在的接口名
+    :type name: str
+    :return: 提示文字
+    :rtype: str
+    """
+    renamed_hint = getattr(ak.registry, "renamed_hint", None)
+    hint = renamed_hint(name) if renamed_hint else None
+    if hint:
+        # 提示以网址结尾，后面留一个空格，避免下一句的文字被当成网址的一部分
+        return f"{hint} "
     similar = similar_names(name)
     return f"名称相近的接口：{'、'.join(similar)}。" if similar else ""
 
