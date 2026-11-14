@@ -356,3 +356,17 @@ def test_public_route_reports_rename() -> None:
     response = client.get("/api/public/stock_zh_a_daily")
     assert response.status_code == 404
     assert "/api/public/stock_zh_a_daily_sina" in response.json()["error"]
+
+
+def test_interface_list_has_only_data_interfaces():
+    """接口目录不列出 AKShare 的设置函数与检索函数"""
+    names = {item["name"] for item in client.get("/api/interfaces").json()}
+    assert "stock_zh_a_hist_em" in names
+    assert not names & {
+        "set_proxies",
+        "set_timeout",
+        "set_token",
+        "get_token",
+        "search",
+    }
+    assert client.get("/api/interfaces/set_proxies").status_code == 404

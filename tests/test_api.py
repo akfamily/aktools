@@ -317,3 +317,46 @@ def test_dce_blocked_error_does_not_suggest_retry(monkeypatch):
     assert "稍后重试" not in body
     assert "重试无效" in body
     assert "反爬虫验证" in body
+
+
+NON_DATA_FUNCTIONS = [
+    "set_proxies",
+    "set_timeout",
+    "set_token",
+    "get_proxies",
+    "get_timeout",
+    "get_token",
+    "pro_api",
+    "search",
+    "interface_info",
+    "list_categories",
+    "renamed_info",
+]
+
+
+@pytest.mark.parametrize("name", NON_DATA_FUNCTIONS)
+def test_non_data_functions_are_not_interfaces(name):
+    """
+    AKShare 顶层除了数据接口，还导出了设置代理、超时、令牌的函数和检索函数。
+    它们不能经 /api/public 调用：set_proxies 会把整个服务的上游请求转到调用者指定的代理
+    """
+    from aktools.core.catalog import is_interface
+
+    assert hasattr(ak, name)
+    assert not is_interface(name)
+
+
+def test_config_functions_cannot_be_called_through_api(monkeypatch):
+    """请求 set_proxies、set_timeout、set_token 时返回 404，且函数没有被执行"""
+    called = []
+    for name in ("set_proxies", "set_timeout", "set_token"):
+        monkeypatch.setattr(ak, name, lambda *a, _n=name, **k: called.append(_n))
+    for name, params in (
+        ("set_proxies", {"proxies": "http://203.0.113.9:8080"}),
+        ("set_timeout", {"timeout": "1"}),
+        ("set_token", {"token": "x"}),
+    ):
+        resp = call_interface(name, _FakeRequest(params))
+        assert resp.status_code == 404
+        assert "未找到" in resp.body.decode("utf-8")
+    assert called == []

@@ -12,7 +12,7 @@ import difflib
 import inspect
 import re
 from functools import lru_cache
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, FrozenSet, List, Optional, Tuple
 from urllib.parse import urlparse
 
 import akshare as ak
@@ -91,18 +91,40 @@ DOC_URL = "https://akshare.akfamily.xyz"
 SIMILAR_LIMIT = 3
 
 
+@lru_cache(maxsize=1)
+def _registered_names() -> FrozenSet[str]:
+    """
+    AKShare 接口登记中的全部接口名；AKShare 在服务运行期间不会变化，读取一次即可
+    登记只收录数据接口，不含 set_proxies、set_timeout、set_token、pro_api 等设置函数，
+    也不含 search、interface_info 等检索函数
+    """
+    names = set()
+    for name in dir(ak):
+        if name.startswith("_"):
+            continue
+        try:
+            ak.interface_info(name)
+        except Exception:
+            continue
+        names.add(name)
+    return frozenset(names)
+
+
 def is_interface(name: str) -> bool:
     """
     判断名称是否为 AKShare 的数据接口
-    AKShare 顶层还导出了子模块与类，它们不是数据接口；
-    部分接口被 functools.lru_cache 包装，不是普通函数但同样可调用
+    以 AKShare 的接口登记为准，只有登记在册的接口才能被调用（白名单）。
+    不能只看它是不是 akshare 顶层的可调用对象：AKShare 顶层还导出了 set_proxies、
+    set_timeout、set_token 等设置函数，经 /api/public 或 MCP 调用它们会改掉整个服务的
+    代理、超时与令牌，任何能访问服务的人都可以借此把上游请求转到自己指定的代理
     :param name: 接口名
     :type name: str
     :return: 是否为数据接口
     :rtype: bool
     """
-    if name.startswith("_"):
+    if name.startswith("_") or name not in _registered_names():
         return False
+    # 部分接口被 functools.lru_cache 包装，不是普通函数但同样可调用
     obj = getattr(ak, name, None)
     return callable(obj) and not inspect.isclass(obj)
 

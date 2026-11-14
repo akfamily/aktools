@@ -197,6 +197,10 @@ def fake(symbol="000001"):
     return pd.DataFrame({"代码": [symbol] * 3})
 
 ak.aktools_fake_stdio = fake
+# 只有 AKShare 接口登记中的名称才算数据接口，把假接口算作已登记
+import aktools.core.catalog as catalog
+_real = catalog._registered_names()
+catalog._registered_names = lambda: _real | {"aktools_fake_stdio"}
 from aktools.mcp_server import main
 main()
 """
@@ -490,3 +494,18 @@ async def test_old_interface_name_gets_the_new_name():
     for result in (described, fetched):
         assert result.is_error
         assert 'name="stock_zh_a_hist_em"' in result.content[0].text
+
+
+@pytest.mark.anyio
+async def test_get_data_cannot_call_config_functions(monkeypatch):
+    """工具标注为只读：get_data 不能调用 set_proxies 等会改变服务全局设置的函数"""
+    called = []
+    monkeypatch.setattr(ak, "set_proxies", lambda *a, **k: called.append("set_proxies"))
+    async with Client(mcp) as client:
+        result = await client.call_tool(
+            "get_data",
+            {"name": "set_proxies", "params": {"proxies": "http://203.0.113.9:8080"}},
+        )
+        desc = await client.call_tool("describe_interface", {"name": "set_proxies"})
+    assert result.is_error and desc.is_error
+    assert called == []

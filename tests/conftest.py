@@ -28,3 +28,22 @@ def _fresh_result_cache(monkeypatch):
     from aktools.core.cache import ResultCache
 
     monkeypatch.setattr(fetch, "result_cache", ResultCache(ttl=60))
+
+
+@pytest.fixture(autouse=True)
+def _fake_interfaces_count_as_registered(monkeypatch):
+    """
+    只有 AKShare 接口登记中的名称才算数据接口。测试用 monkeypatch 挂到 akshare 上的
+    aktools_fake_* 函数不在登记里，这里把它们算作已登记；其余名称仍按真实的登记判断
+    """
+    import akshare as ak
+
+    import aktools.core.catalog as catalog
+
+    real = catalog._registered_names()
+
+    def names():
+        fakes = {name for name in dir(ak) if name.startswith("aktools_fake")}
+        return real | fakes
+
+    monkeypatch.setattr(catalog, "_registered_names", names)
