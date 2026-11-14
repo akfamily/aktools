@@ -12,9 +12,9 @@ AKTools 只负责把 HTTP 请求转发给 AKShare，数据接口的新增与变�
 
 0.1.9: feat: tell the new name when a renamed or removed interface is requested
 
-1. 请求已更名的旧接口名时，404 的报错信息给出新名称与更名的版本，例如请求 /api/public/stock_zh_a_hist 会提示“stock_zh_a_hist 已在 1.20.46 更名为 stock_zh_a_hist_em”；已移除的接口给出移除的版本与更新日志链接。此前只按名称相似度列出几个接口，改名的接口常常排不到第一位，已移除的接口列出的则是不相干的名称
-2. MCP 的 describe_interface 与 get_data、HTTP 的 /api/interfaces/{接口名} 给出同样的提示，AI 助手使用旧接口名时可以直接改用新名称
-3. 提示取自 AKShare 1.20.55 新增的改名对照，AKShare 的最低版本由 1.20.48 提高到 1.20.55；名称拼写错误等其他情况仍按名称相似度给出候选
+1. 请求已更名的旧接口名时，404 的报错信息给出现在的名称与新的请求地址，例如请求 /api/public/stock_zh_a_hist 会提示“stock_zh_a_hist 已在 AKShare 1.20.46 更名为 stock_zh_a_hist_em，请改为请求 /api/public/stock_zh_a_hist_em”；已移除的接口给出移除的版本与更新日志地址。此前只按名称相似度列出几个接口，改名的接口常常排不到第一位，已移除的接口列出的则是不相干的名称
+2. MCP 的 describe_interface 与 get_data 遇到旧接口名时，提示改用的 name 并建议先用 describe_interface 查看参数；search_interfaces 用旧接口名搜索时，现在的名称排在结果的第一位，并在 hint 中说明。AI 助手凭记忆写出旧接口名时，一次报错就能改对
+3. 提示按调用渠道分别组织：HTTP 给出请求地址，MCP 给出工具的用法。去向数据取自 AKShare 1.20.58 新增的 ak.renamed_info，AKShare 的最低版本由 1.20.48 提高到 1.20.58；名称拼写错误等其他情况仍按名称相似度给出候选
 
 0.1.8: fix!: follow the interface renames of AKShare 1.20.41-1.20.48
 

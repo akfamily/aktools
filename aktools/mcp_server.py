@@ -27,7 +27,7 @@ import aktools
 from aktools.core.fetch import InterfaceError, fetch_dataframe
 from aktools.core.formats import FORMAT_PARAM
 from aktools.core.catalog import describe_interface as _describe_interface
-from aktools.core.catalog import is_interface, not_found_hint
+from aktools.core.catalog import is_interface, not_found_message, renamed_info
 from aktools.core.catalog import search_interfaces as _search_interfaces
 
 # 搜索结果最多返回的条数；关键词很宽泛时（如 stock）可能匹配数百个接口
@@ -57,6 +57,33 @@ SEARCH_EMPTY_HINT = (
     "没有匹配的接口。关键词应描述数据类型，如“A股 日线”“期货 持仓”“可转债 实时行情”，"
     "不要写具体证券的名称或代码；也可以换一种说法，或用英文的接口名片段（如 stock_zh_a）再试"
 )
+
+
+def _renamed_search_hint(keyword: str) -> str:
+    """
+    搜索词里有已更名或已移除的旧接口名时的说明，没有时为空字符串
+    AI 助手常凭记忆用旧接口名来搜索：AKShare 已把现在的名称排在结果的第一位，
+    这里再明确说一句，免得助手仍去挑名称最像的那一个
+    :param keyword: 搜索词
+    :type keyword: str
+    :return: 说明文字
+    :rtype: str
+    """
+    notes = []
+    for word in keyword.replace(",", " ").split():
+        info = renamed_info(word)
+        if not info:
+            continue
+        if info.get("status") == "renamed":
+            notes.append(
+                f"{word} 已在 AKShare {info['version']} 更名为 {info['new_name']}，"
+                "已排在结果的第一位"
+            )
+        else:
+            notes.append(
+                f"{word} 已在 AKShare {info['version']} 移除，原因见 {info['url']}"
+            )
+    return "；".join(notes)
 
 
 def _create_server() -> MCPServer:
@@ -104,6 +131,9 @@ def search_interfaces(
     result: Dict[str, Any] = {"total": total, "items": items}
     if not total:
         result["hint"] = SEARCH_EMPTY_HINT
+    renamed = _renamed_search_hint(keyword)
+    if renamed:
+        result["hint"] = renamed
     return result
 
 
@@ -114,10 +144,7 @@ def describe_interface(
     """查看接口的标题、数据来源与访问限制、其他来源的同类接口（alternatives）、各参数的默认值、类型和说明，以及返回列、数据范围说明与调用示例"""
     info = _describe_interface(name)
     if info is None:
-        raise ToolError(
-            f"未找到接口 {name}。{not_found_hint(name)}"
-            "请用 search_interfaces 搜索正确的接口名"
-        )
+        raise ToolError(not_found_message(name, "mcp"))
     return info
 
 
@@ -142,10 +169,7 @@ def get_data(
 ) -> Dict[str, Any]:
     """调用 AKShare 接口获取数据。一次最多返回 max_rows 行，用 offset 翻页或取最后若干行；返回总行数与本次的起始行，随 HTTP 服务运行时还给出完整数据的 CSV 下载地址"""
     if not is_interface(name):
-        raise ToolError(
-            f"未找到接口 {name}。{not_found_hint(name)}"
-            "请用 search_interfaces 搜索正确的接口名"
-        )
+        raise ToolError(not_found_message(name, "mcp"))
     # 与 HTTP 接口一致：参数值一律按文本传给 AKShare
     text_params = {key: str(value) for key, value in (params or {}).items()}
     try:

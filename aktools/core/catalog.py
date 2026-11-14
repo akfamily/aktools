@@ -85,6 +85,8 @@ SOURCE_NAMES = (
     ("endata.cn", "艺恩"),
 )
 
+DOC_URL = "https://akshare.akfamily.xyz"
+
 # 接口名写错时，最多给出几个名称相近的接口
 SIMILAR_LIMIT = 3
 
@@ -307,25 +309,69 @@ def similar_names(name: str, limit: int = SIMILAR_LIMIT) -> List[str]:
     return difflib.get_close_matches(name, names, n=limit, cutoff=0.6)
 
 
-def not_found_hint(name: str) -> str:
+def renamed_info(name: str) -> Optional[Dict[str, str]]:
     """
-    接口名不存在时附在报错后的提示
-    已更名或已移除的接口给出新名称或移除的版本，取自 AKShare 的改名对照
-    （akshare.registry.renamed_hint，AKShare 1.20.55 起提供）；其余情况给出名称相近的
-    接口，没有时为空字符串。改名的接口必须先查对照：按名称相似度猜出来的候选
-    常常把另一个数据源的接口排在前面，对已移除的接口则完全不相干
+    旧接口名的去向，取自 AKShare 的改名对照（ak.renamed_info，AKShare 1.20.58 起提供）
+    :param name: 接口名
+    :type name: str
+    :return: 含 status（renamed 或 removed）、version、url，更名时另有 new_name；
+        不是已知的旧接口名，或 AKShare 版本过低时返回 None
+    :rtype: dict
+    """
+    lookup = getattr(ak, "renamed_info", None)
+    if lookup is None:
+        return None
+    try:
+        return lookup(name)
+    except Exception:
+        return None
+
+
+def not_found_message(name: str, channel: str = "http") -> str:
+    """
+    接口名不存在时的完整报错信息，按调用渠道给出下一步该怎么做
+    已更名的接口给出现在的名称，已移除的给出移除的版本与更新日志地址，
+    其余情况（多为拼写错误）给出名称相近的接口。改名的接口必须先查对照：
+    按名称相似度猜出来的候选常把另一个数据源的接口排在前面，对已移除的接口则完全不相干
     :param name: 不存在的接口名
     :type name: str
-    :return: 提示文字
+    :param channel: http 表示 HTTP 接口，mcp 表示 MCP 工具
+    :type channel: str
+    :return: 报错信息
     :rtype: str
     """
-    renamed_hint = getattr(ak.registry, "renamed_hint", None)
-    hint = renamed_hint(name) if renamed_hint else None
-    if hint:
-        # 提示以网址结尾，后面留一个空格，避免下一句的文字被当成网址的一部分
-        return f"{hint} "
+    prefix = f"未找到接口 {name}。"
+    info = renamed_info(name)
+    if info and info.get("status") == "renamed":
+        new_name = info["new_name"]
+        moved = f"{name} 已在 AKShare {info['version']} 更名为 {new_name}，"
+        if channel == "mcp":
+            return (
+                f'{prefix}{moved}请改用 name="{new_name}"；参数与返回的列可能有调整，'
+                "调用前先用 describe_interface 查看"
+            )
+        return (
+            f"{prefix}{moved}请改为请求 /api/public/{new_name}；参数与返回的列可能有调整，"
+            f"说明见 /api/interfaces/{new_name}"
+        )
+    if info and info.get("status") == "removed":
+        step = (
+            "可用 search_interfaces 查找替代接口"
+            if channel == "mcp"
+            else "可通过 /api/interfaces?q=关键词 查找替代接口"
+        )
+        return (
+            f"{prefix}{name} 已在 AKShare {info['version']} 移除，{step}；"
+            f"移除的原因见更新日志 {info['url']}"
+        )
     similar = similar_names(name)
-    return f"名称相近的接口：{'、'.join(similar)}。" if similar else ""
+    hint = f"名称相近的接口：{'、'.join(similar)}。" if similar else ""
+    if channel == "mcp":
+        return f"{prefix}{hint}请用 search_interfaces 搜索正确的接口名"
+    return (
+        f"{prefix}{hint}请通过 /api/interfaces 查找接口名，"
+        f"或升级 AKShare 到最新版本：{DOC_URL}"
+    )
 
 
 @lru_cache(maxsize=1)

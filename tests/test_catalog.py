@@ -318,25 +318,41 @@ def test_source_of_names_more_data_sources(monkeypatch):
     assert catalog.source_of("spot_golden_benchmark_sge") == "上海黄金交易所"
 
 
-def test_not_found_hint_names_the_new_interface_for_renamed_names() -> None:
-    """已更名的接口直接给出新名称，而不是按相似度猜"""
-    hint = catalog.not_found_hint("stock_zh_a_hist")
-    assert "更名为 stock_zh_a_hist_em" in hint
-    assert "名称相近的接口" not in hint
+def test_not_found_message_names_the_new_interface_for_http() -> None:
+    """已更名的接口直接给出新名称与新的请求地址，而不是按相似度猜"""
+    message = catalog.not_found_message("stock_zh_a_hist")
+    assert "更名为 stock_zh_a_hist_em" in message
+    assert "/api/public/stock_zh_a_hist_em" in message
+    assert "名称相近的接口" not in message
+    assert "ak." not in message
 
 
-def test_not_found_hint_tells_removed_version() -> None:
-    hint = catalog.not_found_hint("index_yw")
-    assert "移除" in hint and "1.20.54" in hint
-    assert "名称相近的接口" not in hint
+def test_not_found_message_speaks_mcp_for_mcp() -> None:
+    message = catalog.not_found_message("stock_zh_a_hist", "mcp")
+    assert 'name="stock_zh_a_hist_em"' in message
+    assert "describe_interface" in message
+    assert "/api/public" not in message
 
 
-def test_not_found_hint_still_suggests_similar_names_for_typos() -> None:
-    assert "stock_zh_a_hist_em" in catalog.not_found_hint("stock_zh_a_hist_emm")
-    assert catalog.not_found_hint("zzz_nothing_like_this_qq") == ""
+def test_not_found_message_tells_removed_version() -> None:
+    message = catalog.not_found_message("index_yw")
+    assert "移除" in message and "1.20.54" in message
+    assert "名称相近的接口" not in message
+
+
+def test_not_found_message_still_suggests_similar_names_for_typos() -> None:
+    assert "stock_zh_a_hist_em" in catalog.not_found_message("stock_zh_a_hist_emm")
+    assert "名称相近的接口" not in catalog.not_found_message("zzz_nothing_like_qq")
+
+
+def test_renamed_info_tolerates_old_akshare(monkeypatch) -> None:
+    """AKShare 低于 1.20.58 时没有 renamed_info，退回按相似度提示而不是报错"""
+    monkeypatch.delattr(catalog.ak, "renamed_info", raising=False)
+    assert catalog.renamed_info("stock_zh_a_hist") is None
+    assert "名称相近的接口" in catalog.not_found_message("stock_zh_a_hist")
 
 
 def test_public_route_reports_rename() -> None:
     response = client.get("/api/public/stock_zh_a_daily")
     assert response.status_code == 404
-    assert "stock_zh_a_daily_sina" in response.json()["error"]
+    assert "/api/public/stock_zh_a_daily_sina" in response.json()["error"]

@@ -472,3 +472,21 @@ async def test_search_tool_description_carries_source_guidance():
         tools = {tool.name: tool for tool in (await client.list_tools()).tools}
     assert "易限流" in tools["search_interfaces"].description
     assert "alternatives" in tools["describe_interface"].description
+
+
+@pytest.mark.anyio
+async def test_old_interface_name_gets_the_new_name():
+    """助手凭记忆使用旧接口名时，三个工具都把它引到现在的名称"""
+    async with Client(mcp) as client:
+        found = _payload(
+            await client.call_tool("search_interfaces", {"keyword": "stock_zh_a_hist"})
+        )
+        described = await client.call_tool(
+            "describe_interface", {"name": "stock_zh_a_hist"}
+        )
+        fetched = await client.call_tool("get_data", {"name": "stock_zh_a_hist"})
+    assert found["items"][0]["name"] == "stock_zh_a_hist_em"
+    assert "stock_zh_a_hist_em" in found["hint"]
+    for result in (described, fetched):
+        assert result.is_error
+        assert 'name="stock_zh_a_hist_em"' in result.content[0].text

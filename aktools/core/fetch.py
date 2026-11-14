@@ -178,9 +178,7 @@ def fetch_dataframe(item_id: str, params: Dict[str, str]) -> Tuple[pd.DataFrame,
     if not is_interface(item_id):
         logger.info(f"未找到接口 {item_id}")
         raise InterfaceError(
-            f"未找到该接口。{catalog.not_found_hint(item_id)}"
-            f"请升级 AKShare 到最新版本并在文档中确认该接口的使用方式：{DOC_URL}",
-            status.HTTP_404_NOT_FOUND,
+            catalog.not_found_message(item_id), status.HTTP_404_NOT_FOUND
         )
     unknown = _unknown_param_message(getattr(ak, item_id), item_id, params)
     if unknown:

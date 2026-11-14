@@ -10,8 +10,12 @@ from fastapi import APIRouter, Query, Request, status
 from fastapi.responses import JSONResponse, Response
 
 from aktools.core.auth import TOKEN_PARAM
-from aktools.core.catalog import describe_interface, list_interfaces, not_found_hint
-from aktools.core.fetch import DOC_URL, InterfaceError, fetch_dataframe
+from aktools.core.catalog import (
+    describe_interface,
+    list_interfaces,
+    not_found_message,
+)
+from aktools.core.fetch import InterfaceError, fetch_dataframe
 from aktools.core.formats import (
     FORMAT_PARAM,
     MEDIA_TYPES,
@@ -137,8 +141,5 @@ def interfaces(
 def interface_detail(item_id: str):
     info = describe_interface(item_id)
     if info is None:
-        return _error_response(
-            f"未找到该接口。{not_found_hint(item_id)}"
-            f"请升级 AKShare 到最新版本或通过 /api/interfaces 查找接口名：{DOC_URL}"
-        )
+        return _error_response(not_found_message(item_id))
     return info
