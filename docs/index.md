@@ -47,9 +47,9 @@ AKTools 是 AKShare 外面的一层 HTTP 转发，并不改变 AKShare 本身的
 AKTools 把每个 HTTP 请求翻译成一次同名的 AKShare 接口调用，再把返回的表格数据转成 JSON：
 
 ```text
-浏览器或程序发出请求：GET /api/public/stock_zh_a_daily?symbol=sh600519
+浏览器或程序发出请求：GET /api/public/stock_zh_a_daily_sina?symbol=sh600519
         ↓
-AKTools 调用同名接口：akshare.stock_zh_a_daily(symbol="sh600519")
+AKTools 调用同名接口：akshare.stock_zh_a_daily_sina(symbol="sh600519")
         ↓
 AKShare 从新浪财经等网站获取数据，AKTools 以 JSON、CSV 或 Excel 格式返回
 ```
@@ -73,7 +73,7 @@ Successfully installed aktools
 </div>
 
 1. 在命令行运行 `python -m aktools` 启动服务
-2. 浏览器打开 `http://127.0.0.1:8080/api/public/tool_trade_date_hist_sina`，看到交易日历数据即表示成功
+2. 浏览器打开 `http://127.0.0.1:8080/api/public/calendar_trade_date_hist_sina`，看到交易日历数据即表示成功
 3. 浏览器打开 `http://127.0.0.1:8080/api/interfaces?q=历史行情`，搜索您需要的接口
 
 ### AI 助手

@@ -69,10 +69,10 @@ INFO:     Uvicorn running on http://127.0.0.1:8080 (Press CTRL+C to quit)
 在浏览器地址栏输入以下地址并回车：
 
 ```text
-http://127.0.0.1:8080/api/public/tool_trade_date_hist_sina
+http://127.0.0.1:8080/api/public/calendar_trade_date_hist_sina
 ```
 
-这个地址调用的是 AKShare 的 `tool_trade_date_hist_sina` 接口，获取新浪财经的 A 股交易日历。浏览器中会显示类似下面的内容：
+这个地址调用的是 AKShare 的 `calendar_trade_date_hist_sina` 接口，获取新浪财经的 A 股交易日历。浏览器中会显示类似下面的内容：
 
 ```json
 [{"trade_date":"1990-12-19T00:00:00.000"},{"trade_date":"1990-12-20T00:00:00.000"},{"trade_date":"1990-12-21T00:00:00.000"}, ...]
@@ -92,14 +92,14 @@ http://127.0.0.1:8080/api/interfaces?q=个股的历史行情
 
 ```json
 [
-  {"name": "stock_hk_daily", "title": "新浪财经-港股-个股的历史行情数据"},
-  {"name": "stock_zh_a_cdr_daily", "title": "新浪财经-A股-CDR个股的历史行情数据，大量抓取容易封 IP"},
-  {"name": "stock_zh_a_daily", "title": "新浪财经-A 股-个股的历史行情数据，大量抓取容易封 IP"},
-  {"name": "stock_zh_b_daily", "title": "新浪财经-B 股-个股的历史行情数据，大量抓取容易封 IP"}
+  {"name": "stock_hk_daily_sina", "title": "新浪财经-港股-个股的历史行情数据"},
+  {"name": "stock_zh_a_cdr_daily_sina", "title": "新浪财经-A股-CDR个股的历史行情数据，大量抓取容易封 IP"},
+  {"name": "stock_zh_a_daily_sina", "title": "新浪财经-A 股-个股的历史行情数据，大量抓取容易封 IP"},
+  {"name": "stock_zh_b_daily_sina", "title": "新浪财经-B 股-个股的历史行情数据，大量抓取容易封 IP"}
 ]
 ```
 
-我们要找的是 A 股个股的历史行情，对应的接口是 `stock_zh_a_daily`。
+我们要找的是 A 股个股的历史行情，对应的接口是 `stock_zh_a_daily_sina`。
 
 !!! tip "搜索技巧"
 
@@ -110,7 +110,7 @@ http://127.0.0.1:8080/api/interfaces?q=个股的历史行情
 在 `/api/interfaces/` 后面加上接口名，即可查看它有哪些参数：
 
 ```text
-http://127.0.0.1:8080/api/interfaces/stock_zh_a_daily
+http://127.0.0.1:8080/api/interfaces/stock_zh_a_daily_sina
 ```
 
 返回内容中的 `params` 就是参数列表，整理如下：
@@ -129,14 +129,14 @@ http://127.0.0.1:8080/api/interfaces/stock_zh_a_daily
 获取贵州茅台（沪市代码 600519）2024 年 10 月 8 日至 11 日的前复权日线数据：
 
 ```text
-http://127.0.0.1:8080/api/public/stock_zh_a_daily?symbol=sh600519&start_date=20241008&end_date=20241011&adjust=qfq
+http://127.0.0.1:8080/api/public/stock_zh_a_daily_sina?symbol=sh600519&start_date=20241008&end_date=20241011&adjust=qfq
 ```
 
 这个地址由三部分组成：
 
 | 部分 | 含义 |
 | --- | --- |
-| `/api/public/stock_zh_a_daily` | 调用 `stock_zh_a_daily` 接口 |
+| `/api/public/stock_zh_a_daily_sina` | 调用 `stock_zh_a_daily_sina` 接口 |
 | `?` | 问号后面是参数 |
 | `symbol=sh600519&start_date=...` | 每个参数写成“参数名=值”，多个参数之间用 `&` 连接，值不加引号 |
 
@@ -156,10 +156,10 @@ http://127.0.0.1:8080/api/public/stock_zh_a_daily?symbol=sh600519&start_date=202
 在上一步的地址末尾加上 `&_format=xlsx`：
 
 ```text
-http://127.0.0.1:8080/api/public/stock_zh_a_daily?symbol=sh600519&start_date=20241008&end_date=20241011&adjust=qfq&_format=xlsx
+http://127.0.0.1:8080/api/public/stock_zh_a_daily_sina?symbol=sh600519&start_date=20241008&end_date=20241011&adjust=qfq&_format=xlsx
 ```
 
-浏览器会下载一个名为 `stock_zh_a_daily.xlsx` 的文件，用 Excel 或 WPS 打开即可。把 `xlsx` 换成 `csv` 则下载 CSV 文件，适合导入 Stata、MATLAB 等软件。
+浏览器会下载一个名为 `stock_zh_a_daily_sina.xlsx` 的文件，用 Excel 或 WPS 打开即可。把 `xlsx` 换成 `csv` 则下载 CSV 文件，适合导入 Stata、MATLAB 等软件。
 
 ## 第 9 步：在程序中调用 {#code}
 
@@ -169,7 +169,7 @@ http://127.0.0.1:8080/api/public/stock_zh_a_daily?symbol=sh600519&start_date=202
 import pandas as pd
 import requests
 
-url = "http://127.0.0.1:8080/api/public/stock_zh_a_daily"
+url = "http://127.0.0.1:8080/api/public/stock_zh_a_daily_sina"
 params = {
     "symbol": "sh600519",
     "start_date": "20241008",
@@ -270,7 +270,7 @@ AKTools 也可以作为 MCP 服务，让 WorkBuddy、Codex、Cursor、Claude 等
 
 - “帮我查一下贵州茅台 2024 年 10 月 8 日到 11 日的前复权日线行情”
 - “AKShare 里有哪些和可转债相关的接口？”
-- “stock_zh_a_hist 这个接口有哪些参数，复权方式怎么填？”
+- “stock_zh_a_hist_em 这个接口有哪些参数，复权方式怎么填？”
 
 助手会依次调用 `search_interfaces` 搜索接口、`describe_interface` 查看参数、`get_data` 获取数据。想让助手接着写策略、跑回测，请看[与 AKQuant 联用](guide/mcp.md#akquant)。遇到问题请参考[常见问题](faq.md#faq-mcp-timeout)，更多说明见[AI 助手（MCP）](guide/mcp.md)。
 

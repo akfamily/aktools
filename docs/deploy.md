@@ -101,7 +101,7 @@ python -m aktools --host 0.0.0.0 --token 一串足够长的随机字符
 | 方式 | 写法 | 适合 |
 | --- | --- | --- |
 | 请求头 | `Authorization: Bearer <令牌>` | 程序、MCP 客户端 |
-| 查询参数 | 在网址末尾加上 `_token=<令牌>`，如 `/api/public/stock_zh_a_hist?symbol=000001&_token=<令牌>` | Excel、Stata、浏览器等不便设置请求头的场景 |
+| 查询参数 | 在网址末尾加上 `_token=<令牌>`，如 `/api/public/stock_zh_a_hist_em?symbol=000001&_token=<令牌>` | Excel、Stata、浏览器等不便设置请求头的场景 |
 
 - 多个令牌用逗号分隔，如 `--token alice令牌,bob令牌`，任意一个均可访问。每人一个令牌时，删掉某个令牌即可单独撤销此人的权限，修改后需要重启服务。
 - 写在网址中的令牌会出现在浏览器历史、服务的访问日志和反向代理的日志里，请尽量用请求头方式；经公网访问时请配合 HTTPS 使用，否则令牌会以明文传输。
@@ -164,7 +164,7 @@ docker run -d -p 8080:8080 -e WEB_CONCURRENCY=4 --name aktools aktools
 docker run -d -p 8080:8080 --name aktools aktools python -m aktools --host 0.0.0.0 --port 8080
 ```
 
-启动后访问 `http://127.0.0.1:8080/api/public/tool_trade_date_hist_sina`，能获取到数据即表示部署成功。
+启动后访问 `http://127.0.0.1:8080/api/public/calendar_trade_date_hist_sina`，能获取到数据即表示部署成功。
 
 ### 升级镜像
 

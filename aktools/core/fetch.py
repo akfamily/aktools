@@ -167,7 +167,7 @@ def fetch_dataframe(item_id: str, params: Dict[str, str]) -> Tuple[pd.DataFrame,
     """
     调用 AKShare 接口获取数据，经过结果缓存与 AKShare 内部缓存清理
     AKShare 为同步请求，调用方以同步函数定义，由 uvicorn 的线程池支持并发访问
-    :param item_id: 接口名，如 stock_zh_a_hist
+    :param item_id: 接口名，如 stock_zh_a_hist_em
     :type item_id: str
     :param params: 接口参数，值均为文本，如 {"symbol": "000001"}
     :type params: dict

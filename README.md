@@ -50,7 +50,7 @@ pip install aktools
 python -m aktools
 ```
 
-然后在浏览器打开 `http://127.0.0.1:8080/api/public/tool_trade_date_hist_sina`，看到交易日历数据即表示成功。更多用法见下文的[快速开始](#快速开始)与[调用规则](#调用规则)。
+然后在浏览器打开 `http://127.0.0.1:8080/api/public/calendar_trade_date_hist_sina`，看到交易日历数据即表示成功。更多用法见下文的[快速开始](#快速开始)与[调用规则](#调用规则)。
 
 ### 在 AI 助手中使用
 
@@ -71,7 +71,7 @@ python -m aktools
 
 - “帮我查一下贵州茅台 2024 年 10 月 8 日到 11 日的前复权日线行情”
 - “AKShare 里有哪些和可转债相关的接口？”
-- “stock_zh_a_hist 这个接口有哪些参数，复权方式怎么填？”
+- “stock_zh_a_hist_em 这个接口有哪些参数，复权方式怎么填？”
 
 助手会通过 AKTools 提供的 3 个工具完成查询：`search_interfaces` 搜索接口、`describe_interface` 查看参数、`get_data` 获取数据。下面是在 Claude Code 中实际提问的过程（根据真实会话记录回放）：
 
@@ -177,9 +177,9 @@ pip install akshare aktools --upgrade -i https://pypi.org/simple
     | `http://127.0.0.1:8080/docs` | 接口导览，可在线调试 |
     | `http://127.0.0.1:8080/version` | 当前与最新的 AKShare、AKTools 版本 |
     | `http://127.0.0.1:8080/api/interfaces?q=历史行情` | 按关键词搜索接口 |
-    | `http://127.0.0.1:8080/api/interfaces/stock_zh_a_hist` | 查看接口的参数、默认值和说明 |
-    | `http://127.0.0.1:8080/api/public/tool_trade_date_hist_sina` | 连通性测试（新浪交易日历，无需参数且较为稳定） |
-    | `http://127.0.0.1:8080/api/public/stock_zh_a_hist?symbol=600000` | 带参数获取数据 |
+    | `http://127.0.0.1:8080/api/interfaces/stock_zh_a_hist_em` | 查看接口的参数、默认值和说明 |
+    | `http://127.0.0.1:8080/api/public/calendar_trade_date_hist_sina` | 连通性测试（新浪交易日历，无需参数且较为稳定） |
+    | `http://127.0.0.1:8080/api/public/stock_zh_a_hist_em?symbol=600000` | 带参数获取数据 |
 
 启动参数：
 
@@ -210,7 +210,7 @@ akshare.{接口名}(参数1="值1", 参数2="值2")
 - **接口名**与 AKShare 的函数名完全一致。可以通过 `/api/interfaces?q=关键词` 搜索接口，通过 `/api/interfaces/{接口名}` 查看参数说明，详细的数据说明请查阅 [AKShare 数据字典](https://akshare.akfamily.xyz/data/index.html)。
 - **参数**以查询字符串传递，值不需要加引号，例如 `?symbol=600000&period=weekly`；不传的参数使用 AKShare 接口的默认值。
 - **返回值**默认是由 DataFrame 按行转换得到的 JSON 数组，日期时间字段为 ISO 8601 格式，例如 `"2024-01-25T00:00:00.000"`。
-- **下载表格**：加上保留参数 `_format=csv` 或 `_format=xlsx`，数据会以 `{接口名}.csv` 或 `{接口名}.xlsx` 文件下载，例如 `/api/public/stock_zh_a_hist?symbol=000001&_format=xlsx`。CSV 为带 BOM 的 UTF-8 编码，可以直接用 Excel 打开。
+- **下载表格**：加上保留参数 `_format=csv` 或 `_format=xlsx`，数据会以 `{接口名}.csv` 或 `{接口名}.xlsx` 文件下载，例如 `/api/public/stock_zh_a_hist_em?symbol=000001&_format=xlsx`。CSV 为带 BOM 的 UTF-8 编码，可以直接用 Excel 打开。
 
 请求失败时返回 `{"error": "错误信息"}`，状态码含义如下：
 
@@ -231,7 +231,7 @@ akshare.{接口名}(参数1="值1", 参数2="值2")
 <summary>curl</summary>
 
 ```shell
-curl "http://127.0.0.1:8080/api/public/stock_zh_a_hist?symbol=000001&period=daily&start_date=20240101&end_date=20240131&adjust=qfq"
+curl "http://127.0.0.1:8080/api/public/stock_zh_a_hist_em?symbol=000001&period=daily&start_date=20240101&end_date=20240131&adjust=qfq"
 ```
 
 </details>
@@ -243,7 +243,7 @@ curl "http://127.0.0.1:8080/api/public/stock_zh_a_hist?symbol=000001&period=dail
 import pandas as pd
 import requests
 
-url = "http://127.0.0.1:8080/api/public/stock_zh_a_hist"
+url = "http://127.0.0.1:8080/api/public/stock_zh_a_hist_em"
 params = {
     "symbol": "000001",
     "period": "daily",
@@ -268,7 +268,7 @@ library(jsonlite) # 需要先安装该包
 options(warn = -1) # 去掉无参数请求时的 warning 信息
 
 temp_df <- getForm(
-  uri = "http://127.0.0.1:8080/api/public/stock_zh_a_hist",
+  uri = "http://127.0.0.1:8080/api/public/stock_zh_a_hist_em",
   symbol = "000001",
   period = "daily",
   start_date = "20211109",
@@ -287,7 +287,7 @@ inner_df
 
 ```matlab
 api = 'http://127.0.0.1:8080/api/public/';
-url = [api 'stock_zh_a_hist'];
+url = [api 'stock_zh_a_hist_em'];
 options = weboptions('ContentType', 'json', 'CharacterEncoding', 'utf-8');
 data = webread(url, 'symbol', '000001', 'period', 'daily', ...
     'start_date', '20211109', 'end_date', '20211209', 'adjust', 'hfq', options);
@@ -316,7 +316,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         ("adjust", ""),
     ];
     let resp = blocking::Client::new()
-        .get(format!("{URL}/stock_zh_a_hist"))
+        .get(format!("{URL}/stock_zh_a_hist_em"))
         .query(&params)
         .send()?;
 

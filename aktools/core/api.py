@@ -40,7 +40,7 @@ def call_interface(item_id: str, request: Request) -> Response:
     默认返回 JSON；查询参数 _format=csv 或 _format=xlsx 时返回文件下载
     :param request: 请求信息，查询参数即接口参数，如 symbol=000001
     :type request: Request
-    :param item_id: 接口名，如 stock_zh_a_hist
+    :param item_id: 接口名，如 stock_zh_a_hist_em
     :type item_id: str
     :return: 接口数据或错误信息
     :rtype: Response
@@ -110,7 +110,7 @@ def public_root(
     公开接口，接收接口名与参数并返回 JSON 数据
     :param request: 请求信息
     :type request: Request
-    :param item_id: 接口名，如 stock_zh_a_hist
+    :param item_id: 接口名，如 stock_zh_a_hist_em
     :type item_id: str
     :return: 指定接口名与参数的数据
     :rtype: JSONResponse

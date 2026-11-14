@@ -79,10 +79,12 @@ async def test_search_interfaces():
         )
     # 结果按相关度排序，最相关的接口排在前面；total 为全部匹配数，可能多于返回的条数
     top = [item["name"] for item in result["items"][:3]]
-    assert "tool_trade_date_hist_sina" in top
+    assert "calendar_trade_date_hist_sina" in top
     assert result["total"] >= len(result["items"])
     # 每个结果都带中文的数据来源，AI 可据此在同类接口中选择其他来源
-    item = next(i for i in result["items"] if i["name"] == "tool_trade_date_hist_sina")
+    item = next(
+        i for i in result["items"] if i["name"] == "calendar_trade_date_hist_sina"
+    )
     assert item["source"] == "新浪财经"
 
 
@@ -101,9 +103,9 @@ async def test_search_interfaces_limits_results():
 async def test_describe_interface():
     async with Client(mcp) as client:
         result = _payload(
-            await client.call_tool("describe_interface", {"name": "stock_zh_a_hist"})
+            await client.call_tool("describe_interface", {"name": "stock_zh_a_hist_em"})
         )
-    assert result["name"] == "stock_zh_a_hist"
+    assert result["name"] == "stock_zh_a_hist_em"
     assert result["params"][0]["name"] == "symbol"
 
 
@@ -181,7 +183,7 @@ def test_main_app_mounts_mcp():
         resp = c.post("/mcp", json=INIT_REQUEST, headers=MCP_HEADERS)
         assert resp.status_code == 200
         # 原有的数据接口不受影响
-        assert c.get("/api/interfaces/stock_zh_a_hist").status_code == 200
+        assert c.get("/api/interfaces/stock_zh_a_hist_em").status_code == 200
 
 
 # stdio 子进程中运行的脚本：换上离线的假接口，并故意向 stdout 打印，
@@ -392,7 +394,7 @@ async def test_search_matches_compound_keywords():
             await client.call_tool("search_interfaces", {"keyword": "A股 日线"})
         )
     names = [item["name"] for item in result["items"]]
-    assert "stock_zh_a_hist" in names
+    assert "stock_zh_a_hist_em" in names
     assert all({"name", "title", "category"} <= set(item) for item in result["items"])
 
 
@@ -404,7 +406,7 @@ async def test_search_falls_back_to_substring_match(monkeypatch):
         result = _payload(
             await client.call_tool("search_interfaces", {"keyword": "交易日历"})
         )
-    assert "tool_trade_date_hist_sina" in {item["name"] for item in result["items"]}
+    assert "calendar_trade_date_hist_sina" in {item["name"] for item in result["items"]}
 
 
 @pytest.mark.anyio
@@ -412,10 +414,12 @@ async def test_describe_interface_includes_outputs_and_example():
     """补充 AKShare 登记的返回列与调用示例，助手取数前就知道会拿到哪些列"""
     async with Client(mcp) as client:
         result = _payload(
-            await client.call_tool("describe_interface", {"name": "air_city_table"})
+            await client.call_tool(
+                "describe_interface", {"name": "alternative_air_city_table_zhenqi"}
+            )
         )
     assert result["outputs"] and {"name", "type"} <= set(result["outputs"][0])
-    assert "ak.air_city_table" in result["example"]
+    assert "ak.alternative_air_city_table_zhenqi" in result["example"]
 
 
 @pytest.mark.anyio
@@ -442,9 +446,10 @@ async def test_search_without_match_returns_hint():
     assert "数据类型" in result["hint"]
     # 有结果时不带提示；“日线”靠 AKShare 的同义词匹配到港股日线接口
     assert "hint" not in found
-    assert {item["name"] for item in found["items"][:2]} == {
-        "stock_hk_daily",
-        "stock_hk_hist",
+    # 港股指数的日线接口（index_hk_daily_sina）与个股日线同分，取前三
+    assert {item["name"] for item in found["items"][:3]} >= {
+        "stock_hk_daily_sina",
+        "stock_hk_hist_em",
     }
 
 
@@ -457,7 +462,7 @@ async def test_unknown_interface_tool_error_suggests_similar_names():
             "describe_interface", {"name": "stock_zh_a_hists"}
         )
     assert data.is_error and "futures_daily" in data.content[0].text
-    assert desc.is_error and "stock_zh_a_hist" in desc.content[0].text
+    assert desc.is_error and "stock_zh_a_hist_em" in desc.content[0].text
 
 
 @pytest.mark.anyio

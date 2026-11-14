@@ -25,31 +25,31 @@ GET /api/public/{接口名}?{参数1}={值1}&{参数2}={值2}
 akshare.{接口名}(参数1="值1", 参数2="值2")
 ```
 
-- **接口名**与 AKShare 的函数名完全一致，例如 `stock_zh_a_hist`。不知道接口名时，请用[接口目录](catalog.md)搜索。
+- **接口名**与 AKShare 的函数名完全一致，例如 `stock_zh_a_hist_em`。不知道接口名时，请用[接口目录](catalog.md)搜索。
 - **参数**以查询字符串传递，写在 `?` 之后，每个参数写成“参数名=值”，多个参数之间用 `&` 连接。
 - **参数值不加引号**，例如写 `symbol=600000`，不要写 `symbol="600000"`。
 - 不传的参数使用 AKShare 接口的默认值。
 
 ### 无参数接口
 
-例如 `ak.tool_trade_date_hist_sina()` 用于获取新浪财经的交易日历，直接访问即可：
+例如 `ak.calendar_trade_date_hist_sina()` 用于获取新浪财经的交易日历，直接访问即可：
 
 ```text
-http://127.0.0.1:8080/api/public/tool_trade_date_hist_sina
+http://127.0.0.1:8080/api/public/calendar_trade_date_hist_sina
 ```
 
 ### 带参数接口
 
-例如 `ak.stock_zh_a_hist()` 用于获取 A 股历史行情。获取 `symbol="600000"` 的数据：
+例如 `ak.stock_zh_a_hist_em()` 用于获取 A 股历史行情。获取 `symbol="600000"` 的数据：
 
 ```text
-http://127.0.0.1:8080/api/public/stock_zh_a_hist?symbol=600000
+http://127.0.0.1:8080/api/public/stock_zh_a_hist_em?symbol=600000
 ```
 
 同时指定多个参数：
 
 ```text
-http://127.0.0.1:8080/api/public/stock_zh_a_hist?symbol=600000&period=weekly&start_date=20240101&end_date=20241231&adjust=qfq
+http://127.0.0.1:8080/api/public/stock_zh_a_hist_em?symbol=600000&period=weekly&start_date=20240101&end_date=20241231&adjust=qfq
 ```
 
 !!! note "参数值中含中文或特殊字符"
@@ -91,7 +91,7 @@ http://127.0.0.1:8080/api/public/stock_zh_a_hist?symbol=600000&period=weekly&sta
 例如：
 
 ```text
-http://127.0.0.1:8080/api/public/stock_zh_a_hist?symbol=000001&start_date=20240101&end_date=20241231&_format=xlsx
+http://127.0.0.1:8080/api/public/stock_zh_a_hist_em?symbol=000001&start_date=20240101&end_date=20241231&_format=xlsx
 ```
 
 `_format` 由 AKTools 处理，不会传给 AKShare 接口。Excel 单个工作表最多约 104 万行，数据超出时请改用 `csv`。

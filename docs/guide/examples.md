@@ -7,7 +7,7 @@
 ## curl
 
 ```shell
-curl "http://127.0.0.1:8080/api/public/stock_zh_a_hist?symbol=000001&period=daily&start_date=20240101&end_date=20240131&adjust=qfq"
+curl "http://127.0.0.1:8080/api/public/stock_zh_a_hist_em?symbol=000001&period=daily&start_date=20240101&end_date=20240131&adjust=qfq"
 ```
 
 ## Python
@@ -16,7 +16,7 @@ curl "http://127.0.0.1:8080/api/public/stock_zh_a_hist?symbol=000001&period=dail
 import pandas as pd
 import requests
 
-url = "http://127.0.0.1:8080/api/public/stock_zh_a_hist"
+url = "http://127.0.0.1:8080/api/public/stock_zh_a_hist_em"
 params = {
     "symbol": "000001",
     "period": "daily",
@@ -42,7 +42,7 @@ const params = new URLSearchParams({
   end_date: "20240131",
   adjust: "qfq",
 });
-const resp = await fetch(`http://127.0.0.1:8080/api/public/stock_zh_a_hist?${params}`);
+const resp = await fetch(`http://127.0.0.1:8080/api/public/stock_zh_a_hist_em?${params}`);
 if (!resp.ok) {
   throw new Error((await resp.json()).error);
 }
@@ -57,7 +57,7 @@ library(jsonlite) # 需要先安装该包
 options(warn = -1) # 去掉无参数请求时的 warning 信息
 
 temp_df <- getForm(
-  uri = "http://127.0.0.1:8080/api/public/stock_zh_a_hist",
+  uri = "http://127.0.0.1:8080/api/public/stock_zh_a_hist_em",
   symbol = "000001",
   period = "daily",
   start_date = "20211109",
@@ -102,7 +102,7 @@ inner_df
 
 ```matlab
 api = 'http://127.0.0.1:8080/api/public/';
-url = [api 'stock_zh_a_hist'];
+url = [api 'stock_zh_a_hist_em'];
 options = weboptions('ContentType', 'json', 'CharacterEncoding', 'utf-8');
 data = webread(url, 'symbol', '000001', 'period', 'daily', ...
     'start_date', '20211109', 'end_date', '20211209', 'adjust', 'hfq', options);
@@ -158,7 +158,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         ("adjust", ""),
     ];
     let resp = blocking::Client::new()
-        .get(format!("{URL}/stock_zh_a_hist"))
+        .get(format!("{URL}/stock_zh_a_hist_em"))
         .query(&params)
         .send()?;
 

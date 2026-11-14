@@ -104,8 +104,8 @@ def test_main_app_enforces_token_from_env(tmp_path):
         "with TestClient(m.app, base_url='http://127.0.0.1:8080', "
         "follow_redirects=False) as c:\n"
         "    print(c.get('/').status_code,\n"
-        "          c.get('/api/interfaces/stock_zh_a_hist').status_code,\n"
-        "          c.get('/api/interfaces/stock_zh_a_hist?_token=secret').status_code,\n"
+        "          c.get('/api/interfaces/stock_zh_a_hist_em').status_code,\n"
+        "          c.get('/api/interfaces/stock_zh_a_hist_em?_token=secret').status_code,\n"
         "          c.post('/mcp', json=init, headers=h).status_code,\n"
         "          c.post('/mcp', json=init, headers=auth).status_code)\n"
     )

@@ -95,7 +95,7 @@ All three tools are annotated read-only.
 Typical flow: `search_interfaces` -> `describe_interface` -> `get_data`.
 
 The same data often has several sources (A-share daily bars:
-`stock_zh_a_hist` from Eastmoney, `stock_zh_a_daily` from Sina,
+`stock_zh_a_hist_em` from Eastmoney, `stock_zh_a_daily_sina` from Sina,
 `stock_zh_a_hist_tx` from Tencent). Interfaces whose `source` is
 `东方财富·行情（频繁访问易限流）` (`rate_limit: "eastmoney_push2"`, about 100
 quote, K-line, board and fund-flow interfaces) hit Eastmoney's push2 quote

@@ -12,8 +12,8 @@ http://127.0.0.1:8080/api/interfaces?q=交易日历
 
 ```json
 [
-  {"name": "futures_rule", "title": "国泰君安期货-交易日历数据表"},
-  {"name": "tool_trade_date_hist_sina", "title": "新浪财经-交易日历-历史数据"}
+  {"name": "futures_trading_rule_gtja", "title": "国泰君安期货-交易日历数据表"},
+  {"name": "calendar_trade_date_hist_sina", "title": "新浪财经-交易日历-历史数据"}
 ]
 ```
 
@@ -28,21 +28,21 @@ http://127.0.0.1:8080/api/interfaces?q=交易日历
 在 `/api/interfaces/` 后面加上接口名：
 
 ```text
-http://127.0.0.1:8080/api/interfaces/stock_zh_a_hist
+http://127.0.0.1:8080/api/interfaces/stock_zh_a_hist_em
 ```
 
 ```json
 {
-  "name": "stock_zh_a_hist",
+  "name": "stock_zh_a_hist_em",
   "title": "东方财富网-行情首页-沪深京 A 股-每日行情",
   "source": "东方财富·行情（频繁访问易限流）",
   "source_url": "https://quote.eastmoney.com/concept/sh603777.html?from=classic",
   "rate_limit": "eastmoney_push2",
   "alternatives": [
-    {"name": "stock_zh_a_daily", "title": "新浪财经-A 股-个股的历史行情数据，大量抓取容易封 IP", "source": "新浪财经"},
+    {"name": "stock_zh_a_daily_sina", "title": "新浪财经-A 股-个股的历史行情数据，大量抓取容易封 IP", "source": "新浪财经"},
     {"name": "stock_zh_a_hist_tx", "title": "腾讯证券-日频-股票历史数据", "source": "腾讯"}
   ],
-  "url": "/api/public/stock_zh_a_hist",
+  "url": "/api/public/stock_zh_a_hist_em",
   "params": [
     {"name": "symbol", "default": "000001", "required": false, "type": "str", "description": "股票代码"},
     {"name": "period", "default": "daily", "required": false, "type": "str", "description": "choice of {'daily', 'weekly', 'monthly'}"}
@@ -88,4 +88,4 @@ http://127.0.0.1:8080/api/interfaces/stock_zh_a_hist
 
 东方财富的行情类接口（实时行情、历史 K 线、板块、资金流等，约 100 个）使用的服务器在短时间内请求较多时，会临时封禁来源 IP，首次一般约 5 分钟后恢复，期间所有东方财富行情接口都会返回 `429`。这类接口的 `source` 为“东方财富·行情（频繁访问易限流）”，`rate_limit` 为 `eastmoney_push2`。东方财富的宏观、财务报表、龙虎榜等接口使用其他服务器，不受影响。
 
-需要批量获取行情数据时，可以先搜索同一类数据的其他来源，例如 A 股日线除了东方财富的 `stock_zh_a_hist`，还有新浪财经的 `stock_zh_a_daily` 和腾讯的 `stock_zh_a_hist_tx`。接口说明中的 `alternatives` 列出了 AKShare 登记的同类接口；被限流时，返回的错误信息也会列出其中可以改用的接口。它们的参数可能不同，调用前请先查看参数说明。
+需要批量获取行情数据时，可以先搜索同一类数据的其他来源，例如 A 股日线除了东方财富的 `stock_zh_a_hist_em`，还有新浪财经的 `stock_zh_a_daily_sina` 和腾讯的 `stock_zh_a_hist_tx`。接口说明中的 `alternatives` 列出了 AKShare 登记的同类接口；被限流时，返回的错误信息也会列出其中可以改用的接口。它们的参数可能不同，调用前请先查看参数说明。

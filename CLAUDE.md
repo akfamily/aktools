@@ -30,7 +30,7 @@ uv run python -m aktools --host 127.0.0.1 --port 8080   # then open http://127.0
 Smoke-test an interface once the server is up:
 
 ```bash
-curl "http://127.0.0.1:8080/api/public/stock_zh_a_hist?symbol=000001"
+curl "http://127.0.0.1:8080/api/public/stock_zh_a_hist_em?symbol=000001"
 ```
 
 Docs site (`docs/` + `mkdocs.yml`, built by [Zensical](https://zensical.org/), the Material for MkDocs successor, from the `docs` dependency group — not part of `dev`):

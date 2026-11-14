@@ -146,7 +146,7 @@ def _annotation_name(annotation) -> str:
 def describe_interface(name: str) -> Optional[Dict]:
     """
     返回单个接口的说明：标题、数据源地址、调用地址与各参数的默认值、类型和说明
-    :param name: 接口名，如 stock_zh_a_hist
+    :param name: 接口名，如 stock_zh_a_hist_em
     :type name: str
     :return: 接口说明；不是数据接口时返回 None
     :rtype: dict
@@ -255,7 +255,7 @@ def registered_alternatives(name: str) -> List[Dict[str, Optional[str]]]:
     AKShare 登记的同类接口：来自其他数据源、内容属于同一类的接口
     取自 AKShare 接口登记的 alternatives 字段（1.20.39 起提供，人工维护）；AKTools 不自行推测，
     按名称与描述猜测时会把 ST 股票列表配给日线、把 B 股配给科创板。旧版 AKShare 没有该字段时为空
-    :param name: 接口名，如 stock_zh_a_hist
+    :param name: 接口名，如 stock_zh_a_hist_em
     :type name: str
     :return: [{"name": 接口名, "title": 标题, "source": 来源, "rate_limit": 访问限制}]
     :rtype: list
@@ -278,7 +278,7 @@ def find_alternatives(name: str) -> List[Dict[str, Optional[str]]]:
     东方财富行情接口被限流时可以改用的同类接口
     即 registered_alternatives 中不请求东方财富 push2 行情服务器的那些：限流按 IP 生效，
     被限流期间其他东方财富行情接口同样无法使用
-    :param name: 接口名，如 stock_zh_a_hist
+    :param name: 接口名，如 stock_zh_a_hist_em
     :type name: str
     :return: 同 registered_alternatives；没有登记时为空列表
     :rtype: list

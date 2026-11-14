@@ -283,13 +283,15 @@ def test_push2_rate_limit_suggests_other_sources(monkeypatch):
     monkeypatch.setattr(
         catalog,
         "find_alternatives",
-        lambda name: [{"name": "stock_zh_a_daily", "title": "", "source": "新浪财经"}],
+        lambda name: [
+            {"name": "stock_zh_a_daily_sina", "title": "", "source": "新浪财经"}
+        ],
     )
     resp = call_interface("aktools_fake_push2_quote", _FakeRequest())
     body = resp.body.decode("utf-8")
     assert resp.status_code == 429
     assert "5 分钟" in body
-    assert "stock_zh_a_daily（新浪财经）" in body
+    assert "stock_zh_a_daily_sina（新浪财经）" in body
     assert "请求过于频繁" in body
 
 

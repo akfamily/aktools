@@ -48,9 +48,9 @@ def test_list_interfaces_contains_only_callable_interfaces() -> None:
     assert response.status_code == 200
     items = response.json()
     names = {item["name"] for item in items}
-    assert "stock_zh_a_hist" in names
-    title = next(i["title"] for i in items if i["name"] == "stock_zh_a_hist")
-    assert title == inspect.getdoc(ak.stock_zh_a_hist).splitlines()[0].strip()
+    assert "stock_zh_a_hist_em" in names
+    title = next(i["title"] for i in items if i["name"] == "stock_zh_a_hist_em")
+    assert title == inspect.getdoc(ak.stock_zh_a_hist_em).splitlines()[0].strip()
     # AKShare 顶层还导出了子模块和类，它们不是数据接口，不应出现在目录中
     module_names = {n for n in dir(ak) if isinstance(getattr(ak, n), types.ModuleType)}
     assert module_names and not names & module_names
@@ -61,7 +61,7 @@ def test_list_interfaces_filters_by_keyword() -> None:
     response = client.get("/api/interfaces", params={"q": "STOCK_ZH_A_HIST"})
     assert response.status_code == 200
     items = response.json()
-    assert "stock_zh_a_hist" in {item["name"] for item in items}
+    assert "stock_zh_a_hist_em" in {item["name"] for item in items}
     assert all(
         "stock_zh_a_hist" in item["name"] or "stock_zh_a_hist" in item["title"].lower()
         for item in items
@@ -69,20 +69,20 @@ def test_list_interfaces_filters_by_keyword() -> None:
 
 
 def test_describe_real_interface() -> None:
-    response = client.get("/api/interfaces/stock_zh_a_hist")
+    response = client.get("/api/interfaces/stock_zh_a_hist_em")
     assert response.status_code == 200
     info = response.json()
-    assert info["name"] == "stock_zh_a_hist"
-    assert info["url"] == "/api/public/stock_zh_a_hist"
+    assert info["name"] == "stock_zh_a_hist_em"
+    assert info["url"] == "/api/public/stock_zh_a_hist_em"
     assert info["source_url"].startswith("http")
-    expected = list(inspect.signature(ak.stock_zh_a_hist).parameters)
+    expected = list(inspect.signature(ak.stock_zh_a_hist_em).parameters)
     assert [p["name"] for p in info["params"]] == expected
     symbol = info["params"][0]
     assert symbol["default"] == "000001"
     assert symbol["required"] is False
     assert symbol["type"] == "str"
     assert symbol["description"]
-    assert info["doc"] == inspect.getdoc(ak.stock_zh_a_hist)
+    assert info["doc"] == inspect.getdoc(ak.stock_zh_a_hist_em)
 
 
 def test_describe_interface_without_docstring(monkeypatch) -> None:
@@ -169,9 +169,9 @@ def _fake_registry(monkeypatch, records):
 )
 def test_source_of_maps_domain_to_chinese_name(monkeypatch, url, rate_limit, expected):
     _fake_registry(
-        monkeypatch, {"stock_zh_a_hist": {"url": url, "rate_limit": rate_limit}}
+        monkeypatch, {"stock_zh_a_hist_em": {"url": url, "rate_limit": rate_limit}}
     )
-    assert catalog.source_of("stock_zh_a_hist") == expected
+    assert catalog.source_of("stock_zh_a_hist_em") == expected
 
 
 def test_push2_source_tells_it_is_rate_limited():
@@ -206,9 +206,9 @@ def test_source_of_unknown_is_empty(monkeypatch):
 def test_rate_limit_of_reads_registry(monkeypatch):
     _fake_registry(
         monkeypatch,
-        {"stock_zh_a_hist": {"rate_limit": PUSH2}, "macro_china_cpi": {}},
+        {"stock_zh_a_hist_em": {"rate_limit": PUSH2}, "macro_china_cpi": {}},
     )
-    assert catalog.rate_limit_of("stock_zh_a_hist") == PUSH2
+    assert catalog.rate_limit_of("stock_zh_a_hist_em") == PUSH2
     # 旧版 AKShare 的登记没有 rate_limit 字段，按不限流处理
     assert catalog.rate_limit_of("macro_china_cpi") is None
 
@@ -217,27 +217,27 @@ def test_describe_interface_includes_source_and_rate_limit(monkeypatch):
     _fake_registry(
         monkeypatch,
         {
-            "stock_zh_a_hist": {
+            "stock_zh_a_hist_em": {
                 "url": "https://quote.eastmoney.com/",
                 "rate_limit": PUSH2,
             }
         },
     )
-    info = describe_interface("stock_zh_a_hist")
+    info = describe_interface("stock_zh_a_hist_em")
     assert info["source"] == catalog.PUSH2_SOURCE
     assert info["rate_limit"] == PUSH2
 
 
 ALT_REGISTRY = {
-    "stock_zh_a_hist": {
+    "stock_zh_a_hist_em": {
         "rate_limit": PUSH2,
         "alternatives": [
-            "stock_zh_a_daily",
+            "stock_zh_a_daily_sina",
             "stock_zh_a_spot_em",
             "aktools_removed_interface",
         ],
     },
-    "stock_zh_a_daily": {"url": "https://finance.sina.com.cn/"},
+    "stock_zh_a_daily_sina": {"url": "https://finance.sina.com.cn/"},
     "stock_zh_a_spot_em": {"rate_limit": PUSH2},
 }
 
@@ -245,9 +245,9 @@ ALT_REGISTRY = {
 def test_registered_alternatives_come_from_akshare_registry(monkeypatch):
     """同类接口取自 AKShare 人工维护的对照表，登记了但当前版本没有的接口不列出"""
     _fake_registry(monkeypatch, ALT_REGISTRY)
-    items = catalog.registered_alternatives("stock_zh_a_hist")
+    items = catalog.registered_alternatives("stock_zh_a_hist_em")
     assert [item["name"] for item in items] == [
-        "stock_zh_a_daily",
+        "stock_zh_a_daily_sina",
         "stock_zh_a_spot_em",
     ]
     assert items[0]["source"] == "新浪财经"
@@ -257,8 +257,8 @@ def test_registered_alternatives_come_from_akshare_registry(monkeypatch):
 def test_find_alternatives_excludes_other_push2_interfaces(monkeypatch):
     """限流按 IP 生效，被限流时其他东方财富行情接口同样用不了，不能作为替代"""
     _fake_registry(monkeypatch, ALT_REGISTRY)
-    names = [item["name"] for item in catalog.find_alternatives("stock_zh_a_hist")]
-    assert names == ["stock_zh_a_daily"]
+    names = [item["name"] for item in catalog.find_alternatives("stock_zh_a_hist_em")]
+    assert names == ["stock_zh_a_daily_sina"]
 
 
 def test_find_alternatives_does_not_guess(monkeypatch):
@@ -269,10 +269,10 @@ def test_find_alternatives_does_not_guess(monkeypatch):
 
 def test_describe_interface_lists_alternatives(monkeypatch):
     _fake_registry(monkeypatch, ALT_REGISTRY)
-    info = describe_interface("stock_zh_a_hist")
+    info = describe_interface("stock_zh_a_hist_em")
     assert info["alternatives"] == [
         {
-            "name": "stock_zh_a_daily",
+            "name": "stock_zh_a_daily_sina",
             "title": info["alternatives"][0]["title"],
             "source": "新浪财经",
         },
@@ -286,8 +286,8 @@ def test_describe_interface_lists_alternatives(monkeypatch):
 
 def test_real_registry_has_alternatives_for_a_share_daily():
     """随依赖安装的 AKShare（不低于 1.20.39）登记了 A 股日线的同类接口"""
-    names = [item["name"] for item in catalog.find_alternatives("stock_zh_a_hist")]
-    assert names == ["stock_zh_a_daily", "stock_zh_a_hist_tx"]
+    names = [item["name"] for item in catalog.find_alternatives("stock_zh_a_hist_em")]
+    assert names == ["stock_zh_a_daily_sina", "stock_zh_a_hist_tx"]
 
 
 def test_similar_names_for_renamed_interface():
@@ -299,7 +299,7 @@ def test_similar_names_for_renamed_interface():
 def test_unknown_interface_404_suggests_similar_names():
     resp = client.get("/api/interfaces/stock_zh_a_hists")
     assert resp.status_code == 404
-    assert "stock_zh_a_hist" in resp.json()["error"]
+    assert "stock_zh_a_hist_em" in resp.json()["error"]
     assert "名称相近的接口" in resp.json()["error"]
     # 没有相近名称时不出现这句提示
     resp = client.get("/api/interfaces/zzz_nothing_like_this_qq")

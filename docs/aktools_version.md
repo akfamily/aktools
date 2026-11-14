@@ -10,6 +10,14 @@ AKTools 只负责把 HTTP 请求转发给 AKShare，数据接口的新增与变�
 
 ## 更新记录
 
+0.1.8: fix!: follow the interface renames of AKShare 1.20.41-1.20.48
+
+**不兼容的改动：要求 AKShare 1.20.48 或更高版本，原先的接口网址需要改用新的接口名。** AKShare 在 1.20.41～1.20.48 按金融含义统一了接口命名，并把类目由 22 个合并为 15 个，共 300 多个接口改名、旧名称不再保留，例如 stock_zh_a_hist 改为 stock_zh_a_hist_em、stock_zh_a_daily 改为 stock_zh_a_daily_sina、tool_trade_date_hist_sina 改为 calendar_trade_date_hist_sina。请求旧名称会返回 404，完整对照见 [AKShare 接口更名一览表](https://akshare.akfamily.xyz/changelog.html#changelog-rename)。
+
+1. AKShare 的最低版本由 1.20.39 提高到 1.20.48
+2. 首页的连通性测试链接、文档、示例与 MCP 工具说明中的接口名全部改为新名称
+3. AKTools 自身的接口、参数与返回格式没有变化
+
 0.1.7: build: require Python 3.11.5 or later
 
 **不兼容的改动：最低 Python 版本由 3.11 提高到 3.11.5。** 使用 Python 3.11.0～3.11.4 的环境会停留在 0.1.6，请升级到 3.11.5 或更高的版本（3.12 及以上不受影响）。

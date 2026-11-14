@@ -37,7 +37,7 @@ AKTools 只是 [AKShare](https://github.com/akfamily/akshare) 外面的一层 HT
 ```python
 import akshare as ak
 
-df = ak.stock_zh_a_hist(symbol="000001")  # 换成您出问题的接口和参数
+df = ak.stock_zh_a_hist_em(symbol="000001")  # 换成您出问题的接口和参数
 print(df)
 ```
 

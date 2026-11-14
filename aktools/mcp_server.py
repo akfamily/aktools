@@ -109,7 +109,7 @@ def search_interfaces(
 
 @mcp.tool(annotations=READ_ONLY)
 def describe_interface(
-    name: Annotated[str, Field(description="接口名，如 stock_zh_a_hist")],
+    name: Annotated[str, Field(description="接口名，如 stock_zh_a_hist_em")],
 ) -> Dict[str, Any]:
     """查看接口的标题、数据来源与访问限制、其他来源的同类接口（alternatives）、各参数的默认值、类型和说明，以及返回列、数据范围说明与调用示例"""
     info = _describe_interface(name)
@@ -123,7 +123,7 @@ def describe_interface(
 
 @mcp.tool(annotations=READ_ONLY)
 def get_data(
-    name: Annotated[str, Field(description="接口名，如 stock_zh_a_hist")],
+    name: Annotated[str, Field(description="接口名，如 stock_zh_a_hist_em")],
     params: Annotated[
         Optional[Dict[str, Union[str, int, float, bool]]],
         Field(

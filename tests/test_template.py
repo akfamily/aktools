@@ -43,7 +43,7 @@ def test_homepage_links_follow_request_scheme(monkeypatch) -> None:
 
 
 @pytest.mark.parametrize(
-    "path", ["/api/show", "/api/show-temp/tool_trade_date_hist_sina"]
+    "path", ["/api/show", "/api/show-temp/calendar_trade_date_hist_sina"]
 )
 def test_pyscript_pages_removed(path) -> None:
     """PyScript 数据展示页已移除：它依赖外部 CDN、首次加载需下载数十 MB，取数请使用 /api/public"""
@@ -80,8 +80,8 @@ async def test_slow_version_lookup_does_not_block_other_requests(monkeypatch, pa
         async with anyio.create_task_group() as tg:
             tg.start_soon(fetch, path)
             await anyio.sleep(0.1)
-            tg.start_soon(fetch, "/api/interfaces/stock_zh_a_hist")
-    assert finished == ["/api/interfaces/stock_zh_a_hist", path]
+            tg.start_soon(fetch, "/api/interfaces/stock_zh_a_hist_em")
+    assert finished == ["/api/interfaces/stock_zh_a_hist_em", path]
 
 
 @pytest.fixture
