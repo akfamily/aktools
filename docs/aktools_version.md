@@ -10,6 +10,13 @@ AKTools 只负责把 HTTP 请求转发给 AKShare，数据接口的新增与变�
 
 ## 更新记录
 
+0.1.10: fix: stop exposing AKShare's configuration functions as interfaces
+
+**安全修复，建议所有用户升级。** 0.1.9 及更早的版本把 AKShare 顶层的所有函数都当作数据接口，其中包括设置函数：请求 /api/public/set_proxies、set_timeout、set_token，或通过 MCP 的 get_data 调用它们，会改掉整个服务的代理、超时与令牌。没有设置访问令牌（--token）的服务，任何能访问到它的人都可以借此把服务的上游请求转到自己指定的代理。get_token 等读取函数会报错，不会返回令牌内容。
+
+1. 只有 AKShare 接口登记中的数据接口才能被调用和列出；set_proxies、set_timeout、set_token、get_proxies、get_timeout、get_token、pro_api、search、interface_info、list_categories、renamed_info 不再是接口，请求时返回 404。代理与超时仍通过启动参数 --proxy、--timeout 设置
+2. 暂时无法升级的服务，请不要对不可信的网络开放，或设置访问令牌
+
 0.1.9: feat: tell the new name when a renamed or removed interface is requested
 
 1. 请求已更名的旧接口名时，404 的报错信息给出现在的名称与新的请求地址，例如请求 /api/public/stock_zh_a_hist 会提示“stock_zh_a_hist 已在 AKShare 1.20.46 更名为 stock_zh_a_hist_em，请改为请求 /api/public/stock_zh_a_hist_em”；已移除的接口给出移除的版本与更新日志地址。此前只按名称相似度列出几个接口，改名的接口常常排不到第一位，已移除的接口列出的则是不相干的名称
