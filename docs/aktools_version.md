@@ -10,6 +10,13 @@ AKTools 只负责把 HTTP 请求转发给 AKShare，数据接口的新增与变�
 
 ## 更新记录
 
+0.1.12: feat: add the save_data MCP tool and queue identical concurrent requests
+
+1. MCP 新增工具 save_data（仅 stdio 方式）：把接口返回的完整数据保存为本机的 CSV 文件，不受 get_data 的 1000 行限制，返回文件路径、总行数、各列的说明（含单位）与前 5 行。文件保存在用户目录下的 .aktools/data，可用环境变量 AKTOOLS_DATA_DIR 修改，助手不能指定保存路径；相同的请求覆盖同一个文件，超过 7 天的文件在保存时自动清理。该工具会写文件，没有标注为只读，客户端调用前通常会请求确认
+2. 配合 AKQuant 的 MCP，可以回测 A 股个股以外的品种：用 save_data 保存指数、ETF、期货、港股、美股的行情，再把文件路径交给 AKQuant 的 prepare_data。目前需要把 AKTOOLS_DATA_DIR 设在 AKQuant 的项目目录内，并使用列名为英文的接口（新浪财经、腾讯）
+3. 同一接口、同样参数的请求同时到达时，只访问上游数据源一次，其余请求等它完成后使用缓存的结果；此前每个请求都会各自访问上游，容易加重限流。关闭结果缓存（--cache-ttl 0）时不生效
+4. AKShare 的最低版本要求提高到 1.20.65：该版本起所有数据接口统一返回表格，此前有 11 个接口返回字典、列表或字符串，通过 AKTools 调用会报错
+
 0.1.11: docs: follow the *_hist_sina renames of AKShare 1.20.64
 
 1. AKShare 1.20.64 把新浪财经的 6 个股票日线接口改名并新增 period 参数（可选 daily、weekly、monthly）：stock_zh_a_daily_sina→stock_zh_a_hist_sina、stock_zh_a_cdr_daily_sina→stock_zh_a_cdr_hist_sina、stock_zh_b_daily_sina→stock_zh_b_hist_sina、stock_zh_kcb_daily_sina→stock_zh_kcb_hist_sina、stock_hk_daily_sina→stock_hk_hist_sina、stock_us_daily_sina→stock_us_hist_sina。文档中的示例随之改用新名称，如 /api/public/stock_zh_a_hist_sina?symbol=sh600519
