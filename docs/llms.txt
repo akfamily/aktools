@@ -68,7 +68,8 @@ client config: `UV_INDEX_URL` (PyPI mirror, e.g.
 `https://mirrors.aliyun.com/pypi/simple/`), `AKTOOLS_PROXY`,
 `AKTOOLS_TIMEOUT`.
 
-It exposes three generic tools rather than one tool per interface:
+It exposes three generic read-only tools rather than one tool per
+interface (plus `save_data` over stdio, described below):
 
 - `search_interfaces(keyword)`: ranked search over interface names,
   descriptions and output columns; space-separated keywords combine, e.g.
@@ -93,6 +94,20 @@ It exposes three generic tools rather than one tool per interface:
 All three tools are annotated read-only.
 
 Typical flow: `search_interfaces` -> `describe_interface` -> `get_data`.
+
+Over stdio only there is a fourth tool, `save_data(name, params)`: it calls
+the interface and writes the complete table (no 1000-row limit) to a CSV
+file on the local machine, returning `path` (absolute), `written`,
+`total_rows`, `source`, `columns` (`{name, type, desc}`, units are in
+`desc`), `head` (first 5 rows) and `usage`. Use it to hand data to another
+program (e.g. AKQuant) or for tables over 1000 rows; use `get_data` to just
+look at data. Files go to `~/.aktools/data` or the directory in the
+`AKTOOLS_DATA_DIR` environment variable; the caller cannot choose a path.
+The file name is derived from the interface and parameters, identical
+content is not rewritten, CSV files older than 7 days are pruned, and the
+encoding is UTF-8 without a BOM. It is not annotated read-only, so clients
+usually ask for confirmation. It is not offered over HTTP, where `get_data`
+returns `csv_url` instead.
 
 The same data often has several sources (A-share daily bars:
 `stock_zh_a_hist_em` from Eastmoney, `stock_zh_a_hist_sina` from Sina,
@@ -130,7 +145,8 @@ strategy.
   "mcpServers": {
     "aktools": {
       "command": "uvx",
-      "args": ["--from", "aktools", "aktools-mcp"]
+      "args": ["--from", "aktools", "aktools-mcp"],
+      "env": {"AKTOOLS_DATA_DIR": "<project dir>/data"}
     },
     "akquant": {
       "command": "uvx",
@@ -143,6 +159,18 @@ strategy.
 `--root` must be an existing directory; strategy and data files must live
 inside it. AKQuant runs strategy code on the local machine without a
 sandbox. See `https://akquant.akfamily.xyz/guide/mcp/`.
+
+AKQuant itself only fetches daily bars of A-share stocks. To backtest
+anything else (indexes, ETFs, futures, Hong Kong and U.S. stocks, weekly or
+monthly bars): call AKTools `save_data`, then pass the returned `path` to
+AKQuant's `prepare_data` as `{"source": "file", "path": "<path>", "symbol":
+"<code>"}` (always give `symbol`, otherwise the file name becomes the symbol).
+AKQuant reads files only inside its `--root`, hence `AKTOOLS_DATA_DIR` above
+points into that directory. It needs the columns `date`, `open`, `high`,
+`low`, `close`: interfaces ending in `_sina` or `_tx` have them, Eastmoney
+quote interfaces use Chinese column names and do not work directly. Units
+differ by source (volume is in shares for Sina, in lots of 100 for
+Eastmoney); check `columns[].desc`.
 
 ## HTTP API
 

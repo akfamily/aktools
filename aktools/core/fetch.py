@@ -21,6 +21,7 @@ from aktools.core.cache import (
     DEFAULT_AKSHARE_CACHE_CLEAR,
     DEFAULT_CACHE_TTL,
     AkshareCacheJanitor,
+    InFlight,
     ResultCache,
     env_seconds,
 )
@@ -32,6 +33,7 @@ from aktools.core.network import apply_network_settings
 DOC_URL = "https://akshare.akfamily.xyz"
 
 result_cache = ResultCache(ttl=env_seconds(CACHE_TTL_ENV, DEFAULT_CACHE_TTL))
+in_flight = InFlight()
 akshare_janitor = AkshareCacheJanitor(
     interval=env_seconds(AKSHARE_CACHE_CLEAR_ENV, DEFAULT_AKSHARE_CACHE_CLEAR)
 )
@@ -190,6 +192,21 @@ def fetch_dataframe(item_id: str, params: Dict[str, str]) -> Tuple[pd.DataFrame,
     cached = result_cache.get(cache_key)
     if cached is not None:
         return cached, "hit"
+    if result_cache.ttl <= 0:
+        # 关闭了结果缓存时，排队只会让相同的请求变成串行，没有任何好处
+        return _call_akshare(item_id, params), "miss"
+    with in_flight.hold(cache_key):
+        # 排队期间，前一个相同的请求可能已经把结果放进了缓存
+        cached = result_cache.get(cache_key)
+        if cached is not None:
+            return cached, "hit"
+        df = _call_akshare(item_id, params)
+        result_cache.set(cache_key, df)
+        return df, "miss"
+
+
+def _call_akshare(item_id: str, params: Dict[str, str]) -> pd.DataFrame:
+    """调用 AKShare 接口，把各类异常转为 InterfaceError；不经过缓存"""
     try:
         df = getattr(ak, item_id)(**params)
     except tuple(error for error, _, _ in AKSHARE_ERRORS) as e:
@@ -217,5 +234,4 @@ def fetch_dataframe(item_id: str, params: Dict[str, str]) -> Tuple[pd.DataFrame,
             f"该接口返回数据为空，请确认参数是否正确：{DOC_URL}",
             status.HTTP_404_NOT_FOUND,
         )
-    result_cache.set(cache_key, df)
-    return df, "miss"
+    return df

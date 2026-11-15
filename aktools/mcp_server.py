@@ -5,6 +5,7 @@ Date: 2026/10/29 22:00
 Desc: MCP（Model Context Protocol）服务，让 Claude、Cursor 等 AI 助手通过 AKTools 获取 AKShare 数据
 只提供 3 个通用工具，而不是把近千个接口逐个注册成工具，以免撑满助手的上下文：
 助手先用 search_interfaces 找到接口，再用 describe_interface 查看参数，最后用 get_data 获取数据。
+以 stdio 方式运行时另有 save_data：把完整数据保存为本机的 CSV 文件，交给回测等其他程序读取。
 两种运行方式：随 HTTP 服务挂载在 aktools.main 的 /mcp 路径下；或以 aktools-mcp 命令通过 stdio 运行，
 由 AI 助手自行启动，不需要先运行 HTTP 服务
 """
@@ -26,9 +27,11 @@ from starlette.applications import Starlette
 import aktools
 from aktools.core.fetch import InterfaceError, fetch_dataframe
 from aktools.core.formats import FORMAT_PARAM
+from aktools.core.storage import DATA_DIR_ENV, save_csv
 from aktools.core.catalog import describe_interface as _describe_interface
 from aktools.core.catalog import is_interface, not_found_message, renamed_info
 from aktools.core.catalog import search_interfaces as _search_interfaces
+from aktools.core.catalog import source_of
 
 # 搜索结果最多返回的条数；关键词很宽泛时（如 stock）可能匹配数百个接口
 SEARCH_LIMIT = 50
@@ -48,6 +51,8 @@ INSTRUCTIONS = """AKTools 提供 AKShare 的近千个财经数据接口（股票
 搜索关键词请描述数据类型（如“港股 日线”“期货 分钟”），不要写具体证券的名称或代码。
 数据来源：搜索结果与接口说明中的 source 是数据来源，同类数据常有多个来源（如东方财富、新浪财经、腾讯）；
 describe_interface 的 alternatives 列出了来自其他来源的同类接口。
+有 save_data 工具时（服务在本机运行）：需要把数据交给其他程序（如 AKQuant 回测）或数据超过 1000 行时，
+用 save_data 把完整数据保存为 CSV 文件，再把返回的 path 交给对方；只想查看数据仍用 get_data。
 来源为“东方财富·行情（频繁访问易限流）”的接口，短时间内请求较多时整个 IP 会被临时限流，所有东方财富行情接口约 5 分钟以上无法使用；
 需要连续获取多只证券或大量行情数据时，优先选用其他来源的同类接口。东方财富的其他接口（宏观、财务报表、龙虎榜等）不受影响，照常使用。
 get_data 报 429 限流时不要立即重试同一个接口，按报错中的建议改用其他来源。回答时说明数据来自哪个来源；换了来源时告诉用户，不同来源的复权方式与列名可能不同。"""
@@ -194,6 +199,79 @@ def get_data(
     }
 
 
+# save_data 会在本机写文件，不能标注为只读；相同的请求写同一个文件，可以重复调用
+WRITES_FILE = ToolAnnotations(
+    read_only_hint=False,
+    destructive_hint=False,
+    idempotent_hint=True,
+    open_world_hint=True,
+)
+# save_data 返回的预览行数
+PREVIEW_ROWS = 5
+
+
+def save_data(
+    name: Annotated[str, Field(description="接口名，如 stock_zh_a_hist_sina")],
+    params: Annotated[
+        Optional[Dict[str, Union[str, int, float, bool]]],
+        Field(
+            description='接口参数，如 {"symbol": "sh600519", "start_date": "20240101"}'
+        ),
+    ] = None,
+) -> Dict[str, Any]:
+    """调用 AKShare 接口，把完整数据保存为本机的 CSV 文件，返回文件路径、总行数、各列的说明与前 5 行。需要把数据交给其他程序（如用 AKQuant 回测）或数据超过 get_data 的 1000 行上限时使用；只想查看数据请用 get_data。文件保存在固定的数据目录中，不能指定路径，相同的接口与参数覆盖同一个文件"""
+    if not is_interface(name):
+        raise ToolError(not_found_message(name, "mcp"))
+    text_params = {key: str(value) for key, value in (params or {}).items()}
+    try:
+        df, _ = fetch_dataframe(name, text_params)
+    except InterfaceError as e:
+        raise ToolError(e.message) from e
+    try:
+        path, written = save_csv(name, text_params, df)
+    except OSError as e:
+        raise ToolError(
+            f"保存文件失败：{e}。可以用环境变量 {DATA_DIR_ENV} 指定一个可写的数据目录"
+        ) from e
+    info = _describe_interface(name) or {}
+    described = {column["name"]: column for column in info.get("outputs") or []}
+    preview = df.head(PREVIEW_ROWS)
+    return {
+        "name": name,
+        "path": str(path),
+        # 内容与已有文件相同时不重写，文件的修改时间不变
+        "written": written,
+        "total_rows": len(df),
+        "source": source_of(name),
+        # 各列的类型与说明取自 AKShare 的接口登记，其中写有单位：
+        # 不同来源的单位不同，如成交量在东方财富的接口中是手，在新浪财经的接口中是股
+        "columns": [
+            {
+                "name": str(column),
+                "type": described.get(str(column), {}).get("type", ""),
+                "desc": described.get(str(column), {}).get("desc", ""),
+            }
+            for column in df.columns
+        ],
+        "head": json.loads(preview.to_json(orient="records", date_format="iso")),
+        "usage": (
+            "文件为不带 BOM 的 UTF-8 CSV。用 AKQuant 回测时，把 path 传给它的 prepare_data："
+            '{"source": "file", "path": "<path>", "symbol": "<标的代码>"}；'
+            "symbol 必须填写，否则 AKQuant 会把文件名当作标的名。"
+            "回测需要 date、open、high、low、close 列，新浪财经、腾讯的行情接口符合"
+        ),
+    }
+
+
+def _register_stdio_tools() -> None:
+    """
+    注册只在 stdio 方式下提供的工具
+    save_data 把文件写在运行 AKTools 的机器上。stdio 方式下服务与 AI 助手在同一台机器；
+    HTTP 方式下服务可能在远程，文件对助手没有用，完整数据改由 get_data 返回的 csv_url 下载
+    """
+    mcp.add_tool(save_data, annotations=WRITES_FILE)
+
+
 def build_mcp_app(
     host: str,
 ) -> Tuple[Starlette, Callable[[Any], contextlib.AbstractAsyncContextManager]]:
@@ -233,6 +311,7 @@ def main() -> None:
     """
     global _csv_url_enabled
     _csv_url_enabled = False
+    _register_stdio_tools()
     sys.stdout.flush()
     sys.stdout = io.TextIOWrapper(
         io.FileIO(sys.stdout.fileno(), "w", closefd=False),

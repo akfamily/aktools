@@ -11,12 +11,13 @@ Desc: 结果缓存与 AKShare 内部缓存清理
 环境变量由命令行参数设置，也可在 Gunicorn、Docker 部署时直接设置；多进程部署时每个进程各有一份缓存
 """
 
+import contextlib
 import os
 import sys
 import threading
 import time
 from collections import OrderedDict
-from typing import Any, Callable, Hashable, List, Optional
+from typing import Any, Callable, Dict, Hashable, Iterator, List, Optional
 
 # 导入 akshare 时会加载其全部子模块，find_akshare_caches 依赖这些子模块已在 sys.modules 中
 import akshare  # noqa: F401
@@ -78,6 +79,33 @@ class ResultCache:
             self._data.move_to_end(key)
             while len(self._data) > self.maxsize:
                 self._data.popitem(last=False)
+
+
+class InFlight:
+    """
+    让相同的请求排队：同一个键同时只有一个线程在执行，其余线程等它结束
+    结果缓存只对之后的请求生效；几个相同的请求同时到达时，每个都会去访问上游网站。
+    多人共用服务或 AI 助手并行取数时，这正好加重上游的限流。排队之后，后到的请求
+    等第一个取完，再从结果缓存中拿数据。线程安全，没有等待者的键会被清理
+    """
+
+    def __init__(self):
+        self._guard = threading.Lock()
+        self._locks: Dict[Hashable, list] = {}
+
+    @contextlib.contextmanager
+    def hold(self, key: Hashable) -> Iterator[None]:
+        with self._guard:
+            entry = self._locks.setdefault(key, [threading.Lock(), 0])
+            entry[1] += 1
+        try:
+            with entry[0]:
+                yield
+        finally:
+            with self._guard:
+                entry[1] -= 1
+                if entry[1] == 0:
+                    self._locks.pop(key, None)
 
 
 def find_akshare_caches() -> List[Callable]:

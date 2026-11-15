@@ -171,3 +171,74 @@ def test_empty_result_is_not_cached(monkeypatch):
             api.call_interface("aktools_fake_none", _FakeRequest()).status_code == 404
         )
     assert calls == [1, 1]
+
+
+def test_identical_concurrent_requests_hit_upstream_once(monkeypatch):
+    """
+    几个相同的请求同时到达时只访问上游一次，其余的等它结束后从缓存取：
+    结果缓存只对之后的请求生效，并发的相同请求原先各自访问上游，会加重上游的限流
+    """
+    import threading
+    import time
+
+    import aktools.core.fetch as fetch
+
+    calls = []
+
+    def slow(symbol="1"):
+        calls.append(symbol)
+        time.sleep(0.3)
+        return pd.DataFrame({"a": [len(calls)]})
+
+    monkeypatch.setattr(ak, "aktools_fake_slow", slow, raising=False)
+    results = []
+    threads = [
+        threading.Thread(
+            target=lambda: results.append(
+                fetch.fetch_dataframe("aktools_fake_slow", {"symbol": "1"})[1]
+            )
+        )
+        for _ in range(6)
+    ]
+    for thread in threads:
+        thread.start()
+    for thread in threads:
+        thread.join()
+    assert len(calls) == 1
+    assert sorted(results) == ["hit"] * 5 + ["miss"]
+    # 参数不同的请求互不等待
+    fetch.fetch_dataframe("aktools_fake_slow", {"symbol": "2"})
+    assert calls == ["1", "2"]
+    assert fetch.in_flight._locks == {}
+
+
+def test_no_queueing_when_result_cache_is_off(monkeypatch):
+    """关闭结果缓存后不排队：排队只会把相同的请求变成串行"""
+    import threading
+    import time
+
+    import aktools.core.fetch as fetch
+    from aktools.core.cache import ResultCache
+
+    monkeypatch.setattr(fetch, "result_cache", ResultCache(ttl=0))
+    calls = []
+
+    def slow():
+        calls.append(1)
+        time.sleep(0.3)
+        return pd.DataFrame({"a": [1]})
+
+    monkeypatch.setattr(ak, "aktools_fake_slow_off", slow, raising=False)
+    threads = [
+        threading.Thread(
+            target=lambda: fetch.fetch_dataframe("aktools_fake_slow_off", {})
+        )
+        for _ in range(4)
+    ]
+    started = time.time()
+    for thread in threads:
+        thread.start()
+    for thread in threads:
+        thread.join()
+    assert len(calls) == 4
+    assert time.time() - started < 1.0

@@ -162,6 +162,22 @@ AKShare 有近千个接口，如果逐个注册成工具，会占满助手的上
 
 三个工具都标注为只读（`readOnlyHint`），不会修改任何数据，支持的客户端可以据此减少确认提示。
 
+### 把完整数据保存为文件：save_data {#save-data}
+
+[stdio 方式](#stdio)下还有第 4 个工具 `save_data`，参数与 `get_data` 相同（接口名加接口参数）。它把接口返回的**完整数据**保存为本机的 CSV 文件，不受 1000 行的限制，返回文件路径、总行数、各列的说明（含单位）和前 5 行。适合两种情况：
+
+- 要把数据交给其他程序，例如用 [AKQuant 回测](#akquant)。
+- 数据超过 1000 行，又需要完整的表。
+
+只想查看数据时，助手仍然使用 `get_data`。关于 `save_data`：
+
+- **保存位置**：文件保存在数据目录中，默认是用户目录下的 `.aktools/data`（如 `C:/Users/<用户名>/.aktools/data`、`/Users/<用户名>/.aktools/data`），可以在 MCP 配置的 `env` 中用 `AKTOOLS_DATA_DIR` 改到别处。助手不能指定保存路径。
+- **文件名**：由接口名和参数生成，相同的请求覆盖同一个文件；内容没有变化时不会重写。
+- **自动清理**：每次保存时，数据目录中超过 7 天的 CSV 文件会被删除。需要长期保留的文件请移到别处。
+- **编码**：不带 BOM 的 UTF-8。用 Excel 直接打开时中文可能显示为乱码，这种情况请改用 [HTTP API 的表格下载](usage.md#download)。
+- **需要确认**：这个工具会写文件，没有标注为只读，多数客户端在调用前会请你确认。
+- **HTTP 方式不提供**：HTTP 方式下服务可能在另一台机器上，文件对助手没有用，完整数据请用 `get_data` 返回的 CSV 下载地址。
+
 ### 数据来源与限流 {#source}
 
 同一类数据常有多个来源，例如 A 股日线既有东方财富的 `stock_zh_a_hist_em`，也有新浪财经的 `stock_zh_a_hist_sina` 和腾讯的 `stock_zh_a_hist_tx`。`search_interfaces` 与 `describe_interface` 的结果都带有 `source` 字段，标明数据来源。
@@ -190,7 +206,7 @@ AKTools 在发给助手的使用说明中要求：需要连续获取多只证券
 
 | 服务 | 负责 |
 | --- | --- |
-| AKTools（AKShare 官方 MCP） | 查找 AKShare 的接口、查看参数、取回数据 |
+| AKTools（AKShare 官方 MCP） | 查找 AKShare 的接口、查看参数、取回数据，用 `save_data` 把行情保存为 CSV 文件 |
 | AKQuant | 查询 AKQuant 的 API、编写并检查策略、准备行情数据、运行回测、读取成交与权益明细 |
 
 ### 一句话体验
@@ -217,7 +233,10 @@ AKTools 在发给助手的使用说明中要求：需要连续获取多只证券
     "aktools": {
       "command": "uvx",
       "args": ["--from", "aktools", "aktools-mcp"],
-      "env": {"UV_INDEX_URL": "https://mirrors.aliyun.com/pypi/simple/"}
+      "env": {
+        "UV_INDEX_URL": "https://mirrors.aliyun.com/pypi/simple/",
+        "AKTOOLS_DATA_DIR": "D:/akquant-demo/data"
+      }
     },
     "akquant": {
       "command": "uvx",
@@ -231,11 +250,26 @@ AKTools 在发给助手的使用说明中要求：需要连续获取多只证券
 Codex 与 Claude Code 在命令行中运行（把 `codex` 换成 `claude` 即为 Claude Code 的写法）：
 
 ```shell
-codex mcp add aktools -- uvx --from aktools aktools-mcp
+codex mcp add aktools --env AKTOOLS_DATA_DIR=D:/akquant-demo/data -- uvx --from aktools aktools-mcp
 codex mcp add akquant -- uvx --from "akquant[mcp]" akquant-mcp --root D:/akquant-demo
 ```
 
 `--root` 是 AKQuant 的项目目录，请先建好这个文件夹，并换成你自己的路径（macOS 上类似 `/Users/<用户名>/akquant-demo`）。Windows 路径写进 JSON 时，请用正斜杠 `/`，或把 `\` 写成 `\\`。策略文件和数据文件都必须放在这个目录中，回测结果保存在其中的 `.akquant-mcp` 文件夹里。AKQuant 的工具和参数详见 [AKQuant 的 MCP 文档](https://akquant.akfamily.xyz/guide/mcp/)。
+
+### 回测任意品种的行情 {#akquant-data}
+
+AKQuant 自己只能取 A 股个股的日线。配合 AKTools 的 [`save_data`](#save-data)，凡是返回开盘、最高、最低、收盘价的接口都可以用来回测，例如指数、ETF、期货、港股、美股的日线，以及周线、月线：
+
+1. 助手用 AKTools 的 `search_interfaces`、`describe_interface` 找到接口，用 `save_data` 把数据保存为 CSV，得到文件路径。
+2. 助手把路径交给 AKQuant 的 `prepare_data`：`{"source": "file", "path": "<路径>", "symbol": "<标的代码>"}`，再运行回测。
+
+可以这样提问：“用 AKShare 新浪财经的接口取沪深 300 指数近三年的日线，保存成文件后用 AKQuant 回测一个均线策略”。
+
+使用时请注意：
+
+- **数据目录要放在 AKQuant 的项目目录里**。AKQuant 只读取 `--root` 目录内的文件，所以上面的配置用 `AKTOOLS_DATA_DIR` 把 AKTools 的数据目录设成了 `D:/akquant-demo/data`，请与 `--root` 一起换成你自己的路径。
+- **列名要是英文**。AKQuant 需要 `date`、`open`、`high`、`low`、`close` 列。新浪财经、腾讯的行情接口（名称以 `_sina`、`_tx` 结尾）符合；东方财富的行情接口列名是中文，目前不能直接用。
+- **注意单位**。不同来源的单位不同，例如成交量在新浪财经的接口中是股，在东方财富的接口中是手。`save_data` 返回的各列说明里写有单位。
 
 !!! warning "注意事项"
 

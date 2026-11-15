@@ -8,6 +8,8 @@ Desc: MCP 服务测试
 
 import json
 import logging
+import os
+import pathlib
 import subprocess
 import sys
 import threading
@@ -62,6 +64,7 @@ def _payload(result):
 
 @pytest.mark.anyio
 async def test_lists_three_generic_tools():
+    """不经 aktools-mcp 入口（如 HTTP 方式）时只有三个只读工具：save_data 写的是服务器上的文件，只在 stdio 方式下提供"""
     async with Client(mcp) as client:
         tools = await client.list_tools()
     assert {t.name for t in tools.tools} == {
@@ -212,14 +215,37 @@ async def test_stdio_server_end_to_end(tmp_path):
         command=sys.executable,
         args=["-c", STDIO_SERVER_SCRIPT],
         cwd=str(tmp_path),
+        env={**os.environ, "AKTOOLS_DATA_DIR": str(tmp_path / "saved")},
     )
     async with Client(server) as client:
         tools = await client.list_tools()
-        assert {t.name for t in tools.tools} == {
+        by_name = {t.name: t for t in tools.tools}
+        # stdio 方式下服务与助手在同一台机器，多一个把数据保存为本机文件的 save_data
+        assert set(by_name) == {
             "search_interfaces",
             "describe_interface",
             "get_data",
+            "save_data",
         }
+        # save_data 会写文件，不能像其他三个工具那样标注为只读
+        assert by_name["save_data"].annotations.read_only_hint is False
+        assert by_name["save_data"].annotations.destructive_hint is False
+        assert by_name["get_data"].annotations.read_only_hint is True
+        saved = _payload(
+            await client.call_tool(
+                "save_data", {"name": "aktools_fake_stdio", "params": {"symbol": 7}}
+            )
+        )
+        saved_path = pathlib.Path(saved["path"])
+        assert saved_path.parent == (tmp_path / "saved").resolve()
+        assert saved["total_rows"] == 3 and saved["written"] is True
+        assert saved["head"] == [{"代码": "7"}] * 3
+        assert saved_path.read_text(encoding="utf-8").splitlines() == [
+            "代码",
+            "7",
+            "7",
+            "7",
+        ]
         search = _payload(
             await client.call_tool("search_interfaces", {"keyword": "交易日历"})
         )
@@ -509,3 +535,39 @@ async def test_get_data_cannot_call_config_functions(monkeypatch):
         desc = await client.call_tool("describe_interface", {"name": "set_proxies"})
     assert result.is_error and desc.is_error
     assert called == []
+
+
+def test_save_data_returns_path_columns_and_preview(fake_table, tmp_path, monkeypatch):
+    """save_data 保存完整数据（不受 get_data 的 1000 行上限限制），返回路径、列说明与前 5 行"""
+    from aktools import mcp_server
+
+    monkeypatch.setenv("AKTOOLS_DATA_DIR", str(tmp_path))
+    result = mcp_server.save_data(fake_table, {"symbol": 600519})
+    path = pathlib.Path(result["path"])
+    assert path.parent == tmp_path.resolve()
+    assert result["total_rows"] == 250
+    assert len(result["head"]) == 5
+    assert [column["name"] for column in result["columns"]] == list(
+        pd.read_csv(path).columns
+    )
+    assert len(pd.read_csv(path)) == 250
+    assert "symbol" in result["usage"]
+    # 相同的请求写同一个文件，内容没变时不重写
+    again = mcp_server.save_data(fake_table, {"symbol": 600519})
+    assert again["path"] == result["path"] and again["written"] is False
+
+
+def test_save_data_rejects_unknown_interfaces_and_reports_unwritable_dir(
+    fake_table, tmp_path, monkeypatch
+):
+    from mcp.server.mcpserver.exceptions import ToolError
+
+    from aktools import mcp_server
+
+    with pytest.raises(ToolError, match="未找到接口"):
+        mcp_server.save_data("set_proxies", {"proxies": "http://203.0.113.9:1"})
+    blocker = tmp_path / "not-a-dir"
+    blocker.write_text("x", encoding="utf-8")
+    monkeypatch.setenv("AKTOOLS_DATA_DIR", str(blocker))
+    with pytest.raises(ToolError, match="AKTOOLS_DATA_DIR"):
+        mcp_server.save_data(fake_table, {})
