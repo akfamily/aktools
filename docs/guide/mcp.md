@@ -12,8 +12,6 @@ AKTools 已上架 [MCP 官方注册表](https://registry.modelcontextprotocol.io
 
 ![在 Claude Code 中提问，AI 助手通过 AKTools 的 MCP 工具查询贵州茅台的日线行情](../img/mcp-demo.gif)
 
-这次会话中，东方财富的行情接口正好对本机限流，助手按报错中的建议改用腾讯的同类接口取到了数据，并在回答里说明了来源。详见[数据来源与限流](#source)。
-
 更多示例：
 
 - “帮我查一下贵州茅台 2024 年 10 月 8 日到 11 日的前复权日线行情”

@@ -79,8 +79,6 @@ python -m aktools
 
 ![在 Claude Code 中提问，AI 助手通过 AKTools 的 MCP 工具查询贵州茅台的日线行情](https://aktools.akfamily.xyz/img/mcp-demo.gif)
 
-这次会话中，东方财富的行情接口正好对本机限流，助手按报错中的建议改用腾讯的同类接口取到了数据，并在回答里说明了来源。
-
 > **与 AKQuant 联用，一句话体验 AI 量化回测**：在 WorkBuddy 中输入“安装 AKShare 和 AKQuant 各自的官方 MCP，运行一个示例策略并报告结果”，AI 会自动下载数据、运行回测、解读结果，并给出改进策略的建议。详见[与 AKQuant 联用](https://aktools.akfamily.xyz/guide/mcp/#akquant)。
 
 <details>

@@ -77,8 +77,6 @@ The assistant answers with three tools provided by AKTools: `search_interfaces` 
 
 ![A question asked in Claude Code; the assistant queries the daily bars of Kweichow Moutai through the AKTools MCP tools](https://aktools.akfamily.xyz/img/mcp-demo.gif)
 
-In this session Eastmoney's quote servers happened to be rate-limiting the machine; the assistant followed the suggestion in the error, switched to the equivalent Tencent interface, and named the source in its answer.
-
 > **Backtesting with AKQuant in one sentence**: ask WorkBuddy to "install the official MCP servers of AKShare and AKQuant, run a sample strategy and report the results". The assistant downloads the data, runs the backtest, explains the results and suggests improvements. See [Using it with AKQuant](https://aktools.akfamily.xyz/guide/mcp/#akquant) (Chinese).
 
 <details>
