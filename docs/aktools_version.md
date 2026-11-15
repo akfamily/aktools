@@ -10,6 +10,12 @@ AKTools 只负责把 HTTP 请求转发给 AKShare，数据接口的新增与变�
 
 ## 更新记录
 
+0.1.11: docs: follow the *_hist_sina renames of AKShare 1.20.64
+
+1. AKShare 1.20.64 把新浪财经的 6 个股票日线接口改名并新增 period 参数（可选 daily、weekly、monthly）：stock_zh_a_daily_sina→stock_zh_a_hist_sina、stock_zh_a_cdr_daily_sina→stock_zh_a_cdr_hist_sina、stock_zh_b_daily_sina→stock_zh_b_hist_sina、stock_zh_kcb_daily_sina→stock_zh_kcb_hist_sina、stock_hk_daily_sina→stock_hk_hist_sina、stock_us_daily_sina→stock_us_hist_sina。文档中的示例随之改用新名称，如 /api/public/stock_zh_a_hist_sina?symbol=sh600519
+2. AKShare 的最低版本由 1.20.58 提高到 1.20.64，文档里的示例地址才能直接使用；请求旧名称（如 /api/public/stock_zh_a_daily_sina）会返回 404 并提示新的名称与地址
+3. AKTools 自身的代码没有变化
+
 0.1.10: fix: stop exposing AKShare's configuration functions as interfaces
 
 **安全修复，建议所有用户升级。** 0.1.9 及更早的版本把 AKShare 顶层的所有函数都当作数据接口，其中包括设置函数：请求 /api/public/set_proxies、set_timeout、set_token，或通过 MCP 的 get_data 调用它们，会改掉整个服务的代理、超时与令牌。没有设置访问令牌（--token）的服务，任何能访问到它的人都可以借此把服务的上游请求转到自己指定的代理。get_token 等读取函数会报错，不会返回令牌内容。

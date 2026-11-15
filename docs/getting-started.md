@@ -88,18 +88,19 @@ AKShare 有一千多个数据接口，每个接口都有一个英文名称。不
 http://127.0.0.1:8080/api/interfaces?q=个股的历史行情
 ```
 
-返回 4 个接口，每个接口包含名称 `name` 和中文标题 `title`：
+返回 5 个接口，每个接口包含名称 `name` 和中文标题 `title`：
 
 ```json
 [
-  {"name": "stock_hk_daily_sina", "title": "新浪财经-港股-个股的历史行情数据"},
-  {"name": "stock_zh_a_cdr_daily_sina", "title": "新浪财经-A股-CDR个股的历史行情数据，大量抓取容易封 IP"},
-  {"name": "stock_zh_a_daily_sina", "title": "新浪财经-A 股-个股的历史行情数据，大量抓取容易封 IP"},
-  {"name": "stock_zh_b_daily_sina", "title": "新浪财经-B 股-个股的历史行情数据，大量抓取容易封 IP"}
+  {"name": "stock_hk_hist_sina", "title": "新浪财经-港股-个股的历史行情数据"},
+  {"name": "stock_us_hist_sina", "title": "新浪财经-美股-个股的历史行情数据"},
+  {"name": "stock_zh_a_cdr_hist_sina", "title": "新浪财经-A股-CDR个股的历史行情数据，大量抓取容易封 IP"},
+  {"name": "stock_zh_a_hist_sina", "title": "新浪财经-A 股-个股的历史行情数据，大量抓取容易封 IP"},
+  {"name": "stock_zh_b_hist_sina", "title": "新浪财经-B 股-个股的历史行情数据，大量抓取容易封 IP"}
 ]
 ```
 
-我们要找的是 A 股个股的历史行情，对应的接口是 `stock_zh_a_daily_sina`。
+我们要找的是 A 股个股的历史行情，对应的接口是 `stock_zh_a_hist_sina`。
 
 !!! tip "搜索技巧"
 
@@ -110,7 +111,7 @@ http://127.0.0.1:8080/api/interfaces?q=个股的历史行情
 在 `/api/interfaces/` 后面加上接口名，即可查看它有哪些参数：
 
 ```text
-http://127.0.0.1:8080/api/interfaces/stock_zh_a_daily_sina
+http://127.0.0.1:8080/api/interfaces/stock_zh_a_hist_sina
 ```
 
 返回内容中的 `params` 就是参数列表，整理如下：
@@ -118,6 +119,7 @@ http://127.0.0.1:8080/api/interfaces/stock_zh_a_daily_sina
 | 参数 | 默认值 | 说明 |
 | --- | --- | --- |
 | `symbol` | `sh603843` | 股票代码，格式如 `sh600000`：沪市加 `sh`，深市加 `sz` |
+| `period` | `daily` | 周期：`daily` 为日线，`weekly` 为周线，`monthly` 为月线 |
 | `start_date` | `19900101` | 开始日期，格式如 `20201103` |
 | `end_date` | `21000118` | 结束日期，格式如 `20201103` |
 | `adjust` | 空 | 复权方式：空为不复权，`qfq` 为前复权，`hfq` 为后复权 |
@@ -129,14 +131,14 @@ http://127.0.0.1:8080/api/interfaces/stock_zh_a_daily_sina
 获取贵州茅台（沪市代码 600519）2024 年 10 月 8 日至 11 日的前复权日线数据：
 
 ```text
-http://127.0.0.1:8080/api/public/stock_zh_a_daily_sina?symbol=sh600519&start_date=20241008&end_date=20241011&adjust=qfq
+http://127.0.0.1:8080/api/public/stock_zh_a_hist_sina?symbol=sh600519&start_date=20241008&end_date=20241011&adjust=qfq
 ```
 
 这个地址由三部分组成：
 
 | 部分 | 含义 |
 | --- | --- |
-| `/api/public/stock_zh_a_daily_sina` | 调用 `stock_zh_a_daily_sina` 接口 |
+| `/api/public/stock_zh_a_hist_sina` | 调用 `stock_zh_a_hist_sina` 接口 |
 | `?` | 问号后面是参数 |
 | `symbol=sh600519&start_date=...` | 每个参数写成“参数名=值”，多个参数之间用 `&` 连接，值不加引号 |
 
@@ -156,10 +158,10 @@ http://127.0.0.1:8080/api/public/stock_zh_a_daily_sina?symbol=sh600519&start_dat
 在上一步的地址末尾加上 `&_format=xlsx`：
 
 ```text
-http://127.0.0.1:8080/api/public/stock_zh_a_daily_sina?symbol=sh600519&start_date=20241008&end_date=20241011&adjust=qfq&_format=xlsx
+http://127.0.0.1:8080/api/public/stock_zh_a_hist_sina?symbol=sh600519&start_date=20241008&end_date=20241011&adjust=qfq&_format=xlsx
 ```
 
-浏览器会下载一个名为 `stock_zh_a_daily_sina.xlsx` 的文件，用 Excel 或 WPS 打开即可。把 `xlsx` 换成 `csv` 则下载 CSV 文件，适合导入 Stata、MATLAB 等软件。
+浏览器会下载一个名为 `stock_zh_a_hist_sina.xlsx` 的文件，用 Excel 或 WPS 打开即可。把 `xlsx` 换成 `csv` 则下载 CSV 文件，适合导入 Stata、MATLAB 等软件。
 
 ## 第 9 步：在程序中调用 {#code}
 
@@ -169,7 +171,7 @@ http://127.0.0.1:8080/api/public/stock_zh_a_daily_sina?symbol=sh600519&start_dat
 import pandas as pd
 import requests
 
-url = "http://127.0.0.1:8080/api/public/stock_zh_a_daily_sina"
+url = "http://127.0.0.1:8080/api/public/stock_zh_a_hist_sina"
 params = {
     "symbol": "sh600519",
     "start_date": "20241008",

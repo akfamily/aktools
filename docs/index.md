@@ -47,9 +47,9 @@ AKTools 是 AKShare 外面的一层 HTTP 转发，并不改变 AKShare 本身的
 AKTools 把每个 HTTP 请求翻译成一次同名的 AKShare 接口调用，再把返回的表格数据转成 JSON：
 
 ```text
-浏览器或程序发出请求：GET /api/public/stock_zh_a_daily_sina?symbol=sh600519
+浏览器或程序发出请求：GET /api/public/stock_zh_a_hist_sina?symbol=sh600519
         ↓
-AKTools 调用同名接口：akshare.stock_zh_a_daily_sina(symbol="sh600519")
+AKTools 调用同名接口：akshare.stock_zh_a_hist_sina(symbol="sh600519")
         ↓
 AKShare 从新浪财经等网站获取数据，AKTools 以 JSON、CSV 或 Excel 格式返回
 ```

@@ -39,7 +39,7 @@ http://127.0.0.1:8080/api/interfaces/stock_zh_a_hist_em
   "source_url": "https://quote.eastmoney.com/concept/sh603777.html?from=classic",
   "rate_limit": "eastmoney_push2",
   "alternatives": [
-    {"name": "stock_zh_a_daily_sina", "title": "新浪财经-A 股-个股的历史行情数据，大量抓取容易封 IP", "source": "新浪财经"},
+    {"name": "stock_zh_a_hist_sina", "title": "新浪财经-A 股-个股的历史行情数据，大量抓取容易封 IP", "source": "新浪财经"},
     {"name": "stock_zh_a_hist_tx", "title": "腾讯证券-日频-股票历史数据", "source": "腾讯"}
   ],
   "url": "/api/public/stock_zh_a_hist_em",
@@ -88,4 +88,4 @@ http://127.0.0.1:8080/api/interfaces/stock_zh_a_hist_em
 
 东方财富的行情类接口（实时行情、历史 K 线、板块、资金流等，约 100 个）使用的服务器在短时间内请求较多时，会临时封禁来源 IP，首次一般约 5 分钟后恢复，期间所有东方财富行情接口都会返回 `429`。这类接口的 `source` 为“东方财富·行情（频繁访问易限流）”，`rate_limit` 为 `eastmoney_push2`。东方财富的宏观、财务报表、龙虎榜等接口使用其他服务器，不受影响。
 
-需要批量获取行情数据时，可以先搜索同一类数据的其他来源，例如 A 股日线除了东方财富的 `stock_zh_a_hist_em`，还有新浪财经的 `stock_zh_a_daily_sina` 和腾讯的 `stock_zh_a_hist_tx`。接口说明中的 `alternatives` 列出了 AKShare 登记的同类接口；被限流时，返回的错误信息也会列出其中可以改用的接口。它们的参数可能不同，调用前请先查看参数说明。
+需要批量获取行情数据时，可以先搜索同一类数据的其他来源，例如 A 股日线除了东方财富的 `stock_zh_a_hist_em`，还有新浪财经的 `stock_zh_a_hist_sina` 和腾讯的 `stock_zh_a_hist_tx`。接口说明中的 `alternatives` 列出了 AKShare 登记的同类接口；被限流时，返回的错误信息也会列出其中可以改用的接口。它们的参数可能不同，调用前请先查看参数说明。

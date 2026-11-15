@@ -232,12 +232,12 @@ ALT_REGISTRY = {
     "stock_zh_a_hist_em": {
         "rate_limit": PUSH2,
         "alternatives": [
-            "stock_zh_a_daily_sina",
+            "stock_zh_a_hist_sina",
             "stock_zh_a_spot_em",
             "aktools_removed_interface",
         ],
     },
-    "stock_zh_a_daily_sina": {"url": "https://finance.sina.com.cn/"},
+    "stock_zh_a_hist_sina": {"url": "https://finance.sina.com.cn/"},
     "stock_zh_a_spot_em": {"rate_limit": PUSH2},
 }
 
@@ -247,7 +247,7 @@ def test_registered_alternatives_come_from_akshare_registry(monkeypatch):
     _fake_registry(monkeypatch, ALT_REGISTRY)
     items = catalog.registered_alternatives("stock_zh_a_hist_em")
     assert [item["name"] for item in items] == [
-        "stock_zh_a_daily_sina",
+        "stock_zh_a_hist_sina",
         "stock_zh_a_spot_em",
     ]
     assert items[0]["source"] == "新浪财经"
@@ -258,7 +258,7 @@ def test_find_alternatives_excludes_other_push2_interfaces(monkeypatch):
     """限流按 IP 生效，被限流时其他东方财富行情接口同样用不了，不能作为替代"""
     _fake_registry(monkeypatch, ALT_REGISTRY)
     names = [item["name"] for item in catalog.find_alternatives("stock_zh_a_hist_em")]
-    assert names == ["stock_zh_a_daily_sina"]
+    assert names == ["stock_zh_a_hist_sina"]
 
 
 def test_find_alternatives_does_not_guess(monkeypatch):
@@ -272,7 +272,7 @@ def test_describe_interface_lists_alternatives(monkeypatch):
     info = describe_interface("stock_zh_a_hist_em")
     assert info["alternatives"] == [
         {
-            "name": "stock_zh_a_daily_sina",
+            "name": "stock_zh_a_hist_sina",
             "title": info["alternatives"][0]["title"],
             "source": "新浪财经",
         },
@@ -287,7 +287,7 @@ def test_describe_interface_lists_alternatives(monkeypatch):
 def test_real_registry_has_alternatives_for_a_share_daily():
     """随依赖安装的 AKShare（不低于 1.20.39）登记了 A 股日线的同类接口"""
     names = [item["name"] for item in catalog.find_alternatives("stock_zh_a_hist_em")]
-    assert names == ["stock_zh_a_daily_sina", "stock_zh_a_hist_tx"]
+    assert names == ["stock_zh_a_hist_sina", "stock_zh_a_hist_tx"]
 
 
 def test_similar_names_for_renamed_interface():
@@ -355,7 +355,7 @@ def test_renamed_info_tolerates_old_akshare(monkeypatch) -> None:
 def test_public_route_reports_rename() -> None:
     response = client.get("/api/public/stock_zh_a_daily")
     assert response.status_code == 404
-    assert "/api/public/stock_zh_a_daily_sina" in response.json()["error"]
+    assert "/api/public/stock_zh_a_hist_sina" in response.json()["error"]
 
 
 def test_interface_list_has_only_data_interfaces():

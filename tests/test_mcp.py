@@ -452,7 +452,7 @@ async def test_search_without_match_returns_hint():
     assert "hint" not in found
     # 港股指数的日线接口（index_hk_daily_sina）与个股日线同分，取前三
     assert {item["name"] for item in found["items"][:3]} >= {
-        "stock_hk_daily_sina",
+        "stock_hk_hist_sina",
         "stock_hk_hist_em",
     }
 
