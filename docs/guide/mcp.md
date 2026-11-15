@@ -233,10 +233,7 @@ AKTools 在发给助手的使用说明中要求：需要连续获取多只证券
     "aktools": {
       "command": "uvx",
       "args": ["--from", "aktools", "aktools-mcp"],
-      "env": {
-        "UV_INDEX_URL": "https://mirrors.aliyun.com/pypi/simple/",
-        "AKTOOLS_DATA_DIR": "D:/akquant-demo/data"
-      }
+      "env": {"UV_INDEX_URL": "https://mirrors.aliyun.com/pypi/simple/"}
     },
     "akquant": {
       "command": "uvx",
@@ -250,15 +247,15 @@ AKTools 在发给助手的使用说明中要求：需要连续获取多只证券
 Codex 与 Claude Code 在命令行中运行（把 `codex` 换成 `claude` 即为 Claude Code 的写法）：
 
 ```shell
-codex mcp add aktools --env AKTOOLS_DATA_DIR=D:/akquant-demo/data -- uvx --from aktools aktools-mcp
+codex mcp add aktools -- uvx --from aktools aktools-mcp
 codex mcp add akquant -- uvx --from "akquant[mcp]" akquant-mcp --root D:/akquant-demo
 ```
 
-`--root` 是 AKQuant 的项目目录，请先建好这个文件夹，并换成你自己的路径（macOS 上类似 `/Users/<用户名>/akquant-demo`）。Windows 路径写进 JSON 时，请用正斜杠 `/`，或把 `\` 写成 `\\`。策略文件和数据文件都必须放在这个目录中，回测结果保存在其中的 `.akquant-mcp` 文件夹里。AKQuant 的工具和参数详见 [AKQuant 的 MCP 文档](https://akquant.akfamily.xyz/guide/mcp/)。
+`--root` 是 AKQuant 的项目目录，请先建好这个文件夹，并换成你自己的路径（macOS 上类似 `/Users/<用户名>/akquant-demo`）。Windows 路径写进 JSON 时，请用正斜杠 `/`，或把 `\` 写成 `\\`。策略文件必须放在这个目录中，自己准备的数据文件也放在这里（AKTools 保存的文件除外，见下一节），回测结果保存在其中的 `.akquant-mcp` 文件夹里。AKQuant 的工具和参数详见 [AKQuant 的 MCP 文档](https://akquant.akfamily.xyz/guide/mcp/)。
 
 ### 回测任意品种的行情 {#akquant-data}
 
-AKQuant 自己只能取 A 股个股的日线。配合 AKTools 的 [`save_data`](#save-data)，凡是返回开盘、最高、最低、收盘价的接口都可以用来回测，例如指数、ETF、期货、港股、美股的日线，以及周线、月线：
+AKQuant 的 MCP 服务自己不取行情（0.3.90 起），真实行情由 AKTools 提供：两个服务都装好后，凡是返回开盘、最高、最低、收盘价的接口都可以用来回测，例如 A 股、指数、ETF、期货、港股、美股的日线，以及周线、月线。只装 AKQuant 时，只能用自己准备的文件或合成数据回测。
 
 1. 助手用 AKTools 的 `search_interfaces`、`describe_interface` 找到接口，用 `save_data` 把数据保存为 CSV，得到文件路径。
 2. 助手把路径交给 AKQuant 的 `prepare_data`：`{"source": "file", "path": "<路径>", "symbol": "<标的代码>"}`，再运行回测。
@@ -267,9 +264,10 @@ AKQuant 自己只能取 A 股个股的日线。配合 AKTools 的 [`save_data`](
 
 使用时请注意：
 
-- **数据目录要放在 AKQuant 的项目目录里**。AKQuant 只读取 `--root` 目录内的文件，所以上面的配置用 `AKTOOLS_DATA_DIR` 把 AKTools 的数据目录设成了 `D:/akquant-demo/data`，请与 `--root` 一起换成你自己的路径。
-- **列名要是英文**。AKQuant 需要 `date`、`open`、`high`、`low`、`close` 列。新浪财经、腾讯的行情接口（名称以 `_sina`、`_tx` 结尾）符合；东方财富的行情接口列名是中文，目前不能直接用。
-- **注意单位**。不同来源的单位不同，例如成交量在新浪财经的接口中是股，在东方财富的接口中是手。`save_data` 返回的各列说明里写有单位。
+- **版本要求**：AKTools 0.1.12 与 AKQuant 0.3.90 及以上。
+- **数据目录不用配置**。AKQuant 除了项目目录，还会读取 AKTools 的数据目录，两边默认都是用户目录下的 `.aktools/data`。如果用 `AKTOOLS_DATA_DIR` 改了位置，两个服务的 `env` 里要写成同一个路径，否则 AKQuant 会拒绝读取。
+- **必须告诉 AKQuant 标的代码**。`save_data` 的文件名由接口名和参数生成，不是标的代码，助手调用 `prepare_data` 时要传 `symbol`，漏传时 AKQuant 会报错提示。
+- **优先用新浪财经、腾讯的接口**（名称以 `_sina`、`_tx` 结尾）。东方财富行情接口的中文列名 AKQuant 也认，但它的成交量单位是手，新浪财经、腾讯是股，AKQuant 不做换算；东方财富的行情接口频繁访问还容易[被限流](#source)。`save_data` 返回的各列说明里写有单位。
 
 !!! warning "注意事项"
 

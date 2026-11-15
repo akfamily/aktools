@@ -145,8 +145,7 @@ strategy.
   "mcpServers": {
     "aktools": {
       "command": "uvx",
-      "args": ["--from", "aktools", "aktools-mcp"],
-      "env": {"AKTOOLS_DATA_DIR": "<project dir>/data"}
+      "args": ["--from", "aktools", "aktools-mcp"]
     },
     "akquant": {
       "command": "uvx",
@@ -156,21 +155,24 @@ strategy.
 }
 ```
 
-`--root` must be an existing directory; strategy and data files must live
-inside it. AKQuant runs strategy code on the local machine without a
-sandbox. See `https://akquant.akfamily.xyz/guide/mcp/`.
+`--root` must be an existing directory; strategy files must live inside
+it. AKQuant runs strategy code on the local machine without a sandbox. See
+`https://akquant.akfamily.xyz/guide/mcp/`.
 
-AKQuant itself only fetches daily bars of A-share stocks. To backtest
-anything else (indexes, ETFs, futures, Hong Kong and U.S. stocks, weekly or
-monthly bars): call AKTools `save_data`, then pass the returned `path` to
-AKQuant's `prepare_data` as `{"source": "file", "path": "<path>", "symbol":
-"<code>"}` (always give `symbol`, otherwise the file name becomes the symbol).
-AKQuant reads files only inside its `--root`, hence `AKTOOLS_DATA_DIR` above
-points into that directory. It needs the columns `date`, `open`, `high`,
-`low`, `close`: interfaces ending in `_sina` or `_tx` have them, Eastmoney
-quote interfaces use Chinese column names and do not work directly. Units
-differ by source (volume is in shares for Sina, in lots of 100 for
-Eastmoney); check `columns[].desc`.
+AKQuant's MCP server does not fetch market data itself (since 0.3.90); real
+data comes from AKTools. For A-shares, indexes, ETFs, futures, Hong Kong and
+U.S. stocks, daily, weekly or monthly bars: call AKTools `save_data`, then
+pass the returned `path` to AKQuant's `prepare_data` as `{"source": "file",
+"path": "<path>", "symbol": "<code>"}`. `symbol` is required: the file name
+is not a symbol, and AKQuant rejects the call without it. Needs AKTools >=
+0.1.12 and AKQuant >= 0.3.90. AKQuant reads data files inside its `--root`
+or inside AKTools' data directory; both default to `~/.aktools/data`, so no
+configuration is needed, but if `AKTOOLS_DATA_DIR` is set it must be the
+same path in both servers' `env`. Prefer interfaces ending in `_sina` or
+`_tx`: AKQuant also accepts the Chinese column names of Eastmoney quote
+interfaces, but their volume is in lots of 100 (shares for Sina and
+Tencent) and is not converted, and Eastmoney quote servers rate-limit.
+Units are in `columns[].desc`.
 
 ## HTTP API
 

@@ -13,7 +13,7 @@ AKTools 只负责把 HTTP 请求转发给 AKShare，数据接口的新增与变�
 0.1.12: feat: add the save_data MCP tool and queue identical concurrent requests
 
 1. MCP 新增工具 save_data（仅 stdio 方式）：把接口返回的完整数据保存为本机的 CSV 文件，不受 get_data 的 1000 行限制，返回文件路径、总行数、各列的说明（含单位）与前 5 行。文件保存在用户目录下的 .aktools/data，可用环境变量 AKTOOLS_DATA_DIR 修改，助手不能指定保存路径；相同的请求覆盖同一个文件，超过 7 天的文件在保存时自动清理。该工具会写文件，没有标注为只读，客户端调用前通常会请求确认
-2. 配合 AKQuant 的 MCP，可以回测 A 股个股以外的品种：用 save_data 保存指数、ETF、期货、港股、美股的行情，再把文件路径交给 AKQuant 的 prepare_data。目前需要把 AKTOOLS_DATA_DIR 设在 AKQuant 的项目目录内，并使用列名为英文的接口（新浪财经、腾讯）
+2. 配合 AKQuant 的 MCP，可以回测 A 股个股以外的品种：用 save_data 保存指数、ETF、期货、港股、美股的行情，再把文件路径交给 AKQuant 的 prepare_data。AKQuant 0.3.89 及更早版本需要把 AKTOOLS_DATA_DIR 设在 AKQuant 的项目目录内，并使用列名为英文的接口（新浪财经、腾讯）；AKQuant 0.3.90 起直接读取 AKTools 的数据目录，不需要配置
 3. 同一接口、同样参数的请求同时到达时，只访问上游数据源一次，其余请求等它完成后使用缓存的结果；此前每个请求都会各自访问上游，容易加重限流。关闭结果缓存（--cache-ttl 0）时不生效
 4. AKShare 的最低版本要求提高到 1.20.65：该版本起所有数据接口统一返回表格，此前有 11 个接口返回字典、列表或字符串，通过 AKTools 调用会报错
 
