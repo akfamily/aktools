@@ -3,7 +3,7 @@
 """
 Date: 2026/10/29 22:00
 Desc: MCP（Model Context Protocol）服务，让 Claude、Cursor 等 AI 助手通过 AKTools 获取 AKShare 数据
-只提供 3 个通用工具，而不是把一千多个接口逐个注册成工具，以免撑满助手的上下文：
+只提供 3 个通用工具，而不是把近千个接口逐个注册成工具，以免撑满助手的上下文：
 助手先用 search_interfaces 找到接口，再用 describe_interface 查看参数，最后用 get_data 获取数据。
 两种运行方式：随 HTTP 服务挂载在 aktools.main 的 /mcp 路径下；或以 aktools-mcp 命令通过 stdio 运行，
 由 AI 助手自行启动，不需要先运行 HTTP 服务
@@ -38,7 +38,7 @@ MAX_ROWS = 1000
 # stdio 方式运行时没有 HTTP 服务，get_data 不提供 CSV 下载地址；由 main() 关闭
 _csv_url_enabled = True
 
-INSTRUCTIONS = """AKTools 提供 AKShare 的一千多个财经数据接口（股票、期货、期权、基金、债券、外汇、宏观等）。
+INSTRUCTIONS = """AKTools 提供 AKShare 的近千个财经数据接口（股票、期货、期权、基金、债券、外汇、宏观等）。
 使用步骤：
 1. 用 search_interfaces 搜索接口，可用多个关键词，例如“A股 日线”“交易日历”“期货持仓”“stock_zh_a”
 2. 用 describe_interface 查看接口的参数、默认值、返回列与调用示例

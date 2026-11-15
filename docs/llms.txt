@@ -5,7 +5,7 @@
 > Python.
 
 AKShare (`https://github.com/akfamily/akshare`) is an open-source Python
-library with 1000+ financial data interfaces (China A-shares, Hong Kong and
+library with nearly 1000 financial data interfaces (China A-shares, Hong Kong and
 U.S. stocks, funds, futures, options, bonds, forex, macroeconomics, ...),
 each returning a `pandas.DataFrame`. AKTools, maintained by the same team,
 turns every one of those interfaces into:
