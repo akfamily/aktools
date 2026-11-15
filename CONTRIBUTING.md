@@ -165,6 +165,7 @@ uv run ruff check .            # 静态检查
 文档分为两部分：
 
 - `README.md`：GitHub 首页和 PyPI 项目页的说明。PyPI 不支持相对链接，因此文中指向仓库文件的链接请使用完整的 GitHub 地址。
+- `README_EN.md`：`README.md` 的英文版，两个文件顶部互相链接。修改 `README.md` 时请同步修改英文版，章节与示例保持一致；它不作为 PyPI 项目说明。
 - `docs/`：[AKTools 中文文档](https://aktools.akfamily.xyz/) 的源文件，由 [Zensical](https://zensical.org/)（Material for MkDocs 的继任者）读取 `mkdocs.yml` 构建，合并到 `main` 后由 Read the Docs 自动发布。构建工具的版本由 `pyproject.toml` 的 `docs` 依赖组和 `uv.lock` 锁定。
 
 本地预览与构建文档：

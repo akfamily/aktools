@@ -1,3 +1,5 @@
+**简体中文** | [English](https://github.com/akfamily/aktools/blob/main/README_EN.md)
+
 # AKTools
 
 <!-- mcp-name: io.github.akfamily/aktools -->

@@ -137,3 +137,45 @@ def test_readme_carries_mcp_registry_ownership_marker():
     name = json.loads((repo_root / "server.json").read_text(encoding="utf-8"))["name"]
     readme = (repo_root / "README.md").read_text(encoding="utf-8")
     assert f"<!-- mcp-name: {name} -->" in readme.splitlines()
+
+
+def test_readmes_stay_in_step():
+    """
+    README.md（中文，默认显示，也是 PyPI 项目说明）与 README_EN.md（英文）互相链接，
+    章节数量、示例中的接口名与 MCP 配置片段保持一致，且接口名都真实存在：
+    AKShare 改名后只改了其中一个文件，另一个里的示例就会失效
+    """
+    import re
+
+    from aktools.core.catalog import is_interface
+
+    repo_root = pathlib.Path(__file__).resolve().parent.parent
+    zh = (repo_root / "README.md").read_text(encoding="utf-8")
+    en = (repo_root / "README_EN.md").read_text(encoding="utf-8")
+    base = "https://github.com/akfamily/aktools/blob/main"
+    assert zh.splitlines()[0] == f"**简体中文** | [English]({base}/README_EN.md)"
+    assert en.splitlines()[0] == f"[简体中文]({base}/README.md) | **English**"
+
+    def headings(text):
+        return [
+            line.split(" ")[0] for line in text.splitlines() if line.startswith("#")
+        ]
+
+    def interfaces(text):
+        names = re.findall(r"/api/(?:public|interfaces)/([a-z][a-z0-9_]+)", text)
+        return sorted(set(names))
+
+    def code_blocks(text):
+        # 代码块中的注释与提示文字随语言不同，只比较不含中文和注释的行
+        blocks = re.findall(r"```(?:shell|json|text)\n(.*?)```", text, flags=re.S)
+        lines = [line.strip() for block in blocks for line in block.splitlines()]
+        return [line for line in lines if line and line.isascii() and "#" not in line]
+
+    assert headings(zh) == headings(en)
+    assert interfaces(zh) == interfaces(en)
+    assert interfaces(zh) and all(is_interface(name) for name in interfaces(zh))
+    assert zh.count("<summary>") == en.count("<summary>")
+    assert [line for line in code_blocks(zh) if "{" not in line or "mcp" in line] == [
+        line for line in code_blocks(en) if "{" not in line or "mcp" in line
+    ]
+    assert '"args": ["--from", "aktools", "aktools-mcp"]' in en
