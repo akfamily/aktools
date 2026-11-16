@@ -255,7 +255,7 @@ codex mcp add akquant -- uvx --from "akquant[mcp]" akquant-mcp --root D:/akquant
 
 ### 回测任意品种的行情 {#akquant-data}
 
-AKQuant 的 MCP 服务自己不取行情（0.3.90 起），真实行情由 AKTools 提供：两个服务都装好后，凡是返回开盘、最高、最低、收盘价的接口都可以用来回测，例如 A 股、指数、ETF、期货、港股、美股的日线，以及周线、月线。只装 AKQuant 时，只能用自己准备的文件或合成数据回测。
+AKQuant 的 MCP 服务自己不取行情（0.3.91 起移除了内置的 AKShare 取数，`akquant[mcp]` 也不再附带 AKShare），真实行情由 AKTools 提供：两个服务都装好后，凡是返回开盘、最高、最低、收盘价的接口都可以用来回测，例如 A 股、指数、ETF、期货、港股、美股的日线，以及周线、月线。只装 AKQuant 时，只能用自己准备的文件或合成数据回测。
 
 1. 助手用 AKTools 的 `search_interfaces`、`describe_interface` 找到接口，用 `save_data` 把数据保存为 CSV，得到文件路径。
 2. 助手把路径交给 AKQuant 的 `prepare_data`：`{"source": "file", "path": "<路径>", "symbol": "<标的代码>"}`，再运行回测。
@@ -264,7 +264,7 @@ AKQuant 的 MCP 服务自己不取行情（0.3.90 起），真实行情由 AKToo
 
 使用时请注意：
 
-- **版本要求**：AKTools 0.1.12 与 AKQuant 0.3.90 及以上。
+- **版本要求**：AKTools 0.1.12 与 AKQuant 0.3.90 及以上，建议 AKQuant 0.3.91 及以上。
 - **数据目录不用配置**。AKQuant 除了项目目录，还会读取 AKTools 的数据目录，两边默认都是用户目录下的 `.aktools/data`。如果用 `AKTOOLS_DATA_DIR` 改了位置，两个服务的 `env` 里要写成同一个路径，否则 AKQuant 会拒绝读取。
 - **必须告诉 AKQuant 标的代码**。`save_data` 的文件名由接口名和参数生成，不是标的代码，助手调用 `prepare_data` 时要传 `symbol`，漏传时 AKQuant 会报错提示。
 - **优先用新浪财经、腾讯的接口**（名称以 `_sina`、`_tx` 结尾）。东方财富行情接口的中文列名 AKQuant 也认，但它的成交量单位是手，新浪财经、腾讯是股，AKQuant 不做换算；东方财富的行情接口频繁访问还容易[被限流](#source)。`save_data` 返回的各列说明里写有单位。

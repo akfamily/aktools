@@ -159,8 +159,9 @@ strategy.
 it. AKQuant runs strategy code on the local machine without a sandbox. See
 `https://akquant.akfamily.xyz/guide/mcp/`.
 
-AKQuant's MCP server does not fetch market data itself (since 0.3.90); real
-data comes from AKTools. For A-shares, indexes, ETFs, futures, Hong Kong and
+AKQuant's MCP server does not fetch market data itself (since 0.3.91, which
+removed `source="akshare"` and no longer installs AKShare); real data comes
+from AKTools. For A-shares, indexes, ETFs, futures, Hong Kong and
 U.S. stocks, daily, weekly or monthly bars: call AKTools `save_data`, then
 pass the returned `path` to AKQuant's `prepare_data` as `{"source": "file",
 "path": "<path>", "symbol": "<code>"}`. `symbol` is required: the file name
