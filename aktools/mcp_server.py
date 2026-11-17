@@ -257,8 +257,10 @@ def save_data(
         "usage": (
             "文件为不带 BOM 的 UTF-8 CSV。用 AKQuant 回测时，把 path 传给它的 prepare_data："
             '{"source": "file", "path": "<path>", "symbol": "<标的代码>"}；'
-            "symbol 必须填写，否则 AKQuant 会把文件名当作标的名。"
-            "回测需要 date、open、high、low、close 列，新浪财经、腾讯的行情接口符合"
+            "symbol 必须填写：文件名不是标的代码，漏传时 AKQuant 会报错。"
+            "回测需要日期与开盘、最高、最低、收盘价列，英文列名与东方财富行情接口的"
+            "中文列名 AKQuant 都认；成交量单位以 columns 的说明为准（东方财富为手，"
+            "新浪财经、腾讯为股），AKQuant 不做换算"
         ),
     }
 

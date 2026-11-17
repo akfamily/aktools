@@ -10,6 +10,11 @@ AKTools 只负责把 HTTP 请求转发给 AKShare，数据接口的新增与变�
 
 ## 更新记录
 
+0.1.13: fix: bring the save_data usage note in line with AKQuant 0.3.91
+
+1. save_data 返回的 usage 说明与 AKQuant 0.3.90、0.3.91 的行为对齐：漏传 symbol 时 AKQuant 会报错（此前写的是“会把文件名当作标的名”）；东方财富行情接口的中文列名 AKQuant 也能识别，不再只提新浪财经、腾讯的接口，并提示成交量单位以各列说明为准、AKQuant 不做换算
+2. 本版本只改了这段说明文字，接口行为不变
+
 0.1.12: feat: add the save_data MCP tool and queue identical concurrent requests
 
 1. MCP 新增工具 save_data（仅 stdio 方式）：把接口返回的完整数据保存为本机的 CSV 文件，不受 get_data 的 1000 行限制，返回文件路径、总行数、各列的说明（含单位）与前 5 行。文件保存在用户目录下的 .aktools/data，可用环境变量 AKTOOLS_DATA_DIR 修改，助手不能指定保存路径；相同的请求覆盖同一个文件，超过 7 天的文件在保存时自动清理。该工具会写文件，没有标注为只读，客户端调用前通常会请求确认
