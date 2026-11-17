@@ -552,6 +552,8 @@ def test_save_data_returns_path_columns_and_preview(fake_table, tmp_path, monkey
     )
     assert len(pd.read_csv(path)) == 250
     assert "symbol" in result["usage"]
+    # AKQuant 0.3.90 起漏传 symbol 是报错，不再把文件名当作标的名
+    assert "报错" in result["usage"] and "当作标的名" not in result["usage"]
     # 相同的请求写同一个文件，内容没变时不重写
     again = mcp_server.save_data(fake_table, {"symbol": 600519})
     assert again["path"] == result["path"] and again["written"] is False
